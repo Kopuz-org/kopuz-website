@@ -85,6 +85,7 @@ pre code {
     margin-top: 16px;
 }
 
+
 /* ── NAV ── */
 
 .nav {
@@ -136,6 +137,43 @@ pre code {
 .nav-tab-active {
     color: var(--accent);
     background: var(--surface2);
+}
+
+.nav-announce {
+    flex: 1;
+    font-size: 11px;
+    color: var(--dim);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 0 20px 0 0;
+    text-decoration: none;
+    min-width: 0;
+    overflow: hidden;
+}
+.nav-announce:hover {
+    color: var(--muted);
+    text-decoration: none;
+}
+.nav-announce span + * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-new {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--surface2);
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 1px 4px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    line-height: 1;
 }
 
 /* ── RELEASE BANNER ── */

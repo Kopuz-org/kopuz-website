@@ -64,7 +64,6 @@ fn HomePage() -> impl IntoView {
     view! {
         <div class="site">
             <Nav active="home"/>
-            <ReleaseBanner/>
             <Hero/>
             <Sources/>
             <Features/>
@@ -102,6 +101,10 @@ fn Nav(#[prop(into)] active: String) -> impl IntoView {
         <nav class="nav">
             <div class="nav-row">
                 <a href="/" class="nav-logo">"Kopuz"</a>
+                <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="nav-announce">
+                    <span class="nav-new">"New"</span>
+                    " Modern UI, Vaxry theme, yt-dlp downloader, 20+ languages"
+                </a>
                 <div class="nav-tabs">
                     <a href="/#features" class="nav-tab">"Features"</a>
                     <a href="/#install" class="nav-tab">"Install"</a>
@@ -120,8 +123,7 @@ fn Hero() -> impl IntoView {
     view! {
         <section class="hero">
             <div class="hero-left">
-                <div class="hero-badge">"Formerly Rusic"</div>
-                <h1>"Your music."<br/>"Your way."</h1>
+<h1>"Your music."<br/>"Your way."</h1>
                 <p>
                     "Kopuz is a modern, lightweight music player built with Rust and Dioxus. "
                     "Scan local folders, stream from Jellyfin or Navidrome, and browse your library the way you want."
@@ -135,17 +137,6 @@ fn Hero() -> impl IntoView {
                 <img src="/normal-home.png" alt="Kopuz — home view" class="hero-screenshot"/>
             </div>
         </section>
-    }
-}
-
-#[component]
-fn ReleaseBanner() -> impl IntoView {
-    view! {
-        <div class="release-banner">
-            <span class="release-tag">"New"</span>
-            <span class="release-text">"Modern UI style, Vaxry theme, condensed view, album art improvements."</span>
-            <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="release-link">"See all releases ↗"</a>
-        </div>
     }
 }
 
