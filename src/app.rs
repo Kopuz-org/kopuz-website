@@ -424,6 +424,10 @@ fn Sponsors() -> impl IntoView {
                     <img src="https://github.com/shytzedaka.png?size=80" alt="shytzedaka"/>
                     <span>"shytzedaka"</span>
                 </a>
+                <a href="https://github.com/m110" target="_blank" class="sponsor-card">
+                    <img src="https://github.com/m110.png?size=80" alt="m110"/>
+                    <span>"m110"</span>
+                </a>
             </div>
             <div class="sponsors-cta">
                 <a href="https://github.com/sponsors/temidaradev" target="_blank" class="btn-secondary">"Become a Sponsor"</a>
