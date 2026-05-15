@@ -65,7 +65,6 @@ fn HomePage() -> impl IntoView {
         <div class="site">
             <Nav active="home"/>
             <Hero/>
-            <Sources/>
             <Features/>
             <Performance/>
             <Install/>
@@ -141,29 +140,23 @@ fn Hero() -> impl IntoView {
 }
 
 #[component]
-fn Sources() -> impl IntoView {
-    view! {
-        <div class="sources">
-            <span class="sources-label">"Works with"</span>
-            <div class="sources-list">
-                <span class="source-tag"><i class="fa-solid fa-folder-open"></i>" Local files"</span>
-                <span class="source-tag"><i class="fa-solid fa-server"></i>" Jellyfin"</span>
-                <span class="source-tag"><i class="fa-solid fa-server"></i>" Navidrome"</span>
-                <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" Subsonic API"</span>
-            </div>
-        </div>
-    }
-}
-
-#[component]
 fn Features() -> impl IntoView {
     view! {
         <section class="features" id="features">
-            <div class="section-header">
-                <h2>"Everything you need."</h2>
-                <p>"No subscriptions. No tracking. Just your music."</p>
-            </div>
             <div class="features-grid">
+                <div class="feature-header-cell">
+                    <h2>"Everything you need."</h2>
+                    <span class="features-chip">"No subscriptions. No tracking. Just your music."</span>
+                </div>
+                <div class="features-sources-bar">
+                    <span class="sources-label">"Works with"</span>
+                    <div class="sources-list">
+                        <span class="source-tag"><i class="fa-solid fa-folder-open"></i>" Local files"</span>
+                        <span class="source-tag"><i class="fa-solid fa-server"></i>" Jellyfin"</span>
+                        <span class="source-tag"><i class="fa-solid fa-server"></i>" Navidrome"</span>
+                        <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" Subsonic API"</span>
+                    </div>
+                </div>
                 <div class="feature-card">
                     <i class="feature-icon fa-solid fa-music"></i>
                     <h3>"Local + Streaming"</h3>
