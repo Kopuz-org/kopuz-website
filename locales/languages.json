@@ -1,0 +1,20 @@
+[
+  ["en", "English"],
+  ["ru", "Русский"],
+  ["de", "Deutsch"],
+  ["fr", "Français"],
+  ["es", "Español"],
+  ["tr", "Türkçe"],
+  ["uk", "Українська"],
+  ["pl", "Polski"],
+  ["ar", "العربية", "rtl"],
+  ["el", "Ελληνικά"],
+  ["he", "עברית", "rtl"],
+  ["hu", "Magyar"],
+  ["id", "Bahasa Indonesia"],
+  ["ja", "日本語"],
+  ["ko", "한국어"],
+  ["ro", "Română"],
+  ["pt", "Português"],
+  ["zh", "中文"]
+]

@@ -1,9 +1,18 @@
+use fluent_templates::static_loader;
 use leptos::prelude::*;
+use leptos_fluent::{leptos_fluent, move_tr, I18n};
 use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
+
+static_loader! {
+    static TRANSLATIONS = {
+        locales: "./locales",
+        fallback_language: "en",
+    };
+}
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -28,24 +37,40 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 pub fn App() -> impl IntoView {
     provide_meta_context();
 
+    leptos_fluent! {
+        translations: [TRANSLATIONS],
+        languages: "./locales/languages.json",
+        locales: "./locales",
+        sync_html_tag_lang: true,
+        sync_html_tag_dir: true,
+        cookie_name: "lf-lang",
+        cookie_attrs: "SameSite=Strict; Path=/",
+        initial_language_from_cookie: true,
+        set_language_to_cookie: true,
+        initial_language_from_url_param: true,
+        url_param: "lang",
+        initial_language_from_accept_language_header: true,
+        initial_language_from_navigator: true,
+    };
+
     view! {
         <Stylesheet id="leptos" href="/pkg/kopuz-website.css"/>
-        <Title text="Kopuz — Music Player"/>
-        <Meta name="description" content="Kopuz is a modern, lightweight music player built with Rust and Dioxus. Stream from Jellyfin or Navidrome, browse local files, synced lyrics, equalizer, themes, and more."/>
-        <Meta name="keywords" content="Kopuz, music player, Rust, Dioxus, Jellyfin, Navidrome, open source, Linux, macOS, Windows, MPRIS, lyrics"/>
+        <Title text=move_tr!("home-title")/>
+        <Meta name="description" content=move_tr!("home-meta-desc")/>
+        <Meta name="keywords" content=move_tr!("home-meta-keywords")/>
         <Meta name="author" content="temidaradev"/>
         <Meta name="robots" content="index, follow"/>
         <Meta name="theme-color" content="#32302f"/>
         <Meta property="og:type" content="website"/>
-        <Meta property="og:title" content="Kopuz — Music Player"/>
-        <Meta property="og:description" content="Modern, lightweight music player built with Rust. Local files, Jellyfin, Navidrome, synced lyrics, equalizer, Discord RPC, and more. Free and open source."/>
+        <Meta property="og:title" content=move_tr!("og-title")/>
+        <Meta property="og:description" content=move_tr!("og-desc")/>
         <Meta property="og:url" content="https://kopuz.temidara.rocks"/>
         <Meta property="og:image" content="https://kopuz.temidara.rocks/banner.png"/>
-        <Meta property="og:image:alt" content="Kopuz music player"/>
+        <Meta property="og:image:alt" content=move_tr!("og-image-alt")/>
         <Meta property="og:site_name" content="Kopuz"/>
         <Meta name="twitter:card" content="summary_large_image"/>
-        <Meta name="twitter:title" content="Kopuz — Music Player"/>
-        <Meta name="twitter:description" content="Modern, lightweight music player built with Rust. Free and open source."/>
+        <Meta name="twitter:title" content=move_tr!("twitter-title")/>
+        <Meta name="twitter:description" content=move_tr!("twitter-desc")/>
         <Meta name="twitter:image" content="https://kopuz.temidara.rocks/banner.png"/>
         <Link rel="canonical" href="https://kopuz.temidara.rocks"/>
         <Router>
@@ -79,10 +104,10 @@ fn HomePage() -> impl IntoView {
 #[component]
 fn GalleryPage() -> impl IntoView {
     view! {
-        <Title text="Gallery — Kopuz Music Player"/>
-        <Meta name="description" content="Screenshots of Kopuz in action — home, library, playlist, fullscreen player, lyrics, theme editor, and more."/>
-        <Meta property="og:title" content="Gallery — Kopuz Music Player"/>
-        <Meta property="og:description" content="Screenshots of Kopuz in action — home, library, playlist, fullscreen player, lyrics, theme editor, and more."/>
+        <Title text=move_tr!("gallery-page-title")/>
+        <Meta name="description" content=move_tr!("gallery-page-desc")/>
+        <Meta property="og:title" content=move_tr!("gallery-page-title")/>
+        <Meta property="og:description" content=move_tr!("gallery-page-desc")/>
         <Meta property="og:url" content="https://kopuz.temidara.rocks/gallery"/>
         <Link rel="canonical" href="https://kopuz.temidara.rocks/gallery"/>
         <div class="site">
@@ -94,6 +119,39 @@ fn GalleryPage() -> impl IntoView {
 }
 
 #[component]
+fn LanguageSwitcher() -> impl IntoView {
+    let i18n = expect_context::<I18n>();
+    let on_change = move |ev: leptos::ev::Event| {
+        let v = event_target_value(&ev);
+        if let Some(lang) = i18n.languages.iter().find(|l| l.id.to_string() == v) {
+            i18n.language.set(lang);
+        }
+    };
+
+    view! {
+        <select
+            class="nav-lang"
+            aria-label=move_tr!("nav-lang-label")
+            on:change=on_change
+        >
+            {i18n.languages.iter().map(|lang| {
+                let lang_id = lang.id.to_string();
+                let lang_id_cmp = lang_id.clone();
+                let name = lang.name;
+                view! {
+                    <option
+                        value=lang_id
+                        selected=move || i18n.language.get().id.to_string() == lang_id_cmp
+                    >
+                        {name}
+                    </option>
+                }
+            }).collect_view()}
+        </select>
+    }
+}
+
+#[component]
 fn Nav(#[prop(into)] active: String) -> impl IntoView {
     let is_gallery = active == "gallery";
     view! {
@@ -101,16 +159,18 @@ fn Nav(#[prop(into)] active: String) -> impl IntoView {
             <div class="nav-row">
                 <a href="/" class="nav-logo">"Kopuz"</a>
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="nav-announce">
-                    <span class="nav-new">"New"</span>
-                    " Modern UI, Vaxry theme, yt-dlp downloader, 20+ languages"
+                    <span class="nav-new">{move_tr!("nav-new")}</span>
+                    " "
+                    {move_tr!("nav-announce")}
                 </a>
                 <div class="nav-tabs">
-                    <a href="/#features" class="nav-tab">"Features"</a>
-                    <a href="/#install" class="nav-tab">"Install"</a>
-                    <a href="/#downloads" class="nav-tab">"Download"</a>
-                    <a href="/#sponsors" class="nav-tab">"Sponsors"</a>
-                    <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="nav-tab">"GitHub ↗"</a>
-                    <a href="/gallery" class=move || if is_gallery { "nav-tab nav-tab-active" } else { "nav-tab" }>"Gallery"</a>
+                    <a href="/#features" class="nav-tab">{move_tr!("nav-features")}</a>
+                    <a href="/#install" class="nav-tab">{move_tr!("nav-install")}</a>
+                    <a href="/#downloads" class="nav-tab">{move_tr!("nav-download")}</a>
+                    <a href="/#sponsors" class="nav-tab">{move_tr!("nav-sponsors")}</a>
+                    <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="nav-tab">{move_tr!("nav-github")}</a>
+                    <a href="/gallery" class=move || if is_gallery { "nav-tab nav-tab-active" } else { "nav-tab" }>{move_tr!("nav-gallery")}</a>
+                    <LanguageSwitcher/>
                 </div>
             </div>
         </nav>
@@ -122,18 +182,15 @@ fn Hero() -> impl IntoView {
     view! {
         <section class="hero">
             <div class="hero-left">
-<h1>"Your music."<br/>"Your way."</h1>
-                <p>
-                    "Kopuz is a modern, lightweight music player built with Rust and Dioxus. "
-                    "Scan local folders, stream from Jellyfin or Navidrome, and browse your library the way you want."
-                </p>
+                <h1>{move_tr!("hero-title-1")}<br/>{move_tr!("hero-title-2")}</h1>
+                <p>{move_tr!("hero-desc")}</p>
                 <div class="hero-ctas">
-                    <a href="#downloads" class="btn-primary">"Download"</a>
-                    <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="btn-secondary">"View on GitHub"</a>
+                    <a href="#downloads" class="btn-primary">{move_tr!("hero-cta-download")}</a>
+                    <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="btn-secondary">{move_tr!("hero-cta-github")}</a>
                 </div>
             </div>
             <div class="hero-right">
-                <img src="/normal-home.png" alt="Kopuz — home view" class="hero-screenshot"/>
+                <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="hero-screenshot"/>
             </div>
         </section>
     }
@@ -145,95 +202,94 @@ fn Features() -> impl IntoView {
         <section class="features" id="features">
             <div class="features-grid">
                 <div class="feature-header-cell">
-                    <h2>"Everything you need."</h2>
-                    <span class="features-chip">"No subscriptions. No tracking. Just your music."</span>
+                    <h2>{move_tr!("features-title")}</h2>
+                    <span class="features-chip">{move_tr!("features-chip")}</span>
                 </div>
                 <div class="features-sources-bar">
-                    <span class="sources-label">"Works with"</span>
+                    <span class="sources-label">{move_tr!("features-works-with")}</span>
                     <div class="sources-list">
-                        <span class="source-tag"><i class="fa-solid fa-folder-open"></i>" Local files"</span>
-                        <span class="source-tag"><i class="fa-solid fa-server"></i>" Jellyfin"</span>
-                        <span class="source-tag"><i class="fa-solid fa-server"></i>" Navidrome"</span>
-                        <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" Subsonic API"</span>
+                        <span class="source-tag"><i class="fa-solid fa-folder-open"></i>" "{move_tr!("features-source-local")}</span>
+                        <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-jellyfin")}</span>
+                        <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-navidrome")}</span>
+                        <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
                     </div>
                 </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-music"></i>
-                    <h3>"Local + Streaming"</h3>
-                    <p>"Point at a local folder or connect to Jellyfin / Subsonic (Navidrome). Mix and match as you like."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-palette"></i>
-                    <h3>"Theming"</h3>
-                    <p>"Dynamic theming with full color variable control. Build your own theme from scratch or pick a preset."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-display"></i>
-                    <h3>"Native Integration"</h3>
-                    <p>"MPRIS on Linux, Now Playing on macOS, System Media Transport on Windows. Fully wired up."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-align-left"></i>
-                    <h3>"Synced Lyrics"</h3>
-                    <p>"Real-time scrolling lyrics, synced or plain, auto-scrolling to follow along with your music."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-sliders"></i>
-                    <h3>"Equalizer"</h3>
-                    <p>"5-band equalizer with built-in presets and full custom control over your sound."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-star"></i>
-                    <h3>"Favorites & Playlists"</h3>
-                    <p>"Star tracks locally or sync favorites with your server. Create playlists, add whole albums at once."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-tower-broadcast"></i>
-                    <h3>"Scrobbling"</h3>
-                    <p>"ListenBrainz scrobbling built in. Jellyfin users can also use the listenbrainz plugin."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-brands fa-discord"></i>
-                    <h3>"Discord RPC"</h3>
-                    <p>"Show friends what you're listening to with embedded Discord Rich Presence. No setup needed."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-magnifying-glass"></i>
-                    <h3>"Search"</h3>
-                    <p>"Real-time search across artists, albums, and tracks. Instant results as you type."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-tags"></i>
-                    <h3>"Genre Browsing"</h3>
-                    <p>"Browse your entire library by genre — works for both local files and server music."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-clock"></i>
-                    <h3>"Listening Logs"</h3>
-                    <p>"Play counts tracked locally. See what you actually listen to most over time."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-globe"></i>
-                    <h3>"i18n"</h3>
-                    <p>"English, Russian, German, French, Spanish, Turkish, Ukrainian, Polish, Arabic, Greek, Hebrew, Hungarian, Indonesian, Japanese, Korean, Romanian, Portuguese, Toki Pona, Chinese, and more."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-brands fa-youtube"></i>
-                    <h3>"yt-dlp Downloader"</h3>
-                    <p>"Download audio directly from YouTube. Output as MP3, FLAC, WAV, MP4, or best quality. SponsorBlock, chapter splitting, and rate limiting included."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-shuffle"></i>
-                    <h3>"Crossfade & Transitions"</h3>
-                    <p>"Blend track transitions for smoother playback. Crossfade support on native desktop builds."</p>
-                </div>
-                <div class="feature-card">
-                    <i class="feature-icon fa-solid fa-headphones"></i>
-                    <h3>"Channel Modes"</h3>
-                    <p>"Stereo, Mono, Left-only, Right-only, and L/R swap. Fine-grained audio channel control."</p>
-                </div>
+                <FeatureCard icon="fa-solid fa-music" title_key="feat-local-title" desc_key="feat-local-desc"/>
+                <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
+                <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
+                <FeatureCard icon="fa-solid fa-align-left" title_key="feat-lyrics-title" desc_key="feat-lyrics-desc"/>
+                <FeatureCard icon="fa-solid fa-sliders" title_key="feat-eq-title" desc_key="feat-eq-desc"/>
+                <FeatureCard icon="fa-solid fa-star" title_key="feat-fav-title" desc_key="feat-fav-desc"/>
+                <FeatureCard icon="fa-solid fa-tower-broadcast" title_key="feat-scrobble-title" desc_key="feat-scrobble-desc"/>
+                <FeatureCard icon="fa-brands fa-discord" title_key="feat-discord-title" desc_key="feat-discord-desc"/>
+                <FeatureCard icon="fa-solid fa-magnifying-glass" title_key="feat-search-title" desc_key="feat-search-desc"/>
+                <FeatureCard icon="fa-solid fa-tags" title_key="feat-genre-title" desc_key="feat-genre-desc"/>
+                <FeatureCard icon="fa-solid fa-clock" title_key="feat-logs-title" desc_key="feat-logs-desc"/>
+                <FeatureCard icon="fa-solid fa-globe" title_key="feat-i18n-title" desc_key="feat-i18n-desc"/>
+                <FeatureCard icon="fa-brands fa-youtube" title_key="feat-ytdlp-title" desc_key="feat-ytdlp-desc"/>
+                <FeatureCard icon="fa-solid fa-shuffle" title_key="feat-crossfade-title" desc_key="feat-crossfade-desc"/>
+                <FeatureCard icon="fa-solid fa-headphones" title_key="feat-channels-title" desc_key="feat-channels-desc"/>
             </div>
         </section>
+    }
+}
+
+#[component]
+fn FeatureCard(
+    #[prop(into)] icon: String,
+    #[prop(into)] title_key: &'static str,
+    #[prop(into)] desc_key: &'static str,
+) -> impl IntoView {
+    let title = feature_title(title_key);
+    let desc = feature_desc(desc_key);
+    view! {
+        <div class="feature-card">
+            <i class=format!("feature-icon {icon}")></i>
+            <h3>{title}</h3>
+            <p>{desc}</p>
+        </div>
+    }
+}
+
+fn feature_title(key: &'static str) -> Signal<String> {
+    match key {
+        "feat-local-title" => move_tr!("feat-local-title"),
+        "feat-theming-title" => move_tr!("feat-theming-title"),
+        "feat-native-title" => move_tr!("feat-native-title"),
+        "feat-lyrics-title" => move_tr!("feat-lyrics-title"),
+        "feat-eq-title" => move_tr!("feat-eq-title"),
+        "feat-fav-title" => move_tr!("feat-fav-title"),
+        "feat-scrobble-title" => move_tr!("feat-scrobble-title"),
+        "feat-discord-title" => move_tr!("feat-discord-title"),
+        "feat-search-title" => move_tr!("feat-search-title"),
+        "feat-genre-title" => move_tr!("feat-genre-title"),
+        "feat-logs-title" => move_tr!("feat-logs-title"),
+        "feat-i18n-title" => move_tr!("feat-i18n-title"),
+        "feat-ytdlp-title" => move_tr!("feat-ytdlp-title"),
+        "feat-crossfade-title" => move_tr!("feat-crossfade-title"),
+        "feat-channels-title" => move_tr!("feat-channels-title"),
+        _ => Signal::derive(|| String::new()),
+    }
+}
+
+fn feature_desc(key: &'static str) -> Signal<String> {
+    match key {
+        "feat-local-desc" => move_tr!("feat-local-desc"),
+        "feat-theming-desc" => move_tr!("feat-theming-desc"),
+        "feat-native-desc" => move_tr!("feat-native-desc"),
+        "feat-lyrics-desc" => move_tr!("feat-lyrics-desc"),
+        "feat-eq-desc" => move_tr!("feat-eq-desc"),
+        "feat-fav-desc" => move_tr!("feat-fav-desc"),
+        "feat-scrobble-desc" => move_tr!("feat-scrobble-desc"),
+        "feat-discord-desc" => move_tr!("feat-discord-desc"),
+        "feat-search-desc" => move_tr!("feat-search-desc"),
+        "feat-genre-desc" => move_tr!("feat-genre-desc"),
+        "feat-logs-desc" => move_tr!("feat-logs-desc"),
+        "feat-i18n-desc" => move_tr!("feat-i18n-desc"),
+        "feat-ytdlp-desc" => move_tr!("feat-ytdlp-desc"),
+        "feat-crossfade-desc" => move_tr!("feat-crossfade-desc"),
+        "feat-channels-desc" => move_tr!("feat-channels-desc"),
+        _ => Signal::derive(|| String::new()),
     }
 }
 
@@ -242,33 +298,33 @@ fn Performance() -> impl IntoView {
     view! {
         <section class="perf" id="performance">
             <div class="section-header">
-                <h2>"Built to be fast."</h2>
-                <p>"Large libraries. Instant startup. No freezes."</p>
+                <h2>{move_tr!("perf-title")}</h2>
+                <p>{move_tr!("perf-subtitle")}</p>
             </div>
             <div class="perf-grid">
                 <div class="perf-item">
-                    <span class="perf-label">"Skip already indexed"</span>
-                    <p>"Rescans only process new files. 10k tracks + 5 new = only 5 read."</p>
+                    <span class="perf-label">{move_tr!("perf-skip-label")}</span>
+                    <p>{move_tr!("perf-skip-desc")}</p>
                 </div>
                 <div class="perf-item">
-                    <span class="perf-label">"Parallel startup"</span>
-                    <p>"Library, config, playlists, and favorites all load in parallel with " <code>"tokio::join!"</code> ". Near-instant open."</p>
+                    <span class="perf-label">{move_tr!("perf-parallel-label")}</span>
+                    <p>{move_tr!("perf-parallel-desc-1")}" "<code>"tokio::join!"</code>{move_tr!("perf-parallel-desc-2")}</p>
                 </div>
                 <div class="perf-item">
-                    <span class="perf-label">"Album art caching"</span>
-                    <p>"Covers extracted once, saved to disk. Never re-decoded on repeat views."</p>
+                    <span class="perf-label">{move_tr!("perf-art-label")}</span>
+                    <p>{move_tr!("perf-art-desc")}</p>
                 </div>
                 <div class="perf-item">
-                    <span class="perf-label">"Lazy image loading"</span>
-                    <p>"Hundreds of album covers in search results — none load until they're in view."</p>
+                    <span class="perf-label">{move_tr!("perf-lazy-label")}</span>
+                    <p>{move_tr!("perf-lazy-desc")}</p>
                 </div>
                 <div class="perf-item">
-                    <span class="perf-label">"Non-blocking I/O"</span>
-                    <p>"Heavy work runs on " <code>"spawn_blocking"</code> " threads. UI stays responsive during full library scans."</p>
+                    <span class="perf-label">{move_tr!("perf-io-label")}</span>
+                    <p>{move_tr!("perf-io-desc-1")}" "<code>"spawn_blocking"</code>{move_tr!("perf-io-desc-2")}</p>
                 </div>
                 <div class="perf-item">
-                    <span class="perf-label">"HTTP art caching"</span>
-                    <p>"Custom " <code>"artwork://"</code> " protocol serves covers with 1-year cache headers. Webview never re-fetches."</p>
+                    <span class="perf-label">{move_tr!("perf-http-label")}</span>
+                    <p>{move_tr!("perf-http-desc-1")}" "<code>"artwork://"</code>{move_tr!("perf-http-desc-2")}</p>
                 </div>
             </div>
         </section>
@@ -280,35 +336,35 @@ fn Install() -> impl IntoView {
     view! {
         <section class="install" id="install">
             <div class="section-header">
-                <h2>"Installation"</h2>
+                <h2>{move_tr!("install-title")}</h2>
             </div>
             <div class="install-grid">
                 <div class="install-card">
-                    <h3>"Nix / NixOS"</h3>
-                    <p>"Run without installing:"</p>
+                    <h3>{move_tr!("install-nix-title")}</h3>
+                    <p>{move_tr!("install-nix-run")}</p>
                     <pre><code>"nix run github:temidaradev/kopuz"</code></pre>
-                    <p>"Or add to your profile:"</p>
+                    <p>{move_tr!("install-nix-profile")}</p>
                     <pre><code>"nix profile add github:temidaradev/kopuz"</code></pre>
-                    <p class="install-note">"NixOS flake supported with Cachix binary cache."</p>
+                    <p class="install-note">{move_tr!("install-nix-note")}</p>
                 </div>
                 <div class="install-card">
-                    <h3>"Flatpak"</h3>
-                    <p>"Install from source manifest:"</p>
+                    <h3>{move_tr!("install-flatpak-title")}</h3>
+                    <p>{move_tr!("install-flatpak-desc")}</p>
                     <pre><code>"git clone https://github.com/temidaradev/kopuz
 cd kopuz
 flatpak-builder --user --install --force-clean \\
   build-dir com.temidaradev.kopuz.json
 flatpak run com.temidaradev.kopuz"</code></pre>
-                    <p class="install-note">"Flathub listing coming soon."</p>
+                    <p class="install-note">{move_tr!("install-flatpak-note")}</p>
                 </div>
                 <div class="install-card">
-                    <h3>"AppImage"</h3>
-                    <p>"Download from GitHub Releases and run directly. Requires " <code>"webkit2gtk-4.1"</code> " and " <code>"gtk3"</code> " on your system."</p>
-                    <p class="install-note">"Arch users: if it crashes with a WebKitNetworkProcess error, run with " <code>"LD_LIBRARY_PATH=/usr/lib"</code> " prefix."</p>
+                    <h3>{move_tr!("install-appimage-title")}</h3>
+                    <p>{move_tr!("install-appimage-desc-1")}" "<code>"webkit2gtk-4.1"</code>{move_tr!("install-appimage-desc-2")}" "<code>"gtk3"</code>{move_tr!("install-appimage-desc-3")}</p>
+                    <p class="install-note">{move_tr!("install-appimage-note-1")}" "<code>"LD_LIBRARY_PATH=/usr/lib"</code>{move_tr!("install-appimage-note-2")}</p>
                 </div>
                 <div class="install-card">
-                    <h3>"macOS " <span class="install-chip">"Apple Silicon"</span></h3>
-                    <p>"Download the " <code>".dmg"</code> " from GitHub Releases. If macOS blocks it, clear the quarantine flag:"</p>
+                    <h3>{move_tr!("install-macos-title")}" "<span class="install-chip">{move_tr!("install-macos-chip")}</span></h3>
+                    <p>{move_tr!("install-macos-desc-1")}" "<code>".dmg"</code>{move_tr!("install-macos-desc-2")}</p>
                     <pre><code>"xattr -d com.apple.quarantine /Applications/Kopuz.app"</code></pre>
                 </div>
             </div>
@@ -321,35 +377,35 @@ fn Platforms() -> impl IntoView {
     view! {
         <section class="platforms" id="downloads">
             <div class="section-header">
-                <h2>"Download Kopuz"</h2>
-                <p>"Free and open source. All releases on GitHub."</p>
+                <h2>{move_tr!("platforms-title")}</h2>
+                <p>{move_tr!("platforms-subtitle")}</p>
             </div>
             <div class="platform-grid">
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="platform-card">
                     <div class="platform-header">
                         <i class="fa-brands fa-windows platform-os-icon"></i>
-                        <span class="platform-name">"Windows"</span>
+                        <span class="platform-name">{move_tr!("platforms-windows")}</span>
                     </div>
                     <div class="platform-formats">
                         <span class="platform-fmt">".exe"</span>
                     </div>
-                    <span class="platform-dl">"Download →"</span>
+                    <span class="platform-dl">{move_tr!("platforms-download")}</span>
                 </a>
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="platform-card">
                     <div class="platform-header">
                         <i class="fa-brands fa-apple platform-os-icon"></i>
-                        <span class="platform-name">"macOS"</span>
+                        <span class="platform-name">{move_tr!("platforms-macos")}</span>
                     </div>
                     <div class="platform-formats">
                         <span class="platform-fmt">".dmg"</span>
                     </div>
-                    <span class="platform-note">"Apple Silicon only"</span>
-                    <span class="platform-dl">"Download →"</span>
+                    <span class="platform-note">{move_tr!("platforms-macos-note")}</span>
+                    <span class="platform-dl">{move_tr!("platforms-download")}</span>
                 </a>
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="platform-card">
                     <div class="platform-header">
                         <i class="fa-brands fa-linux platform-os-icon"></i>
-                        <span class="platform-name">"Linux"</span>
+                        <span class="platform-name">{move_tr!("platforms-linux")}</span>
                     </div>
                     <div class="platform-formats">
                         <span class="platform-fmt">".AppImage"</span>
@@ -358,7 +414,7 @@ fn Platforms() -> impl IntoView {
                         <span class="platform-fmt">"Flatpak"</span>
                         <span class="platform-fmt">"Nix"</span>
                     </div>
-                    <span class="platform-dl">"Download →"</span>
+                    <span class="platform-dl">{move_tr!("platforms-download")}</span>
                 </a>
             </div>
         </section>
@@ -370,20 +426,20 @@ fn Support() -> impl IntoView {
     view! {
         <section class="support" id="support">
             <div class="section-header">
-                <h2>"Support Kopuz"</h2>
-                <p>"Kopuz is free and open source. Support keeps it alive."</p>
+                <h2>{move_tr!("support-title")}</h2>
+                <p>{move_tr!("support-subtitle")}</p>
             </div>
             <div class="support-links">
                 <a href="https://github.com/sponsors/temidaradev" target="_blank" class="support-btn support-gh">
                     <i class="fa-solid fa-heart"></i>
-                    "GitHub Sponsors"
+                    {move_tr!("support-gh")}
                 </a>
                 <a href="https://buymeacoffee.com/temidaradev" target="_blank" class="support-btn support-bmc">
                     <i class="fa-solid fa-mug-hot"></i>
-                    "Buy Me a Coffee"
+                    {move_tr!("support-bmc")}
                 </a>
             </div>
-            <div class="donate-divider">"— or send crypto —"</div>
+            <div class="donate-divider">{move_tr!("support-crypto-divider")}</div>
             <div class="donate-grid">
                 <div class="donate-item">
                     <span class="donate-coin">"SOL"</span>
@@ -404,7 +460,7 @@ fn Support() -> impl IntoView {
                 <div class="donate-item">
                     <span class="donate-coin">"USDT"</span>
                     <code>"GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW"</code>
-                    <span class="donate-note">"(Solana chain)"</span>
+                    <span class="donate-note">{move_tr!("support-usdt-note")}</span>
                 </div>
             </div>
         </section>
@@ -416,8 +472,8 @@ fn Sponsors() -> impl IntoView {
     view! {
         <section class="sponsors" id="sponsors">
             <div class="section-header">
-                <h2>"Sponsors"</h2>
-                <p>"People keeping Kopuz going."</p>
+                <h2>{move_tr!("sponsors-title")}</h2>
+                <p>{move_tr!("sponsors-subtitle")}</p>
             </div>
             <div class="sponsors-grid">
                 <a href="https://github.com/shytzedaka" target="_blank" class="sponsor-card">
@@ -430,26 +486,44 @@ fn Sponsors() -> impl IntoView {
                 </a>
             </div>
             <div class="sponsors-cta">
-                <a href="https://github.com/sponsors/temidaradev" target="_blank" class="btn-secondary">"Become a Sponsor"</a>
+                <a href="https://github.com/sponsors/temidaradev" target="_blank" class="btn-secondary">{move_tr!("sponsors-cta")}</a>
             </div>
         </section>
     }
 }
 
-static GALLERY_IMAGES: &[(&str, &str)] = &[
-    ("/normal-home.png",     "Normal — Home"),
-    ("/modern-home.png",     "Modern — Home"),
-    ("/normal-library.png",  "Normal — Library"),
-    ("/vaxry-library.png",   "Vaxry — Library"),
-    ("/normal-playlist.png", "Normal — Playlist"),
-    ("/modern-playlist.png", "Modern — Playlist"),
-    ("/fullscreen.png",      "Fullscreen player"),
-    ("/fullscreen-lyrics.png","Fullscreen lyrics"),
-    ("/search.png",          "Search"),
-    ("/theme-editor.png",    "Theme editor"),
-    ("/player-settings.png", "Player settings"),
-    ("/downloader.png",      "Downloader"),
+static GALLERY_SRCS: &[&str] = &[
+    "/normal-home.png",
+    "/modern-home.png",
+    "/normal-library.png",
+    "/vaxry-library.png",
+    "/normal-playlist.png",
+    "/modern-playlist.png",
+    "/fullscreen.png",
+    "/fullscreen-lyrics.png",
+    "/search.png",
+    "/theme-editor.png",
+    "/player-settings.png",
+    "/downloader.png",
 ];
+
+fn gallery_label(idx: usize) -> Signal<String> {
+    match idx {
+        0 => move_tr!("gallery-label-normal-home"),
+        1 => move_tr!("gallery-label-modern-home"),
+        2 => move_tr!("gallery-label-normal-library"),
+        3 => move_tr!("gallery-label-vaxry-library"),
+        4 => move_tr!("gallery-label-normal-playlist"),
+        5 => move_tr!("gallery-label-modern-playlist"),
+        6 => move_tr!("gallery-label-fullscreen"),
+        7 => move_tr!("gallery-label-fullscreen-lyrics"),
+        8 => move_tr!("gallery-label-search"),
+        9 => move_tr!("gallery-label-theme-editor"),
+        10 => move_tr!("gallery-label-player-settings"),
+        11 => move_tr!("gallery-label-downloader"),
+        _ => Signal::derive(|| String::new()),
+    }
+}
 
 #[component]
 fn GalleryContent() -> impl IntoView {
@@ -458,14 +532,14 @@ fn GalleryContent() -> impl IntoView {
     let go_prev = move || {
         current.update(|c| {
             if let Some(i) = c {
-                *i = if *i == 0 { GALLERY_IMAGES.len() - 1 } else { *i - 1 };
+                *i = if *i == 0 { GALLERY_SRCS.len() - 1 } else { *i - 1 };
             }
         });
     };
     let go_next = move || {
         current.update(|c| {
             if let Some(i) = c {
-                *i = (*i + 1) % GALLERY_IMAGES.len();
+                *i = (*i + 1) % GALLERY_SRCS.len();
             }
         });
     };
@@ -473,108 +547,104 @@ fn GalleryContent() -> impl IntoView {
     view! {
         <section class="gallery-section">
             <div class="section-header">
-                <h2>"Gallery"</h2>
-                <p>"Screenshots of Kopuz — Normal and Modern styles."</p>
+                <h2>{move_tr!("gallery-title")}</h2>
+                <p>{move_tr!("gallery-subtitle")}</p>
             </div>
             <div class="gallery-grid">
-                // Home — 2 styles
                 <div class="gallery-item">
                     <div class="gallery-thumbs">
                         <div class="gallery-thumb" on:click=move |_| current.set(Some(0))>
-                            <img src="/normal-home.png" alt="Normal — Home"/>
+                            <img src="/normal-home.png" alt=gallery_label(0)/>
                         </div>
                         <div class="gallery-thumb" on:click=move |_| current.set(Some(1))>
-                            <img src="/modern-home.png" alt="Modern — Home"/>
+                            <img src="/modern-home.png" alt=gallery_label(1)/>
                         </div>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Home"</span>
-                        <span class="gallery-desc">"Normal / Modern"</span>
+                        <span class="gallery-title">{move_tr!("gallery-home")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-home-styles")}</span>
                     </div>
                 </div>
-                // Library — 2 styles
                 <div class="gallery-item">
                     <div class="gallery-thumbs">
                         <div class="gallery-thumb" on:click=move |_| current.set(Some(2))>
-                            <img src="/normal-library.png" alt="Normal — Library"/>
+                            <img src="/normal-library.png" alt=gallery_label(2)/>
                         </div>
                         <div class="gallery-thumb" on:click=move |_| current.set(Some(3))>
-                            <img src="/vaxry-library.png" alt="Vaxry — Library"/>
+                            <img src="/vaxry-library.png" alt=gallery_label(3)/>
                         </div>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Library"</span>
-                        <span class="gallery-desc">"Normal / Vaxry"</span>
+                        <span class="gallery-title">{move_tr!("gallery-library")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-library-styles")}</span>
                     </div>
                 </div>
-                // Playlist — 2 styles
                 <div class="gallery-item">
                     <div class="gallery-thumbs">
                         <div class="gallery-thumb" on:click=move |_| current.set(Some(4))>
-                            <img src="/normal-playlist.png" alt="Normal — Playlist"/>
+                            <img src="/normal-playlist.png" alt=gallery_label(4)/>
                         </div>
                         <div class="gallery-thumb" on:click=move |_| current.set(Some(5))>
-                            <img src="/modern-playlist.png" alt="Modern — Playlist"/>
+                            <img src="/modern-playlist.png" alt=gallery_label(5)/>
                         </div>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Playlist"</span>
-                        <span class="gallery-desc">"Normal / Modern"</span>
+                        <span class="gallery-title">{move_tr!("gallery-playlist")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-playlist-styles")}</span>
                     </div>
                 </div>
-                // Singles
                 <div class="gallery-item">
                     <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(6))>
-                        <img src="/fullscreen.png" alt="Fullscreen player"/>
+                        <img src="/fullscreen.png" alt=gallery_label(6)/>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Fullscreen player"</span>
-                        <span class="gallery-desc">"Immersive full-window playback view."</span>
+                        <span class="gallery-title">{move_tr!("gallery-fullscreen-title")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-fullscreen-desc")}</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(7))>
-                        <img src="/fullscreen-lyrics.png" alt="Fullscreen lyrics"/>
+                        <img src="/fullscreen-lyrics.png" alt=gallery_label(7)/>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Fullscreen lyrics"</span>
-                        <span class="gallery-desc">"Synced lyrics in full-window mode."</span>
+                        <span class="gallery-title">{move_tr!("gallery-fullscreen-lyrics-title")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-fullscreen-lyrics-desc")}</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(8))>
-                        <img src="/search.png" alt="Search"/>
+                        <img src="/search.png" alt=gallery_label(8)/>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Search"</span>
-                        <span class="gallery-desc">"Real-time search across artists, albums, and tracks."</span>
+                        <span class="gallery-title">{move_tr!("gallery-search-title")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-search-desc")}</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(9))>
-                        <img src="/theme-editor.png" alt="Theme editor"/>
+                        <img src="/theme-editor.png" alt=gallery_label(9)/>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Theme editor"</span>
-                        <span class="gallery-desc">"Full color variable control. Build or pick a preset."</span>
+                        <span class="gallery-title">{move_tr!("gallery-theme-title")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-theme-desc")}</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(10))>
-                        <img src="/player-settings.png" alt="Player settings"/>
+                        <img src="/player-settings.png" alt=gallery_label(10)/>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Player settings"</span>
-                        <span class="gallery-desc">"Configure audio, behavior, integrations, and more."</span>
+                        <span class="gallery-title">{move_tr!("gallery-settings-title")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-settings-desc")}</span>
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(11))>
-                        <img src="/downloader.png" alt="Downloader"/>
+                        <img src="/downloader.png" alt=gallery_label(11)/>
                     </div>
                     <div class="gallery-caption">
-                        <span class="gallery-title">"Downloader"</span>
-                        <span class="gallery-desc">"Download tracks directly from within Kopuz."</span>
+                        <span class="gallery-title">{move_tr!("gallery-downloader-title")}</span>
+                        <span class="gallery-desc">{move_tr!("gallery-downloader-desc")}</span>
                     </div>
                 </div>
             </div>
@@ -586,27 +656,26 @@ fn GalleryContent() -> impl IntoView {
                     <div class="lightbox-topbar">
                         {move || {
                             let idx = current.get().unwrap_or(0);
-                            let (_src, label) = GALLERY_IMAGES[idx];
                             view! {
-                                <span class="lightbox-label">{label}</span>
+                                <span class="lightbox-label">{gallery_label(idx)}</span>
                             }
                         }}
                         <span class="lightbox-counter">
                             {move || {
                                 let idx = current.get().unwrap_or(0);
-                                format!("{} / {}", idx + 1, GALLERY_IMAGES.len())
+                                format!("{} / {}", idx + 1, GALLERY_SRCS.len())
                             }}
                         </span>
                         <button class="lightbox-close" on:click=move |ev| { ev.stop_propagation(); current.set(None); }>"×"</button>
                     </div>
                     {move || {
                         let idx = current.get().unwrap_or(0);
-                        let (src, label) = GALLERY_IMAGES[idx];
-                        view! { <img src=src alt=label class="lightbox-img"/> }
+                        let src = GALLERY_SRCS[idx];
+                        view! { <img src=src alt=gallery_label(idx) class="lightbox-img"/> }
                     }}
                     <div class="lightbox-nav">
-                        <button class="lightbox-btn" on:click=move |ev| { ev.stop_propagation(); go_prev(); }>"← Prev"</button>
-                        <button class="lightbox-btn" on:click=move |ev| { ev.stop_propagation(); go_next(); }>"Next →"</button>
+                        <button class="lightbox-btn" on:click=move |ev| { ev.stop_propagation(); go_prev(); }>{move_tr!("gallery-prev")}</button>
+                        <button class="lightbox-btn" on:click=move |ev| { ev.stop_propagation(); go_next(); }>{move_tr!("gallery-next")}</button>
                     </div>
                 </div>
             </div>
@@ -620,13 +689,13 @@ fn Footer() -> impl IntoView {
         <footer class="footer">
             <div class="footer-left">
                 <span class="footer-logo">"Kopuz"</span>
-                <span>"MIT License — Free & Open Source"</span>
+                <span>{move_tr!("footer-license")}</span>
             </div>
             <div class="footer-links">
-                <a href="https://github.com/Kopuz-org/kopuz" target="_blank">"GitHub"</a>
-                <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank">"Releases"</a>
-                <a href="https://github.com/Kopuz-org/kopuz/issues" target="_blank">"Issues"</a>
-                <a href="https://discord.gg/K6Bmzw2E4M" target="_blank">"Discord"</a>
+                <a href="https://github.com/Kopuz-org/kopuz" target="_blank">{move_tr!("footer-github")}</a>
+                <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank">{move_tr!("footer-releases")}</a>
+                <a href="https://github.com/Kopuz-org/kopuz/issues" target="_blank">{move_tr!("footer-issues")}</a>
+                <a href="https://discord.gg/K6Bmzw2E4M" target="_blank">{move_tr!("footer-discord")}</a>
             </div>
         </footer>
     }

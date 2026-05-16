@@ -1,0 +1,177 @@
+## Language
+lang-name = العربية
+
+## Nav
+nav-new = جديد
+nav-announce = واجهة حديثة، سمة Vaxry، مُنزِّل yt-dlp، 20+ لغة
+nav-features = الميزات
+nav-install = تثبيت
+nav-download = تنزيل
+nav-sponsors = الرعاة
+nav-github = GitHub ↗
+nav-gallery = المعرض
+nav-lang-label = اللغة
+
+## Hero
+hero-title-1 = موسيقاك.
+hero-title-2 = على طريقتك.
+hero-desc = Kopuz مشغل موسيقى حديث وخفيف مبني بـ Rust و Dioxus. امسح المجلدات المحلية، استمع من Jellyfin أو Navidrome، وتصفح مكتبتك كما تريد.
+hero-cta-download = تنزيل
+hero-cta-github = اعرض على GitHub
+hero-screenshot-alt = Kopuz — الواجهة الرئيسية
+
+## Features
+features-title = كل ما تحتاجه.
+features-chip = بلا اشتراكات. بلا تتبع. موسيقاك فقط.
+features-works-with = يعمل مع
+features-source-local = الملفات المحلية
+features-source-jellyfin = Jellyfin
+features-source-navidrome = Navidrome
+features-source-subsonic = Subsonic API
+
+feat-local-title = محلي + بث
+feat-local-desc = أشِر إلى مجلد محلي أو اتصل بـ Jellyfin / Subsonic (Navidrome). امزج كما تشاء.
+feat-theming-title = السمات
+feat-theming-desc = سمات ديناميكية مع تحكم كامل بمتغيرات الألوان. ابنِ سمتك من الصفر أو اختر إعدادًا مسبقًا.
+feat-native-title = تكامل أصلي
+feat-native-desc = MPRIS على Linux، Now Playing على macOS، System Media Transport على Windows. متصل بالكامل.
+feat-lyrics-title = كلمات متزامنة
+feat-lyrics-desc = كلمات قابلة للتمرير في الوقت الفعلي، متزامنة أو عادية، تمرير تلقائي مع الموسيقى.
+feat-eq-title = موازِن الصوت
+feat-eq-desc = موازِن صوت بـ 5 نطاقات مع إعدادات مسبقة وتحكم كامل بصوتك.
+feat-fav-title = المفضلة وقوائم التشغيل
+feat-fav-desc = ضع نجمة على الأغاني محليًا أو زامِن المفضلة مع خادمك. أنشئ قوائم تشغيل، أضف ألبومات كاملة دفعة واحدة.
+feat-scrobble-title = Scrobbling
+feat-scrobble-desc = scrobbling ListenBrainz مدمج. يمكن لمستخدمي Jellyfin أيضًا استخدام إضافة listenbrainz.
+feat-discord-title = Discord RPC
+feat-discord-desc = أظهر لأصدقائك ما تستمع إليه عبر Discord Rich Presence المدمج. بلا إعداد.
+feat-search-title = البحث
+feat-search-desc = بحث في الوقت الفعلي عبر الفنانين والألبومات والمقاطع. نتائج فورية أثناء الكتابة.
+feat-genre-title = التصفح حسب النوع
+feat-genre-desc = تصفح مكتبتك بالكامل حسب النوع — يعمل للملفات المحلية وموسيقى الخادم.
+feat-logs-title = سجلات الاستماع
+feat-logs-desc = عدد التشغيلات يُتتبع محليًا. اعرف ما تستمع إليه أكثر بمرور الوقت.
+feat-i18n-title = i18n
+feat-i18n-desc = الإنجليزية والروسية والألمانية والفرنسية والإسبانية والتركية والأوكرانية والبولندية والعربية واليونانية والعبرية والمجرية والإندونيسية واليابانية والكورية والرومانية والبرتغالية والصينية والمزيد.
+feat-ytdlp-title = مُنزِّل yt-dlp
+feat-ytdlp-desc = نزِّل الصوت مباشرة من YouTube. الإخراج بصيغة MP3 أو FLAC أو WAV أو MP4 أو بأفضل جودة. يشمل SponsorBlock وتقسيم الفصول وتحديد السرعة.
+feat-crossfade-title = Crossfade والانتقالات
+feat-crossfade-desc = امزج انتقالات المقاطع لتشغيل أكثر سلاسة. دعم crossfade في بنى سطح المكتب الأصلية.
+feat-channels-title = أوضاع القنوات
+feat-channels-desc = ستيريو، أحادي، يسار فقط، يمين فقط، وتبديل L/R. تحكم دقيق بقنوات الصوت.
+
+## Performance
+perf-title = مبني ليكون سريعًا.
+perf-subtitle = مكتبات كبيرة. بدء فوري. بلا تجمد.
+perf-skip-label = تخطّي المفهرسة مسبقًا
+perf-skip-desc = إعادة المسح تعالج الملفات الجديدة فقط. 10 آلاف مقطع + 5 جديدة = قراءة 5 فقط.
+perf-parallel-label = بدء متوازٍ
+perf-parallel-desc-1 = المكتبة والإعدادات وقوائم التشغيل والمفضلة تُحمَّل كلها بالتوازي عبر
+perf-parallel-desc-2 = . فتح فوري تقريبًا.
+perf-art-label = ذاكرة مؤقتة للأغلفة
+perf-art-desc = الأغلفة تُستخرج مرة واحدة وتُحفظ على القرص. لا إعادة فك تشفير عند العرض المتكرر.
+perf-lazy-label = تحميل الصور البطيء
+perf-lazy-desc = مئات الأغلفة في نتائج البحث — لا تُحمَّل حتى تظهر.
+perf-io-label = I/O غير معطِّل
+perf-io-desc-1 = العمل الثقيل يجري على خيوط
+perf-io-desc-2 = { " " }. الواجهة تبقى متجاوبة أثناء مسح المكتبة الكامل.
+perf-http-label = تخزين HTTP للأغلفة
+perf-http-desc-1 = بروتوكول
+perf-http-desc-2 = { " " }مخصص يقدم الأغلفة مع رؤوس تخزين لعام كامل. Webview لا يُعيد الجلب أبدًا.
+
+## Install
+install-title = التثبيت
+install-nix-title = Nix / NixOS
+install-nix-run = شغّل دون تثبيت:
+install-nix-profile = أو أضف إلى ملفك الشخصي:
+install-nix-note = NixOS flake مدعوم مع ذاكرة Cachix الثنائية.
+install-flatpak-title = Flatpak
+install-flatpak-desc = ثبّت من ملف بيان المصدر:
+install-flatpak-note = إدراج Flathub قريبًا.
+install-appimage-title = AppImage
+install-appimage-desc-1 = نزِّل من GitHub Releases وشغِّل مباشرة. يتطلب
+install-appimage-desc-2 = { " " }و
+install-appimage-desc-3 = { " " }على نظامك.
+install-appimage-note-1 = مستخدمو Arch: إن حدث انهيار بخطأ WebKitNetworkProcess، شغّل ببادئة
+install-appimage-note-2 = .
+install-macos-title = macOS
+install-macos-chip = Apple Silicon
+install-macos-desc-1 = نزِّل ملف
+install-macos-desc-2 = { " " }من GitHub Releases. إن منع macOS، أزل علم الحجر:
+
+## Platforms
+platforms-title = تنزيل Kopuz
+platforms-subtitle = مجاني ومفتوح المصدر. كل الإصدارات على GitHub.
+platforms-windows = Windows
+platforms-macos = macOS
+platforms-macos-note = Apple Silicon فقط
+platforms-linux = Linux
+platforms-download = تنزيل ←
+
+## Support
+support-title = ادعم Kopuz
+support-subtitle = Kopuz مجاني ومفتوح المصدر. الدعم يبقيه حيًا.
+support-gh = GitHub Sponsors
+support-bmc = Buy Me a Coffee
+support-crypto-divider = — أو أرسل عملة مشفرة —
+support-usdt-note = (شبكة Solana)
+
+## Sponsors
+sponsors-title = الرعاة
+sponsors-subtitle = أشخاص يبقون Kopuz مستمرًا.
+sponsors-cta = كن راعيًا
+
+## Gallery
+gallery-page-title = المعرض — Kopuz Music Player
+gallery-page-desc = لقطات Kopuz أثناء العمل — الرئيسية، المكتبة، قائمة التشغيل، مشغل ملء الشاشة، الكلمات، محرر السمات والمزيد.
+gallery-title = المعرض
+gallery-subtitle = لقطات Kopuz — أنماط Normal و Modern.
+gallery-home = الرئيسية
+gallery-home-styles = Normal / Modern
+gallery-library = المكتبة
+gallery-library-styles = Normal / Vaxry
+gallery-playlist = قائمة التشغيل
+gallery-playlist-styles = Normal / Modern
+gallery-fullscreen-title = مشغل ملء الشاشة
+gallery-fullscreen-desc = عرض تشغيل غامر بالنافذة الكاملة.
+gallery-fullscreen-lyrics-title = كلمات ملء الشاشة
+gallery-fullscreen-lyrics-desc = كلمات متزامنة في وضع النافذة الكاملة.
+gallery-search-title = البحث
+gallery-search-desc = بحث في الوقت الفعلي عبر الفنانين والألبومات والمقاطع.
+gallery-theme-title = محرر السمات
+gallery-theme-desc = تحكم كامل بمتغيرات الألوان. ابنِ أو اختر إعدادًا.
+gallery-settings-title = إعدادات المشغل
+gallery-settings-desc = اضبط الصوت والسلوك والتكاملات والمزيد.
+gallery-downloader-title = المُنزِّل
+gallery-downloader-desc = نزِّل المقاطع مباشرة من داخل Kopuz.
+gallery-prev = ← السابق
+gallery-next = التالي →
+gallery-label-normal-home = Normal — الرئيسية
+gallery-label-modern-home = Modern — الرئيسية
+gallery-label-normal-library = Normal — المكتبة
+gallery-label-vaxry-library = Vaxry — المكتبة
+gallery-label-normal-playlist = Normal — قائمة التشغيل
+gallery-label-modern-playlist = Modern — قائمة التشغيل
+gallery-label-fullscreen = مشغل ملء الشاشة
+gallery-label-fullscreen-lyrics = كلمات ملء الشاشة
+gallery-label-search = البحث
+gallery-label-theme-editor = محرر السمات
+gallery-label-player-settings = إعدادات المشغل
+gallery-label-downloader = المُنزِّل
+
+## Footer
+footer-license = رخصة MIT — مجاني ومفتوح المصدر
+footer-github = GitHub
+footer-releases = الإصدارات
+footer-issues = Issues
+footer-discord = Discord
+
+## Page meta
+home-title = Kopuz — Music Player
+home-meta-desc = Kopuz مشغل موسيقى حديث وخفيف مبني بـ Rust و Dioxus. استمع من Jellyfin أو Navidrome، تصفح الملفات المحلية، كلمات متزامنة، موازِن صوت، سمات والمزيد.
+home-meta-keywords = Kopuz، مشغل موسيقى، Rust، Dioxus، Jellyfin، Navidrome، مفتوح المصدر، Linux، macOS، Windows، MPRIS، كلمات
+og-title = Kopuz — Music Player
+og-desc = مشغل موسيقى حديث وخفيف مبني بـ Rust. ملفات محلية، Jellyfin، Navidrome، كلمات متزامنة، موازِن صوت، Discord RPC والمزيد. مجاني ومفتوح المصدر.
+og-image-alt = مشغل موسيقى Kopuz
+twitter-title = Kopuz — Music Player
+twitter-desc = مشغل موسيقى حديث وخفيف مبني بـ Rust. مجاني ومفتوح المصدر.

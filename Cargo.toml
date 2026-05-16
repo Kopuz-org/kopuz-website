@@ -15,12 +15,15 @@ leptos_axum = { version = "0.8.0", optional = true }
 leptos_meta = { version = "0.8.0" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 wasm-bindgen = { version = "0.2.106", optional = true }
+fluent-templates = "0.14"
+leptos-fluent = { version = "0.2", features = ["json"] }
 
 [features]
 hydrate = [
     "leptos/hydrate",
     "dep:console_error_panic_hook",
     "dep:wasm-bindgen",
+    "leptos-fluent/hydrate",
 ]
 ssr = [
     "dep:axum",
@@ -29,6 +32,8 @@ ssr = [
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
+    "leptos-fluent/ssr",
+    "leptos-fluent/axum",
 ]
 
 # Defines a size-optimized profile for the WASM bundle in release mode
