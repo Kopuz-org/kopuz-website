@@ -3,7 +3,7 @@ lang-name = 한국어
 
 ## Nav
 nav-new = 신규
-nav-announce = 모던 UI, Vaxry 테마, yt-dlp 다운로더, 20+ 언어
+nav-announce = YouTube Music 스트리밍, Discover, 믹스 라디오, 20+ 언어
 nav-features = 기능
 nav-install = 설치
 nav-download = 다운로드

@@ -3,7 +3,7 @@ lang-name = 中文
 
 ## Nav
 nav-new = 新
-nav-announce = 现代UI、Vaxry主题、yt-dlp下载器、20+种语言
+nav-announce = YouTube Music 流媒体、Discover、混合电台、20+种语言
 nav-features = 功能
 nav-install = 安装
 nav-download = 下载

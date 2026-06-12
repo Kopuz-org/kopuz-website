@@ -3,7 +3,7 @@ lang-name = Română
 
 ## Nav
 nav-new = Nou
-nav-announce = UI modern, temă Vaxry, descărcător yt-dlp, 20+ limbi
+nav-announce = Streaming YouTube Music, Discover, radio mix, 20+ limbi
 nav-features = Funcții
 nav-install = Instalează
 nav-download = Descarcă

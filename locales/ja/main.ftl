@@ -3,7 +3,7 @@ lang-name = 日本語
 
 ## Nav
 nav-new = 新着
-nav-announce = モダンUI、Vaxryテーマ、yt-dlpダウンローダー、20以上の言語
+nav-announce = YouTube Musicストリーミング、Discover、ミックスラジオ、20以上の言語
 nav-features = 機能
 nav-install = インストール
 nav-download = ダウンロード

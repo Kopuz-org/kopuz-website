@@ -1,0 +1,21 @@
+[Unit]
+Description=Kopuz Website Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/mnt/musics/kopuz-website
+Environment=LEPTOS_OUTPUT_NAME=kopuz-website
+Environment=LEPTOS_SITE_ROOT=/mnt/musics/kopuz-website/target/site
+Environment=LEPTOS_SITE_PKG_DIR=pkg
+Environment=LEPTOS_SITE_ADDR=0.0.0.0:8090
+Environment=LEPTOS_RELOAD_PORT=3001
+ExecStart=/usr/bin/env bash -lc 'exec ./target/release/kopuz-website'
+Restart=always
+RestartSec=5
+User=temidaradev
+Group=temidaradev
+
+[Install]
+WantedBy=multi-user.target

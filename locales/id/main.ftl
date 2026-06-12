@@ -3,7 +3,7 @@ lang-name = Bahasa Indonesia
 
 ## Nav
 nav-new = Baru
-nav-announce = UI modern, tema Vaxry, pengunduh yt-dlp, 20+ bahasa
+nav-announce = Streaming YouTube Music, Discover, radio mix, 20+ bahasa
 nav-features = Fitur
 nav-install = Pasang
 nav-download = Unduh

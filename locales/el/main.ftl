@@ -3,7 +3,7 @@ lang-name = Ελληνικά
 
 ## Nav
 nav-new = Νέο
-nav-announce = Σύγχρονο UI, θέμα Vaxry, λήπτης yt-dlp, 20+ γλώσσες
+nav-announce = Ροή YouTube Music, Discover, mix radio, 20+ γλώσσες
 nav-features = Δυνατότητες
 nav-install = Εγκατάσταση
 nav-download = Λήψη

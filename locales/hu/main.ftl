@@ -3,7 +3,7 @@ lang-name = Magyar
 
 ## Nav
 nav-new = Új
-nav-announce = Modern UI, Vaxry téma, yt-dlp letöltő, 20+ nyelv
+nav-announce = YouTube Music streamelés, Discover, mix rádió, 20+ nyelv
 nav-features = Funkciók
 nav-install = Telepítés
 nav-download = Letöltés

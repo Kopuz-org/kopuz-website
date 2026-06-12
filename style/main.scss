@@ -1010,3 +1010,64 @@ pre code {
         align-items: flex-start;
     }
 }
+
+/* Additional mobile refinements */
+@media (max-width: 600px) {
+    .site { padding: 0 16px; }
+
+    .nav-row {
+        gap: 8px;
+        align-items: center;
+    }
+
+    .nav-tabs {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-left: 0;
+        border: none;
+        padding: 6px 0;
+    }
+
+    /* keep nav-tabs visible on small screens */
+    .nav { position: relative; }
+    .nav-announce {
+        max-width: calc(100% - 56px);
+    }
+
+    .nav-tab {
+        padding: 8px 12px;
+        font-size: 14px;
+        border-right: none;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+    }
+
+    .nav-announce { display: none; }
+
+    .hero {
+        padding: 32px 0 28px;
+    }
+    .hero h1 { font-size: 30px; }
+    .hero p { font-size: 15px; }
+
+    .hero-ctas { flex-direction: column; gap: 10px; }
+    .btn-primary, .btn-secondary { padding: 12px 18px; width: 100%; }
+
+    .sponsors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .sponsor-card { width: 100%; padding: 16px; }
+    .sponsor-card img { width: 64px; height: 64px; }
+
+    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-thumbs { grid-template-columns: 1fr; }
+
+    .footer { align-items: center; text-align: center; }
+}
+
+@media (max-width: 420px) {
+    .hero h1 { font-size: 26px; }
+    .nav-logo { font-size: 18px; }
+    .feature-card, .install-card, .platform-card { padding: 16px; }
+}

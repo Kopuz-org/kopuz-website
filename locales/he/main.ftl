@@ -3,7 +3,7 @@ lang-name = עברית
 
 ## Nav
 nav-new = חדש
-nav-announce = ממשק מודרני, ערכת Vaxry, מוריד yt-dlp, 20+ שפות
+nav-announce = סטרימינג YouTube Music, Discover, רדיו מיקס, 20+ שפות
 nav-features = תכונות
 nav-install = התקנה
 nav-download = הורדה

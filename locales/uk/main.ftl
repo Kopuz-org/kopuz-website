@@ -3,7 +3,7 @@ lang-name = Українська
 
 ## Nav
 nav-new = Нове
-nav-announce = Сучасний UI, тема Vaxry, завантажувач yt-dlp, 20+ мов
+nav-announce = Стримінг YouTube Music, Discover, мікс-радіо, 20+ мов
 nav-features = Можливості
 nav-install = Встановити
 nav-download = Завантажити

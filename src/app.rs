@@ -93,6 +93,7 @@ fn HomePage() -> impl IntoView {
             <Features/>
             <Performance/>
             <Install/>
+            <YtMusic/>
             <Platforms/>
             <Support/>
             <Sponsors/>
@@ -212,9 +213,11 @@ fn Features() -> impl IntoView {
                         <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-jellyfin")}</span>
                         <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-navidrome")}</span>
                         <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
+                        <span class="source-tag"><i class="fa-brands fa-youtube"></i>" "{move_tr!("features-source-ytmusic")}</span>
                     </div>
                 </div>
                 <FeatureCard icon="fa-solid fa-music" title_key="feat-local-title" desc_key="feat-local-desc"/>
+                <FeatureCard icon="fa-brands fa-youtube" title_key="feat-youtube-title" desc_key="feat-youtube-desc"/>
                 <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
                 <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
                 <FeatureCard icon="fa-solid fa-align-left" title_key="feat-lyrics-title" desc_key="feat-lyrics-desc"/>
@@ -229,6 +232,9 @@ fn Features() -> impl IntoView {
                 <FeatureCard icon="fa-brands fa-youtube" title_key="feat-ytdlp-title" desc_key="feat-ytdlp-desc"/>
                 <FeatureCard icon="fa-solid fa-shuffle" title_key="feat-crossfade-title" desc_key="feat-crossfade-desc"/>
                 <FeatureCard icon="fa-solid fa-headphones" title_key="feat-channels-title" desc_key="feat-channels-desc"/>
+                <FeatureCard icon="fa-solid fa-image" title_key="feat-metadata-title" desc_key="feat-metadata-desc"/>
+                <FeatureCard icon="fa-solid fa-file-lines" title_key="feat-debug-title" desc_key="feat-debug-desc"/>
+                <FeatureCard icon="fa-solid fa-broom" title_key="feat-cleanup-title" desc_key="feat-cleanup-desc"/>
             </div>
         </section>
     }
@@ -268,6 +274,10 @@ fn feature_title(key: &'static str) -> Signal<String> {
         "feat-ytdlp-title" => move_tr!("feat-ytdlp-title"),
         "feat-crossfade-title" => move_tr!("feat-crossfade-title"),
         "feat-channels-title" => move_tr!("feat-channels-title"),
+        "feat-youtube-title" => move_tr!("feat-youtube-title"),
+        "feat-metadata-title" => move_tr!("feat-metadata-title"),
+        "feat-debug-title" => move_tr!("feat-debug-title"),
+        "feat-cleanup-title" => move_tr!("feat-cleanup-title"),
         _ => Signal::derive(|| String::new()),
     }
 }
@@ -289,6 +299,10 @@ fn feature_desc(key: &'static str) -> Signal<String> {
         "feat-ytdlp-desc" => move_tr!("feat-ytdlp-desc"),
         "feat-crossfade-desc" => move_tr!("feat-crossfade-desc"),
         "feat-channels-desc" => move_tr!("feat-channels-desc"),
+        "feat-youtube-desc" => move_tr!("feat-youtube-desc"),
+        "feat-metadata-desc" => move_tr!("feat-metadata-desc"),
+        "feat-debug-desc" => move_tr!("feat-debug-desc"),
+        "feat-cleanup-desc" => move_tr!("feat-cleanup-desc"),
         _ => Signal::derive(|| String::new()),
     }
 }
@@ -326,6 +340,10 @@ fn Performance() -> impl IntoView {
                     <span class="perf-label">{move_tr!("perf-http-label")}</span>
                     <p>{move_tr!("perf-http-desc-1")}" "<code>"artwork://"</code>{move_tr!("perf-http-desc-2")}</p>
                 </div>
+                <div class="perf-item">
+                    <span class="perf-label">{move_tr!("perf-sort-label")}</span>
+                    <p>{move_tr!("perf-sort-desc-1")}" "<code>"sort_by_cached_key"</code>{move_tr!("perf-sort-desc-2")}</p>
+                </div>
             </div>
         </section>
     }
@@ -348,12 +366,20 @@ fn Install() -> impl IntoView {
                     <p class="install-note">{move_tr!("install-nix-note")}</p>
                 </div>
                 <div class="install-card">
+                    <h3>{move_tr!("install-aur-title")}</h3>
+                    <p>{move_tr!("install-aur-desc")}</p>
+                    <pre><code>"yay -S kopuz
+# or
+paru -S kopuz"</code></pre>
+                    <p class="install-note">{move_tr!("install-aur-note-1")}" "<code>"dioxus-cli"</code>{move_tr!("install-aur-note-2")}</p>
+                </div>
+                <div class="install-card">
                     <h3>{move_tr!("install-flatpak-title")}</h3>
                     <p>{move_tr!("install-flatpak-desc")}</p>
                     <pre><code>"git clone https://github.com/temidaradev/kopuz
 cd kopuz
 flatpak-builder --user --install --force-clean \\
-  build-dir com.temidaradev.kopuz.json
+  build-dir packaging/flatpak/com.temidaradev.kopuz.json
 flatpak run com.temidaradev.kopuz"</code></pre>
                     <p class="install-note">{move_tr!("install-flatpak-note")}</p>
                 </div>
@@ -366,6 +392,39 @@ flatpak run com.temidaradev.kopuz"</code></pre>
                     <h3>{move_tr!("install-macos-title")}" "<span class="install-chip">{move_tr!("install-macos-chip")}</span></h3>
                     <p>{move_tr!("install-macos-desc-1")}" "<code>".dmg"</code>{move_tr!("install-macos-desc-2")}</p>
                     <pre><code>"xattr -d com.apple.quarantine /Applications/Kopuz.app"</code></pre>
+                </div>
+            </div>
+        </section>
+    }
+}
+
+#[component]
+fn YtMusic() -> impl IntoView {
+    view! {
+        <section class="install" id="ytmusic">
+            <div class="section-header">
+                <h2>{move_tr!("ytmusic-title")}</h2>
+                <p>{move_tr!("ytmusic-subtitle")}</p>
+            </div>
+            <div class="install-grid">
+                <div class="install-card">
+                    <h3>{move_tr!("ytmusic-prereq-title")}</h3>
+                    <p>{move_tr!("ytmusic-prereq-desc-1")}" "<code>"rustypipe-botguard"</code>{move_tr!("ytmusic-prereq-desc-2")}</p>
+                    <pre><code>"cargo install rustypipe-botguard --version 0.1.2"</code></pre>
+                    <p class="install-note">{move_tr!("ytmusic-prereq-note")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("ytmusic-signin-title")}</h3>
+                    <p>{move_tr!("ytmusic-signin-desc")}</p>
+                    <p class="install-note">{move_tr!("ytmusic-signin-note")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("ytmusic-anon-title")}</h3>
+                    <p>{move_tr!("ytmusic-anon-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("ytmusic-premium-title")}</h3>
+                    <p>{move_tr!("ytmusic-premium-desc-1")}" "<code>"yt-dlp"</code>{move_tr!("ytmusic-premium-desc-2")}</p>
                 </div>
             </div>
         </section>
@@ -483,6 +542,18 @@ fn Sponsors() -> impl IntoView {
                 <a href="https://github.com/m110" target="_blank" class="sponsor-card">
                     <img src="https://github.com/m110.png?size=80" alt="m110"/>
                     <span>"m110"</span>
+                </a>
+                <a href="https://github.com/bulakemun" target="_blank" class="sponsor-card">
+                    <img src="https://github.com/bulakemun.png?size=80" alt="bulakemun"/>
+                    <span>"bulakemun"</span>
+                </a>
+                <a href="https://github.com/Iamknownasfesal" target="_blank" class="sponsor-card">
+                    <img src="https://github.com/Iamknownasfesal.png?size=80" alt="fesal"/>
+                    <span>"fesal"</span>
+                </a>
+                <a href="https://github.com/arda2k3" target="_blank" class="sponsor-card">
+                    <img src="https://github.com/arda2k3.png?size=80" alt="arda2k3"/>
+                    <span>"arda2k3"</span>
                 </a>
             </div>
             <div class="sponsors-cta">

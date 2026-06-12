@@ -3,7 +3,7 @@ lang-name = Português
 
 ## Nav
 nav-new = Novo
-nav-announce = UI moderna, tema Vaxry, baixador yt-dlp, 20+ idiomas
+nav-announce = Streaming do YouTube Music, Discover, rádio mix, 20+ idiomas
 nav-features = Recursos
 nav-install = Instalar
 nav-download = Baixar

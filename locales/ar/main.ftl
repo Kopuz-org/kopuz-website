@@ -3,7 +3,7 @@ lang-name = العربية
 
 ## Nav
 nav-new = جديد
-nav-announce = واجهة حديثة، سمة Vaxry، مُنزِّل yt-dlp، 20+ لغة
+nav-announce = بث YouTube Music، صفحة Discover، راديو ميكس، 20+ لغة
 nav-features = الميزات
 nav-install = تثبيت
 nav-download = تنزيل

@@ -3,7 +3,7 @@ lang-name = English
 
 ## Nav
 nav-new = New
-nav-announce = Modern UI, Vaxry theme, yt-dlp downloader, 20+ languages
+nav-announce = YouTube Music streaming, Discover, mix radio, 20+ languages
 nav-features = Features
 nav-install = Install
 nav-download = Download
@@ -15,7 +15,7 @@ nav-lang-label = Language
 ## Hero
 hero-title-1 = Your music.
 hero-title-2 = Your way.
-hero-desc = Kopuz is a modern, lightweight music player built with Rust and Dioxus. Scan local folders, stream from Jellyfin or Navidrome, and browse your library the way you want.
+hero-desc = Kopuz is a modern, lightweight music player application built with Rust and the Dioxus framework. Scan local folders, stream from Jellyfin or Navidrome, connect YouTube Music, and organize your library the way you want.
 hero-cta-download = Download
 hero-cta-github = View on GitHub
 hero-screenshot-alt = Kopuz — home view
@@ -28,6 +28,7 @@ features-source-local = Local files
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-ytmusic = YouTube Music
 
 feat-local-title = Local + Streaming
 feat-local-desc = Point at a local folder or connect to Jellyfin / Subsonic (Navidrome). Mix and match as you like.
@@ -52,13 +53,21 @@ feat-genre-desc = Browse your entire library by genre — works for both local f
 feat-logs-title = Listening Logs
 feat-logs-desc = Play counts tracked locally. See what you actually listen to most over time.
 feat-i18n-title = i18n
-feat-i18n-desc = English, Russian, German, French, Spanish, Turkish, Ukrainian, Polish, Arabic, Greek, Hebrew, Hungarian, Indonesian, Japanese, Korean, Romanian, Portuguese, Chinese, and more.
+feat-i18n-desc = English, Russian, German, French, Spanish, Turkish, Ukrainian, Polish, Arabic, Greek, Hebrew, Hungarian, Indonesian, Japanese, Korean, Romanian, Brazilian Portuguese, Toki Pona, Simplified Chinese, and more.
 feat-ytdlp-title = yt-dlp Downloader
 feat-ytdlp-desc = Download audio directly from YouTube. Output as MP3, FLAC, WAV, MP4, or best quality. SponsorBlock, chapter splitting, and rate limiting included.
 feat-crossfade-title = Crossfade & Transitions
 feat-crossfade-desc = Blend track transitions for smoother playback. Crossfade support on native desktop builds.
 feat-channels-title = Channel Modes
 feat-channels-desc = Stereo, Mono, Left-only, Right-only, and L/R swap. Fine-grained audio channel control.
+feat-youtube-title = YouTube Music
+feat-youtube-desc = Full streaming backend with a Spotify-style Discover page, rich artist profiles, and mix radio. Sign in for your library, Liked Music, and playlists — or browse anonymously.
+feat-metadata-title = Artist Images
+feat-metadata-desc = Choose how artist images are sourced: first album cover (default) or real artist photos fetched from your Jellyfin or Subsonic server, with automatic fallback.
+feat-debug-title = Logs & Crash Reports
+feat-debug-desc = Open or export logs straight from Settings, with an optional performance trace you can open in Speedscope or Perfetto. Crashes write a report automatically.
+feat-cleanup-title = Auto-Cleanup
+feat-cleanup-desc = Missing or deleted tracks are removed from your library automatically when rescanning. No ghost entries.
 
 ## Performance
 perf-title = Built to be fast.
@@ -78,6 +87,9 @@ perf-io-desc-2 = { " " }threads. UI stays responsive during full library scans.
 perf-http-label = HTTP art caching
 perf-http-desc-1 = Custom
 perf-http-desc-2 = { " " }protocol serves covers with 1-year cache headers. Webview never re-fetches.
+perf-sort-label = Smarter sorting
+perf-sort-desc-1 = Library views sort with
+perf-sort-desc-2 = { " " }so sort keys are computed once, not on every comparison.
 
 ## Install
 install-title = Installation
@@ -85,6 +97,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = Run without installing:
 install-nix-profile = Or add to your profile:
 install-nix-note = NixOS flake supported with Cachix binary cache.
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = Install with your preferred helper:
+install-aur-note-1 = Requires
+install-aur-note-2 = { " " }installed first at a version matching dioxus 0.7.x.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Install from source manifest:
 install-flatpak-note = Flathub listing coming soon.
@@ -98,6 +114,23 @@ install-macos-title = macOS
 install-macos-chip = Apple Silicon
 install-macos-desc-1 = Download the
 install-macos-desc-2 = { " " }from GitHub Releases. If macOS blocks it, clear the quarantine flag:
+
+## YouTube Music
+ytmusic-title = YouTube Music Setup
+ytmusic-subtitle = Add it from Settings → Media servers → Add → YouTube Music.
+ytmusic-prereq-title = Prerequisite: rustypipe-botguard
+ytmusic-prereq-desc-1 = Playback — signed in or anonymous — needs the
+ytmusic-prereq-desc-2 = { " " }helper to mint the PO token YouTube requires for stream URLs. Install it once:
+ytmusic-prereq-note = The Add-server dialog has a "Check rustypipe-botguard" button to confirm it's on your PATH. Without it, tracks resolve but fail to play.
+ytmusic-signin-title = Sign in with a browser
+ytmusic-signin-desc = Kopuz opens Google sign-in in an isolated browser profile — your normal browsing is never touched — and extracts the session cookies. Unlocks your library, Liked Music, playlists, and followed artists.
+ytmusic-signin-note = On Windows, browser sign-in is currently disabled; Windows users get anonymous mode automatically. Sign-in works on Linux and macOS.
+ytmusic-anon-title = Anonymous mode
+ytmusic-anon-desc = No sign-in, no cookies. Browse, search, open artist, album, and playlist pages, start mix radio, and play public tracks. Liking and library views are disabled.
+ytmusic-premium-title = Premium tracks
+ytmusic-premium-desc-1 = Music Premium-locked tracks fall back to a local
+ytmusic-premium-desc-2 = { " " }resolve when the primary path returns UNPLAYABLE, so having it installed helps. Anonymous mode can't play Premium-only content at all.
+
 
 ## Platforms
 platforms-title = Download Kopuz
@@ -115,6 +148,14 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — or send crypto —
 support-usdt-note = (Solana chain)
+
+donate-title = Crypto Donations
+donate-subtitle = Support development by sending crypto to these addresses.
+donate-solana = Solana: BK84dVEMnGBP5Tya2mEaB1BQgcSBjngf1NBmRCqefxGg
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
 ## Sponsors
 sponsors-title = Sponsors
@@ -168,10 +209,11 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz is a modern, lightweight music player built with Rust and Dioxus. Stream from Jellyfin or Navidrome, browse local files, synced lyrics, equalizer, themes, and more.
-home-meta-keywords = Kopuz, music player, Rust, Dioxus, Jellyfin, Navidrome, open source, Linux, macOS, Windows, MPRIS, lyrics
+
+home-meta-desc = Kopuz is a modern, lightweight music player built with Rust and Dioxus. Stream from Jellyfin or Navidrome, connect YouTube Music, browse local files, enjoy synced lyrics, themes, and a built-in equalizer.
+home-meta-keywords = Kopuz, music player, Rust, Dioxus, Jellyfin, Navidrome, YouTube Music, open source, Linux, macOS, Windows, MPRIS, lyrics
 og-title = Kopuz — Music Player
-og-desc = Modern, lightweight music player built with Rust. Local files, Jellyfin, Navidrome, synced lyrics, equalizer, Discord RPC, and more. Free and open source.
+og-desc = Modern, lightweight music player built with Rust. Local files, Jellyfin, Navidrome, YouTube Music streaming, synced lyrics, equalizer, Discord RPC, and more. Free and open source.
 og-image-alt = Kopuz music player
 twitter-title = Kopuz — Music Player
-twitter-desc = Modern, lightweight music player built with Rust. Free and open source.
+twitter-desc = Modern, lightweight music player built with Rust. Free and open source. Stream from Jellyfin, Navidrome, or YouTube Music.

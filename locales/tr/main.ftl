@@ -3,7 +3,7 @@ lang-name = Türkçe
 
 ## Nav
 nav-new = Yeni
-nav-announce = Modern arayüz, Vaxry teması, yt-dlp indirici, 20+ dil
+nav-announce = YouTube Music akışı, Discover, mix radyosu, 20+ dil
 nav-features = Özellikler
 nav-install = Kur
 nav-download = İndir
