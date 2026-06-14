@@ -151,7 +151,7 @@ support-usdt-note = (Solana chain)
 
 donate-title = Crypto Donations
 donate-subtitle = Support development by sending crypto to these addresses.
-donate-solana = Solana: BK84dVEMnGBP5Tya2mEaB1BQgcSBjngf1NBmRCqefxGg
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
 donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
 donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
