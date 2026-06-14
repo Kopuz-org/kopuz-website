@@ -502,7 +502,7 @@ fn Support() -> impl IntoView {
             <div class="donate-grid">
                 <div class="donate-item">
                     <span class="donate-coin">"SOL"</span>
-                    <code>"BK84dVEMnGBP5Tya2mEaB1BQgcSBjngf1NBmRCqefxGg"</code>
+                    <code>"2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN"</code>
                 </div>
                 <div class="donate-item">
                     <span class="donate-coin">"BTC"</span>
