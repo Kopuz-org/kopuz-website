@@ -286,6 +286,24 @@ pre code {
     border: 1px solid var(--border);
 }
 
+.hero-screenshot-button {
+    width: 100%;
+    display: block;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: zoom-in;
+}
+
+.hero-screenshot-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+
+.hero-screenshot-button:hover .hero-screenshot {
+    opacity: 0.9;
+}
+
 
 .btn-primary {
     background: var(--accent);
@@ -761,6 +779,36 @@ pre code {
 
 .sponsors-cta { margin-top: 4px; }
 
+/* Sponsor photos row */
+.sponsor-photos {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sponsor-photos .sponsor-card {
+    width: auto;
+    padding: 12px;
+    background: transparent;
+    border: none;
+}
+
+.sponsor-photos .sponsor-card img {
+    width: 96px;
+    height: 96px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: block;
+}
+
+.sponsor-photos figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    text-align: center;
+    color: var(--text);
+}
+
 /* ── FOOTER ── */
 
 .footer {
@@ -991,7 +1039,6 @@ pre code {
         gap: 28px;
     }
     .hero h1 { font-size: 34px; }
-    .hero-right { display: none; }
     .platform-grid { grid-template-columns: 1fr; }
 
     .features-grid { grid-template-columns: 1fr; }

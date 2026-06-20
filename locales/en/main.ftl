@@ -3,7 +3,7 @@ lang-name = English
 
 ## Nav
 nav-new = New
-nav-announce = YouTube Music streaming, Discover, mix radio, 20+ languages
+nav-announce = YouTube Music & SoundCloud streaming, Discover, mix radio, 20+ languages
 nav-features = Features
 nav-install = Install
 nav-download = Download
@@ -29,6 +29,7 @@ features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
 features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = Local + Streaming
 feat-local-desc = Point at a local folder or connect to Jellyfin / Subsonic (Navidrome). Mix and match as you like.
@@ -68,6 +69,14 @@ feat-debug-title = Logs & Crash Reports
 feat-debug-desc = Open or export logs straight from Settings, with an optional performance trace you can open in Speedscope or Perfetto. Crashes write a report automatically.
 feat-cleanup-title = Auto-Cleanup
 feat-cleanup-desc = Missing or deleted tracks are removed from your library automatically when rescanning. No ghost entries.
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = Stream from SoundCloud after a one-time browser sign-in. Search, progressive MP3 and Go+ AAC/HLS playback, your Liked tracks as favorites, and read-only playlists.
+feat-miniplayer-title = Mini-Player
+feat-miniplayer-desc = A compact now-playing overlay you can toggle from the bottom bar for a smaller view.
+feat-tray-title = Minimize to Tray
+feat-tray-desc = Close to a system tray icon instead of quitting, so playback keeps running in the background. Toggle in Settings.
+feat-badges-title = File-Type Badges
+feat-badges-desc = Local tracks show a small format badge — MP3, FLAC, WAV, and more — right in the track row.
 
 ## Performance
 perf-title = Built to be fast.
@@ -118,10 +127,9 @@ install-macos-desc-2 = { " " }from GitHub Releases. If macOS blocks it, clear th
 ## YouTube Music
 ytmusic-title = YouTube Music Setup
 ytmusic-subtitle = Add it from Settings → Media servers → Add → YouTube Music.
-ytmusic-prereq-title = Prerequisite: rustypipe-botguard
-ytmusic-prereq-desc-1 = Playback — signed in or anonymous — needs the
-ytmusic-prereq-desc-2 = { " " }helper to mint the PO token YouTube requires for stream URLs. Install it once:
-ytmusic-prereq-note = The Add-server dialog has a "Check rustypipe-botguard" button to confirm it's on your PATH. Without it, tracks resolve but fail to play.
+ytmusic-token-title = No helper needed
+ytmusic-token-desc-1 = Anonymous playback needs a content PO token, which Kopuz now mints in-app with a hidden WebView running YouTube's BotGuard. The old
+ytmusic-token-desc-2 = { " " }subprocess is gone — nothing to install, and it works inside Flatpak.
 ytmusic-signin-title = Sign in with a browser
 ytmusic-signin-desc = Kopuz opens Google sign-in in an isolated browser profile — your normal browsing is never touched — and extracts the session cookies. Unlocks your library, Liked Music, playlists, and followed artists.
 ytmusic-signin-note = On Windows, browser sign-in is currently disabled; Windows users get anonymous mode automatically. Sign-in works on Linux and macOS.
@@ -130,6 +138,14 @@ ytmusic-anon-desc = No sign-in, no cookies. Browse, search, open artist, album, 
 ytmusic-premium-title = Premium tracks
 ytmusic-premium-desc-1 = Music Premium-locked tracks fall back to a local
 ytmusic-premium-desc-2 = { " " }resolve when the primary path returns UNPLAYABLE, so having it installed helps. Anonymous mode can't play Premium-only content at all.
+
+## SoundCloud
+soundcloud-title = SoundCloud Setup
+soundcloud-subtitle = Add it from Settings → Media servers → Add → SoundCloud.
+soundcloud-signin-title = One-time browser sign-in
+soundcloud-signin-desc = No URL or password to type. Kopuz opens soundcloud.com/signin in an isolated browser profile — your normal browsing is never touched — and pulls the session's oauth_token. Pick which Chromium-family browser to use (Chrome, Chromium, Brave, Edge, or Vivaldi).
+soundcloud-features-title = What you get
+soundcloud-features-desc = Search, track playback (progressive MP3 plus Go+ AAC/HLS streams), your Liked tracks as favorites, read-only playlists, and like/unlike. Removing the source cleans up its isolated profile.
 
 
 ## Platforms
@@ -211,9 +227,9 @@ footer-discord = Discord
 home-title = Kopuz — Music Player
 
 home-meta-desc = Kopuz is a modern, lightweight music player built with Rust and Dioxus. Stream from Jellyfin or Navidrome, connect YouTube Music, browse local files, enjoy synced lyrics, themes, and a built-in equalizer.
-home-meta-keywords = Kopuz, music player, Rust, Dioxus, Jellyfin, Navidrome, YouTube Music, open source, Linux, macOS, Windows, MPRIS, lyrics
+home-meta-keywords = Kopuz, music player, Rust, Dioxus, Jellyfin, Navidrome, YouTube Music, SoundCloud, open source, Linux, macOS, Windows, MPRIS, lyrics
 og-title = Kopuz — Music Player
-og-desc = Modern, lightweight music player built with Rust. Local files, Jellyfin, Navidrome, YouTube Music streaming, synced lyrics, equalizer, Discord RPC, and more. Free and open source.
+og-desc = Modern, lightweight music player built with Rust. Local files, Jellyfin, Navidrome, YouTube Music, SoundCloud streaming, synced lyrics, equalizer, Discord RPC, and more. Free and open source.
 og-image-alt = Kopuz music player
 twitter-title = Kopuz — Music Player
 twitter-desc = Modern, lightweight music player built with Rust. Free and open source. Stream from Jellyfin, Navidrome, or YouTube Music.

@@ -77,7 +77,6 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
                     <Route path=StaticSegment("") view=HomePage/>
-                    <Route path=StaticSegment("gallery") view=GalleryPage/>
                 </Routes>
             </main>
         </Router>
@@ -88,32 +87,16 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     view! {
         <div class="site">
-            <Nav active="home"/>
+            <Nav/>
             <Hero/>
             <Features/>
             <Performance/>
             <Install/>
             <YtMusic/>
+            <SoundCloud/>
             <Platforms/>
             <Support/>
             <Sponsors/>
-            <Footer/>
-        </div>
-    }
-}
-
-#[component]
-fn GalleryPage() -> impl IntoView {
-    view! {
-        <Title text=move_tr!("gallery-page-title")/>
-        <Meta name="description" content=move_tr!("gallery-page-desc")/>
-        <Meta property="og:title" content=move_tr!("gallery-page-title")/>
-        <Meta property="og:description" content=move_tr!("gallery-page-desc")/>
-        <Meta property="og:url" content="https://kopuz.temidara.rocks/gallery"/>
-        <Link rel="canonical" href="https://kopuz.temidara.rocks/gallery"/>
-        <div class="site">
-            <Nav active="gallery"/>
-            <GalleryContent/>
             <Footer/>
         </div>
     }
@@ -153,8 +136,7 @@ fn LanguageSwitcher() -> impl IntoView {
 }
 
 #[component]
-fn Nav(#[prop(into)] active: String) -> impl IntoView {
-    let is_gallery = active == "gallery";
+fn Nav() -> impl IntoView {
     view! {
         <nav class="nav">
             <div class="nav-row">
@@ -170,7 +152,6 @@ fn Nav(#[prop(into)] active: String) -> impl IntoView {
                     <a href="/#downloads" class="nav-tab">{move_tr!("nav-download")}</a>
                     <a href="/#sponsors" class="nav-tab">{move_tr!("nav-sponsors")}</a>
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="nav-tab">{move_tr!("nav-github")}</a>
-                    <a href="/gallery" class=move || if is_gallery { "nav-tab nav-tab-active" } else { "nav-tab" }>{move_tr!("nav-gallery")}</a>
                     <LanguageSwitcher/>
                 </div>
             </div>
@@ -190,10 +171,38 @@ fn Hero() -> impl IntoView {
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="btn-secondary">{move_tr!("hero-cta-github")}</a>
                 </div>
             </div>
-            <div class="hero-right">
-                <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="hero-screenshot"/>
-            </div>
+            <HeroScreenshot/>
         </section>
+    }
+}
+
+#[component]
+fn HeroScreenshot() -> impl IntoView {
+    let expanded: RwSignal<bool> = RwSignal::new(false);
+
+    view! {
+        <div class="hero-right">
+            <button
+                type="button"
+                class="hero-screenshot-button"
+                aria-label=move_tr!("hero-screenshot-alt")
+                on:click=move |_| expanded.set(true)
+            >
+                <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="hero-screenshot"/>
+            </button>
+        </div>
+
+        <Show when=move || expanded.get()>
+            <div class="lightbox" on:click=move |_| expanded.set(false)>
+                <div class="lightbox-box hero-lightbox-box" on:click=move |ev| ev.stop_propagation()>
+                    <div class="lightbox-topbar">
+                        <span class="lightbox-label">{move_tr!("hero-screenshot-alt")}</span>
+                        <button class="lightbox-close" on:click=move |ev| { ev.stop_propagation(); expanded.set(false); } >"×"</button>
+                    </div>
+                    <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="lightbox-img hero-lightbox-img"/>
+                </div>
+            </div>
+        </Show>
     }
 }
 
@@ -214,10 +223,12 @@ fn Features() -> impl IntoView {
                         <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-navidrome")}</span>
                         <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
                         <span class="source-tag"><i class="fa-brands fa-youtube"></i>" "{move_tr!("features-source-ytmusic")}</span>
+                        <span class="source-tag"><i class="fa-brands fa-soundcloud"></i>" "{move_tr!("features-source-soundcloud")}</span>
                     </div>
                 </div>
                 <FeatureCard icon="fa-solid fa-music" title_key="feat-local-title" desc_key="feat-local-desc"/>
                 <FeatureCard icon="fa-brands fa-youtube" title_key="feat-youtube-title" desc_key="feat-youtube-desc"/>
+                <FeatureCard icon="fa-brands fa-soundcloud" title_key="feat-soundcloud-title" desc_key="feat-soundcloud-desc"/>
                 <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
                 <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
                 <FeatureCard icon="fa-solid fa-align-left" title_key="feat-lyrics-title" desc_key="feat-lyrics-desc"/>
@@ -225,7 +236,6 @@ fn Features() -> impl IntoView {
                 <FeatureCard icon="fa-solid fa-star" title_key="feat-fav-title" desc_key="feat-fav-desc"/>
                 <FeatureCard icon="fa-solid fa-tower-broadcast" title_key="feat-scrobble-title" desc_key="feat-scrobble-desc"/>
                 <FeatureCard icon="fa-brands fa-discord" title_key="feat-discord-title" desc_key="feat-discord-desc"/>
-                <FeatureCard icon="fa-solid fa-magnifying-glass" title_key="feat-search-title" desc_key="feat-search-desc"/>
                 <FeatureCard icon="fa-solid fa-tags" title_key="feat-genre-title" desc_key="feat-genre-desc"/>
                 <FeatureCard icon="fa-solid fa-clock" title_key="feat-logs-title" desc_key="feat-logs-desc"/>
                 <FeatureCard icon="fa-solid fa-globe" title_key="feat-i18n-title" desc_key="feat-i18n-desc"/>
@@ -235,6 +245,9 @@ fn Features() -> impl IntoView {
                 <FeatureCard icon="fa-solid fa-image" title_key="feat-metadata-title" desc_key="feat-metadata-desc"/>
                 <FeatureCard icon="fa-solid fa-file-lines" title_key="feat-debug-title" desc_key="feat-debug-desc"/>
                 <FeatureCard icon="fa-solid fa-broom" title_key="feat-cleanup-title" desc_key="feat-cleanup-desc"/>
+                <FeatureCard icon="fa-solid fa-window-minimize" title_key="feat-miniplayer-title" desc_key="feat-miniplayer-desc"/>
+                <FeatureCard icon="fa-solid fa-inbox" title_key="feat-tray-title" desc_key="feat-tray-desc"/>
+                <FeatureCard icon="fa-solid fa-file-audio" title_key="feat-badges-title" desc_key="feat-badges-desc"/>
             </div>
         </section>
     }
@@ -278,6 +291,10 @@ fn feature_title(key: &'static str) -> Signal<String> {
         "feat-metadata-title" => move_tr!("feat-metadata-title"),
         "feat-debug-title" => move_tr!("feat-debug-title"),
         "feat-cleanup-title" => move_tr!("feat-cleanup-title"),
+        "feat-soundcloud-title" => move_tr!("feat-soundcloud-title"),
+        "feat-miniplayer-title" => move_tr!("feat-miniplayer-title"),
+        "feat-tray-title" => move_tr!("feat-tray-title"),
+        "feat-badges-title" => move_tr!("feat-badges-title"),
         _ => Signal::derive(|| String::new()),
     }
 }
@@ -303,6 +320,10 @@ fn feature_desc(key: &'static str) -> Signal<String> {
         "feat-metadata-desc" => move_tr!("feat-metadata-desc"),
         "feat-debug-desc" => move_tr!("feat-debug-desc"),
         "feat-cleanup-desc" => move_tr!("feat-cleanup-desc"),
+        "feat-soundcloud-desc" => move_tr!("feat-soundcloud-desc"),
+        "feat-miniplayer-desc" => move_tr!("feat-miniplayer-desc"),
+        "feat-tray-desc" => move_tr!("feat-tray-desc"),
+        "feat-badges-desc" => move_tr!("feat-badges-desc"),
         _ => Signal::derive(|| String::new()),
     }
 }
@@ -408,10 +429,8 @@ fn YtMusic() -> impl IntoView {
             </div>
             <div class="install-grid">
                 <div class="install-card">
-                    <h3>{move_tr!("ytmusic-prereq-title")}</h3>
-                    <p>{move_tr!("ytmusic-prereq-desc-1")}" "<code>"rustypipe-botguard"</code>{move_tr!("ytmusic-prereq-desc-2")}</p>
-                    <pre><code>"cargo install rustypipe-botguard --version 0.1.2"</code></pre>
-                    <p class="install-note">{move_tr!("ytmusic-prereq-note")}</p>
+                    <h3>{move_tr!("ytmusic-token-title")}</h3>
+                    <p>{move_tr!("ytmusic-token-desc-1")}" "<code>"rustypipe-botguard"</code>{move_tr!("ytmusic-token-desc-2")}</p>
                 </div>
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-signin-title")}</h3>
@@ -425,6 +444,28 @@ fn YtMusic() -> impl IntoView {
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-premium-title")}</h3>
                     <p>{move_tr!("ytmusic-premium-desc-1")}" "<code>"yt-dlp"</code>{move_tr!("ytmusic-premium-desc-2")}</p>
+                </div>
+            </div>
+        </section>
+    }
+}
+
+#[component]
+fn SoundCloud() -> impl IntoView {
+    view! {
+        <section class="install" id="soundcloud">
+            <div class="section-header">
+                <h2>{move_tr!("soundcloud-title")}</h2>
+                <p>{move_tr!("soundcloud-subtitle")}</p>
+            </div>
+            <div class="install-grid">
+                <div class="install-card">
+                    <h3>{move_tr!("soundcloud-signin-title")}</h3>
+                    <p>{move_tr!("soundcloud-signin-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("soundcloud-features-title")}</h3>
+                    <p>{move_tr!("soundcloud-features-desc")}</p>
                 </div>
             </div>
         </section>
@@ -534,24 +575,32 @@ fn Sponsors() -> impl IntoView {
                 <h2>{move_tr!("sponsors-title")}</h2>
                 <p>{move_tr!("sponsors-subtitle")}</p>
             </div>
-            <div class="sponsors-grid">
-                <a href="https://github.com/shytzedaka" target="_blank" class="sponsor-card">
-                    <img src="https://github.com/shytzedaka.png?size=80" alt="shytzedaka"/>
-                    <span>"shytzedaka"</span>
-                </a>
-                <a href="https://github.com/m110" target="_blank" class="sponsor-card">
+            <div class="sponsors-grid sponsors-active">
+                <h3 class="sponsors-section-title">"Active Sponsors"</h3>
+                <a href="https://github.com/m110" target="_blank" class="sponsor-card sponsor-active">
                     <img src="https://github.com/m110.png?size=80" alt="m110"/>
                     <span>"m110"</span>
                 </a>
-                <a href="https://github.com/bulakemun" target="_blank" class="sponsor-card">
+                <a href="https://github.com/ozanshx" target="_blank" class="sponsor-card sponsor-active">
+                    <img src="https://github.com/ozanshx.png?size=80" alt="ozanshx"/>
+                    <span>"ozanshx"</span>
+                </a>
+            </div>
+            <div class="sponsors-grid sponsors-past">
+                <h3 class="sponsors-section-title">"Past Sponsors"</h3>
+                <a href="https://github.com/shytzedaka" target="_blank" class="sponsor-card sponsor-past">
+                    <img src="https://github.com/shytzedaka.png?size=80" alt="shytzedaka"/>
+                    <span>"shytzedaka"</span>
+                </a>
+                <a href="https://github.com/bulakemun" target="_blank" class="sponsor-card sponsor-past">
                     <img src="https://github.com/bulakemun.png?size=80" alt="bulakemun"/>
                     <span>"bulakemun"</span>
                 </a>
-                <a href="https://github.com/Iamknownasfesal" target="_blank" class="sponsor-card">
+                <a href="https://github.com/Iamknownasfesal" target="_blank" class="sponsor-card sponsor-past">
                     <img src="https://github.com/Iamknownasfesal.png?size=80" alt="fesal"/>
                     <span>"fesal"</span>
                 </a>
-                <a href="https://github.com/arda2k3" target="_blank" class="sponsor-card">
+                <a href="https://github.com/arda2k3" target="_blank" class="sponsor-card sponsor-past">
                     <img src="https://github.com/arda2k3.png?size=80" alt="arda2k3"/>
                     <span>"arda2k3"</span>
                 </a>
@@ -572,187 +621,10 @@ static GALLERY_SRCS: &[&str] = &[
     "/modern-playlist.png",
     "/fullscreen.png",
     "/fullscreen-lyrics.png",
-    "/search.png",
     "/theme-editor.png",
     "/player-settings.png",
     "/downloader.png",
 ];
-
-fn gallery_label(idx: usize) -> Signal<String> {
-    match idx {
-        0 => move_tr!("gallery-label-normal-home"),
-        1 => move_tr!("gallery-label-modern-home"),
-        2 => move_tr!("gallery-label-normal-library"),
-        3 => move_tr!("gallery-label-vaxry-library"),
-        4 => move_tr!("gallery-label-normal-playlist"),
-        5 => move_tr!("gallery-label-modern-playlist"),
-        6 => move_tr!("gallery-label-fullscreen"),
-        7 => move_tr!("gallery-label-fullscreen-lyrics"),
-        8 => move_tr!("gallery-label-search"),
-        9 => move_tr!("gallery-label-theme-editor"),
-        10 => move_tr!("gallery-label-player-settings"),
-        11 => move_tr!("gallery-label-downloader"),
-        _ => Signal::derive(|| String::new()),
-    }
-}
-
-#[component]
-fn GalleryContent() -> impl IntoView {
-    let current: RwSignal<Option<usize>> = RwSignal::new(None);
-
-    let go_prev = move || {
-        current.update(|c| {
-            if let Some(i) = c {
-                *i = if *i == 0 { GALLERY_SRCS.len() - 1 } else { *i - 1 };
-            }
-        });
-    };
-    let go_next = move || {
-        current.update(|c| {
-            if let Some(i) = c {
-                *i = (*i + 1) % GALLERY_SRCS.len();
-            }
-        });
-    };
-
-    view! {
-        <section class="gallery-section">
-            <div class="section-header">
-                <h2>{move_tr!("gallery-title")}</h2>
-                <p>{move_tr!("gallery-subtitle")}</p>
-            </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="gallery-thumbs">
-                        <div class="gallery-thumb" on:click=move |_| current.set(Some(0))>
-                            <img src="/normal-home.png" alt=gallery_label(0)/>
-                        </div>
-                        <div class="gallery-thumb" on:click=move |_| current.set(Some(1))>
-                            <img src="/modern-home.png" alt=gallery_label(1)/>
-                        </div>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-home")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-home-styles")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumbs">
-                        <div class="gallery-thumb" on:click=move |_| current.set(Some(2))>
-                            <img src="/normal-library.png" alt=gallery_label(2)/>
-                        </div>
-                        <div class="gallery-thumb" on:click=move |_| current.set(Some(3))>
-                            <img src="/vaxry-library.png" alt=gallery_label(3)/>
-                        </div>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-library")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-library-styles")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumbs">
-                        <div class="gallery-thumb" on:click=move |_| current.set(Some(4))>
-                            <img src="/normal-playlist.png" alt=gallery_label(4)/>
-                        </div>
-                        <div class="gallery-thumb" on:click=move |_| current.set(Some(5))>
-                            <img src="/modern-playlist.png" alt=gallery_label(5)/>
-                        </div>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-playlist")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-playlist-styles")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(6))>
-                        <img src="/fullscreen.png" alt=gallery_label(6)/>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-fullscreen-title")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-fullscreen-desc")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(7))>
-                        <img src="/fullscreen-lyrics.png" alt=gallery_label(7)/>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-fullscreen-lyrics-title")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-fullscreen-lyrics-desc")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(8))>
-                        <img src="/search.png" alt=gallery_label(8)/>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-search-title")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-search-desc")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(9))>
-                        <img src="/theme-editor.png" alt=gallery_label(9)/>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-theme-title")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-theme-desc")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(10))>
-                        <img src="/player-settings.png" alt=gallery_label(10)/>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-settings-title")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-settings-desc")}</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb gallery-thumb-single" on:click=move |_| current.set(Some(11))>
-                        <img src="/downloader.png" alt=gallery_label(11)/>
-                    </div>
-                    <div class="gallery-caption">
-                        <span class="gallery-title">{move_tr!("gallery-downloader-title")}</span>
-                        <span class="gallery-desc">{move_tr!("gallery-downloader-desc")}</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <Show when=move || current.get().is_some()>
-            <div class="lightbox" on:click=move |_| current.set(None)>
-                <div class="lightbox-box" on:click=move |ev| ev.stop_propagation()>
-                    <div class="lightbox-topbar">
-                        {move || {
-                            let idx = current.get().unwrap_or(0);
-                            view! {
-                                <span class="lightbox-label">{gallery_label(idx)}</span>
-                            }
-                        }}
-                        <span class="lightbox-counter">
-                            {move || {
-                                let idx = current.get().unwrap_or(0);
-                                format!("{} / {}", idx + 1, GALLERY_SRCS.len())
-                            }}
-                        </span>
-                        <button class="lightbox-close" on:click=move |ev| { ev.stop_propagation(); current.set(None); }>"×"</button>
-                    </div>
-                    {move || {
-                        let idx = current.get().unwrap_or(0);
-                        let src = GALLERY_SRCS[idx];
-                        view! { <img src=src alt=gallery_label(idx) class="lightbox-img"/> }
-                    }}
-                    <div class="lightbox-nav">
-                        <button class="lightbox-btn" on:click=move |ev| { ev.stop_propagation(); go_prev(); }>{move_tr!("gallery-prev")}</button>
-                        <button class="lightbox-btn" on:click=move |ev| { ev.stop_propagation(); go_next(); }>{move_tr!("gallery-next")}</button>
-                    </div>
-                </div>
-            </div>
-        </Show>
-    }
-}
 
 #[component]
 fn Footer() -> impl IntoView {
