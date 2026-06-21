@@ -28,6 +28,8 @@ features-source-local = Fișiere locale
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = Local + Streaming
 feat-local-desc = Indică un folder local sau conectează-te la Jellyfin / Subsonic (Navidrome). Combină după preferință.
@@ -60,6 +62,23 @@ feat-crossfade-desc = Combină tranzițiile între piese pentru redare mai lină
 feat-channels-title = Moduri canal
 feat-channels-desc = Stereo, Mono, Doar-Stânga, Doar-Dreapta și schimbare L/R. Control fin al canalelor audio.
 
+feat-youtube-title = YouTube Music
+feat-youtube-desc = Backend complet de streaming cu o pagină Discover în stil Spotify, profiluri bogate de artiști și radio mix. Conectează-te pentru biblioteca ta, Liked Music și liste — sau răsfoiește anonim.
+feat-metadata-title = Imagini artiști
+feat-metadata-desc = Alege cum sunt obținute imaginile artiștilor: prima copertă de album (implicit) sau fotografii reale ale artiștilor preluate de pe serverul tău Jellyfin sau Subsonic, cu revenire automată.
+feat-debug-title = Jurnale și rapoarte de crash
+feat-debug-desc = Deschide sau exportă jurnalele direct din Setări, cu un trace de performanță opțional pe care îl poți deschide în Speedscope sau Perfetto. Crash-urile scriu automat un raport.
+feat-cleanup-title = Curățare automată
+feat-cleanup-desc = Piesele lipsă sau șterse sunt eliminate automat din biblioteca ta la rescanare. Fără intrări fantomă.
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = Transmite de pe SoundCloud după o conectare unică prin browser. Căutare, redare progresivă MP3 și Go+ AAC/HLS, piesele tale Liked ca favorite și liste doar pentru citire.
+feat-miniplayer-title = Mini-player
+feat-miniplayer-desc = O suprapunere compactă a piesei curente pe care o poți comuta din bara de jos pentru o vizualizare mai mică.
+feat-tray-title = Minimizare în tray
+feat-tray-desc = Închide într-o pictogramă din tray-ul de sistem în loc să închizi aplicația, astfel încât redarea continuă în fundal. Comută în Setări.
+feat-badges-title = Insigne tip de fișier
+feat-badges-desc = Piesele locale afișează o mică insignă de format — MP3, FLAC, WAV și altele — chiar în rândul piesei.
+
 ## Performance
 perf-title = Construit să fie rapid.
 perf-subtitle = Biblioteci mari. Pornire instantanee. Fără înghețuri.
@@ -78,6 +97,9 @@ perf-io-desc-2 = { " " }. UI rămâne receptiv în timpul scanărilor complete a
 perf-http-label = Cache HTTP coperți
 perf-http-desc-1 = Protocolul
 perf-http-desc-2 = { " " }personalizat servește coperțile cu antete cache de 1 an. Webview nu re-cere niciodată.
+perf-sort-label = Sortare mai inteligentă
+perf-sort-desc-1 = Vizualizările bibliotecii sortează cu
+perf-sort-desc-2 = { " " }astfel încât cheile de sortare sunt calculate o singură dată, nu la fiecare comparație.
 
 ## Install
 install-title = Instalare
@@ -85,6 +107,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = Rulează fără instalare:
 install-nix-profile = Sau adaugă la profil:
 install-nix-note = NixOS flake suportat cu cache binar Cachix.
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = Instalează cu helper-ul preferat:
+install-aur-note-1 = Necesită
+install-aur-note-2 = { " " }instalat în prealabil la o versiune compatibilă cu dioxus 0.7.x.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Instalează din manifest sursă:
 install-flatpak-note = Listare Flathub în curând.
@@ -115,6 +141,37 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — sau trimite cripto —
 support-usdt-note = (rețeaua Solana)
+
+donate-title = Donații cripto
+donate-subtitle = Susține dezvoltarea trimițând cripto la aceste adrese.
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
+
+## YouTube Music
+ytmusic-title = Configurare YouTube Music
+ytmusic-subtitle = Adaugă-l din Setări → Servere media → Adaugă → YouTube Music.
+ytmusic-token-title = Niciun helper necesar
+ytmusic-token-desc-1 = Redarea anonimă necesită un content PO token, pe care Kopuz îl generează acum în aplicație cu un WebView ascuns ce rulează BotGuard de la YouTube. Vechiul
+ytmusic-token-desc-2 = { " " }subproces a dispărut — nimic de instalat, iar funcționează în Flatpak.
+ytmusic-signin-title = Conectare cu un browser
+ytmusic-signin-desc = Kopuz deschide conectarea Google într-un profil de browser izolat — navigarea ta obișnuită nu este niciodată atinsă — și extrage cookie-urile de sesiune. Deblochează biblioteca ta, Liked Music, listele și artiștii urmăriți.
+ytmusic-signin-note = Pe Windows, conectarea prin browser este momentan dezactivată; utilizatorii Windows primesc automat modul anonim. Conectarea funcționează pe Linux și macOS.
+ytmusic-anon-title = Mod anonim
+ytmusic-anon-desc = Fără conectare, fără cookie-uri. Răsfoiește, caută, deschide pagini de artiști, albume și liste, pornește radio mix și redă piese publice. Aprecierea și vizualizările bibliotecii sunt dezactivate.
+ytmusic-premium-title = Piese Premium
+ytmusic-premium-desc-1 = Piesele blocate cu Music Premium revin la o rezolvare locală
+ytmusic-premium-desc-2 = { " " }când calea principală returnează UNPLAYABLE, deci a-l avea instalat ajută. Modul anonim nu poate reda deloc conținut exclusiv Premium.
+
+## SoundCloud
+soundcloud-title = Configurare SoundCloud
+soundcloud-subtitle = Adaugă-l din Setări → Servere media → Adaugă → SoundCloud.
+soundcloud-signin-title = Conectare unică prin browser
+soundcloud-signin-desc = Niciun URL sau parolă de tastat. Kopuz deschide soundcloud.com/signin într-un profil de browser izolat — navigarea ta obișnuită nu este niciodată atinsă — și preia oauth_token-ul sesiunii. Alege ce browser din familia Chromium să folosești (Chrome, Chromium, Brave, Edge sau Vivaldi).
+soundcloud-features-title = Ce primești
+soundcloud-features-desc = Căutare, redare de piese (MP3 progresiv plus fluxuri Go+ AAC/HLS), piesele tale Liked ca favorite, liste doar pentru citire și apreciere/dezapreciere. Eliminarea sursei curăță profilul său izolat.
 
 ## Sponsors
 sponsors-title = Sponsori

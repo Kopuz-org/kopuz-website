@@ -28,6 +28,8 @@ features-source-local = Berkas lokal
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = Lokal + Streaming
 feat-local-desc = Arahkan ke folder lokal atau sambungkan ke Jellyfin / Subsonic (Navidrome). Campur sesukamu.
@@ -60,6 +62,23 @@ feat-crossfade-desc = Padukan transisi lagu untuk pemutaran lebih halus. Dukunga
 feat-channels-title = Mode Kanal
 feat-channels-desc = Stereo, Mono, Hanya-Kiri, Hanya-Kanan, dan tukar L/R. Kontrol kanal audio yang detail.
 
+feat-youtube-title = YouTube Music
+feat-youtube-desc = Backend streaming penuh dengan halaman Discover ala Spotify, profil artis lengkap, dan radio mix. Masuk untuk pustaka, Liked Music, dan daftar putarmu — atau jelajahi secara anonim.
+feat-metadata-title = Gambar Artis
+feat-metadata-desc = Pilih bagaimana gambar artis diambil: sampul album pertama (bawaan) atau foto artis asli yang diambil dari server Jellyfin atau Subsonic-mu, dengan fallback otomatis.
+feat-debug-title = Catatan & Laporan Crash
+feat-debug-desc = Buka atau ekspor catatan langsung dari Pengaturan, dengan trace performa opsional yang dapat kamu buka di Speedscope atau Perfetto. Crash menulis laporan secara otomatis.
+feat-cleanup-title = Pembersihan Otomatis
+feat-cleanup-desc = Lagu yang hilang atau terhapus dibuang dari pustakamu secara otomatis saat pemindaian ulang. Tanpa entri hantu.
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = Streaming dari SoundCloud setelah sekali masuk lewat browser. Pencarian, pemutaran progressive MP3 dan Go+ AAC/HLS, lagu Liked-mu sebagai favorit, dan daftar putar hanya-baca.
+feat-miniplayer-title = Mini-Player
+feat-miniplayer-desc = Overlay now-playing ringkas yang dapat kamu aktifkan dari bilah bawah untuk tampilan lebih kecil.
+feat-tray-title = Kecilkan ke Tray
+feat-tray-desc = Tutup ke ikon system tray alih-alih keluar, sehingga pemutaran tetap berjalan di latar belakang. Aktifkan di Pengaturan.
+feat-badges-title = Lencana Tipe Berkas
+feat-badges-desc = Lagu lokal menampilkan lencana format kecil — MP3, FLAC, WAV, dan lainnya — langsung di baris lagu.
+
 ## Performance
 perf-title = Dibangun untuk cepat.
 perf-subtitle = Pustaka besar. Mulai instan. Tanpa lag.
@@ -78,6 +97,9 @@ perf-io-desc-2 = { " " }. UI tetap responsif selama pemindaian pustaka penuh.
 perf-http-label = Cache HTTP sampul
 perf-http-desc-1 = Protokol
 perf-http-desc-2 = { " " }kustom menyajikan sampul dengan header cache 1-tahun. Webview tidak pernah mengambil ulang.
+perf-sort-label = Pengurutan lebih cerdas
+perf-sort-desc-1 = Tampilan pustaka diurutkan dengan
+perf-sort-desc-2 = { " " }sehingga kunci urut dihitung sekali, bukan pada setiap perbandingan.
 
 ## Install
 install-title = Pemasangan
@@ -85,6 +107,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = Jalankan tanpa memasang:
 install-nix-profile = Atau tambahkan ke profilmu:
 install-nix-note = NixOS flake didukung dengan Cachix binary cache.
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = Pasang dengan helper pilihanmu:
+install-aur-note-1 = Membutuhkan
+install-aur-note-2 = { " " }terpasang lebih dulu pada versi yang cocok dengan dioxus 0.7.x.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Pasang dari manifest sumber:
 install-flatpak-note = Listing Flathub segera.
@@ -115,6 +141,37 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — atau kirim kripto —
 support-usdt-note = (jaringan Solana)
+
+donate-title = Donasi Kripto
+donate-subtitle = Dukung pengembangan dengan mengirim kripto ke alamat-alamat ini.
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
+
+## YouTube Music
+ytmusic-title = Penyiapan YouTube Music
+ytmusic-subtitle = Tambahkan dari Pengaturan → Server media → Tambah → YouTube Music.
+ytmusic-token-title = Tanpa helper
+ytmusic-token-desc-1 = Pemutaran anonim membutuhkan PO token konten, yang kini dibuat Kopuz di dalam aplikasi dengan WebView tersembunyi yang menjalankan BotGuard milik YouTube. Subprocess
+ytmusic-token-desc-2 = { " " }yang lama sudah hilang — tidak ada yang perlu dipasang, dan ini bekerja di dalam Flatpak.
+ytmusic-signin-title = Masuk dengan browser
+ytmusic-signin-desc = Kopuz membuka sign-in Google di profil browser terisolasi — penjelajahan normalmu tidak pernah tersentuh — dan mengekstrak cookie sesi. Membuka pustaka, Liked Music, daftar putar, dan artis yang kamu ikuti.
+ytmusic-signin-note = Di Windows, sign-in lewat browser saat ini dinonaktifkan; pengguna Windows otomatis mendapat mode anonim. Sign-in bekerja di Linux dan macOS.
+ytmusic-anon-title = Mode anonim
+ytmusic-anon-desc = Tanpa sign-in, tanpa cookie. Jelajahi, cari, buka halaman artis, album, dan daftar putar, mulai radio mix, dan putar lagu publik. Menyukai dan tampilan pustaka dinonaktifkan.
+ytmusic-premium-title = Lagu Premium
+ytmusic-premium-desc-1 = Lagu yang terkunci Music Premium jatuh ke resolve
+ytmusic-premium-desc-2 = { " " }lokal saat jalur utama mengembalikan UNPLAYABLE, jadi memasangnya membantu. Mode anonim sama sekali tidak dapat memutar konten khusus Premium.
+
+## SoundCloud
+soundcloud-title = Penyiapan SoundCloud
+soundcloud-subtitle = Tambahkan dari Pengaturan → Server media → Tambah → SoundCloud.
+soundcloud-signin-title = Sekali masuk lewat browser
+soundcloud-signin-desc = Tanpa URL atau kata sandi untuk diketik. Kopuz membuka soundcloud.com/signin di profil browser terisolasi — penjelajahan normalmu tidak pernah tersentuh — dan menarik oauth_token sesi. Pilih browser keluarga Chromium yang akan dipakai (Chrome, Chromium, Brave, Edge, atau Vivaldi).
+soundcloud-features-title = Apa yang kamu dapat
+soundcloud-features-desc = Pencarian, pemutaran lagu (progressive MP3 plus stream Go+ AAC/HLS), lagu Liked-mu sebagai favorit, daftar putar hanya-baca, dan suka/batal suka. Menghapus sumber akan membersihkan profil terisolasinya.
 
 ## Sponsors
 sponsors-title = Sponsor

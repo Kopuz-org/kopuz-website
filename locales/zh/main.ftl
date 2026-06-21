@@ -28,6 +28,8 @@ features-source-local = 本地文件
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = 本地 + 流媒体
 feat-local-desc = 指向本地文件夹或连接到Jellyfin / Subsonic (Navidrome)。随意混用。
@@ -59,6 +61,22 @@ feat-crossfade-title = 淡入淡出和过渡
 feat-crossfade-desc = 混合曲目过渡以获得更流畅的播放。原生桌面构建支持淡入淡出。
 feat-channels-title = 声道模式
 feat-channels-desc = 立体声、单声道、仅左、仅右和L/R交换。精细的音频声道控制。
+feat-youtube-title = YouTube Music
+feat-youtube-desc = 完整的流媒体后端,带有Spotify风格的Discover页面、丰富的艺术家资料和混合电台。登录以访问你的音乐库、Liked Music和播放列表 — 或匿名浏览。
+feat-metadata-title = 艺术家图片
+feat-metadata-desc = 选择艺术家图片的来源方式:首张专辑封面(默认)或从你的Jellyfin或Subsonic服务器获取的真实艺术家照片,并自动回退。
+feat-debug-title = 日志和崩溃报告
+feat-debug-desc = 直接从设置中打开或导出日志,带有可在Speedscope或Perfetto中打开的可选性能跟踪。崩溃时自动写入报告。
+feat-cleanup-title = 自动清理
+feat-cleanup-desc = 重新扫描时,缺失或已删除的曲目会自动从你的音乐库中移除。没有幽灵条目。
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = 一次性浏览器登录后即可从SoundCloud流式传输。搜索、渐进式MP3和Go+ AAC/HLS播放、将你的Liked曲目作为收藏,以及只读播放列表。
+feat-miniplayer-title = 迷你播放器
+feat-miniplayer-desc = 一个紧凑的正在播放浮层,可从底部栏切换以获得更小的视图。
+feat-tray-title = 最小化到托盘
+feat-tray-desc = 关闭时缩小为系统托盘图标而非退出,以便播放在后台继续运行。可在设置中切换。
+feat-badges-title = 文件类型徽章
+feat-badges-desc = 本地曲目在曲目行中直接显示一个小的格式徽章 — MP3、FLAC、WAV等。
 
 ## Performance
 perf-title = 为速度而生。
@@ -78,6 +96,9 @@ perf-io-desc-2 = { " " }线程上。完整音乐库扫描期间UI保持响应。
 perf-http-label = HTTP封面缓存
 perf-http-desc-1 = 自定义
 perf-http-desc-2 = { " " }协议以1年缓存头提供封面。Webview从不重新获取。
+perf-sort-label = 更智能的排序
+perf-sort-desc-1 = 音乐库视图使用
+perf-sort-desc-2 = { " " }排序,因此排序键只计算一次,而非在每次比较时计算。
 
 ## Install
 install-title = 安装
@@ -85,6 +106,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = 无需安装即可运行:
 install-nix-profile = 或添加到你的配置:
 install-nix-note = NixOS flake通过Cachix二进制缓存支持。
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = 使用你偏好的助手安装:
+install-aur-note-1 = 需要先安装
+install-aur-note-2 = { " " },版本需匹配dioxus 0.7.x。
 install-flatpak-title = Flatpak
 install-flatpak-desc = 从源清单安装:
 install-flatpak-note = Flathub列表即将推出。
@@ -115,6 +140,37 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — 或发送加密货币 —
 support-usdt-note = (Solana链)
+
+donate-title = 加密货币捐赠
+donate-subtitle = 通过向这些地址发送加密货币来支持开发。
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
+
+## YouTube Music
+ytmusic-title = YouTube Music 设置
+ytmusic-subtitle = 从设置 → 媒体服务器 → 添加 → YouTube Music 中添加。
+ytmusic-token-title = 无需助手
+ytmusic-token-desc-1 = 匿名播放需要内容PO token,Kopuz现在通过运行YouTube BotGuard的隐藏WebView在应用内生成。旧的
+ytmusic-token-desc-2 = { " " }子进程已不再需要 — 无需安装任何东西,并且可在Flatpak内运行。
+ytmusic-signin-title = 通过浏览器登录
+ytmusic-signin-desc = Kopuz在隔离的浏览器配置中打开Google登录 — 永不触及你正常的浏览 — 并提取会话cookie。解锁你的音乐库、Liked Music、播放列表和关注的艺术家。
+ytmusic-signin-note = 在Windows上,浏览器登录目前已禁用;Windows用户自动使用匿名模式。登录在Linux和macOS上可用。
+ytmusic-anon-title = 匿名模式
+ytmusic-anon-desc = 无需登录,无需cookie。浏览、搜索、打开艺术家、专辑和播放列表页面、启动混合电台,以及播放公开曲目。收藏和音乐库视图已禁用。
+ytmusic-premium-title = Premium曲目
+ytmusic-premium-desc-1 = 当主路径返回UNPLAYABLE时,Music Premium锁定的曲目会回退到本地
+ytmusic-premium-desc-2 = { " " }解析,因此安装它会有所帮助。匿名模式完全无法播放仅限Premium的内容。
+
+## SoundCloud
+soundcloud-title = SoundCloud 设置
+soundcloud-subtitle = 从设置 → 媒体服务器 → 添加 → SoundCloud 中添加。
+soundcloud-signin-title = 一次性浏览器登录
+soundcloud-signin-desc = 无需输入URL或密码。Kopuz在隔离的浏览器配置中打开soundcloud.com/signin — 永不触及你正常的浏览 — 并提取会话的oauth_token。选择要使用的Chromium系浏览器(Chrome、Chromium、Brave、Edge或Vivaldi)。
+soundcloud-features-title = 你能获得什么
+soundcloud-features-desc = 搜索、曲目播放(渐进式MP3加上Go+ AAC/HLS流)、将你的Liked曲目作为收藏、只读播放列表,以及点赞/取消点赞。移除该来源会清理其隔离的配置。
 
 ## Sponsors
 sponsors-title = 赞助者

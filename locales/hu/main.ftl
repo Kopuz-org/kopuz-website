@@ -28,6 +28,8 @@ features-source-local = Helyi fájlok
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = Helyi + Streaming
 feat-local-desc = Mutass helyi mappára vagy csatlakozz Jellyfin / Subsonic (Navidrome) szerverhez. Vegyítsd ahogy akarod.
@@ -59,6 +61,22 @@ feat-crossfade-title = Crossfade és átmenetek
 feat-crossfade-desc = Olvaszd össze a számok közötti átmeneteket simább lejátszáshoz. Crossfade támogatás natív asztali buildekben.
 feat-channels-title = Csatorna módok
 feat-channels-desc = Sztereó, Mono, Csak-Bal, Csak-Jobb és L/R csere. Finom hangcsatorna-vezérlés.
+feat-youtube-title = YouTube Music
+feat-youtube-desc = Teljes streaming háttér Spotify-stílusú Discover oldallal, gazdag előadói profilokkal és mix rádióval. Jelentkezz be a könyvtáradért, a Kedvelt zenéért és a lejátszási listákért — vagy böngéssz névtelenül.
+feat-metadata-title = Előadói képek
+feat-metadata-desc = Válaszd meg, honnan származnak az előadói képek: első albumborító (alapértelmezett) vagy valódi előadói fotók a Jellyfin vagy Subsonic szerveredről, automatikus tartalékkal.
+feat-debug-title = Naplók és összeomlási jelentések
+feat-debug-desc = Nyisd meg vagy exportáld a naplókat közvetlenül a Beállításokból, opcionális teljesítmény-nyomvonallal, amit Speedscope-ban vagy Perfetto-ban nyithatsz meg. Az összeomlások automatikusan jelentést írnak.
+feat-cleanup-title = Automatikus tisztítás
+feat-cleanup-desc = A hiányzó vagy törölt számok automatikusan eltávolításra kerülnek a könyvtáradból újraszkenneléskor. Nincsenek szellembejegyzések.
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = Streamelj SoundCloud-ról egyszeri böngészős bejelentkezés után. Keresés, progresszív MP3 és Go+ AAC/HLS lejátszás, Kedvelt számaid kedvencként, és csak-olvasható lejátszási listák.
+feat-miniplayer-title = Mini-lejátszó
+feat-miniplayer-desc = Egy kompakt most-játszott overlay, amit az alsó sávból kapcsolhatsz be egy kisebb nézethez.
+feat-tray-title = Kicsinyítés a tálcára
+feat-tray-desc = Zárj be egy rendszertálca-ikonra kilépés helyett, így a lejátszás a háttérben folytatódik. Kapcsold be a Beállításokban.
+feat-badges-title = Fájltípus-jelvények
+feat-badges-desc = A helyi számok kis formátum-jelvényt mutatnak — MP3, FLAC, WAV és több — közvetlenül a szám sorában.
 
 ## Performance
 perf-title = Gyorsnak építve.
@@ -78,6 +96,9 @@ perf-io-desc-2 = { " " }szálakon fut. Az UI reszponzív marad teljes könyvtár
 perf-http-label = HTTP borító-gyorsítótár
 perf-http-desc-1 = Egyedi
 perf-http-desc-2 = { " " }protokoll szolgálja a borítókat 1 éves cache fejlécekkel. A Webview sosem kéri újra.
+perf-sort-label = Okosabb rendezés
+perf-sort-desc-1 = A könyvtárnézetek
+perf-sort-desc-2 = { " " }segítségével rendeznek, így a rendezési kulcsok egyszer kerülnek kiszámításra, nem minden összehasonlításnál.
 
 ## Install
 install-title = Telepítés
@@ -85,6 +106,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = Futtatás telepítés nélkül:
 install-nix-profile = Vagy hozzáadás profilodhoz:
 install-nix-note = NixOS flake támogatva Cachix bináris gyorsítótárral.
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = Telepítés a preferált segédprogrammal:
+install-aur-note-1 = Szükséges
+install-aur-note-2 = { " " }telepítve először egy dioxus 0.7.x verzióval egyező verzióban.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Telepítés forrás-manifestből:
 install-flatpak-note = Flathub listázás hamarosan.
@@ -115,6 +140,37 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — vagy küldj kriptót —
 support-usdt-note = (Solana lánc)
+
+donate-title = Kripto adományok
+donate-subtitle = Támogasd a fejlesztést kripto küldésével ezekre a címekre.
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
+
+## YouTube Music
+ytmusic-title = YouTube Music beállítása
+ytmusic-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → YouTube Music útvonalon.
+ytmusic-token-title = Nincs szükség segédprogramra
+ytmusic-token-desc-1 = A névtelen lejátszáshoz tartalom PO token szükséges, amit a Kopuz most az alkalmazáson belül készít egy rejtett WebView-vel, amely a YouTube BotGuard-ját futtatja. A régi
+ytmusic-token-desc-2 = { " " }alfolyamat eltűnt — nincs mit telepíteni, és Flatpak-en belül is működik.
+ytmusic-signin-title = Bejelentkezés böngészővel
+ytmusic-signin-desc = A Kopuz egy elszigetelt böngészőprofilban nyitja meg a Google bejelentkezést — a normál böngészésedet sosem érinti — és kinyeri a munkamenet sütijeit. Feloldja a könyvtáradat, a Kedvelt zenét, a lejátszási listákat és a követett előadókat.
+ytmusic-signin-note = Windows-on a böngészős bejelentkezés jelenleg le van tiltva; a Windows felhasználók automatikusan névtelen módot kapnak. A bejelentkezés Linux-on és macOS-en működik.
+ytmusic-anon-title = Névtelen mód
+ytmusic-anon-desc = Nincs bejelentkezés, nincsenek sütik. Böngéssz, keress, nyiss meg előadói, albumi és lejátszásilista-oldalakat, indíts mix rádiót, és játssz nyilvános számokat. A kedvelés és a könyvtárnézetek le vannak tiltva.
+ytmusic-premium-title = Premium számok
+ytmusic-premium-desc-1 = A Music Premium-zárolt számok visszaesnek egy helyi
+ytmusic-premium-desc-2 = { " " }feloldásra, amikor az elsődleges útvonal UNPLAYABLE eredményt ad, így segít, ha telepítve van. A névtelen mód egyáltalán nem tud Premium-only tartalmat lejátszani.
+
+## SoundCloud
+soundcloud-title = SoundCloud beállítása
+soundcloud-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → SoundCloud útvonalon.
+soundcloud-signin-title = Egyszeri böngészős bejelentkezés
+soundcloud-signin-desc = Nincs URL vagy jelszó begépelése. A Kopuz egy elszigetelt böngészőprofilban nyitja meg a soundcloud.com/signin oldalt — a normál böngészésedet sosem érinti — és kinyeri a munkamenet oauth_token-jét. Válaszd ki, melyik Chromium-családú böngészőt használod (Chrome, Chromium, Brave, Edge vagy Vivaldi).
+soundcloud-features-title = Amit kapsz
+soundcloud-features-desc = Keresés, számlejátszás (progresszív MP3 plusz Go+ AAC/HLS streamek), Kedvelt számaid kedvencként, csak-olvasható lejátszási listák, és kedvelés/kedvelés visszavonása. A forrás eltávolítása megtisztítja az elszigetelt profilját.
 
 ## Sponsors
 sponsors-title = Támogatók

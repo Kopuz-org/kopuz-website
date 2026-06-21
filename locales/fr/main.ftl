@@ -28,6 +28,8 @@ features-source-local = Fichiers locaux
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = API Subsonic
+features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = Local + Streaming
 feat-local-desc = Pointe vers un dossier local ou connecte-toi à Jellyfin / Subsonic (Navidrome). Mélange comme tu veux.
@@ -59,6 +61,22 @@ feat-crossfade-title = Crossfade & transitions
 feat-crossfade-desc = Mélange les transitions de pistes pour une lecture plus fluide. Support crossfade sur builds desktop natifs.
 feat-channels-title = Modes canaux
 feat-channels-desc = Stéréo, Mono, Gauche-seul, Droite-seule, et échange L/R. Contrôle fin des canaux audio.
+feat-youtube-title = YouTube Music
+feat-youtube-desc = Backend de streaming complet avec une page Discover façon Spotify, des profils d'artistes riches et la radio mix. Connecte-toi pour ta bibliothèque, ta musique aimée et tes playlists — ou navigue en anonyme.
+feat-metadata-title = Images d'artistes
+feat-metadata-desc = Choisis la source des images d'artistes : première pochette d'album (par défaut) ou vraies photos d'artistes récupérées depuis ton serveur Jellyfin ou Subsonic, avec repli automatique.
+feat-debug-title = Journaux & rapports de crash
+feat-debug-desc = Ouvre ou exporte les journaux directement depuis les Paramètres, avec une trace de performance optionnelle que tu peux ouvrir dans Speedscope ou Perfetto. Les crashs écrivent un rapport automatiquement.
+feat-cleanup-title = Nettoyage auto
+feat-cleanup-desc = Les pistes manquantes ou supprimées sont retirées de ta bibliothèque automatiquement lors du rescan. Aucune entrée fantôme.
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = Streame depuis SoundCloud après une connexion navigateur unique. Recherche, lecture progressive MP3 et Go+ AAC/HLS, tes pistes aimées comme favoris, et playlists en lecture seule.
+feat-miniplayer-title = Mini-lecteur
+feat-miniplayer-desc = Un overlay de lecture compact que tu peux activer depuis la barre du bas pour une vue plus petite.
+feat-tray-title = Réduire dans la barre des tâches
+feat-tray-desc = Ferme vers une icône de barre système au lieu de quitter, pour que la lecture continue en arrière-plan. Active dans les Paramètres.
+feat-badges-title = Badges de type de fichier
+feat-badges-desc = Les pistes locales affichent un petit badge de format — MP3, FLAC, WAV, et plus — directement dans la ligne de la piste.
 
 ## Performance
 perf-title = Conçu pour être rapide.
@@ -78,6 +96,9 @@ perf-io-desc-2 = { " " }. L'UI reste réactive pendant les scans complets.
 perf-http-label = Cache HTTP pochettes
 perf-http-desc-1 = Le protocole
 perf-http-desc-2 = { " " }personnalisé sert les pochettes avec des en-têtes cache de 1 an. Webview ne refait jamais la requête.
+perf-sort-label = Tri plus intelligent
+perf-sort-desc-1 = Les vues de bibliothèque trient avec
+perf-sort-desc-2 = { " " }pour que les clés de tri soient calculées une fois, pas à chaque comparaison.
 
 ## Install
 install-title = Installation
@@ -85,6 +106,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = Lancer sans installer :
 install-nix-profile = Ou ajouter à ton profil :
 install-nix-note = Flake NixOS supporté avec cache binaire Cachix.
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = Installe avec ton helper préféré :
+install-aur-note-1 = Nécessite
+install-aur-note-2 = { " " }installé au préalable dans une version correspondant à dioxus 0.7.x.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Installer depuis le manifeste source :
 install-flatpak-note = Listing Flathub à venir.
@@ -115,6 +140,38 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — ou envoie de la crypto —
 support-usdt-note = (chaîne Solana)
+
+## Donate
+donate-title = Dons en crypto
+donate-subtitle = Soutiens le développement en envoyant de la crypto à ces adresses.
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
+
+## YouTube Music
+ytmusic-title = Configuration YouTube Music
+ytmusic-subtitle = Ajoute-le depuis Paramètres → Serveurs média → Ajouter → YouTube Music.
+ytmusic-token-title = Aucun helper requis
+ytmusic-token-desc-1 = La lecture anonyme nécessite un PO token de contenu, que Kopuz génère désormais dans l'app avec une WebView cachée exécutant le BotGuard de YouTube. L'ancien
+ytmusic-token-desc-2 = { " " }sous-processus a disparu — rien à installer, et ça marche dans Flatpak.
+ytmusic-signin-title = Connexion via le navigateur
+ytmusic-signin-desc = Kopuz ouvre la connexion Google dans un profil de navigateur isolé — ta navigation normale n'est jamais touchée — et extrait les cookies de session. Débloque ta bibliothèque, ta musique aimée, tes playlists et les artistes suivis.
+ytmusic-signin-note = Sur Windows, la connexion par navigateur est actuellement désactivée ; les utilisateurs Windows passent automatiquement en mode anonyme. La connexion fonctionne sur Linux et macOS.
+ytmusic-anon-title = Mode anonyme
+ytmusic-anon-desc = Pas de connexion, pas de cookies. Navigue, recherche, ouvre les pages d'artistes, d'albums et de playlists, lance la radio mix, et joue les pistes publiques. Les favoris et les vues de bibliothèque sont désactivés.
+ytmusic-premium-title = Pistes Premium
+ytmusic-premium-desc-1 = Les pistes verrouillées par Music Premium se rabattent sur une résolution
+ytmusic-premium-desc-2 = { " " }locale quand le chemin principal renvoie UNPLAYABLE, donc l'avoir installé aide. Le mode anonyme ne peut pas du tout lire le contenu réservé au Premium.
+
+## SoundCloud
+soundcloud-title = Configuration SoundCloud
+soundcloud-subtitle = Ajoute-le depuis Paramètres → Serveurs média → Ajouter → SoundCloud.
+soundcloud-signin-title = Connexion navigateur unique
+soundcloud-signin-desc = Aucune URL ni mot de passe à taper. Kopuz ouvre soundcloud.com/signin dans un profil de navigateur isolé — ta navigation normale n'est jamais touchée — et récupère le oauth_token de la session. Choisis le navigateur de la famille Chromium à utiliser (Chrome, Chromium, Brave, Edge ou Vivaldi).
+soundcloud-features-title = Ce que tu obtiens
+soundcloud-features-desc = Recherche, lecture de pistes (MP3 progressif plus flux Go+ AAC/HLS), tes pistes aimées comme favoris, playlists en lecture seule, et like/unlike. Retirer la source nettoie son profil isolé.
 
 ## Sponsors
 sponsors-title = Sponsors

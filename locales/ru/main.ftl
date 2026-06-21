@@ -28,6 +28,8 @@ features-source-local = Локальные файлы
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-ytmusic = YouTube Music
+features-source-soundcloud = SoundCloud
 
 feat-local-title = Локально + стриминг
 feat-local-desc = Укажи локальную папку или подключись к Jellyfin / Subsonic (Navidrome). Смешивай как хочешь.
@@ -59,6 +61,22 @@ feat-crossfade-title = Кроссфейд и переходы
 feat-crossfade-desc = Плавные переходы между треками. Поддержка кроссфейда в нативных десктоп-сборках.
 feat-channels-title = Режимы каналов
 feat-channels-desc = Стерео, моно, только левый, только правый и L/R swap. Точное управление каналами.
+feat-youtube-title = YouTube Music
+feat-youtube-desc = Полноценный стриминговый бэкенд со страницей Discover в стиле Spotify, насыщенными профилями исполнителей и микс-радио. Войди для доступа к библиотеке, понравившейся музыке и плейлистам — или просматривай анонимно.
+feat-metadata-title = Изображения исполнителей
+feat-metadata-desc = Выбери источник изображений исполнителей: обложка первого альбома (по умолчанию) или реальные фото исполнителей с твоего сервера Jellyfin или Subsonic, с автоматическим запасным вариантом.
+feat-debug-title = Логи и отчёты о сбоях
+feat-debug-desc = Открывай или экспортируй логи прямо из Настроек, с опциональной трассировкой производительности, которую можно открыть в Speedscope или Perfetto. Сбои автоматически записывают отчёт.
+feat-cleanup-title = Автоочистка
+feat-cleanup-desc = Отсутствующие или удалённые треки автоматически убираются из библиотеки при повторном сканировании. Никаких призрачных записей.
+feat-soundcloud-title = SoundCloud
+feat-soundcloud-desc = Стримь с SoundCloud после однократного входа через браузер. Поиск, прогрессивный MP3 и Go+ AAC/HLS, понравившиеся треки как избранное и плейлисты только для чтения.
+feat-miniplayer-title = Мини-плеер
+feat-miniplayer-desc = Компактный оверлей текущего воспроизведения, который можно включить из нижней панели для уменьшенного вида.
+feat-tray-title = Сворачивание в трей
+feat-tray-desc = Закрывай в значок системного трея вместо выхода, чтобы воспроизведение продолжалось в фоне. Переключается в Настройках.
+feat-badges-title = Значки типов файлов
+feat-badges-desc = Локальные треки показывают небольшой значок формата — MP3, FLAC, WAV и другие — прямо в строке трека.
 
 ## Performance
 perf-title = Создано быть быстрым.
@@ -78,6 +96,9 @@ perf-io-desc-2 = { " " }потоках. UI остаётся отзывчивым
 perf-http-label = HTTP-кэш обложек
 perf-http-desc-1 = Кастомный
 perf-http-desc-2 = { " " }протокол отдаёт обложки с заголовками кэша на год. Webview не перезапрашивает.
+perf-sort-label = Умная сортировка
+perf-sort-desc-1 = Просмотры библиотеки сортируются через
+perf-sort-desc-2 = { " " }чтобы ключи сортировки вычислялись один раз, а не при каждом сравнении.
 
 ## Install
 install-title = Установка
@@ -85,6 +106,10 @@ install-nix-title = Nix / NixOS
 install-nix-run = Запуск без установки:
 install-nix-profile = Или добавь в свой профиль:
 install-nix-note = Поддержка NixOS flake с Cachix binary cache.
+install-aur-title = AUR (Arch Linux)
+install-aur-desc = Установка с помощью предпочитаемого помощника:
+install-aur-note-1 = Требует
+install-aur-note-2 = { " " }установленного заранее в версии, совместимой с dioxus 0.7.x.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Установка из манифеста:
 install-flatpak-note = Листинг на Flathub скоро.
@@ -115,6 +140,37 @@ support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — или отправь крипту —
 support-usdt-note = (сеть Solana)
+
+donate-title = Криптовалютные пожертвования
+donate-subtitle = Поддержи разработку, отправив крипту на эти адреса.
+donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
+donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
+donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
+donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
+donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
+
+## YouTube Music
+ytmusic-title = Настройка YouTube Music
+ytmusic-subtitle = Добавь через Настройки → Медиа-серверы → Добавить → YouTube Music.
+ytmusic-token-title = Помощник не нужен
+ytmusic-token-desc-1 = Для анонимного воспроизведения нужен content PO token, который Kopuz теперь генерирует внутри приложения через скрытый WebView с YouTube BotGuard. Старый
+ytmusic-token-desc-2 = { " " }подпроцесс убран — ничего не нужно устанавливать, и это работает внутри Flatpak.
+ytmusic-signin-title = Вход через браузер
+ytmusic-signin-desc = Kopuz открывает вход Google в изолированном профиле браузера — твой обычный браузинг не затрагивается — и извлекает cookie сессии. Открывает доступ к библиотеке, понравившейся музыке, плейлистам и отслеживаемым исполнителям.
+ytmusic-signin-note = На Windows вход через браузер сейчас отключён; пользователи Windows автоматически получают анонимный режим. Вход работает на Linux и macOS.
+ytmusic-anon-title = Анонимный режим
+ytmusic-anon-desc = Без входа, без cookie. Просматривай, ищи, открывай страницы исполнителей, альбомов и плейлистов, запускай микс-радио и слушай публичные треки. Лайки и просмотры библиотеки отключены.
+ytmusic-premium-title = Premium-треки
+ytmusic-premium-desc-1 = Треки, заблокированные Music Premium, откатываются на локальное
+ytmusic-premium-desc-2 = { " " }разрешение, когда основной путь возвращает UNPLAYABLE, так что его наличие помогает. Анонимный режим вообще не может воспроизводить контент только для Premium.
+
+## SoundCloud
+soundcloud-title = Настройка SoundCloud
+soundcloud-subtitle = Добавь через Настройки → Медиа-серверы → Добавить → SoundCloud.
+soundcloud-signin-title = Однократный вход через браузер
+soundcloud-signin-desc = Не нужно вводить URL или пароль. Kopuz открывает soundcloud.com/signin в изолированном профиле браузера — твой обычный браузинг не затрагивается — и получает oauth_token сессии. Выбери, какой браузер семейства Chromium использовать (Chrome, Chromium, Brave, Edge или Vivaldi).
+soundcloud-features-title = Что ты получаешь
+soundcloud-features-desc = Поиск, воспроизведение треков (прогрессивный MP3 плюс потоки Go+ AAC/HLS), понравившиеся треки как избранное, плейлисты только для чтения и лайки/дизлайки. Удаление источника очищает его изолированный профиль.
 
 ## Sponsors
 sponsors-title = Спонсоры
