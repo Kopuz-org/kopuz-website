@@ -61,6 +61,116 @@ pre code {
     padding: 0 24px;
 }
 
+.donation-banner {
+    margin-top: 10px;
+    margin-bottom: 6px;
+    padding: 0;
+    border: 1px solid #8f4a10;
+    border-left: 4px solid var(--yellow);
+    background: linear-gradient(90deg, #4e2e14 0%, #3a2717 40%, #2f261e 100%);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.donation-banner-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(250, 189, 47, 0.2);
+    color: var(--yellow);
+    border-bottom: 1px solid rgba(250, 189, 47, 0.25);
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.donation-banner-text {
+    margin: 0;
+    padding: 8px 10px 9px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #f3dfc1;
+}
+
+.donation-banner strong {
+    color: #ffd37e;
+}
+
+.donation-goal {
+    font-size: 14px;
+    color: #ffe7b1;
+}
+
+.donation-banner-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 10px 10px;
+    flex-wrap: wrap;
+}
+
+.donation-progress-wrap {
+    min-width: 280px;
+    flex: 1;
+}
+
+.donation-progress {
+    margin: 0;
+    color: #e9cd9f;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.donation-progress strong {
+    color: #fff1cd;
+}
+
+.donation-progress-track {
+    position: relative;
+    margin-top: 6px;
+    width: 100%;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(255, 231, 177, 0.18);
+    border: 1px solid rgba(255, 231, 177, 0.25);
+    overflow: hidden;
+}
+
+.donation-progress-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #fabd2f 0%, #fe8019 100%);
+}
+
+.donation-sponsor-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid rgba(255, 231, 177, 0.55);
+    background: rgba(255, 231, 177, 0.12);
+    color: #fff1cd;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+}
+
+.donation-sponsor-link:hover {
+    background: rgba(255, 231, 177, 0.2);
+    border-color: rgba(255, 231, 177, 0.85);
+    color: #ffffff;
+    text-decoration: none;
+}
+
 .section-header {
     margin-bottom: 40px;
 }

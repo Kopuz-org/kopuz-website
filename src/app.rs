@@ -6,12 +6,277 @@ use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
+use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 static_loader! {
     static TRANSLATIONS = {
         locales: "./locales",
         fallback_language: "en",
     };
+}
+
+const STYLE_SOURCE: &str = include_str!("../style/main.scss");
+
+fn css_cache_bust() -> u64 {
+    // FNV-1a hash of the SCSS source so cache key changes whenever styles change.
+    STYLE_SOURCE
+        .bytes()
+        .fold(1469598103934665603u64, |hash, byte| {
+            (hash ^ byte as u64).wrapping_mul(1099511628211)
+        })
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct SponsorStats {
+    monthly_goal: u32,
+    current_monthly_income: u32,
+    current_sponsors: u32,
+    progress_percent: u32,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct SponsorsList {
+    current: Vec<String>,
+    past: Vec<String>,
+}
+
+impl SponsorStats {
+    fn fallback() -> Self {
+        let monthly_goal = 400;
+        let current_monthly_income = 15;
+        let current_sponsors = 2;
+        let progress_percent = (current_monthly_income * 100) / monthly_goal;
+
+        Self {
+            monthly_goal,
+            current_monthly_income,
+            current_sponsors,
+            progress_percent,
+        }
+    }
+}
+
+impl SponsorsList {
+    fn fallback() -> Self {
+        Self {
+            current: vec!["m110".to_string(), "ozanshx".to_string()],
+            past: vec![
+                "shytzedaka".to_string(),
+                "bulakemun".to_string(),
+                "Iamknownasfesal".to_string(),
+                "arda2k3".to_string(),
+            ],
+        }
+    }
+}
+
+#[cfg(feature = "ssr")]
+fn slice_between<'a>(text: &'a str, start_marker: &str, end_marker: &str) -> Option<&'a str> {
+    let start = text.find(start_marker)? + start_marker.len();
+    let end = text[start..]
+        .find(end_marker)
+        .map(|offset| start + offset)
+        .unwrap_or(text.len());
+    Some(&text[start..end])
+}
+
+#[cfg(feature = "ssr")]
+fn is_username_char(ch: char) -> bool {
+    ch.is_ascii_alphanumeric() || ch == '-'
+}
+
+#[cfg(feature = "ssr")]
+fn extract_github_usernames(text: &str) -> Vec<String> {
+    const PREFIX: &str = "https://github.com/";
+    const EXCLUDED: &[&str] = &[
+        "sponsors",
+        "features",
+        "docs",
+        "contact",
+        "support",
+        "security",
+        "site-policy",
+        "pricing",
+        "enterprise",
+        "marketplace",
+        "explore",
+        "topics",
+        "events",
+        "collections",
+        "readme",
+        "about",
+        "new",
+        "organizations",
+        "orgs",
+        "settings",
+        "login",
+        "signup",
+        "notifications",
+        "pulls",
+        "issues",
+        "codespaces",
+        "copilot",
+        "discussions",
+        "customers",
+        "solutions",
+        "resources",
+        "open-source",
+        "github",
+    ];
+
+    let mut names = Vec::new();
+    let mut seen = HashSet::new();
+    let mut cursor = 0;
+
+    while let Some(found) = text[cursor..].find(PREFIX) {
+        let start = cursor + found + PREFIX.len();
+        let mut end = start;
+
+        for ch in text[start..].chars() {
+            if is_username_char(ch) {
+                end += ch.len_utf8();
+            } else {
+                break;
+            }
+        }
+
+        if end > start {
+            let name = &text[start..end];
+            let lower = name.to_ascii_lowercase();
+            let valid_len = (1..=39).contains(&name.len());
+            if valid_len
+                && lower != "temidaradev"
+                && !EXCLUDED.contains(&lower.as_str())
+                && seen.insert(lower)
+            {
+                names.push(name.to_string());
+            }
+        }
+
+        cursor = end.max(cursor + found + PREFIX.len());
+        if cursor >= text.len() {
+            break;
+        }
+    }
+
+    names
+}
+
+async fn fetch_sponsors_list() -> SponsorsList {
+    #[cfg(feature = "ssr")]
+    {
+        let url = "https://github.com/sponsors/temidaradev";
+        let client = reqwest::Client::builder()
+            .user_agent("kopuz-website/1.0")
+            .build();
+
+        if let Ok(client) = client {
+            let response = client.get(url).send().await;
+            if let Ok(response) = response {
+                if let Ok(body) = response.text().await {
+                    let current_section = slice_between(&body, "Current sponsors", "Past sponsors")
+                        .or_else(|| slice_between(&body, "#### Current sponsors", "##### Past sponsors"));
+
+                    let past_section = slice_between(&body, "Past sponsors", "Select a tier")
+                        .or_else(|| slice_between(&body, "##### Past sponsors", "#### Select a tier"));
+
+                    if let (Some(current_section), Some(past_section)) = (current_section, past_section) {
+                        let current = extract_github_usernames(current_section);
+                        let past = extract_github_usernames(past_section);
+
+                        if !current.is_empty() || !past.is_empty() {
+                            return SponsorsList { current, past };
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    SponsorsList::fallback()
+}
+
+#[cfg(feature = "ssr")]
+fn parse_uint_after_marker(text: &str, marker: &str) -> Option<u32> {
+    let start = text.find(marker)? + marker.len();
+    let mut digits = String::new();
+
+    for ch in text[start..].chars() {
+        if ch.is_ascii_digit() {
+            digits.push(ch);
+        } else if !digits.is_empty() {
+            break;
+        }
+    }
+
+    if digits.is_empty() {
+        None
+    } else {
+        digits.parse().ok()
+    }
+}
+
+#[cfg(feature = "ssr")]
+fn parse_uint_before_marker(text: &str, marker: &str) -> Option<u32> {
+    let end = text.find(marker)?;
+    let chars: Vec<char> = text[..end].chars().collect();
+    let mut digits_reversed = String::new();
+
+    for ch in chars.iter().rev() {
+        if ch.is_ascii_digit() {
+            digits_reversed.push(*ch);
+        } else if !digits_reversed.is_empty() {
+            break;
+        }
+    }
+
+    if digits_reversed.is_empty() {
+        None
+    } else {
+        let digits: String = digits_reversed.chars().rev().collect();
+        digits.parse().ok()
+    }
+}
+
+async fn fetch_sponsor_stats() -> SponsorStats {
+    #[cfg(feature = "ssr")]
+    {
+        let url = "https://github.com/sponsors/temidaradev";
+        let client = reqwest::Client::builder()
+            .user_agent("kopuz-website/1.0")
+            .build();
+
+        if let Ok(client) = client {
+            let response = client.get(url).send().await;
+            if let Ok(response) = response {
+                if let Ok(body) = response.text().await {
+                    let monthly_goal = parse_uint_after_marker(&body, "goal is to earn $")
+                        .or_else(|| parse_uint_after_marker(&body, "towards $"))
+                        .unwrap_or(400);
+
+                    let progress_percent = parse_uint_before_marker(&body, "% towards $")
+                        .unwrap_or(0);
+
+                    let current_sponsors = parse_uint_after_marker(&body, "Current sponsors")
+                        .unwrap_or(0);
+
+                    let current_monthly_income = (monthly_goal * progress_percent) / 100;
+
+                    if monthly_goal > 0 {
+                        return SponsorStats {
+                            monthly_goal,
+                            current_monthly_income,
+                            current_sponsors,
+                            progress_percent,
+                        };
+                    }
+                }
+            }
+        }
+    }
+
+    SponsorStats::fallback()
 }
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
@@ -36,6 +301,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
+    let css_version = css_cache_bust();
 
     leptos_fluent! {
         translations: [TRANSLATIONS],
@@ -54,7 +320,7 @@ pub fn App() -> impl IntoView {
     };
 
     view! {
-        <Stylesheet id="leptos" href="/pkg/kopuz-website.css"/>
+        <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
         <Title text=move_tr!("home-title")/>
         <Meta name="description" content=move_tr!("home-meta-desc")/>
         <Meta name="keywords" content=move_tr!("home-meta-keywords")/>
@@ -87,6 +353,7 @@ pub fn App() -> impl IntoView {
 fn HomePage() -> impl IntoView {
     view! {
         <div class="site">
+            <DonationBanner/>
             <Nav/>
             <Hero/>
             <Features/>
@@ -99,6 +366,65 @@ fn HomePage() -> impl IntoView {
             <Sponsors/>
             <Footer/>
         </div>
+    }
+}
+
+#[component]
+fn DonationBanner() -> impl IntoView {
+    let sponsor_stats = Resource::new(|| (), |_| async move { fetch_sponsor_stats().await });
+
+    view! {
+        <section class="donation-banner" aria-label="Support the developer">
+            <div class="donation-banner-label">
+                <i class="fa-solid fa-heart"></i>
+                <span>"Support Notice"</span>
+            </div>
+            <p class="donation-banner-text">
+                <strong>"Temidaradev here."</strong>
+                " I am a student and I do not have a stable income. I work very hard on this project, and I need your help."
+                " Please consider donating so I can raise "
+                <strong class="donation-goal">"$400/month"</strong>
+                " as general income support while I study and cover things I need to buy."
+            </p>
+            <div class="donation-banner-meta">
+                {move || {
+                    let stats = sponsor_stats
+                        .get()
+                        .unwrap_or_else(SponsorStats::fallback);
+                    let bar_width = stats.progress_percent.min(100);
+
+                    view! {
+                        <div class="donation-progress-wrap">
+                            <p class="donation-progress">
+                                <i class="fa-brands fa-github"></i>
+                                " GitHub Sponsors: "
+                                <strong>{format!("${}/{} per month", stats.current_monthly_income, stats.monthly_goal)}</strong>
+                                {format!(" ({}% goal, {} current sponsors)", stats.progress_percent, stats.current_sponsors)}
+                            </p>
+                            <div
+                                class="donation-progress-track"
+                                role="progressbar"
+                                aria-label="GitHub Sponsors goal progress"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                aria-valuenow=stats.progress_percent.to_string()
+                            >
+                                <span class="donation-progress-fill" style=format!("width: {}%;", bar_width)></span>
+                            </div>
+                        </div>
+                    }
+                }}
+                <a
+                    href="https://github.com/sponsors/temidaradev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="donation-sponsor-link"
+                >
+                    <i class="fa-solid fa-heart"></i>
+                    " Sponsor on GitHub"
+                </a>
+            </div>
+        </section>
     }
 }
 
@@ -343,7 +669,7 @@ fn Performance() -> impl IntoView {
                 </div>
                 <div class="perf-item">
                     <span class="perf-label">{move_tr!("perf-parallel-label")}</span>
-                    <p>{move_tr!("perf-parallel-desc-1")}" "<code>"tokio::join!"</code>{move_tr!("perf-parallel-desc-2")}</p>
+                    <p>{move_tr!("perf-parallel-desc")}</p>
                 </div>
                 <div class="perf-item">
                     <span class="perf-label">{move_tr!("perf-art-label")}</span>
@@ -355,15 +681,15 @@ fn Performance() -> impl IntoView {
                 </div>
                 <div class="perf-item">
                     <span class="perf-label">{move_tr!("perf-io-label")}</span>
-                    <p>{move_tr!("perf-io-desc-1")}" "<code>"spawn_blocking"</code>{move_tr!("perf-io-desc-2")}</p>
+                    <p>{move_tr!("perf-io-desc")}</p>
                 </div>
                 <div class="perf-item">
                     <span class="perf-label">{move_tr!("perf-http-label")}</span>
-                    <p>{move_tr!("perf-http-desc-1")}" "<code>"artwork://"</code>{move_tr!("perf-http-desc-2")}</p>
+                    <p>{move_tr!("perf-http-desc")}</p>
                 </div>
                 <div class="perf-item">
                     <span class="perf-label">{move_tr!("perf-sort-label")}</span>
-                    <p>{move_tr!("perf-sort-desc-1")}" "<code>"sort_by_cached_key"</code>{move_tr!("perf-sort-desc-2")}</p>
+                    <p>{move_tr!("perf-sort-desc")}</p>
                 </div>
             </div>
         </section>
@@ -378,6 +704,12 @@ fn Install() -> impl IntoView {
                 <h2>{move_tr!("install-title")}</h2>
             </div>
             <div class="install-grid">
+                <div class="install-card">
+                    <h3>{move_tr!("install-quick-title")}</h3>
+                    <p>{move_tr!("install-quick-desc")}</p>
+                    <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="btn-secondary">{move_tr!("install-quick-cta")}</a>
+                    <p class="install-note">{move_tr!("install-quick-note")}</p>
+                </div>
                 <div class="install-card">
                     <h3>{move_tr!("install-nix-title")}</h3>
                     <p>{move_tr!("install-nix-run")}</p>
@@ -430,7 +762,7 @@ fn YtMusic() -> impl IntoView {
             <div class="install-grid">
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-token-title")}</h3>
-                    <p>{move_tr!("ytmusic-token-desc-1")}" "<code>"rustypipe-botguard"</code>{move_tr!("ytmusic-token-desc-2")}</p>
+                    <p>{move_tr!("ytmusic-token-desc")}</p>
                 </div>
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-signin-title")}</h3>
@@ -443,7 +775,7 @@ fn YtMusic() -> impl IntoView {
                 </div>
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-premium-title")}</h3>
-                    <p>{move_tr!("ytmusic-premium-desc-1")}" "<code>"yt-dlp"</code>{move_tr!("ytmusic-premium-desc-2")}</p>
+                    <p>{move_tr!("ytmusic-premium-desc")}</p>
                 </div>
             </div>
         </section>
@@ -569,42 +901,52 @@ fn Support() -> impl IntoView {
 
 #[component]
 fn Sponsors() -> impl IntoView {
+    let sponsors_list = Resource::new(|| (), |_| async move { fetch_sponsors_list().await });
+
     view! {
         <section class="sponsors" id="sponsors">
             <div class="section-header">
                 <h2>{move_tr!("sponsors-title")}</h2>
                 <p>{move_tr!("sponsors-subtitle")}</p>
             </div>
-            <div class="sponsors-grid sponsors-active">
-                <h3 class="sponsors-section-title">"Active Sponsors"</h3>
-                <a href="https://github.com/m110" target="_blank" class="sponsor-card sponsor-active">
-                    <img src="https://github.com/m110.png?size=80" alt="m110"/>
-                    <span>"m110"</span>
-                </a>
-                <a href="https://github.com/ozanshx" target="_blank" class="sponsor-card sponsor-active">
-                    <img src="https://github.com/ozanshx.png?size=80" alt="ozanshx"/>
-                    <span>"ozanshx"</span>
-                </a>
-            </div>
-            <div class="sponsors-grid sponsors-past">
-                <h3 class="sponsors-section-title">"Past Sponsors"</h3>
-                <a href="https://github.com/shytzedaka" target="_blank" class="sponsor-card sponsor-past">
-                    <img src="https://github.com/shytzedaka.png?size=80" alt="shytzedaka"/>
-                    <span>"shytzedaka"</span>
-                </a>
-                <a href="https://github.com/bulakemun" target="_blank" class="sponsor-card sponsor-past">
-                    <img src="https://github.com/bulakemun.png?size=80" alt="bulakemun"/>
-                    <span>"bulakemun"</span>
-                </a>
-                <a href="https://github.com/Iamknownasfesal" target="_blank" class="sponsor-card sponsor-past">
-                    <img src="https://github.com/Iamknownasfesal.png?size=80" alt="fesal"/>
-                    <span>"fesal"</span>
-                </a>
-                <a href="https://github.com/arda2k3" target="_blank" class="sponsor-card sponsor-past">
-                    <img src="https://github.com/arda2k3.png?size=80" alt="arda2k3"/>
-                    <span>"arda2k3"</span>
-                </a>
-            </div>
+            {move || {
+                let sponsors = sponsors_list
+                    .get()
+                    .unwrap_or_else(SponsorsList::fallback);
+
+                view! {
+                    <div class="sponsors-grid sponsors-active">
+                        <h3 class="sponsors-section-title">{format!("Active Sponsors ({})", sponsors.current.len())}</h3>
+                        {sponsors.current.iter().map(|username| {
+                            let profile = format!("https://github.com/{username}");
+                            let avatar = format!("https://github.com/{username}.png?size=80");
+                            let alt = username.clone();
+                            let name = username.clone();
+                            view! {
+                                <a href=profile target="_blank" class="sponsor-card sponsor-active">
+                                    <img src=avatar alt=alt/>
+                                    <span>{name}</span>
+                                </a>
+                            }
+                        }).collect_view()}
+                    </div>
+                    <div class="sponsors-grid sponsors-past">
+                        <h3 class="sponsors-section-title">{format!("Past Sponsors ({})", sponsors.past.len())}</h3>
+                        {sponsors.past.iter().map(|username| {
+                            let profile = format!("https://github.com/{username}");
+                            let avatar = format!("https://github.com/{username}.png?size=80");
+                            let alt = username.clone();
+                            let name = username.clone();
+                            view! {
+                                <a href=profile target="_blank" class="sponsor-card sponsor-past">
+                                    <img src=avatar alt=alt/>
+                                    <span>{name}</span>
+                                </a>
+                            }
+                        }).collect_view()}
+                    </div>
+                }
+            }}
             <div class="sponsors-cta">
                 <a href="https://github.com/sponsors/temidaradev" target="_blank" class="btn-secondary">{move_tr!("sponsors-cta")}</a>
             </div>

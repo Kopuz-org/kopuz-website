@@ -232,3 +232,15 @@ og-desc = Pemutar musik modern dan ringan yang dibangun dengan Rust. Berkas loka
 og-image-alt = Pemutar musik Kopuz
 twitter-title = Kopuz — Music Player
 twitter-desc = Pemutar musik modern dan ringan yang dibangun dengan Rust. Gratis dan open source.
+
+## User-friendly aliases (synced with EN updates)
+perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }
+perf-io-desc = { perf-io-desc-1 } { perf-io-desc-2 }
+perf-http-desc = { perf-http-desc-1 } { perf-http-desc-2 }
+perf-sort-desc = { perf-sort-desc-1 } { perf-sort-desc-2 }
+ytmusic-token-desc = { ytmusic-token-desc-1 } { ytmusic-token-desc-2 }
+ytmusic-premium-desc = { ytmusic-premium-desc-1 } { ytmusic-premium-desc-2 }
+install-quick-title = Quick start (most users)
+install-quick-desc = Download the latest release for your platform and open it.
+install-quick-cta = Open Releases
+install-quick-note = If you are not sure which option to choose, start here.

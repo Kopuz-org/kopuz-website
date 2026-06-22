@@ -3,7 +3,7 @@ lang-name = English
 
 ## Nav
 nav-new = New
-nav-announce = YouTube Music & SoundCloud streaming, Discover, mix radio, 20+ languages
+nav-announce = Local music + streaming in one app, with themes, lyrics, and 20+ languages
 nav-features = Features
 nav-install = Install
 nav-download = Download
@@ -15,9 +15,9 @@ nav-lang-label = Language
 ## Hero
 hero-title-1 = Your music.
 hero-title-2 = Your way.
-hero-desc = Kopuz is a modern, lightweight music player application built with Rust and the Dioxus framework. Scan local folders, stream from Jellyfin or Navidrome, connect YouTube Music, and organize your library the way you want.
+hero-desc = Kopuz is a fast, lightweight music player for everyday listening. Play local folders, stream from Jellyfin or Navidrome, connect YouTube Music and SoundCloud, and organize your library the way you like.
 hero-cta-download = Download
-hero-cta-github = View on GitHub
+hero-cta-github = Open Source on GitHub
 hero-screenshot-alt = Kopuz — home view
 
 ## Features
@@ -32,11 +32,11 @@ features-source-ytmusic = YouTube Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Local + Streaming
-feat-local-desc = Point at a local folder or connect to Jellyfin / Subsonic (Navidrome). Mix and match as you like.
+feat-local-desc = Add a local folder or sign in to your server (Jellyfin, Navidrome, Subsonic). Use one source or mix them together.
 feat-theming-title = Theming
-feat-theming-desc = Dynamic theming with full color variable control. Build your own theme from scratch or pick a preset.
-feat-native-title = Native Integration
-feat-native-desc = MPRIS on Linux, Now Playing on macOS, System Media Transport on Windows. Fully wired up.
+feat-theming-desc = Pick a look you like, or customize colors to make your own theme.
+feat-native-title = Desktop Controls
+feat-native-desc = Play, pause, and track controls work directly with your operating system on Linux, macOS, and Windows.
 feat-lyrics-title = Synced Lyrics
 feat-lyrics-desc = Real-time scrolling lyrics, synced or plain, auto-scrolling to follow along with your music.
 feat-eq-title = Equalizer
@@ -44,17 +44,17 @@ feat-eq-desc = 5-band equalizer with built-in presets and full custom control ov
 feat-fav-title = Favorites & Playlists
 feat-fav-desc = Star tracks locally or sync favorites with your server. Create playlists, add whole albums at once.
 feat-scrobble-title = Scrobbling
-feat-scrobble-desc = ListenBrainz scrobbling built in. Jellyfin users can also use the listenbrainz plugin.
+feat-scrobble-desc = Keep a listening history with ListenBrainz. If you use Jellyfin, that works too.
 feat-discord-title = Discord RPC
-feat-discord-desc = Show friends what you're listening to with embedded Discord Rich Presence. No setup needed.
+feat-discord-desc = Share what you're listening to on Discord automatically.
 feat-search-title = Search
 feat-search-desc = Real-time search across artists, albums, and tracks. Instant results as you type.
 feat-genre-title = Genre Browsing
 feat-genre-desc = Browse your entire library by genre — works for both local files and server music.
 feat-logs-title = Listening Logs
 feat-logs-desc = Play counts tracked locally. See what you actually listen to most over time.
-feat-i18n-title = i18n
-feat-i18n-desc = English, Russian, German, French, Spanish, Turkish, Ukrainian, Polish, Arabic, Greek, Hebrew, Hungarian, Indonesian, Japanese, Korean, Romanian, Brazilian Portuguese, Toki Pona, Simplified Chinese, and more.
+feat-i18n-title = Languages
+feat-i18n-desc = Use Kopuz in many languages, including English, Russian, German, French, Spanish, Turkish, Japanese, Korean, Chinese, and more.
 feat-ytdlp-title = yt-dlp Downloader
 feat-ytdlp-desc = Download audio directly from YouTube. Output as MP3, FLAC, WAV, MP4, or best quality. SponsorBlock, chapter splitting, and rate limiting included.
 feat-crossfade-title = Crossfade & Transitions
@@ -65,8 +65,8 @@ feat-youtube-title = YouTube Music
 feat-youtube-desc = Full streaming backend with a Spotify-style Discover page, rich artist profiles, and mix radio. Sign in for your library, Liked Music, and playlists — or browse anonymously.
 feat-metadata-title = Artist Images
 feat-metadata-desc = Choose how artist images are sourced: first album cover (default) or real artist photos fetched from your Jellyfin or Subsonic server, with automatic fallback.
-feat-debug-title = Logs & Crash Reports
-feat-debug-desc = Open or export logs straight from Settings, with an optional performance trace you can open in Speedscope or Perfetto. Crashes write a report automatically.
+feat-debug-title = Reliability Tools
+feat-debug-desc = If something goes wrong, logs and crash reports are easy to find and share.
 feat-cleanup-title = Auto-Cleanup
 feat-cleanup-desc = Missing or deleted tracks are removed from your library automatically when rescanning. No ghost entries.
 feat-soundcloud-title = SoundCloud
@@ -80,28 +80,28 @@ feat-badges-desc = Local tracks show a small format badge — MP3, FLAC, WAV, an
 
 ## Performance
 perf-title = Built to be fast.
-perf-subtitle = Large libraries. Instant startup. No freezes.
+perf-subtitle = Smooth playback, quick startup, and responsive browsing.
 perf-skip-label = Skip already indexed
-perf-skip-desc = Rescans only process new files. 10k tracks + 5 new = only 5 read.
-perf-parallel-label = Parallel startup
-perf-parallel-desc-1 = Library, config, playlists, and favorites all load in parallel with
-perf-parallel-desc-2 = . Near-instant open.
+perf-skip-desc = Rescans focus on new or changed files so big libraries stay quick.
+perf-parallel-label = Quick launch
+perf-parallel-desc = Library, playlists, and settings load together so the app opens fast.
 perf-art-label = Album art caching
-perf-art-desc = Covers extracted once, saved to disk. Never re-decoded on repeat views.
+perf-art-desc = Album covers are cached, so repeat views feel instant.
 perf-lazy-label = Lazy image loading
-perf-lazy-desc = Hundreds of album covers in search results — none load until they're in view.
-perf-io-label = Non-blocking I/O
-perf-io-desc-1 = Heavy work runs on
-perf-io-desc-2 = { " " }threads. UI stays responsive during full library scans.
+perf-lazy-desc = Images load only when they appear on screen, so scrolling stays smooth.
+perf-io-label = Responsive while scanning
+perf-io-desc = Heavy work runs in the background so the UI stays responsive.
 perf-http-label = HTTP art caching
-perf-http-desc-1 = Custom
-perf-http-desc-2 = { " " }protocol serves covers with 1-year cache headers. Webview never re-fetches.
+perf-http-desc = Cached artwork avoids repeat downloads and keeps pages snappy.
 perf-sort-label = Smarter sorting
-perf-sort-desc-1 = Library views sort with
-perf-sort-desc-2 = { " " }so sort keys are computed once, not on every comparison.
+perf-sort-desc = Optimized sorting keeps large lists fast and smooth.
 
 ## Install
-install-title = Installation
+install-title = Install Kopuz
+install-quick-title = Quick start (most users)
+install-quick-desc = Download the latest release for your platform and open it.
+install-quick-cta = Open Releases
+install-quick-note = If you are not sure which option to choose, start here.
 install-nix-title = Nix / NixOS
 install-nix-run = Run without installing:
 install-nix-profile = Or add to your profile:
@@ -111,10 +111,10 @@ install-aur-desc = Install with your preferred helper:
 install-aur-note-1 = Requires
 install-aur-note-2 = { " " }installed first at a version matching dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Install from source manifest:
+install-flatpak-desc = Advanced option: build from the source manifest:
 install-flatpak-note = Flathub listing coming soon.
 install-appimage-title = AppImage
-install-appimage-desc-1 = Download from GitHub Releases and run directly. Requires
+install-appimage-desc-1 = Download from GitHub Releases and run directly. On Linux, make sure
 install-appimage-desc-2 = { " " }and
 install-appimage-desc-3 = { " " }on your system.
 install-appimage-note-1 = Arch users: if it crashes with a WebKitNetworkProcess error, run with
@@ -126,31 +126,29 @@ install-macos-desc-2 = { " " }from GitHub Releases. If macOS blocks it, clear th
 
 ## YouTube Music
 ytmusic-title = YouTube Music Setup
-ytmusic-subtitle = Add it from Settings → Media servers → Add → YouTube Music.
+ytmusic-subtitle = Add it in Settings → Media servers → Add → YouTube Music.
 ytmusic-token-title = No helper needed
-ytmusic-token-desc-1 = Anonymous playback needs a content PO token, which Kopuz now mints in-app with a hidden WebView running YouTube's BotGuard. The old
-ytmusic-token-desc-2 = { " " }subprocess is gone — nothing to install, and it works inside Flatpak.
+ytmusic-token-desc = Anonymous playback works out of the box. Kopuz handles the required token flow automatically, including inside Flatpak.
 ytmusic-signin-title = Sign in with a browser
 ytmusic-signin-desc = Kopuz opens Google sign-in in an isolated browser profile — your normal browsing is never touched — and extracts the session cookies. Unlocks your library, Liked Music, playlists, and followed artists.
 ytmusic-signin-note = On Windows, browser sign-in is currently disabled; Windows users get anonymous mode automatically. Sign-in works on Linux and macOS.
 ytmusic-anon-title = Anonymous mode
 ytmusic-anon-desc = No sign-in, no cookies. Browse, search, open artist, album, and playlist pages, start mix radio, and play public tracks. Liking and library views are disabled.
 ytmusic-premium-title = Premium tracks
-ytmusic-premium-desc-1 = Music Premium-locked tracks fall back to a local
-ytmusic-premium-desc-2 = { " " }resolve when the primary path returns UNPLAYABLE, so having it installed helps. Anonymous mode can't play Premium-only content at all.
+ytmusic-premium-desc = Some Premium-only tracks may need local yt-dlp fallback. Anonymous mode cannot play Premium-only content.
 
 ## SoundCloud
 soundcloud-title = SoundCloud Setup
-soundcloud-subtitle = Add it from Settings → Media servers → Add → SoundCloud.
+soundcloud-subtitle = Add it in Settings → Media servers → Add → SoundCloud.
 soundcloud-signin-title = One-time browser sign-in
-soundcloud-signin-desc = No URL or password to type. Kopuz opens soundcloud.com/signin in an isolated browser profile — your normal browsing is never touched — and pulls the session's oauth_token. Pick which Chromium-family browser to use (Chrome, Chromium, Brave, Edge, or Vivaldi).
+soundcloud-signin-desc = No manual tokens needed. Kopuz opens SoundCloud sign-in in an isolated browser profile, then connects your account for playback and library access.
 soundcloud-features-title = What you get
-soundcloud-features-desc = Search, track playback (progressive MP3 plus Go+ AAC/HLS streams), your Liked tracks as favorites, read-only playlists, and like/unlike. Removing the source cleans up its isolated profile.
+soundcloud-features-desc = Search, playback, your Liked tracks as favorites, read-only playlists, and like/unlike controls.
 
 
 ## Platforms
 platforms-title = Download Kopuz
-platforms-subtitle = Free and open source. All releases on GitHub.
+platforms-subtitle = Free and open source. Download the latest release for your platform.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Silicon only
@@ -159,7 +157,7 @@ platforms-download = Download →
 
 ## Support
 support-title = Support Kopuz
-support-subtitle = Kopuz is free and open source. Support keeps it alive.
+support-subtitle = Kopuz is free and open source. Your support helps keep it growing.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — or send crypto —
@@ -226,10 +224,10 @@ footer-discord = Discord
 ## Page meta
 home-title = Kopuz — Music Player
 
-home-meta-desc = Kopuz is a modern, lightweight music player built with Rust and Dioxus. Stream from Jellyfin or Navidrome, connect YouTube Music, browse local files, enjoy synced lyrics, themes, and a built-in equalizer.
-home-meta-keywords = Kopuz, music player, Rust, Dioxus, Jellyfin, Navidrome, YouTube Music, SoundCloud, open source, Linux, macOS, Windows, MPRIS, lyrics
+home-meta-desc = Kopuz is a modern, lightweight music player for local files and streaming. Connect Jellyfin, Navidrome, YouTube Music, or SoundCloud and enjoy synced lyrics, themes, and a built-in equalizer.
+home-meta-keywords = Kopuz, music player, Jellyfin, Navidrome, YouTube Music, SoundCloud, open source, Linux, macOS, Windows, lyrics, equalizer
 og-title = Kopuz — Music Player
-og-desc = Modern, lightweight music player built with Rust. Local files, Jellyfin, Navidrome, YouTube Music, SoundCloud streaming, synced lyrics, equalizer, Discord RPC, and more. Free and open source.
+og-desc = Modern, lightweight music player for local files and streaming. Jellyfin, Navidrome, YouTube Music, SoundCloud, synced lyrics, equalizer, and more. Free and open source.
 og-image-alt = Kopuz music player
 twitter-title = Kopuz — Music Player
-twitter-desc = Modern, lightweight music player built with Rust. Free and open source. Stream from Jellyfin, Navidrome, or YouTube Music.
+twitter-desc = Modern, lightweight music player. Free and open source. Stream from Jellyfin, Navidrome, YouTube Music, or SoundCloud.
