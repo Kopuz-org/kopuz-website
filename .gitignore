@@ -16,3 +16,7 @@ Cargo.lock
 # macOS AppleDouble / metadata files
 ._*
 .DS_Store
+
+# Secrets / local server state — see kopuz-website.env.example
+kopuz-website.env
+sponsors_state.json

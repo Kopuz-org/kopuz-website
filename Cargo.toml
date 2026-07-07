@@ -19,6 +19,9 @@ fluent-templates = "0.14"
 leptos-fluent = { version = "0.2", features = ["json"] }
 serde = { version = "1", features = ["derive"] }
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"], optional = true }
+serde_json = { version = "1", optional = true }
+hmac = { version = "0.12", optional = true }
+sha2 = { version = "0.10", optional = true }
 
 [features]
 hydrate = [
@@ -32,6 +35,9 @@ ssr = [
     "dep:tokio",
     "dep:leptos_axum",
     "dep:reqwest",
+    "dep:serde_json",
+    "dep:hmac",
+    "dep:sha2",
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",

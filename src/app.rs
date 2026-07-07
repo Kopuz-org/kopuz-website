@@ -28,24 +28,24 @@ fn css_cache_bust() -> u64 {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct SponsorStats {
+pub(crate) struct SponsorStats {
     monthly_goal: u32,
-    current_monthly_income: u32,
+    pub(crate) current_monthly_income: u32,
     current_sponsors: u32,
     progress_percent: u32,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-struct SponsorsList {
-    current: Vec<String>,
-    past: Vec<String>,
+pub(crate) struct SponsorsList {
+    pub(crate) current: Vec<String>,
+    pub(crate) past: Vec<String>,
 }
 
 impl SponsorStats {
     fn fallback() -> Self {
         let monthly_goal = 400;
-        let current_monthly_income = 15;
-        let current_sponsors = 2;
+        let current_monthly_income = 32;
+        let current_sponsors = 10;
         let progress_percent = (current_monthly_income * 100) / monthly_goal;
 
         Self {
@@ -60,13 +60,20 @@ impl SponsorStats {
 impl SponsorsList {
     fn fallback() -> Self {
         Self {
-            current: vec!["m110".to_string(), "ozanshx".to_string()],
-            past: vec![
-                "shytzedaka".to_string(),
-                "bulakemun".to_string(),
-                "Iamknownasfesal".to_string(),
-                "arda2k3".to_string(),
-            ],
+            current: [
+                "m110",
+                "ozanshx",
+                "FormalSnake",
+                "baronunread",
+                "UMCEKO",
+                "nmariscal86",
+                "Clippsly",
+            ]
+            .map(String::from)
+            .to_vec(),
+            past: ["Iamknownasfesal", "arda2k3", "bulakemun", "AniviaFlome", "SeriousPassenger", ]
+                .map(String::from)
+                .to_vec(),
         }
     }
 }
@@ -88,75 +95,45 @@ fn is_username_char(ch: char) -> bool {
 
 #[cfg(feature = "ssr")]
 fn extract_github_usernames(text: &str) -> Vec<String> {
-    const PREFIX: &str = "https://github.com/";
-    const EXCLUDED: &[&str] = &[
-        "sponsors",
-        "features",
-        "docs",
-        "contact",
-        "support",
-        "security",
-        "site-policy",
-        "pricing",
-        "enterprise",
-        "marketplace",
-        "explore",
-        "topics",
-        "events",
-        "collections",
-        "readme",
-        "about",
-        "new",
-        "organizations",
-        "orgs",
-        "settings",
-        "login",
-        "signup",
-        "notifications",
-        "pulls",
-        "issues",
-        "codespaces",
-        "copilot",
-        "discussions",
-        "customers",
-        "solutions",
-        "resources",
-        "open-source",
-        "github",
+    // GitHub renders sponsor avatars as relative links, e.g.
+    // `data-hovercard-url="/users/name/hovercard"` (or `/orgs/` for org sponsors),
+    // not absolute `https://github.com/name` URLs.
+    const MARKERS: &[&str] = &[
+        "data-hovercard-url=\"/users/",
+        "data-hovercard-url=\"/orgs/",
     ];
 
     let mut names = Vec::new();
     let mut seen = HashSet::new();
-    let mut cursor = 0;
 
-    while let Some(found) = text[cursor..].find(PREFIX) {
-        let start = cursor + found + PREFIX.len();
-        let mut end = start;
+    for marker in MARKERS {
+        let mut cursor = 0;
 
-        for ch in text[start..].chars() {
-            if is_username_char(ch) {
-                end += ch.len_utf8();
-            } else {
+        while let Some(found) = text[cursor..].find(marker) {
+            let start = cursor + found + marker.len();
+            let mut end = start;
+
+            for ch in text[start..].chars() {
+                if is_username_char(ch) {
+                    end += ch.len_utf8();
+                } else {
+                    break;
+                }
+            }
+
+            if end > start {
+                let name = &text[start..end];
+                let lower = name.to_ascii_lowercase();
+                let valid_len = (1..=39).contains(&name.len());
+                if valid_len && lower != "temidaradev" && seen.insert(lower) {
+                    names.push(name.to_string());
+                }
+            }
+
+            cursor = end.max(cursor + found + marker.len());
+            if cursor >= text.len() {
                 break;
             }
-        }
-
-        if end > start {
-            let name = &text[start..end];
-            let lower = name.to_ascii_lowercase();
-            let valid_len = (1..=39).contains(&name.len());
-            if valid_len
-                && lower != "temidaradev"
-                && !EXCLUDED.contains(&lower.as_str())
-                && seen.insert(lower)
-            {
-                names.push(name.to_string());
-            }
-        }
-
-        cursor = end.max(cursor + found + PREFIX.len());
-        if cursor >= text.len() {
-            break;
         }
     }
 
@@ -164,6 +141,21 @@ fn extract_github_usernames(text: &str) -> Vec<String> {
 }
 
 async fn fetch_sponsors_list() -> SponsorsList {
+    #[cfg(feature = "ssr")]
+    {
+        if let Some(state) = use_context::<crate::sponsors::SponsorsState>() {
+            let store = state.read().await;
+            return SponsorsList {
+                current: store.current.iter().map(|r| r.login.clone()).collect(),
+                past: store.past.iter().map(|r| r.login.clone()).collect(),
+            };
+        }
+    }
+
+    fetch_sponsors_list_via_scrape().await
+}
+
+pub(crate) async fn fetch_sponsors_list_via_scrape() -> SponsorsList {
     #[cfg(feature = "ssr")]
     {
         let url = "https://github.com/sponsors/temidaradev";
@@ -175,11 +167,12 @@ async fn fetch_sponsors_list() -> SponsorsList {
             let response = client.get(url).send().await;
             if let Ok(response) = response {
                 if let Ok(body) = response.text().await {
-                    let current_section = slice_between(&body, "Current sponsors", "Past sponsors")
-                        .or_else(|| slice_between(&body, "#### Current sponsors", "##### Past sponsors"));
-
-                    let past_section = slice_between(&body, "Past sponsors", "Select a tier")
-                        .or_else(|| slice_between(&body, "##### Past sponsors", "#### Select a tier"));
+                    // Each section's sponsor grid is wrapped in a <remote-pagination> element;
+                    // its closing tag is a tight, unambiguous boundary (unlike e.g. "Select a
+                    // tier", which is far enough away to swallow unrelated tier-widget markup
+                    // that repeats current sponsors' avatars).
+                    let current_section = slice_between(&body, "Current sponsors", "</remote-pagination>");
+                    let past_section = slice_between(&body, "Past sponsors", "</remote-pagination>");
 
                     if let (Some(current_section), Some(past_section)) = (current_section, past_section) {
                         let current = extract_github_usernames(current_section);
@@ -239,7 +232,57 @@ fn parse_uint_before_marker(text: &str, marker: &str) -> Option<u32> {
     }
 }
 
+#[cfg(feature = "ssr")]
+fn parse_goal_progress_percent(text: &str) -> Option<u32> {
+    // GitHub renders the progress as inline style width on the goal bar.
+    let marker = "sponsors-goal-progress-bar";
+    let idx = text.find(marker)?;
+
+    // width appears before the class in the same element in GitHub's markup.
+    let lookback_start = idx.saturating_sub(300);
+    let window = &text[lookback_start..idx];
+    let width_idx = window.rfind("width:")? + "width:".len();
+    let mut digits = String::new();
+
+    for ch in window[width_idx..].chars() {
+        if ch.is_ascii_digit() {
+            digits.push(ch);
+        } else if !digits.is_empty() {
+            break;
+        }
+    }
+
+    if digits.is_empty() {
+        None
+    } else {
+        digits.parse().ok()
+    }
+}
+
 async fn fetch_sponsor_stats() -> SponsorStats {
+    #[cfg(feature = "ssr")]
+    {
+        if let Some(state) = use_context::<crate::sponsors::SponsorsState>() {
+            let store = state.read().await;
+            let monthly_goal: u32 = 400;
+            let total_cents: i64 = store.current.iter().map(|r| r.monthly_price_in_cents).sum();
+            let current_monthly_income = (total_cents / 100).max(0) as u32;
+            let current_sponsors = store.current.len() as u32;
+            let progress_percent = (current_monthly_income * 100) / monthly_goal;
+
+            return SponsorStats {
+                monthly_goal,
+                current_monthly_income,
+                current_sponsors,
+                progress_percent,
+            };
+        }
+    }
+
+    fetch_sponsor_stats_via_scrape().await
+}
+
+pub(crate) async fn fetch_sponsor_stats_via_scrape() -> SponsorStats {
     #[cfg(feature = "ssr")]
     {
         let url = "https://github.com/sponsors/temidaradev";
@@ -251,11 +294,12 @@ async fn fetch_sponsor_stats() -> SponsorStats {
             let response = client.get(url).send().await;
             if let Ok(response) = response {
                 if let Ok(body) = response.text().await {
-                    let monthly_goal = parse_uint_after_marker(&body, "goal is to earn $")
-                        .or_else(|| parse_uint_after_marker(&body, "towards $"))
+                    let monthly_goal = parse_uint_after_marker(&body, "goal is to")
+                        .or_else(|| parse_uint_after_marker(&body, "towards"))
                         .unwrap_or(400);
 
-                    let progress_percent = parse_uint_before_marker(&body, "% towards $")
+                    let progress_percent = parse_goal_progress_percent(&body)
+                        .or_else(|| parse_uint_before_marker(&body, "% towards"))
                         .unwrap_or(0);
 
                     let current_sponsors = parse_uint_after_marker(&body, "Current sponsors")
@@ -915,30 +959,30 @@ fn Sponsors() -> impl IntoView {
                     .unwrap_or_else(SponsorsList::fallback);
 
                 view! {
-                    <div class="sponsors-grid sponsors-active">
-                        <h3 class="sponsors-section-title">{format!("Active Sponsors ({})", sponsors.current.len())}</h3>
+                    <div class="sponsors-grid sponsors-monthly">
+                        <h3 class="sponsors-section-title">{format!("Monthly Sponsors ({})", sponsors.current.len())}</h3>
                         {sponsors.current.iter().map(|username| {
                             let profile = format!("https://github.com/{username}");
                             let avatar = format!("https://github.com/{username}.png?size=80");
                             let alt = username.clone();
                             let name = username.clone();
                             view! {
-                                <a href=profile target="_blank" class="sponsor-card sponsor-active">
+                                <a href=profile target="_blank" class="sponsor-card sponsor-monthly">
                                     <img src=avatar alt=alt/>
                                     <span>{name}</span>
                                 </a>
                             }
                         }).collect_view()}
                     </div>
-                    <div class="sponsors-grid sponsors-past">
-                        <h3 class="sponsors-section-title">{format!("Past Sponsors ({})", sponsors.past.len())}</h3>
+                    <div class="sponsors-grid sponsors-one-time">
+                        <h3 class="sponsors-section-title">{format!("One-time Sponsors ({})", sponsors.past.len())}</h3>
                         {sponsors.past.iter().map(|username| {
                             let profile = format!("https://github.com/{username}");
                             let avatar = format!("https://github.com/{username}.png?size=80");
                             let alt = username.clone();
                             let name = username.clone();
                             view! {
-                                <a href=profile target="_blank" class="sponsor-card sponsor-past">
+                                <a href=profile target="_blank" class="sponsor-card sponsor-one-time">
                                     <img src=avatar alt=alt/>
                                     <span>{name}</span>
                                 </a>

@@ -6,6 +6,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=/mnt/musics/kopuz-website
+EnvironmentFile=-/mnt/musics/kopuz-website/kopuz-website.env
 Environment=LEPTOS_OUTPUT_NAME=kopuz-website
 Environment=LEPTOS_SITE_ROOT=/mnt/musics/kopuz-website/target/site
 Environment=LEPTOS_SITE_PKG_DIR=pkg
