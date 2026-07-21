@@ -397,20 +397,49 @@ pub fn App() -> impl IntoView {
     }
 }
 
+fn read_moe_cookie() -> Option<bool> {
+    use wasm_bindgen::JsCast;
+    let html_doc = web_sys::window()?
+        .document()?
+        .dyn_into::<web_sys::HtmlDocument>()
+        .ok()?;
+    let cookies = html_doc.cookie().ok()?;
+    cookies
+        .split(';')
+        .find_map(|c| c.trim().strip_prefix("kopuz-moe=").map(|v| v == "1"))
+}
+
+fn write_moe_cookie(value: bool) {
+    use wasm_bindgen::JsCast;
+    if let Some(html_doc) = web_sys::window()
+        .and_then(|w| w.document())
+        .and_then(|d| d.dyn_into::<web_sys::HtmlDocument>().ok())
+    {
+        let _ = html_doc.set_cookie(&format!(
+            "kopuz-moe={}; Path=/; Max-Age=31536000; SameSite=Strict",
+            if value { "1" } else { "0" }
+        ));
+    }
+}
+
 #[component]
 fn HomePage() -> impl IntoView {
-    // `?moe` in the URL boots the site straight into the pink theme (shareable
-    // easter egg); the nav toggle flips it either way. Without `?moe`, the
-    // system color scheme decides: dark stays modern, light gets moe.
+    // Theme priority: `?moe` in the URL (shareable easter egg) > saved cookie
+    // (explicit toggle choice) > system color scheme (dark stays modern,
+    // light gets moe). The nav toggle flips it and saves the choice.
     let query = use_query_map();
     let initial_moe = query.with_untracked(|q| q.get("moe").is_some());
     let moe: RwSignal<bool> = RwSignal::new(initial_moe);
     provide_context(moe);
 
     // Effects only run on the client, after hydration — SSR always renders
-    // dark, then light-system visitors flip to moe on first paint.
+    // dark, then the effect settles the real theme on first paint.
     Effect::new(move |_| {
         if initial_moe {
+            return;
+        }
+        if let Some(saved) = read_moe_cookie() {
+            moe.set(saved);
             return;
         }
         if let Some(win) = web_sys::window() {
@@ -458,33 +487,35 @@ fn DonationBanner() -> impl IntoView {
                 " as general income support while I study and cover things I need to buy."
             </p>
             <div class="donation-banner-meta">
-                {move || {
-                    let stats = sponsor_stats
-                        .get()
-                        .unwrap_or_else(SponsorStats::fallback);
-                    let bar_width = stats.progress_percent.min(100);
+                <Suspense fallback=|| view! { <div class="donation-progress-wrap"></div> }>
+                    {move || {
+                        let stats = sponsor_stats
+                            .get()
+                            .unwrap_or_else(SponsorStats::fallback);
+                        let bar_width = stats.progress_percent.min(100);
 
-                    view! {
-                        <div class="donation-progress-wrap">
-                            <p class="donation-progress">
-                                <i class="fa-brands fa-github"></i>
-                                " GitHub Sponsors: "
-                                <strong>{format!("${}/{} per month", stats.current_monthly_income, stats.monthly_goal)}</strong>
-                                {format!(" ({}% goal, {} current sponsors)", stats.progress_percent, stats.current_sponsors)}
-                            </p>
-                            <div
-                                class="donation-progress-track"
-                                role="progressbar"
-                                aria-label="GitHub Sponsors goal progress"
-                                aria-valuemin="0"
-                                aria-valuemax="100"
-                                aria-valuenow=stats.progress_percent.to_string()
-                            >
-                                <span class="donation-progress-fill" style=format!("width: {}%;", bar_width)></span>
+                        view! {
+                            <div class="donation-progress-wrap">
+                                <p class="donation-progress">
+                                    <i class="fa-brands fa-github"></i>
+                                    " GitHub Sponsors: "
+                                    <strong>{format!("${}/{} per month", stats.current_monthly_income, stats.monthly_goal)}</strong>
+                                    {format!(" ({}% goal, {} current sponsors)", stats.progress_percent, stats.current_sponsors)}
+                                </p>
+                                <div
+                                    class="donation-progress-track"
+                                    role="progressbar"
+                                    aria-label="GitHub Sponsors goal progress"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                    aria-valuenow=stats.progress_percent.to_string()
+                                >
+                                    <span class="donation-progress-fill" style=format!("width: {}%;", bar_width)></span>
+                                </div>
                             </div>
-                        </div>
-                    }
-                }}
+                        }
+                    }}
+                </Suspense>
                 <a
                     href="https://github.com/sponsors/temidaradev"
                     target="_blank"
@@ -561,7 +592,10 @@ fn ThemeToggle() -> impl IntoView {
             class="theme-toggle"
             aria-label="Toggle theme"
             title="Toggle theme (or add ?moe to the URL)"
-            on:click=move |_| moe.update(|m| *m = !*m)
+            on:click=move |_| {
+                moe.update(|m| *m = !*m);
+                write_moe_cookie(moe.get_untracked());
+            }
         >
             <i class=move || if moe.get() { "fa-solid fa-sun" } else { "fa-solid fa-moon" }></i>
         </button>
@@ -988,6 +1022,7 @@ fn Sponsors() -> impl IntoView {
                 <h2>{move_tr!("sponsors-title")}</h2>
                 <p>{move_tr!("sponsors-subtitle")}</p>
             </div>
+            <Suspense fallback=|| view! { <div class="sponsors-grid"></div> }>
             {move || {
                 let sponsors = sponsors_list
                     .get()
@@ -1026,6 +1061,7 @@ fn Sponsors() -> impl IntoView {
                     </div>
                 }
             }}
+            </Suspense>
             <div class="sponsors-cta">
                 <a href="https://github.com/sponsors/temidaradev" target="_blank" class="btn-secondary">{move_tr!("sponsors-cta")}</a>
             </div>

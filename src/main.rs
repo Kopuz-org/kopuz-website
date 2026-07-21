@@ -4,7 +4,14 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::{extract::FromRef, routing::post, Router};
+    use axum::{
+        extract::{FromRef, Request},
+        http::{header, HeaderValue},
+        middleware::{self, Next},
+        response::Response,
+        routing::post,
+        Router,
+    };
     use kopuz_website::app::*;
     use kopuz_website::sponsors::{self, SponsorsState, WebhookConfig};
     use leptos::logging::log;
@@ -36,6 +43,19 @@ async fn main() {
         fn from_ref(state: &AppState) -> Self {
             state.webhook.clone()
         }
+    }
+
+    // The js/wasm bundle keeps a fixed filename across deploys, so browsers
+    // must revalidate it each visit or they hydrate fresh HTML with a stale
+    // bundle (which silently breaks all client-side interactivity).
+    async fn pkg_no_cache(req: Request, next: Next) -> Response {
+        let is_pkg = req.uri().path().starts_with("/pkg/");
+        let mut res = next.run(req).await;
+        if is_pkg {
+            res.headers_mut()
+                .insert(header::CACHE_CONTROL, HeaderValue::from_static("no-cache"));
+        }
+        res
     }
 
     let conf = get_configuration(None).unwrap();
@@ -78,6 +98,7 @@ async fn main() {
         )
         .route("/webhooks/github-sponsors", post(sponsors::webhook_handler))
         .fallback(leptos_axum::file_and_error_handler::<AppState, _>(shell))
+        .layer(middleware::from_fn(pkg_no_cache))
         .with_state(app_state);
 
     // run our app with hyper
