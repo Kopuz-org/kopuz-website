@@ -396,15 +396,15 @@ pub fn App() -> impl IntoView {
         <Meta property="og:type" content="website"/>
         <Meta property="og:title" content=move_tr!("og-title")/>
         <Meta property="og:description" content=move_tr!("og-desc")/>
-        <Meta property="og:url" content="https://kopuz.temidara.rocks"/>
-        <Meta property="og:image" content="https://kopuz.temidara.rocks/banner.png"/>
+        <Meta property="og:url" content="https://kopuz.moe"/>
+        <Meta property="og:image" content="https://kopuz.moe/banner.png"/>
         <Meta property="og:image:alt" content=move_tr!("og-image-alt")/>
         <Meta property="og:site_name" content="Kopuz"/>
         <Meta name="twitter:card" content="summary_large_image"/>
         <Meta name="twitter:title" content=move_tr!("twitter-title")/>
         <Meta name="twitter:description" content=move_tr!("twitter-desc")/>
-        <Meta name="twitter:image" content="https://kopuz.temidara.rocks/banner.png"/>
-        <Link rel="canonical" href="https://kopuz.temidara.rocks"/>
+        <Meta name="twitter:image" content="https://kopuz.moe/banner.png"/>
+        <Link rel="canonical" href="https://kopuz.moe"/>
         <Router>
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
@@ -482,6 +482,7 @@ fn HomePage() -> impl IntoView {
             <Platforms/>
             <Support/>
             <Sponsors/>
+            <WebButton/>
             <Footer/>
         </div>
     }
@@ -1102,6 +1103,54 @@ static GALLERY_SRCS: &[&str] = &[
 ];
 
 #[component]
+fn WebButton() -> impl IntoView {
+    // Classic 88x31 "link back" button — the old-web tradition. The SVG and PNG
+    // live in /public and are served from a stable, absolute URL so anyone can
+    // embed the button on their own site from anywhere.
+    const SITE: &str = "https://kopuz.moe";
+
+    let html_embed = format!(
+        "<a href=\"{SITE}\"><img src=\"{SITE}/88x31.svg\" width=\"88\" height=\"31\" alt=\"Kopuz\"></a>"
+    );
+    let markdown_embed = format!("[![Kopuz]({SITE}/88x31.svg)]({SITE})");
+    let bbcode_embed = format!("[url={SITE}][img]{SITE}/88x31.svg[/img][/url]");
+
+    view! {
+        <section class="webbutton" id="button">
+            <div class="section-header">
+                <h2>"Put Kopuz on your site"</h2>
+                <p>"An 88" {"\u{00d7}"} "31 button in the classic web tradition. Grab it, link it back, wear it with pride."</p>
+            </div>
+            <div class="webbutton-body">
+                <div class="webbutton-preview">
+                    <a href="/" aria-label="Kopuz home">
+                        <img src="/88x31.svg" width="88" height="31" alt="Kopuz 88x31 button" class="webbutton-img"/>
+                    </a>
+                    <span class="webbutton-note">
+                        "SVG " <a href="/88x31.svg" target="_blank">"/88x31.svg"</a>
+                        " " {"\u{2022}"} " PNG " <a href="/88x31.png" target="_blank">"/88x31.png"</a>
+                    </span>
+                </div>
+                <div class="webbutton-codes">
+                    <div class="webbutton-code">
+                        <span class="webbutton-code-label">"HTML"</span>
+                        <pre><code>{html_embed}</code></pre>
+                    </div>
+                    <div class="webbutton-code">
+                        <span class="webbutton-code-label">"Markdown"</span>
+                        <pre><code>{markdown_embed}</code></pre>
+                    </div>
+                    <div class="webbutton-code">
+                        <span class="webbutton-code-label">"BBCode"</span>
+                        <pre><code>{bbcode_embed}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+
+#[component]
 fn Footer() -> impl IntoView {
     view! {
         <footer class="footer">
@@ -1110,6 +1159,7 @@ fn Footer() -> impl IntoView {
                 <span>{move_tr!("footer-license")}</span>
             </div>
             <div class="footer-links">
+                <a href="/#button">"88" {"\u{00d7}"} "31 Button"</a>
                 <a href="https://github.com/Kopuz-org/kopuz" target="_blank">{move_tr!("footer-github")}</a>
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank">{move_tr!("footer-releases")}</a>
                 <a href="https://github.com/Kopuz-org/kopuz/issues" target="_blank">{move_tr!("footer-issues")}</a>

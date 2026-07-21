@@ -618,6 +618,66 @@ pre code {
 .footer-links a:hover { color: var(--accent); }
 
 /* ============================================================
+   88x31 WEB BUTTON ("link back")
+   ============================================================ */
+
+.webbutton { padding: 56px 0; border-top: 1px solid var(--line); }
+.webbutton-body {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+.webbutton-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+.webbutton-img {
+    display: block;
+    width: 88px;               /* true-to-life 88x31 */
+    height: 31px;
+    border: 1px solid var(--line);
+    box-shadow: 0 0 0 4px var(--surface), 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.webbutton-preview a:hover .webbutton-img {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 4px var(--surface), 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+.webbutton-note { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.webbutton-note a { color: var(--accent); }
+
+.webbutton-codes {
+    flex: 1 1 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+.webbutton-code-label {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 6px;
+}
+.webbutton-code pre { margin: 0; overflow-x: auto; }
+.webbutton-code code { white-space: pre; word-break: normal; }
+
+.site.moe .webbutton-img { border: 3px solid var(--accent); box-shadow: none; }
+
+@media (max-width: 720px) {
+    .webbutton-body { gap: 24px; }
+    .webbutton-preview { align-items: flex-start; }
+}
+
+/* ============================================================
    LIGHTBOX
    ============================================================ */
 
