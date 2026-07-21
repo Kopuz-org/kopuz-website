@@ -93,6 +93,16 @@ struct SponsorshipEvent {
 struct SponsorshipPayload {
     sponsor: SponsorUser,
     tier: SponsorshipTier,
+    // GitHub sends "public" or "private" depending on whether the sponsor chose
+    // to make their sponsorship visible. Absent on some events (e.g. ping).
+    #[serde(default)]
+    privacy_level: Option<String>,
+}
+
+impl SponsorshipPayload {
+    fn is_private(&self) -> bool {
+        self.privacy_level.as_deref() == Some("private")
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -109,6 +119,15 @@ struct SponsorshipTier {
 fn apply_event(store: &mut SponsorsStore, event: &SponsorshipEvent) {
     let login = &event.sponsorship.sponsor.login;
     let monthly_price_in_cents = event.sponsorship.tier.monthly_price_in_cents;
+
+    // Private sponsors must never be stored or displayed, regardless of action.
+    // "edited" fires when a sponsor flips their visibility, so this also removes
+    // anyone who was public and later chose to go private.
+    if event.sponsorship.is_private() {
+        store.current.retain(|r| !r.login.eq_ignore_ascii_case(login));
+        store.past.retain(|r| !r.login.eq_ignore_ascii_case(login));
+        return;
+    }
 
     match event.action.as_str() {
         "created" => {
