@@ -58,7 +58,24 @@ impl SponsorStats {
     }
 }
 
+/// One-time sponsors we always display, regardless of the persisted store or
+/// what GitHub currently lists publicly. GitHub only surfaces *recent* one-time
+/// sponsors, but a one-time donation is permanent history — so these are pinned
+/// in code and can never be lost to a re-bootstrap or scrape.
+const PERMANENT_ONE_TIME: &[&str] = &["shytzedaka"];
+
 impl SponsorsList {
+    /// Ensure every pinned one-time sponsor is present in `past`, deduped
+    /// case-insensitively. Applied whenever the list is surfaced to the UI.
+    fn with_permanent_one_time(mut self) -> Self {
+        for &login in PERMANENT_ONE_TIME {
+            if !self.past.iter().any(|p| p.eq_ignore_ascii_case(login)) {
+                self.past.push(login.to_string());
+            }
+        }
+        self
+    }
+
     fn fallback() -> Self {
         Self {
             current: [
@@ -149,11 +166,12 @@ async fn fetch_sponsors_list() -> SponsorsList {
             return SponsorsList {
                 current: store.current.iter().map(|r| r.login.clone()).collect(),
                 past: store.past.iter().map(|r| r.login.clone()).collect(),
-            };
+            }
+            .with_permanent_one_time();
         }
     }
 
-    fetch_sponsors_list_via_scrape().await
+    fetch_sponsors_list_via_scrape().await.with_permanent_one_time()
 }
 
 pub(crate) async fn fetch_sponsors_list_via_scrape() -> SponsorsList {

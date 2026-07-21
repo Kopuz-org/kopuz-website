@@ -131,17 +131,20 @@ fn apply_event(store: &mut SponsorsStore, event: &SponsorshipEvent) {
 
     match event.action.as_str() {
         "created" => {
-            store.current.retain(|r| !r.login.eq_ignore_ascii_case(login));
-            store.past.retain(|r| !r.login.eq_ignore_ascii_case(login));
-
             let record = SponsorRecord {
                 login: login.clone(),
                 monthly_price_in_cents,
             };
 
             if event.sponsorship.tier.is_one_time {
+                // One-time donations are permanent history; only dedup within
+                // the one-time list, leaving any monthly record intact.
+                store.past.retain(|r| !r.login.eq_ignore_ascii_case(login));
                 store.past.push(record);
             } else {
+                // A new monthly sponsorship must not erase a past one-time
+                // donation — the sponsor stays in both lists.
+                store.current.retain(|r| !r.login.eq_ignore_ascii_case(login));
                 store.current.push(record);
             }
         }
