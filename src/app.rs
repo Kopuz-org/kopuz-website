@@ -4,6 +4,7 @@ use leptos_fluent::{leptos_fluent, move_tr, I18n};
 use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
+    hooks::use_query_map,
     StaticSegment,
 };
 use serde::{Deserialize, Serialize};
@@ -331,6 +332,9 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+                <link rel="preconnect" href="https://fonts.googleapis.com"/>
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"/>
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
@@ -370,7 +374,7 @@ pub fn App() -> impl IntoView {
         <Meta name="keywords" content=move_tr!("home-meta-keywords")/>
         <Meta name="author" content="temidaradev"/>
         <Meta name="robots" content="index, follow"/>
-        <Meta name="theme-color" content="#32302f"/>
+        <Meta name="theme-color" content="#17140f"/>
         <Meta property="og:type" content="website"/>
         <Meta property="og:title" content=move_tr!("og-title")/>
         <Meta property="og:description" content=move_tr!("og-desc")/>
@@ -395,8 +399,31 @@ pub fn App() -> impl IntoView {
 
 #[component]
 fn HomePage() -> impl IntoView {
+    // `?moe` in the URL boots the site straight into the pink theme (shareable
+    // easter egg); the nav toggle flips it either way. Without `?moe`, the
+    // system color scheme decides: dark stays modern, light gets moe.
+    let query = use_query_map();
+    let initial_moe = query.with_untracked(|q| q.get("moe").is_some());
+    let moe: RwSignal<bool> = RwSignal::new(initial_moe);
+    provide_context(moe);
+
+    // Effects only run on the client, after hydration — SSR always renders
+    // dark, then light-system visitors flip to moe on first paint.
+    Effect::new(move |_| {
+        if initial_moe {
+            return;
+        }
+        if let Some(win) = web_sys::window() {
+            if let Ok(Some(mql)) = win.match_media("(prefers-color-scheme: light)") {
+                if mql.matches() {
+                    moe.set(true);
+                }
+            }
+        }
+    });
+
     view! {
-        <div class="site">
+        <div class="site" class:moe=move || moe.get()>
             <DonationBanner/>
             <Nav/>
             <Hero/>
@@ -510,12 +537,7 @@ fn Nav() -> impl IntoView {
     view! {
         <nav class="nav">
             <div class="nav-row">
-                <a href="/" class="nav-logo">"Kopuz"</a>
-                <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="nav-announce">
-                    <span class="nav-new">{move_tr!("nav-new")}</span>
-                    " "
-                    {move_tr!("nav-announce")}
-                </a>
+                <a href="/" class="nav-logo"><img src="/logo.svg" alt="" width="26" height="26"/>"Kopuz"</a>
                 <div class="nav-tabs">
                     <a href="/#features" class="nav-tab">{move_tr!("nav-features")}</a>
                     <a href="/#install" class="nav-tab">{move_tr!("nav-install")}</a>
@@ -523,9 +545,26 @@ fn Nav() -> impl IntoView {
                     <a href="/#sponsors" class="nav-tab">{move_tr!("nav-sponsors")}</a>
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="nav-tab">{move_tr!("nav-github")}</a>
                     <LanguageSwitcher/>
+                    <ThemeToggle/>
                 </div>
             </div>
         </nav>
+    }
+}
+
+#[component]
+fn ThemeToggle() -> impl IntoView {
+    let moe = expect_context::<RwSignal<bool>>();
+    view! {
+        <button
+            type="button"
+            class="theme-toggle"
+            aria-label="Toggle theme"
+            title="Toggle theme (or add ?moe to the URL)"
+            on:click=move |_| moe.update(|m| *m = !*m)
+        >
+            <i class=move || if moe.get() { "fa-solid fa-sun" } else { "fa-solid fa-moon" }></i>
+        </button>
     }
 }
 
@@ -581,10 +620,6 @@ fn Features() -> impl IntoView {
     view! {
         <section class="features" id="features">
             <div class="features-grid">
-                <div class="feature-header-cell">
-                    <h2>{move_tr!("features-title")}</h2>
-                    <span class="features-chip">{move_tr!("features-chip")}</span>
-                </div>
                 <div class="features-sources-bar">
                     <span class="sources-label">{move_tr!("features-works-with")}</span>
                     <div class="sources-list">

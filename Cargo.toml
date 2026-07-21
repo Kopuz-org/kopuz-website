@@ -16,6 +16,7 @@ leptos_meta = { version = "0.8.0" }
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 wasm-bindgen = { version = "0.2.106", optional = true }
 fluent-templates = "0.14"
+web-sys = { version = "0.3", features = ["Window", "MediaQueryList"] }
 leptos-fluent = { version = "0.2", features = ["json"] }
 serde = { version = "1", features = ["derive"] }
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"], optional = true }
