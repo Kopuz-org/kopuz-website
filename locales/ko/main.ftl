@@ -243,3 +243,10 @@ install-quick-title = Quick start (most users)
 install-quick-desc = Download the latest release for your platform and open it.
 install-quick-cta = Open Releases
 install-quick-note = If you are not sure which option to choose, start here.
+
+## Deep link (/j)
+join-title = Kopuz 여는 중…
+join-opening = Kopuz 여는 중…
+join-fallback = Kopuz가 열리지 않았습니다. 아직 없으신가요?
+join-no-payload = 이 링크에는 재생목록이 없습니다.
+join-download = Kopuz 내려받기

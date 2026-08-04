@@ -409,9 +409,68 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
                     <Route path=StaticSegment("") view=HomePage/>
+                    <Route path=StaticSegment("j") view=JoinPage/>
                 </Routes>
             </main>
         </Router>
+    }
+}
+
+/// Bounce a "Listen on Kopuz" link into the desktop app.
+///
+/// Discord only accepts http/https in a Rich Presence button, so the button
+/// points here and this hands off to `kopuz://`. The queue rides in the URL
+/// **fragment**, which browsers never send to the server — so despite this being
+/// an SSR app, nobody's queue ever reaches the box or its logs. Everything below
+/// runs client-side for the same reason: there is nothing to render on the
+/// server, because the server cannot see the payload.
+#[component]
+fn JoinPage() -> impl IntoView {
+    // `None` until the effect runs: on the server, and on first paint, we
+    // genuinely don't know yet whether there's a payload.
+    let payload: RwSignal<Option<String>> = RwSignal::new(None);
+    let took_too_long = RwSignal::new(false);
+
+    Effect::new(move |_| {
+        let hash = web_sys::window()
+            .and_then(|w| w.location().hash().ok())
+            .unwrap_or_default();
+        let encoded = hash.trim_start_matches('#').to_string();
+        if encoded.is_empty() {
+            took_too_long.set(true);
+            return;
+        }
+        payload.set(Some(encoded.clone()));
+
+        // Navigating to an unregistered scheme fails silently, so there is no
+        // error to catch — assume failure after a beat and offer the download
+        // instead. A handoff that worked has already backgrounded this tab.
+        if let Some(win) = web_sys::window() {
+            let _ = win.location().set_href(&format!("kopuz://j/{encoded}"));
+        }
+        set_timeout(
+            move || took_too_long.set(true),
+            std::time::Duration::from_millis(1500),
+        );
+    });
+
+    view! {
+        <Title text=move_tr!("join-title")/>
+        // A one-shot handoff link is worthless in an index.
+        <Meta name="robots" content="noindex, nofollow"/>
+        <section class="join">
+            <h1>{move_tr!("join-opening")}</h1>
+            <Show when=move || took_too_long.get()>
+                <p>
+                    {move || if payload.get().is_some() {
+                        move_tr!("join-fallback")
+                    } else {
+                        move_tr!("join-no-payload")
+                    }}
+                </p>
+                <a href="/#downloads" class="btn-primary">{move_tr!("join-download")}</a>
+            </Show>
+        </section>
     }
 }
 

@@ -231,3 +231,10 @@ og-desc = Modern, lightweight music player for local files and streaming. Jellyf
 og-image-alt = Kopuz music player
 twitter-title = Kopuz — Music Player
 twitter-desc = Modern, lightweight music player. Free and open source. Stream from Jellyfin, Navidrome, YouTube Music, or SoundCloud.
+
+## Deep link (/j)
+join-title = Opening Kopuz…
+join-opening = Opening Kopuz…
+join-fallback = Kopuz didn't open. Don't have it yet?
+join-no-payload = This link has no queue attached.
+join-download = Download Kopuz
