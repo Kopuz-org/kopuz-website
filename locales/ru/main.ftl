@@ -135,7 +135,7 @@ platforms-download = Скачать →
 
 ## Support
 support-title = Поддержать Kopuz
-support-subtitle = Kopuz бесплатный и open source. Поддержка держит его на плаву.
+support-subtitle = Kopuz — бесплатный проект с открытым исходным кодом. Ваша поддержка помогает ему развиваться.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
 support-crypto-divider = — или отправь крипту —
@@ -239,7 +239,7 @@ perf-http-desc = { perf-http-desc-1 } { perf-http-desc-2 }
 perf-sort-desc = { perf-sort-desc-1 } { perf-sort-desc-2 }
 ytmusic-token-desc = { ytmusic-token-desc-1 } { ytmusic-token-desc-2 }
 ytmusic-premium-desc = { ytmusic-premium-desc-1 } { ytmusic-premium-desc-2 }
-install-quick-title = Quick start (most users)
-install-quick-desc = Download the latest release for your platform and open it.
-install-quick-cta = Open Releases
-install-quick-note = If you are not sure which option to choose, start here.
+install-quick-title = Быстрый старт для (для большинства пользователей)
+install-quick-desc = Скачайте последнюю версию для своей платформы и откройте ее.
+install-quick-cta = Открыть Релизы
+install-quick-note = Если вы не знаете, какой вариант выбрать, начните с этого.
