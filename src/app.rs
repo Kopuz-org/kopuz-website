@@ -8,6 +8,7 @@ use leptos_router::{
     StaticSegment,
 };
 use serde::{Deserialize, Serialize};
+#[cfg(feature = "ssr")]
 use std::collections::HashSet;
 
 static_loader! {
