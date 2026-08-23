@@ -43,6 +43,103 @@ pub(crate) struct SponsorsList {
     pub(crate) past: Vec<String>,
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ReleaseNotes {
+    tag_name: String,
+    name: String,
+    published_at: String,
+    body: String,
+}
+
+impl ReleaseNotes {
+    fn fallback() -> Self {
+        Self {
+            tag_name: "Latest release".into(),
+            name: "Kopuz release notes".into(),
+            published_at: String::new(),
+            body: "Release notes are temporarily unavailable. Please check again soon.".into(),
+        }
+    }
+}
+
+#[cfg(feature = "ssr")]
+#[derive(Deserialize)]
+struct GitHubRelease {
+    tag_name: String,
+    name: Option<String>,
+    published_at: Option<String>,
+    body: Option<String>,
+}
+
+async fn fetch_latest_release() -> ReleaseNotes {
+    #[cfg(feature = "ssr")]
+    {
+        let client = reqwest::Client::builder()
+            .user_agent("kopuz-website/1.0")
+            .build();
+        if let Ok(client) = client {
+            let response = client
+                .get("https://api.github.com/repos/Kopuz-org/kopuz/releases/latest")
+                .header("Accept", "application/vnd.github+json")
+                .send()
+                .await;
+            if let Ok(response) = response {
+                if let Ok(body) = response.text().await {
+                    if let Ok(release) = serde_json::from_str::<GitHubRelease>(&body) {
+                        return ReleaseNotes {
+                            name: release.name.unwrap_or_else(|| release.tag_name.clone()),
+                            tag_name: release.tag_name,
+                            published_at: release.published_at.unwrap_or_default(),
+                            body: release.body.unwrap_or_default(),
+                        };
+                    }
+                }
+            }
+        }
+    }
+
+    ReleaseNotes::fallback()
+}
+
+enum ReleaseBlock {
+    Heading2(String),
+    Heading3(String),
+    Heading4(String),
+    Bullet(String),
+    Paragraph(String),
+}
+
+fn clean_release_markdown(text: &str) -> String {
+    text.replace("**", "").replace('`', "")
+}
+
+fn parse_release_markdown(body: &str) -> Vec<ReleaseBlock> {
+    body.lines()
+        .filter_map(|line| {
+            let line = line.trim();
+            if line == "## What's Changed" || line == "## What’s Changed" {
+                return Some(ReleaseBlock::Heading2("__STOP__".into()));
+            }
+            if let Some(text) = line.strip_prefix("## ") {
+                Some(ReleaseBlock::Heading2(clean_release_markdown(text)))
+            } else if let Some(text) = line.strip_prefix("### ") {
+                Some(ReleaseBlock::Heading3(clean_release_markdown(text)))
+            } else if let Some(text) = line.strip_prefix("# ") {
+                Some(ReleaseBlock::Heading2(clean_release_markdown(text)))
+            } else if line.starts_with("**") && line.ends_with("**") {
+                Some(ReleaseBlock::Heading4(clean_release_markdown(line)))
+            } else if let Some(text) = line.strip_prefix("- ").or_else(|| line.strip_prefix("* ")) {
+                Some(ReleaseBlock::Bullet(clean_release_markdown(text)))
+            } else if line.is_empty() {
+                None
+            } else {
+                Some(ReleaseBlock::Paragraph(clean_release_markdown(line)))
+            }
+        })
+        .take_while(|block| !matches!(block, ReleaseBlock::Heading2(text) if text == "__STOP__"))
+        .collect()
+}
+
 impl SponsorStats {
     fn fallback() -> Self {
         let monthly_goal = 400;
@@ -59,22 +156,36 @@ impl SponsorStats {
     }
 }
 
-/// One-time sponsors we always display, regardless of the persisted store or
-/// what GitHub currently lists publicly. GitHub only surfaces *recent* one-time
-/// sponsors, but a one-time donation is permanent history — so these are pinned
-/// in code and can never be lost to a re-bootstrap or scrape.
-const PERMANENT_ONE_TIME: &[&str] = &["shytzedaka"];
+/// Special sponsors are always displayed in their own tier, regardless of the
+/// persisted store or what GitHub currently lists publicly.
+const SPECIAL_SPONSORS: &[&str] = &["WillLillis", "shytzedaka"];
 
 impl SponsorsList {
-    /// Ensure every pinned one-time sponsor is present in `past`, deduped
+    /// Ensure every pinned special sponsor is present in `past`, deduped
     /// case-insensitively. Applied whenever the list is surfaced to the UI.
-    fn with_permanent_one_time(mut self) -> Self {
-        for &login in PERMANENT_ONE_TIME {
+    fn with_special_sponsors(mut self) -> Self {
+        for &login in SPECIAL_SPONSORS {
             if !self.past.iter().any(|p| p.eq_ignore_ascii_case(login)) {
                 self.past.push(login.to_string());
             }
         }
         self
+    }
+
+    fn is_special_one_time(login: &str) -> bool {
+        SPECIAL_SPONSORS
+            .iter()
+            .any(|special| special.eq_ignore_ascii_case(login))
+    }
+
+    fn special_sponsors() -> impl Iterator<Item = &'static str> {
+        SPECIAL_SPONSORS.iter().copied()
+    }
+
+    fn regular_one_time(&self) -> impl Iterator<Item = &String> {
+        self.past
+            .iter()
+            .filter(|login| !Self::is_special_one_time(login))
     }
 
     fn fallback() -> Self {
@@ -90,9 +201,15 @@ impl SponsorsList {
             ]
             .map(String::from)
             .to_vec(),
-            past: ["Iamknownasfesal", "arda2k3", "bulakemun", "AniviaFlome", "SeriousPassenger", ]
-                .map(String::from)
-                .to_vec(),
+            past: [
+                "Iamknownasfesal",
+                "arda2k3",
+                "bulakemun",
+                "AniviaFlome",
+                "SeriousPassenger",
+            ]
+            .map(String::from)
+            .to_vec(),
         }
     }
 }
@@ -168,11 +285,13 @@ async fn fetch_sponsors_list() -> SponsorsList {
                 current: store.current.iter().map(|r| r.login.clone()).collect(),
                 past: store.past.iter().map(|r| r.login.clone()).collect(),
             }
-            .with_permanent_one_time();
+            .with_special_sponsors();
         }
     }
 
-    fetch_sponsors_list_via_scrape().await.with_permanent_one_time()
+    fetch_sponsors_list_via_scrape()
+        .await
+        .with_special_sponsors()
 }
 
 pub(crate) async fn fetch_sponsors_list_via_scrape() -> SponsorsList {
@@ -191,10 +310,14 @@ pub(crate) async fn fetch_sponsors_list_via_scrape() -> SponsorsList {
                     // its closing tag is a tight, unambiguous boundary (unlike e.g. "Select a
                     // tier", which is far enough away to swallow unrelated tier-widget markup
                     // that repeats current sponsors' avatars).
-                    let current_section = slice_between(&body, "Current sponsors", "</remote-pagination>");
-                    let past_section = slice_between(&body, "Past sponsors", "</remote-pagination>");
+                    let current_section =
+                        slice_between(&body, "Current sponsors", "</remote-pagination>");
+                    let past_section =
+                        slice_between(&body, "Past sponsors", "</remote-pagination>");
 
-                    if let (Some(current_section), Some(past_section)) = (current_section, past_section) {
+                    if let (Some(current_section), Some(past_section)) =
+                        (current_section, past_section)
+                    {
                         let current = extract_github_usernames(current_section);
                         let past = extract_github_usernames(past_section);
 
@@ -322,8 +445,8 @@ pub(crate) async fn fetch_sponsor_stats_via_scrape() -> SponsorStats {
                         .or_else(|| parse_uint_before_marker(&body, "% towards"))
                         .unwrap_or(0);
 
-                    let current_sponsors = parse_uint_after_marker(&body, "Current sponsors")
-                        .unwrap_or(0);
+                    let current_sponsors =
+                        parse_uint_after_marker(&body, "Current sponsors").unwrap_or(0);
 
                     let current_monthly_income = (monthly_goal * progress_percent) / 100;
 
@@ -543,17 +666,74 @@ fn HomePage() -> impl IntoView {
             <DonationBanner/>
             <Nav/>
             <Hero/>
+            <WhatsNew/>
             <Features/>
             <Performance/>
+            <InstallChooser/>
             <Install/>
             <YtMusic/>
             <SoundCloud/>
+            <SpotifyGuide/>
+            <FeatureGuides/>
+            <Privacy/>
+            <Requirements/>
+            <AboutName/>
             <Platforms/>
+            <Community/>
             <Support/>
             <Sponsors/>
             <WebButton/>
             <Footer/>
         </div>
+    }
+}
+
+#[component]
+fn WhatsNew() -> impl IntoView {
+    let latest_release = Resource::new(|| (), |_| async move { fetch_latest_release().await });
+
+    view! {
+        <section class="content-section whats-new" id="whats-new">
+            <div class="section-header">
+                <span class="eyebrow">{move_tr!("new-eyebrow")}</span>
+                <h2>{move_tr!("new-title")}</h2>
+                <p>{move_tr!("new-subtitle")}</p>
+            </div>
+            <Suspense fallback=|| view! { <article class="release-notes"><p>"Loading the latest release…"</p></article> }>
+                {move || latest_release.get().map(|release| {
+                    let date = release.published_at.get(..10).unwrap_or("").to_string();
+                    let meta = if date.is_empty() { release.tag_name.clone() } else { format!("{} · {}", release.tag_name, date) };
+                    let blocks = parse_release_markdown(&release.body);
+                    view! {
+                        <article class="release-notes">
+                            <span class="release-version">{meta}</span>
+                            <h2>{release.name}</h2>
+                            {blocks.into_iter().map(|block| match block {
+                                ReleaseBlock::Heading2(text) => view! { <h3>{text}</h3> }.into_any(),
+                                ReleaseBlock::Heading3(text) => view! { <h4>{text}</h4> }.into_any(),
+                                ReleaseBlock::Heading4(text) => view! { <h4>{text}</h4> }.into_any(),
+                                ReleaseBlock::Bullet(text) => view! { <p class="release-list-item">{text}</p> }.into_any(),
+                                ReleaseBlock::Paragraph(text) => view! { <p>{text}</p> }.into_any(),
+                            }).collect_view()}
+                        </article>
+                    }
+                })}
+            </Suspense>
+        </section>
+    }
+}
+
+#[component]
+fn InstallChooser() -> impl IntoView {
+    view! {
+        <section class="content-section" id="choose-install">
+            <div class="section-header"><h2>{move_tr!("chooser-title")}</h2><p>{move_tr!("chooser-subtitle")}</p></div>
+            <div class="chooser-grid">
+                <a class="chooser-card" href="https://github.com/Kopuz-org/kopuz/releases/latest" target="_blank"><i class="fa-brands fa-windows"></i><h3>"Windows"</h3><p>"Download the latest Windows installer from GitHub Releases."</p><span>"Open releases →"</span></a>
+                <a class="chooser-card" href="https://github.com/Kopuz-org/kopuz/releases/latest" target="_blank"><i class="fa-brands fa-apple"></i><h3>"macOS"</h3><p>"Download the Apple Silicon DMG, then clear quarantine if macOS blocks it."</p><span>"Download DMG →"</span></a>
+                <a class="chooser-card recommended" href="https://kopuz-org.github.io/kopuz-flatpak/com.temidaradev.kopuz.flatpakref"><span class="recommended-label">"Recommended"</span><i class="fa-brands fa-linux"></i><h3>"Linux"</h3><p>"Use the pre-built Flatpak, or choose AppImage, AUR, Nix, or Cargo below."</p><span>"Install Flatpak →"</span></a>
+            </div>
+        </section>
     }
 }
 
@@ -751,11 +931,13 @@ fn Features() -> impl IntoView {
                         <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
                         <span class="source-tag"><i class="fa-brands fa-youtube"></i>" "{move_tr!("features-source-ytmusic")}</span>
                         <span class="source-tag"><i class="fa-brands fa-soundcloud"></i>" "{move_tr!("features-source-soundcloud")}</span>
+                        <span class="source-tag"><i class="fa-brands fa-spotify"></i>" "{move_tr!("features-source-spotify")}</span>
                     </div>
                 </div>
                 <FeatureCard icon="fa-solid fa-music" title_key="feat-local-title" desc_key="feat-local-desc"/>
                 <FeatureCard icon="fa-brands fa-youtube" title_key="feat-youtube-title" desc_key="feat-youtube-desc"/>
                 <FeatureCard icon="fa-brands fa-soundcloud" title_key="feat-soundcloud-title" desc_key="feat-soundcloud-desc"/>
+                <FeatureCard icon="fa-brands fa-spotify" title_key="feat-spotify-title" desc_key="feat-spotify-desc"/>
                 <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
                 <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
                 <FeatureCard icon="fa-solid fa-align-left" title_key="feat-lyrics-title" desc_key="feat-lyrics-desc"/>
@@ -819,6 +1001,7 @@ fn feature_title(key: &'static str) -> Signal<String> {
         "feat-debug-title" => move_tr!("feat-debug-title"),
         "feat-cleanup-title" => move_tr!("feat-cleanup-title"),
         "feat-soundcloud-title" => move_tr!("feat-soundcloud-title"),
+        "feat-spotify-title" => move_tr!("feat-spotify-title"),
         "feat-miniplayer-title" => move_tr!("feat-miniplayer-title"),
         "feat-tray-title" => move_tr!("feat-tray-title"),
         "feat-badges-title" => move_tr!("feat-badges-title"),
@@ -848,6 +1031,7 @@ fn feature_desc(key: &'static str) -> Signal<String> {
         "feat-debug-desc" => move_tr!("feat-debug-desc"),
         "feat-cleanup-desc" => move_tr!("feat-cleanup-desc"),
         "feat-soundcloud-desc" => move_tr!("feat-soundcloud-desc"),
+        "feat-spotify-desc" => move_tr!("feat-spotify-desc"),
         "feat-miniplayer-desc" => move_tr!("feat-miniplayer-desc"),
         "feat-tray-desc" => move_tr!("feat-tray-desc"),
         "feat-badges-desc" => move_tr!("feat-badges-desc"),
@@ -912,6 +1096,11 @@ fn Install() -> impl IntoView {
                     <p class="install-note">{move_tr!("install-quick-note")}</p>
                 </div>
                 <div class="install-card">
+                    <h3>{move_tr!("install-cargo-title")}</h3>
+                    <p>{move_tr!("install-cargo-desc")}</p>
+                    <pre><code>"cargo install --locked kopuz"</code></pre>
+                </div>
+                <div class="install-card">
                     <h3>{move_tr!("install-nix-title")}</h3>
                     <p>{move_tr!("install-nix-run")}</p>
                     <pre><code>"nix run github:temidaradev/kopuz"</code></pre>
@@ -922,19 +1111,15 @@ fn Install() -> impl IntoView {
                 <div class="install-card">
                     <h3>{move_tr!("install-aur-title")}</h3>
                     <p>{move_tr!("install-aur-desc")}</p>
-                    <pre><code>"yay -S kopuz
+                    <pre><code>"yay -S kopuz-bin
 # or
-paru -S kopuz"</code></pre>
-                    <p class="install-note">{move_tr!("install-aur-note-1")}" "<code>"dioxus-cli"</code>{move_tr!("install-aur-note-2")}</p>
+paru -S kopuz-bin"</code></pre>
                 </div>
                 <div class="install-card">
                     <h3>{move_tr!("install-flatpak-title")}</h3>
                     <p>{move_tr!("install-flatpak-desc")}</p>
-                    <pre><code>"git clone https://github.com/temidaradev/kopuz
-cd kopuz
-flatpak-builder --user --install --force-clean \\
-  build-dir packaging/flatpak/com.temidaradev.kopuz.json
-flatpak run com.temidaradev.kopuz"</code></pre>
+                    <pre><code>"flatpak install --user --or-update \\
+    https://kopuz-org.github.io/kopuz-flatpak/com.temidaradev.kopuz.flatpakref"</code></pre>
                     <p class="install-note">{move_tr!("install-flatpak-note")}</p>
                 </div>
                 <div class="install-card">
@@ -1000,6 +1185,95 @@ fn SoundCloud() -> impl IntoView {
                     <h3>{move_tr!("soundcloud-features-title")}</h3>
                     <p>{move_tr!("soundcloud-features-desc")}</p>
                 </div>
+            </div>
+        </section>
+    }
+}
+
+#[component]
+fn SpotifyGuide() -> impl IntoView {
+    view! {
+        <section class="content-section guide-section" id="spotify">
+            <div class="section-header"><h2>{move_tr!("spotify-guide-title")}</h2><p>{move_tr!("spotify-guide-subtitle")}</p></div>
+            <div class="steps-grid">
+                <article class="step-card"><span>"01"</span><h3>{move_tr!("spotify-step-1-title")}</h3><p>{move_tr!("spotify-step-1-desc")}</p><code>"http://127.0.0.1:8898/callback"</code></article>
+                <article class="step-card"><span>"02"</span><h3>{move_tr!("spotify-step-2-title")}</h3><p>{move_tr!("spotify-step-2-desc")}</p></article>
+                <article class="step-card"><span>"03"</span><h3>{move_tr!("spotify-step-3-title")}</h3><p>{move_tr!("spotify-step-3-desc")}</p></article>
+            </div>
+            <div class="callout"><i class="fa-solid fa-circle-info"></i><p>{move_tr!("spotify-requirement")}</p></div>
+            <a class="text-link" href="https://github.com/Kopuz-org/kopuz#spotify-setup" target="_blank">{move_tr!("spotify-full-guide")}</a>
+        </section>
+    }
+}
+
+#[component]
+fn FeatureGuides() -> impl IntoView {
+    view! {
+        <section class="content-section" id="guides">
+            <div class="section-header"><h2>{move_tr!("guides-title")}</h2><p>{move_tr!("guides-subtitle")}</p></div>
+            <div class="guide-grid">
+                <a href="#spotify" class="guide-card"><i class="fa-brands fa-spotify"></i><h3>"Spotify"</h3><p>"Client ID, browser player, Spotify Connect, and limitations."</p></a>
+                <a href="#ytmusic" class="guide-card"><i class="fa-brands fa-youtube"></i><h3>"YouTube Music"</h3><p>"Signed-in and anonymous modes, radio, Discover, and Premium tracks."</p></a>
+                <a href="#soundcloud" class="guide-card"><i class="fa-brands fa-soundcloud"></i><h3>"SoundCloud"</h3><p>"Browser sign-in, likes, playlists, and supported playback formats."</p></a>
+                <a href="https://github.com/Kopuz-org/kopuz#features" target="_blank" class="guide-card"><i class="fa-solid fa-server"></i><h3>"Jellyfin & Subsonic"</h3><p>"Server libraries, synced favorites, playlists, artist images, and scrobbling."</p></a>
+                <a href="https://github.com/Kopuz-org/kopuz#features" target="_blank" class="guide-card"><i class="fa-solid fa-palette"></i><h3>"Themes & audio"</h3><p>"Custom themes, synced lyrics, equalizer, crossfade, and channel modes."</p></a>
+                <a href="https://github.com/Kopuz-org/kopuz#features" target="_blank" class="guide-card"><i class="fa-solid fa-download"></i><h3>"yt-dlp & scrobbling"</h3><p>"Downloads, formats, SponsorBlock, and listening-history services."</p></a>
+            </div>
+        </section>
+    }
+}
+
+#[component]
+fn Privacy() -> impl IntoView {
+    view! {
+        <section class="content-section" id="privacy">
+            <div class="section-header"><h2>{move_tr!("privacy-title")}</h2><p>{move_tr!("privacy-subtitle")}</p></div>
+            <div class="privacy-grid">
+                <article><i class="fa-solid fa-database"></i><h3>{move_tr!("privacy-local-title")}</h3><p>{move_tr!("privacy-local-desc")}</p></article>
+                <article><i class="fa-solid fa-key"></i><h3>{move_tr!("privacy-accounts-title")}</h3><p>{move_tr!("privacy-accounts-desc")}</p></article>
+                <article><i class="fa-solid fa-folder-tree"></i><h3>{move_tr!("privacy-files-title")}</h3><p>{move_tr!("privacy-files-desc")}</p></article>
+            </div>
+            <details class="paths-details"><summary>{move_tr!("privacy-paths-title")}</summary><div><p><strong>"Linux: "</strong><code>"~/.config/kopuz/kopuz.db"</code></p><p><strong>"macOS: "</strong><code>"~/Library/Application Support/com.temidaradev.kopuz/kopuz.db"</code></p><p><strong>"Windows: "</strong><code>"%APPDATA%\\temidaradev\\kopuz\\config\\kopuz.db"</code></p></div></details>
+        </section>
+    }
+}
+
+#[component]
+fn Requirements() -> impl IntoView {
+    view! {
+        <section class="content-section" id="requirements">
+            <div class="section-header"><h2>{move_tr!("requirements-title")}</h2><p>{move_tr!("requirements-subtitle")}</p></div>
+            <div class="requirements-list">
+                <div><strong>"Spotify"</strong><span>"Premium is required for playback; a personal Client ID and supported browser are required."</span></div>
+                <div><strong>"AppImage"</strong><span>"Requires webkit2gtk-4.1 and GTK 3. The tray additionally needs an appindicator library."</span></div>
+                <div><strong>"YouTube Music"</strong><span>"Anonymous mode cannot play Premium-only tracks; yt-dlp can help signed-in playback fallbacks."</span></div>
+                <div><strong>"Crossfade"</strong><span>"Available for native desktop playback; browser-owned Spotify audio uses normal transitions."</span></div>
+                <div><strong>"Spotify limits"</strong><span>"Development Mode limits search, makes playlists read-only, and disables downloads, radio, tag editing, and Kopuz audio effects."</span></div>
+            </div>
+        </section>
+    }
+}
+
+#[component]
+fn AboutName() -> impl IntoView {
+    view! {
+        <section class="content-section about-name" id="about-name">
+            <div class="about-mark"><img src="/logo.svg" alt=""/></div>
+            <div><span class="eyebrow">{move_tr!("about-eyebrow")}</span><h2>{move_tr!("about-title")}</h2><p>{move_tr!("about-desc-1")}</p><p>{move_tr!("about-desc-2")}</p></div>
+        </section>
+    }
+}
+
+#[component]
+fn Community() -> impl IntoView {
+    view! {
+        <section class="content-section" id="community">
+            <div class="section-header"><h2>{move_tr!("community-title")}</h2><p>{move_tr!("community-subtitle")}</p></div>
+            <div class="community-grid">
+                <a href="https://github.com/Kopuz-org/kopuz/issues" target="_blank"><i class="fa-solid fa-bug"></i><div><h3>{move_tr!("community-issues-title")}</h3><p>{move_tr!("community-issues-desc")}</p></div></a>
+                <a href="https://github.com/Kopuz-org/kopuz/discussions" target="_blank"><i class="fa-regular fa-comments"></i><div><h3>{move_tr!("community-discussions-title")}</h3><p>{move_tr!("community-discussions-desc")}</p></div></a>
+                <a href="https://discord.gg/K6Bmzw2E4M" target="_blank"><i class="fa-brands fa-discord"></i><div><h3>"Discord"</h3><p>{move_tr!("community-discord-desc")}</p></div></a>
+                <a href="https://github.com/Kopuz-org/kopuz" target="_blank"><i class="fa-solid fa-code-branch"></i><div><h3>{move_tr!("community-contribute-title")}</h3><p>{move_tr!("community-contribute-desc")}</p></div></a>
             </div>
         </section>
     }
@@ -1115,37 +1389,59 @@ fn Sponsors() -> impl IntoView {
                 let sponsors = sponsors_list
                     .get()
                     .unwrap_or_else(SponsorsList::fallback);
+                let special_sponsors = SponsorsList::special_sponsors().map(|username| {
+                    let profile = format!("https://github.com/{username}");
+                    let avatar = format!("https://github.com/{username}.png?size=80");
+                    let alt = username.to_string();
+                    let name = username.to_string();
+                    view! {
+                        <a href=profile target="_blank" class="sponsor-card sponsor-special">
+                            <img src=avatar alt=alt/>
+                            <span>{name}</span>
+                        </a>
+                    }
+                });
 
                 view! {
-                    <div class="sponsors-grid sponsors-monthly">
-                        <h3 class="sponsors-section-title">{format!("Monthly Sponsors ({})", sponsors.current.len())}</h3>
-                        {sponsors.current.iter().map(|username| {
-                            let profile = format!("https://github.com/{username}");
-                            let avatar = format!("https://github.com/{username}.png?size=80");
-                            let alt = username.clone();
-                            let name = username.clone();
-                            view! {
-                                <a href=profile target="_blank" class="sponsor-card sponsor-monthly">
-                                    <img src=avatar alt=alt/>
-                                    <span>{name}</span>
-                                </a>
-                            }
-                        }).collect_view()}
+                    <div class="sponsors-tier sponsors-special">
+                        <h3 class="sponsors-section-title">"Special Sponsors"</h3>
+                        <div class="sponsors-grid">
+                            {special_sponsors.collect_view()}
+                        </div>
                     </div>
-                    <div class="sponsors-grid sponsors-one-time">
-                        <h3 class="sponsors-section-title">{format!("One-time Sponsors ({})", sponsors.past.len())}</h3>
-                        {sponsors.past.iter().map(|username| {
-                            let profile = format!("https://github.com/{username}");
-                            let avatar = format!("https://github.com/{username}.png?size=80");
-                            let alt = username.clone();
-                            let name = username.clone();
-                            view! {
-                                <a href=profile target="_blank" class="sponsor-card sponsor-one-time">
-                                    <img src=avatar alt=alt/>
-                                    <span>{name}</span>
-                                </a>
-                            }
-                        }).collect_view()}
+                    <div class="sponsors-tier sponsors-monthly">
+                        <h3 class="sponsors-section-title">{format!("Monthly Sponsors ({})", sponsors.current.len())}</h3>
+                        <div class="sponsors-grid">
+                            {sponsors.current.iter().map(|username| {
+                                let profile = format!("https://github.com/{username}");
+                                let avatar = format!("https://github.com/{username}.png?size=80");
+                                let alt = username.clone();
+                                let name = username.clone();
+                                view! {
+                                    <a href=profile target="_blank" class="sponsor-card sponsor-monthly">
+                                        <img src=avatar alt=alt/>
+                                        <span>{name}</span>
+                                    </a>
+                                }
+                            }).collect_view()}
+                        </div>
+                    </div>
+                    <div class="sponsors-tier sponsors-one-time">
+                        <h3 class="sponsors-section-title">{format!("One-time Sponsors ({})", sponsors.regular_one_time().count())}</h3>
+                        <div class="sponsors-grid">
+                            {sponsors.regular_one_time().map(|username| {
+                                let profile = format!("https://github.com/{username}");
+                                let avatar = format!("https://github.com/{username}.png?size=80");
+                                let alt = username.clone();
+                                let name = username.clone();
+                                view! {
+                                    <a href=profile target="_blank" class="sponsor-card sponsor-one-time">
+                                        <img src=avatar alt=alt/>
+                                        <span>{name}</span>
+                                    </a>
+                                }
+                            }).collect_view()}
+                        </div>
                     </div>
                 }
             }}

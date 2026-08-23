@@ -20,3 +20,4 @@ Cargo.lock
 # Secrets / local server state — see kopuz-website.env.example
 kopuz-website.env
 sponsors_state.json
+.env

@@ -124,7 +124,9 @@ fn apply_event(store: &mut SponsorsStore, event: &SponsorshipEvent) {
     // "edited" fires when a sponsor flips their visibility, so this also removes
     // anyone who was public and later chose to go private.
     if event.sponsorship.is_private() {
-        store.current.retain(|r| !r.login.eq_ignore_ascii_case(login));
+        store
+            .current
+            .retain(|r| !r.login.eq_ignore_ascii_case(login));
         store.past.retain(|r| !r.login.eq_ignore_ascii_case(login));
         return;
     }
@@ -144,7 +146,9 @@ fn apply_event(store: &mut SponsorsStore, event: &SponsorshipEvent) {
             } else {
                 // A new monthly sponsorship must not erase a past one-time
                 // donation — the sponsor stays in both lists.
-                store.current.retain(|r| !r.login.eq_ignore_ascii_case(login));
+                store
+                    .current
+                    .retain(|r| !r.login.eq_ignore_ascii_case(login));
                 store.current.push(record);
             }
         }
