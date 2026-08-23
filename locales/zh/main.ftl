@@ -250,3 +250,8 @@ join-opening = 正在打开 Kopuz…
 join-fallback = Kopuz 没有打开。还没有安装吗？
 join-no-payload = 此链接未附带播放队列。
 join-download = 下载 Kopuz
+
+## Privacy policy
+footer-privacy = 隐私
+privacy-english-note = 本政策以英文维护，以确保措辞准确。网站其余部分的翻译不会改变其内容。
+privacy-back = 返回首页

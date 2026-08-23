@@ -251,3 +251,8 @@ join-opening = Ouverture de Kopuz…
 join-fallback = Kopuz ne s'est pas ouvert. Pas encore installé ?
 join-no-payload = Ce lien ne contient aucune file d'attente.
 join-download = Télécharger Kopuz
+
+## Privacy policy
+footer-privacy = Confidentialité
+privacy-english-note = Cette politique est rédigée en anglais afin que ses termes restent exacts. Les traductions du reste du site n'en modifient pas le contenu.
+privacy-back = Retour à l'accueil

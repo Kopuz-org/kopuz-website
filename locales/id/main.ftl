@@ -251,3 +251,8 @@ join-opening = Membuka Kopuz…
 join-fallback = Kopuz tidak terbuka. Belum punya?
 join-no-payload = Tautan ini tidak membawa antrean.
 join-download = Unduh Kopuz
+
+## Privacy policy
+footer-privacy = Privasi
+privacy-english-note = Kebijakan ini dikelola dalam bahasa Inggris agar kata-katanya tetap tepat. Terjemahan bagian lain situs ini tidak mengubah isinya.
+privacy-back = Kembali ke beranda

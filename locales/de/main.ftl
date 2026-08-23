@@ -250,3 +250,8 @@ join-opening = Kopuz wird geöffnet…
 join-fallback = Kopuz wurde nicht geöffnet. Noch nicht installiert?
 join-no-payload = An diesem Link hängt keine Warteschlange.
 join-download = Kopuz herunterladen
+
+## Privacy policy
+footer-privacy = Datenschutz
+privacy-english-note = Diese Richtlinie wird auf Englisch gepflegt, damit ihr Wortlaut eindeutig bleibt. Übersetzungen des übrigen Seiteninhalts ändern nichts an ihrem Inhalt.
+privacy-back = Zurück zur Startseite

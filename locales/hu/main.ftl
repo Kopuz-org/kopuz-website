@@ -250,3 +250,8 @@ join-opening = A Kopuz megnyitása…
 join-fallback = A Kopuz nem nyílt meg. Még nincs meg?
 join-no-payload = Ehhez a hivatkozáshoz nem tartozik lejátszási sor.
 join-download = Kopuz letöltése
+
+## Privacy policy
+footer-privacy = Adatvédelem
+privacy-english-note = Ezt a szabályzatot angolul tartjuk karban, hogy a megfogalmazása pontos maradjon. Az oldal többi részének fordításai nem változtatnak a tartalmán.
+privacy-back = Vissza a főoldalra

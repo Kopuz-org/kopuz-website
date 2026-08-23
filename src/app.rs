@@ -405,12 +405,12 @@ pub fn App() -> impl IntoView {
         <Meta name="twitter:title" content=move_tr!("twitter-title")/>
         <Meta name="twitter:description" content=move_tr!("twitter-desc")/>
         <Meta name="twitter:image" content="https://kopuz.moe/banner.png"/>
-        <Link rel="canonical" href="https://kopuz.moe"/>
         <Router>
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
                     <Route path=StaticSegment("") view=HomePage/>
                     <Route path=StaticSegment("j") view=JoinPage/>
+                    <Route path=StaticSegment("privacy") view=crate::privacy::PrivacyPage/>
                 </Routes>
             </main>
         </Router>
@@ -500,18 +500,19 @@ fn write_moe_cookie(value: bool) {
     }
 }
 
-#[component]
-fn HomePage() -> impl IntoView {
-    // Theme priority: `?moe` in the URL (shareable easter egg) > saved cookie
-    // (explicit toggle choice) > system color scheme (dark stays modern,
-    // light gets moe). The nav toggle flips it and saves the choice.
+/// Resolve the theme and publish it to every component below.
+///
+/// Priority: `?moe` in the URL (shareable easter egg) > saved cookie (explicit
+/// toggle choice) > system color scheme (dark stays modern, light gets moe).
+/// The nav toggle flips it and saves the choice. Effects only run on the
+/// client, after hydration, so SSR always renders dark and the effect settles
+/// the real theme on first paint.
+pub(crate) fn provide_moe_theme() -> RwSignal<bool> {
     let query = use_query_map();
     let initial_moe = query.with_untracked(|q| q.get("moe").is_some());
     let moe: RwSignal<bool> = RwSignal::new(initial_moe);
     provide_context(moe);
 
-    // Effects only run on the client, after hydration — SSR always renders
-    // dark, then the effect settles the real theme on first paint.
     Effect::new(move |_| {
         if initial_moe {
             return;
@@ -529,7 +530,15 @@ fn HomePage() -> impl IntoView {
         }
     });
 
+    moe
+}
+
+#[component]
+fn HomePage() -> impl IntoView {
+    let moe = provide_moe_theme();
+
     view! {
+        <Link rel="canonical" href="https://kopuz.moe"/>
         <div class="site" class:moe=move || moe.get()>
             <DonationBanner/>
             <Nav/>
@@ -643,7 +652,7 @@ fn LanguageSwitcher() -> impl IntoView {
 }
 
 #[component]
-fn Nav() -> impl IntoView {
+pub(crate) fn Nav() -> impl IntoView {
     view! {
         <nav class="nav">
             <div class="nav-row">
@@ -1211,7 +1220,7 @@ fn WebButton() -> impl IntoView {
 }
 
 #[component]
-fn Footer() -> impl IntoView {
+pub(crate) fn Footer() -> impl IntoView {
     view! {
         <footer class="footer">
             <div class="footer-left">
@@ -1219,6 +1228,7 @@ fn Footer() -> impl IntoView {
                 <span>{move_tr!("footer-license")}</span>
             </div>
             <div class="footer-links">
+                <a href="/privacy">{move_tr!("footer-privacy")}</a>
                 <a href="/#button">"88" {"\u{00d7}"} "31 Button"</a>
                 <a href="https://github.com/Kopuz-org/kopuz" target="_blank">{move_tr!("footer-github")}</a>
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank">{move_tr!("footer-releases")}</a>
