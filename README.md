@@ -68,7 +68,7 @@ Tests are located in end2end/tests directory.
 ## Executing a Server on a Remote Machine Without the Toolchain
 After running a `cargo leptos build --release` the minimum files needed are:
 
-1. The server binary located in `target/server/release`
+1. The server binary located at `target/release/kopuz-website`
 2. The `site` directory and all files within located in `target/site`
 
 Copy these files to your remote server. The directory structure should be:
@@ -85,6 +85,10 @@ export LEPTOS_SITE_ADDR="127.0.0.1:3000"
 export LEPTOS_RELOAD_PORT="3001"
 ```
 Finally, run the server binary.
+
+## Deployment
+
+Pushes to `master` can be deployed to the homeserver through GitHub Actions and Tailscale. See [DEPLOYMENT.md](DEPLOYMENT.md) for the one-time server and repository setup.
 
 ## Licensing
 
