@@ -4,7 +4,7 @@ use leptos_fluent::{leptos_fluent, move_tr, I18n};
 use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
-    hooks::use_query_map,
+    hooks::{use_location, use_query_map},
     StaticSegment,
 };
 use serde::{Deserialize, Serialize};
@@ -101,43 +101,227 @@ async fn fetch_latest_release() -> ReleaseNotes {
     ReleaseNotes::fallback()
 }
 
-enum ReleaseBlock {
-    Heading2(String),
-    Heading3(String),
-    Heading4(String),
-    Bullet(String),
-    Paragraph(String),
+#[derive(Debug, PartialEq, Eq)]
+enum ReleaseInline {
+    Text(String),
+    Strong(String),
+    Code(String),
+    Link { label: String, href: String },
 }
 
-fn clean_release_markdown(text: &str) -> String {
-    text.replace("**", "").replace('`', "")
+#[derive(Debug, PartialEq, Eq)]
+enum ReleaseBlock {
+    Heading2(Vec<ReleaseInline>),
+    Heading3(Vec<ReleaseInline>),
+    Heading4(Vec<ReleaseInline>),
+    Paragraph(Vec<ReleaseInline>),
+    UnorderedList(Vec<Vec<ReleaseInline>>),
+}
+
+#[derive(Clone, Copy)]
+enum InlineMarker {
+    Strong,
+    Code,
+    Link,
+}
+
+fn safe_release_link(href: &str) -> bool {
+    href.starts_with("https://") || href.starts_with("http://")
+}
+
+fn parse_release_link(text: &str) -> Option<(&str, &str, usize)> {
+    let label_end = text.find("](")?;
+    let href_start = label_end + 2;
+    let href_end = href_start + text[href_start..].find(')')?;
+    let href = &text[href_start..href_end];
+    safe_release_link(href).then_some((&text[1..label_end], href, href_end + 1))
+}
+
+fn parse_release_inlines(text: &str) -> Vec<ReleaseInline> {
+    let mut inlines = Vec::new();
+    let mut remaining = text;
+
+    while !remaining.is_empty() {
+        let next_marker = [
+            remaining
+                .find("**")
+                .map(|offset| (offset, InlineMarker::Strong)),
+            remaining
+                .find('`')
+                .map(|offset| (offset, InlineMarker::Code)),
+            remaining
+                .find('[')
+                .map(|offset| (offset, InlineMarker::Link)),
+        ]
+        .into_iter()
+        .flatten()
+        .min_by_key(|(offset, _)| *offset);
+
+        let Some((offset, marker)) = next_marker else {
+            inlines.push(ReleaseInline::Text(remaining.to_string()));
+            break;
+        };
+
+        if offset > 0 {
+            inlines.push(ReleaseInline::Text(remaining[..offset].to_string()));
+            remaining = &remaining[offset..];
+            continue;
+        }
+
+        match marker {
+            InlineMarker::Strong => {
+                if let Some(end) = remaining[2..].find("**") {
+                    let end = end + 2;
+                    inlines.push(ReleaseInline::Strong(remaining[2..end].to_string()));
+                    remaining = &remaining[end + 2..];
+                } else {
+                    inlines.push(ReleaseInline::Text("**".to_string()));
+                    remaining = &remaining[2..];
+                }
+            }
+            InlineMarker::Code => {
+                if let Some(end) = remaining[1..].find('`') {
+                    let end = end + 1;
+                    inlines.push(ReleaseInline::Code(remaining[1..end].to_string()));
+                    remaining = &remaining[end + 1..];
+                } else {
+                    inlines.push(ReleaseInline::Text("`".to_string()));
+                    remaining = &remaining[1..];
+                }
+            }
+            InlineMarker::Link => {
+                if let Some((label, href, consumed)) = parse_release_link(remaining) {
+                    inlines.push(ReleaseInline::Link {
+                        label: label.to_string(),
+                        href: href.to_string(),
+                    });
+                    remaining = &remaining[consumed..];
+                } else {
+                    inlines.push(ReleaseInline::Text("[".to_string()));
+                    remaining = &remaining[1..];
+                }
+            }
+        }
+    }
+
+    inlines
+}
+
+fn flush_release_paragraph(blocks: &mut Vec<ReleaseBlock>, lines: &mut Vec<String>) {
+    if !lines.is_empty() {
+        blocks.push(ReleaseBlock::Paragraph(parse_release_inlines(
+            &std::mem::take(lines).join(" "),
+        )));
+    }
+}
+
+fn flush_release_list(blocks: &mut Vec<ReleaseBlock>, items: &mut Vec<String>) {
+    if !items.is_empty() {
+        blocks.push(ReleaseBlock::UnorderedList(
+            std::mem::take(items)
+                .into_iter()
+                .map(|item| parse_release_inlines(&item))
+                .collect(),
+        ));
+    }
 }
 
 fn parse_release_markdown(body: &str) -> Vec<ReleaseBlock> {
-    body.lines()
-        .filter_map(|line| {
-            let line = line.trim();
-            if line == "## What's Changed" || line == "## What’s Changed" {
-                return Some(ReleaseBlock::Heading2("__STOP__".into()));
+    let mut blocks = Vec::new();
+    let mut paragraph = Vec::new();
+    let mut list = Vec::new();
+
+    for line in body.lines().map(str::trim) {
+        if line == "## What's Changed" || line == "## What’s Changed" {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            flush_release_list(&mut blocks, &mut list);
+            break;
+        }
+        if line.is_empty() {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            flush_release_list(&mut blocks, &mut list);
+        } else if let Some(text) = line.strip_prefix("#### ") {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            flush_release_list(&mut blocks, &mut list);
+            blocks.push(ReleaseBlock::Heading4(parse_release_inlines(text)));
+        } else if let Some(text) = line.strip_prefix("### ") {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            flush_release_list(&mut blocks, &mut list);
+            blocks.push(ReleaseBlock::Heading3(parse_release_inlines(text)));
+        } else if let Some(text) = line.strip_prefix("## ").or_else(|| line.strip_prefix("# ")) {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            flush_release_list(&mut blocks, &mut list);
+            blocks.push(ReleaseBlock::Heading2(parse_release_inlines(text)));
+        } else if let Some(text) = line.strip_prefix("- ").or_else(|| line.strip_prefix("* ")) {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            list.push(text.to_string());
+        } else if let Some(text) = line
+            .strip_prefix("**")
+            .and_then(|text| text.strip_suffix("**"))
+            .filter(|text| !text.contains("**"))
+        {
+            flush_release_paragraph(&mut blocks, &mut paragraph);
+            flush_release_list(&mut blocks, &mut list);
+            blocks.push(ReleaseBlock::Heading4(parse_release_inlines(text)));
+        } else {
+            flush_release_list(&mut blocks, &mut list);
+            paragraph.push(line.to_string());
+        }
+    }
+
+    flush_release_paragraph(&mut blocks, &mut paragraph);
+    flush_release_list(&mut blocks, &mut list);
+    blocks
+}
+
+fn release_inlines_view(inlines: Vec<ReleaseInline>) -> impl IntoView {
+    inlines
+        .into_iter()
+        .map(|inline| match inline {
+            ReleaseInline::Text(text) => view! { <span>{text}</span> }.into_any(),
+            ReleaseInline::Strong(text) => view! { <strong>{text}</strong> }.into_any(),
+            ReleaseInline::Code(text) => view! { <code>{text}</code> }.into_any(),
+            ReleaseInline::Link { label, href } => view! {
+                <a href=href target="_blank" rel="noopener noreferrer">{label}</a>
             }
-            if let Some(text) = line.strip_prefix("## ") {
-                Some(ReleaseBlock::Heading2(clean_release_markdown(text)))
-            } else if let Some(text) = line.strip_prefix("### ") {
-                Some(ReleaseBlock::Heading3(clean_release_markdown(text)))
-            } else if let Some(text) = line.strip_prefix("# ") {
-                Some(ReleaseBlock::Heading2(clean_release_markdown(text)))
-            } else if line.starts_with("**") && line.ends_with("**") {
-                Some(ReleaseBlock::Heading4(clean_release_markdown(line)))
-            } else if let Some(text) = line.strip_prefix("- ").or_else(|| line.strip_prefix("* ")) {
-                Some(ReleaseBlock::Bullet(clean_release_markdown(text)))
-            } else if line.is_empty() {
-                None
-            } else {
-                Some(ReleaseBlock::Paragraph(clean_release_markdown(line)))
-            }
+            .into_any(),
         })
-        .take_while(|block| !matches!(block, ReleaseBlock::Heading2(text) if text == "__STOP__"))
-        .collect()
+        .collect_view()
+}
+
+#[cfg(test)]
+mod release_markdown_tests {
+    use super::*;
+
+    #[test]
+    fn groups_paragraph_lines_and_list_items() {
+        let blocks = parse_release_markdown(
+            "First line\ncontinues here.\n\n## Highlights\n\n- One\n- Two\n\n## What's Changed\n- Hidden",
+        );
+
+        assert!(matches!(&blocks[0], ReleaseBlock::Paragraph(_)));
+        assert!(matches!(&blocks[1], ReleaseBlock::Heading2(_)));
+        assert!(matches!(&blocks[2], ReleaseBlock::UnorderedList(items) if items.len() == 2));
+        assert_eq!(blocks.len(), 3);
+    }
+
+    #[test]
+    fn preserves_safe_inline_markdown() {
+        assert_eq!(
+            parse_release_inlines("**Fast.** Uses `cache` and [notes](https://example.com)."),
+            vec![
+                ReleaseInline::Strong("Fast.".into()),
+                ReleaseInline::Text(" Uses ".into()),
+                ReleaseInline::Code("cache".into()),
+                ReleaseInline::Text(" and ".into()),
+                ReleaseInline::Link {
+                    label: "notes".into(),
+                    href: "https://example.com".into(),
+                },
+                ReleaseInline::Text(".".into()),
+            ]
+        );
+    }
 }
 
 impl SponsorStats {
@@ -511,31 +695,24 @@ pub fn App() -> impl IntoView {
 
     view! {
         <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
-        <Title text=move_tr!("home-title")/>
-        <Meta name="description" content=move_tr!("home-meta-desc")/>
-        <Meta name="keywords" content=move_tr!("home-meta-keywords")/>
+        <Link rel="icon" href="/favicon.ico"/>
         <Meta name="author" content="temidaradev"/>
-        <Meta name="robots" content="index, follow"/>
-        <Meta name="theme-color" content="#17140f"/>
         <Meta property="og:type" content="website"/>
-        <Meta property="og:title" content=move_tr!("og-title")/>
-        <Meta property="og:description" content=move_tr!("og-desc")/>
-        <Meta property="og:url" content="https://kopuz.moe"/>
         <Meta property="og:image" content="https://kopuz.moe/banner.png"/>
         <Meta property="og:image:alt" content=move_tr!("og-image-alt")/>
         <Meta property="og:site_name" content="Kopuz"/>
         <Meta name="twitter:card" content="summary_large_image"/>
-        <Meta name="twitter:title" content=move_tr!("twitter-title")/>
-        <Meta name="twitter:description" content=move_tr!("twitter-desc")/>
         <Meta name="twitter:image" content="https://kopuz.moe/banner.png"/>
         <Router>
-            <main>
-                <Routes fallback=|| "Page not found.".into_view()>
-                    <Route path=StaticSegment("") view=HomePage/>
-                    <Route path=StaticSegment("j") view=JoinPage/>
-                    <Route path=StaticSegment("privacy") view=crate::privacy::PrivacyPage/>
-                </Routes>
-            </main>
+            <Routes fallback=|| view! { <NotFoundPage/> }.into_view()>
+                <Route path=StaticSegment("") view=HomePage/>
+                <Route path=StaticSegment("features") view=crate::pages::FeaturesPage/>
+                <Route path=StaticSegment("download") view=crate::pages::DownloadPage/>
+                <Route path=StaticSegment("guides") view=crate::pages::GuidesPage/>
+                <Route path=StaticSegment("support") view=crate::pages::SupportPage/>
+                <Route path=StaticSegment("j") view=JoinPage/>
+                <Route path=StaticSegment("privacy") view=crate::privacy::PrivacyPage/>
+            </Routes>
         </Router>
     }
 }
@@ -582,6 +759,7 @@ fn JoinPage() -> impl IntoView {
         <Title text=move_tr!("join-title")/>
         // A one-shot handoff link is worthless in an index.
         <Meta name="robots" content="noindex, nofollow"/>
+        <main>
         <section class="join">
             <h1>{move_tr!("join-opening")}</h1>
             <Show when=move || took_too_long.get()>
@@ -592,97 +770,273 @@ fn JoinPage() -> impl IntoView {
                         move_tr!("join-no-payload")
                     }}
                 </p>
-                <a href="/#downloads" class="btn-primary">{move_tr!("join-download")}</a>
+                <a href=internal_href("/download") class="btn-primary">{move_tr!("join-download")}</a>
             </Show>
         </section>
+        </main>
     }
 }
 
-fn read_moe_cookie() -> Option<bool> {
-    use wasm_bindgen::JsCast;
-    let html_doc = web_sys::window()?
-        .document()?
-        .dyn_into::<web_sys::HtmlDocument>()
-        .ok()?;
-    let cookies = html_doc.cookie().ok()?;
-    cookies
-        .split(';')
-        .find_map(|c| c.trim().strip_prefix("kopuz-moe=").map(|v| v == "1"))
+#[derive(Clone, Copy)]
+enum StoredTheme {
+    Current(bool),
+    Legacy(bool),
 }
 
-fn write_moe_cookie(value: bool) {
+fn browser_document() -> Option<web_sys::HtmlDocument> {
     use wasm_bindgen::JsCast;
-    if let Some(html_doc) = web_sys::window()
-        .and_then(|w| w.document())
-        .and_then(|d| d.dyn_into::<web_sys::HtmlDocument>().ok())
+    web_sys::window()?
+        .document()?
+        .dyn_into::<web_sys::HtmlDocument>()
+        .ok()
+}
+
+fn read_theme_cookie() -> Option<StoredTheme> {
+    let cookies = browser_document()?.cookie().ok()?;
+    if let Some(dark) =
+        cookies
+            .split(';')
+            .find_map(|cookie| match cookie.trim().strip_prefix("kopuz-theme=")? {
+                "dark" => Some(true),
+                "light" => Some(false),
+                _ => None,
+            })
     {
+        return Some(StoredTheme::Current(dark));
+    }
+
+    cookies
+        .split(';')
+        .find_map(|cookie| match cookie.trim().strip_prefix("kopuz-moe=")? {
+            "0" => Some(StoredTheme::Legacy(true)),
+            "1" => Some(StoredTheme::Legacy(false)),
+            _ => None,
+        })
+}
+
+fn write_theme_cookie(dark: bool) {
+    if let Some(html_doc) = browser_document() {
         let _ = html_doc.set_cookie(&format!(
-            "kopuz-moe={}; Path=/; Max-Age=31536000; SameSite=Strict",
-            if value { "1" } else { "0" }
+            "kopuz-theme={}; Path=/; Max-Age=31536000; SameSite=Strict",
+            if dark { "dark" } else { "light" }
         ));
     }
 }
 
-/// Resolve the theme and publish it to every component below.
+fn clear_legacy_theme_cookie() {
+    if let Some(html_doc) = browser_document() {
+        let _ = html_doc.set_cookie("kopuz-moe=; Path=/; Max-Age=0; SameSite=Strict");
+    }
+}
+
+fn query_without_moe(search: &str) -> String {
+    let query = search
+        .strip_prefix('?')
+        .unwrap_or(search)
+        .split('&')
+        .filter(|part| {
+            !part.is_empty()
+                && part
+                    .split_once('=')
+                    .map_or(*part != "moe", |(name, _)| name != "moe")
+        })
+        .collect::<Vec<_>>()
+        .join("&");
+
+    if query.is_empty() {
+        String::new()
+    } else {
+        format!("?{query}")
+    }
+}
+
+fn leave_moe_mode() {
+    if let Some(window) = web_sys::window() {
+        let location = window.location();
+        let path = location.pathname().unwrap_or_else(|_| "/".to_string());
+        let search = location
+            .search()
+            .map(|search| query_without_moe(&search))
+            .unwrap_or_default();
+        let hash = location.hash().unwrap_or_default();
+        let _ = location.set_href(&format!("{path}{search}{hash}"));
+    }
+}
+
+#[derive(Clone, Copy)]
+struct MoeQuery(bool);
+
+#[derive(Clone, Copy)]
+pub(crate) struct SiteTheme {
+    pub(crate) dark: RwSignal<bool>,
+    pub(crate) moe: bool,
+}
+
+pub(crate) fn internal_href(path: &str) -> String {
+    let preserve_moe = use_context::<MoeQuery>()
+        .map(|mode| mode.0)
+        .unwrap_or(false);
+    if !preserve_moe {
+        return path.to_owned();
+    }
+
+    let (base, fragment) = match path.split_once('#') {
+        Some((base, fragment)) => (base, Some(fragment)),
+        None => (path, None),
+    };
+    let separator = if base.contains('?') { '&' } else { '?' };
+    let mut href = format!("{base}{separator}moe");
+    if let Some(fragment) = fragment {
+        href.push('#');
+        href.push_str(fragment);
+    }
+    href
+}
+
+/// Resolve the regular color scheme and the explicit `?moe` easter egg.
 ///
-/// Priority: `?moe` in the URL (shareable easter egg) > saved cookie (explicit
-/// toggle choice) > system color scheme (dark stays modern, light gets moe).
-/// The nav toggle flips it and saves the choice. Effects only run on the
-/// client, after hydration, so SSR always renders dark and the effect settles
-/// the real theme on first paint.
-pub(crate) fn provide_moe_theme() -> RwSignal<bool> {
+/// The regular theme follows a saved choice, then the operating-system color
+/// scheme. `?moe` overrides both without changing the saved light/dark choice.
+pub(crate) fn provide_site_theme() -> SiteTheme {
     let query = use_query_map();
-    let initial_moe = query.with_untracked(|q| q.get("moe").is_some());
-    let moe: RwSignal<bool> = RwSignal::new(initial_moe);
-    provide_context(moe);
+    let moe = query.with_untracked(|q| q.get("moe").is_some());
+    let dark: RwSignal<bool> = RwSignal::new(false);
+    let theme = SiteTheme { dark, moe };
+    provide_context(theme);
+    provide_context(MoeQuery(moe));
 
     Effect::new(move |_| {
-        if initial_moe {
+        if moe {
             return;
         }
-        if let Some(saved) = read_moe_cookie() {
-            moe.set(saved);
+        if let Some(saved) = read_theme_cookie() {
+            let (saved, migrate) = match saved {
+                StoredTheme::Current(saved) => (saved, false),
+                StoredTheme::Legacy(saved) => (saved, true),
+            };
+            dark.set(saved);
+            if migrate {
+                write_theme_cookie(saved);
+                clear_legacy_theme_cookie();
+            }
             return;
         }
-        if let Some(win) = web_sys::window() {
-            if let Ok(Some(mql)) = win.match_media("(prefers-color-scheme: light)") {
-                if mql.matches() {
-                    moe.set(true);
-                }
+        if let Some(window) = web_sys::window() {
+            if let Ok(Some(query)) = window.match_media("(prefers-color-scheme: dark)") {
+                dark.set(query.matches());
             }
         }
     });
 
-    moe
+    theme
+}
+
+#[component]
+pub(crate) fn ThemeColorMeta() -> impl IntoView {
+    let theme = expect_context::<SiteTheme>();
+    view! {
+        <Meta
+            name="theme-color"
+            content=move || if theme.moe {
+                "#ffbfe6"
+            } else if theme.dark.get() {
+                "#17140f"
+            } else {
+                "#f4f0e8"
+            }
+        />
+    }
 }
 
 #[component]
 fn HomePage() -> impl IntoView {
-    let moe = provide_moe_theme();
+    let theme = provide_site_theme();
+    view! {
+        <Title text=move_tr!("home-title")/>
+        <Meta name="description" content=move_tr!("home-meta-desc")/>
+        <Meta name="keywords" content=move_tr!("home-meta-keywords")/>
+        <Meta name="robots" content="index, follow"/>
+        <Meta property="og:title" content=move_tr!("og-title")/>
+        <Meta property="og:description" content=move_tr!("og-desc")/>
+        <Meta property="og:url" content="https://kopuz.moe"/>
+        <Meta name="twitter:title" content=move_tr!("twitter-title")/>
+        <Meta name="twitter:description" content=move_tr!("twitter-desc")/>
+        <Link rel="canonical" href="https://kopuz.moe"/>
+        <ThemeColorMeta/>
+        <div
+            class="site"
+            class:light=move || !theme.dark.get() && !theme.moe
+            class:dark=move || theme.dark.get() && !theme.moe
+            class:moe=move || theme.moe
+        >
+            <Nav/>
+            <main>
+                <Hero/>
+                <HomeDirectory/>
+                <WhatsNew/>
+                <AboutName/>
+            </main>
+            <Footer/>
+        </div>
+    }
+}
+
+#[component]
+fn HomeDirectory() -> impl IntoView {
+    let features_href = internal_href("/features");
+    let download_href = internal_href("/download");
+    let guides_href = internal_href("/guides");
+    let support_href = internal_href("/support");
 
     view! {
-        <Link rel="canonical" href="https://kopuz.moe"/>
-        <div class="site" class:moe=move || moe.get()>
-            <DonationBanner/>
+        <section class="home-directory" aria-label="Explore Kopuz">
+            <a href=features_href>
+                <span class="directory-kicker">{move_tr!("nav-features")}</span>
+                <h2>{move_tr!("features-title")}</h2>
+                <p>{move_tr!("features-chip")}</p>
+            </a>
+            <a href=download_href>
+                <span class="directory-kicker">{move_tr!("nav-download")}</span>
+                <h2>{move_tr!("platforms-title")}</h2>
+                <p>{move_tr!("platforms-subtitle")}</p>
+            </a>
+            <a href=guides_href>
+                <span class="directory-kicker">{move_tr!("guides-title")}</span>
+                <h2>{move_tr!("guides-title")}</h2>
+                <p>{move_tr!("guides-subtitle")}</p>
+            </a>
+            <a href=support_href>
+                <span class="directory-kicker">{move_tr!("support-title")}</span>
+                <h2>{move_tr!("support-title")}</h2>
+                <p>{move_tr!("support-subtitle")}</p>
+            </a>
+        </section>
+    }
+}
+
+#[component]
+fn NotFoundPage() -> impl IntoView {
+    let theme = provide_site_theme();
+    let home_href = internal_href("/");
+
+    view! {
+        <Title text="Page not found | Kopuz"/>
+        <Meta name="robots" content="noindex, follow"/>
+        <ThemeColorMeta/>
+        <div
+            class="site page"
+            class:light=move || !theme.dark.get() && !theme.moe
+            class:dark=move || theme.dark.get() && !theme.moe
+            class:moe=move || theme.moe
+        >
             <Nav/>
-            <Hero/>
-            <WhatsNew/>
-            <Features/>
-            <Performance/>
-            <InstallChooser/>
-            <Install/>
-            <YtMusic/>
-            <SoundCloud/>
-            <SpotifyGuide/>
-            <FeatureGuides/>
-            <Privacy/>
-            <Requirements/>
-            <AboutName/>
-            <Platforms/>
-            <Community/>
-            <Support/>
-            <Sponsors/>
-            <WebButton/>
+            <main class="not-found">
+                <header class="page-intro">
+                    <span class="eyebrow">"404"</span>
+                    <h1>"Page not found."</h1>
+                    <p><a class="text-link" href=home_href>"Return to Kopuz"</a></p>
+                </header>
+            </main>
             <Footer/>
         </div>
     }
@@ -699,40 +1053,39 @@ fn WhatsNew() -> impl IntoView {
                 <h2>{move_tr!("new-title")}</h2>
                 <p>{move_tr!("new-subtitle")}</p>
             </div>
-            <Suspense fallback=|| view! { <article class="release-notes"><p>"Loading the latest release…"</p></article> }>
+            <Suspense fallback=|| view! { <div class="release-notes release-loading"><p>"Loading the latest release…"</p></div> }>
                 {move || latest_release.get().map(|release| {
                     let date = release.published_at.get(..10).unwrap_or("").to_string();
                     let meta = if date.is_empty() { release.tag_name.clone() } else { format!("{} · {}", release.tag_name, date) };
                     let blocks = parse_release_markdown(&release.body);
                     view! {
-                        <article class="release-notes">
-                            <span class="release-version">{meta}</span>
-                            <h2>{release.name}</h2>
-                            {blocks.into_iter().map(|block| match block {
-                                ReleaseBlock::Heading2(text) => view! { <h3>{text}</h3> }.into_any(),
-                                ReleaseBlock::Heading3(text) => view! { <h4>{text}</h4> }.into_any(),
-                                ReleaseBlock::Heading4(text) => view! { <h4>{text}</h4> }.into_any(),
-                                ReleaseBlock::Bullet(text) => view! { <p class="release-list-item">{text}</p> }.into_any(),
-                                ReleaseBlock::Paragraph(text) => view! { <p>{text}</p> }.into_any(),
-                            }).collect_view()}
-                        </article>
+                        <details class="release-notes">
+                            <summary class="release-summary">
+                                <span>
+                                    <span class="release-version">{meta}</span>
+                                    <strong class="release-name">{release.name}</strong>
+                                </span>
+                                <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                            </summary>
+                            <div class="release-body">
+                                {blocks.into_iter().map(|block| match block {
+                                    ReleaseBlock::Heading2(inlines) => view! { <h3>{release_inlines_view(inlines)}</h3> }.into_any(),
+                                    ReleaseBlock::Heading3(inlines) => view! { <h4>{release_inlines_view(inlines)}</h4> }.into_any(),
+                                    ReleaseBlock::Heading4(inlines) => view! { <h4>{release_inlines_view(inlines)}</h4> }.into_any(),
+                                    ReleaseBlock::Paragraph(inlines) => view! { <p>{release_inlines_view(inlines)}</p> }.into_any(),
+                                    ReleaseBlock::UnorderedList(items) => view! {
+                                        <ul>
+                                            {items.into_iter().map(|item| view! {
+                                                <li>{release_inlines_view(item)}</li>
+                                            }).collect_view()}
+                                        </ul>
+                                    }.into_any(),
+                                }).collect_view()}
+                            </div>
+                        </details>
                     }
                 })}
             </Suspense>
-        </section>
-    }
-}
-
-#[component]
-fn InstallChooser() -> impl IntoView {
-    view! {
-        <section class="content-section" id="choose-install">
-            <div class="section-header"><h2>{move_tr!("chooser-title")}</h2><p>{move_tr!("chooser-subtitle")}</p></div>
-            <div class="chooser-grid">
-                <a class="chooser-card" href="https://github.com/Kopuz-org/kopuz/releases/latest" target="_blank"><i class="fa-brands fa-windows"></i><h3>"Windows"</h3><p>"Download the latest Windows installer from GitHub Releases."</p><span>"Open releases →"</span></a>
-                <a class="chooser-card" href="https://github.com/Kopuz-org/kopuz/releases/latest" target="_blank"><i class="fa-brands fa-apple"></i><h3>"macOS"</h3><p>"Download the Apple Silicon DMG, then clear quarantine if macOS blocks it."</p><span>"Download DMG →"</span></a>
-                <a class="chooser-card recommended" href="https://kopuz-org.github.io/kopuz-flatpak/com.temidaradev.kopuz.flatpakref"><span class="recommended-label">"Recommended"</span><i class="fa-brands fa-linux"></i><h3>"Linux"</h3><p>"Use the pre-built Flatpak, or choose AppImage, AUR, Nix, or Cargo below."</p><span>"Install Flatpak →"</span></a>
-            </div>
         </section>
     }
 }
@@ -742,7 +1095,7 @@ fn DonationBanner() -> impl IntoView {
     let sponsor_stats = Resource::new(|| (), |_| async move { fetch_sponsor_stats().await });
 
     view! {
-        <section class="donation-banner" aria-label="Support the developer">
+        <div class="donation-banner" role="group" aria-label="Support the developer">
             <div class="donation-banner-label">
                 <i class="fa-solid fa-heart"></i>
                 <span>"Support Notice"</span>
@@ -794,7 +1147,7 @@ fn DonationBanner() -> impl IntoView {
                     " Sponsor on GitHub"
                 </a>
             </div>
-        </section>
+        </div>
     }
 }
 
@@ -833,19 +1186,54 @@ fn LanguageSwitcher() -> impl IntoView {
 
 #[component]
 pub(crate) fn Nav() -> impl IntoView {
+    let pathname = use_location().pathname;
+    let home_href = internal_href("/");
+    let features_href = internal_href("/features");
+    let download_href = internal_href("/download");
+    let guides_href = internal_href("/guides");
+    let support_href = internal_href("/support");
+
     view! {
-        <nav class="nav">
+        <nav class="nav" aria-label="Primary navigation">
             <div class="nav-row">
-                <a href="/" class="nav-logo"><img src="/logo.svg" alt="" width="26" height="26"/>"Kopuz"</a>
+                <a
+                    href=home_href
+                    class="nav-logo"
+                    aria-current=move || (pathname.get() == "/").then_some("page")
+                >
+                    <img src="/logo.svg" alt="" width="26" height="26"/>"Kopuz"
+                </a>
                 <div class="nav-tabs">
-                    <a href="/#features" class="nav-tab">{move_tr!("nav-features")}</a>
-                    <a href="/#install" class="nav-tab">{move_tr!("nav-install")}</a>
-                    <a href="/#downloads" class="nav-tab">{move_tr!("nav-download")}</a>
-                    <a href="/#sponsors" class="nav-tab">{move_tr!("nav-sponsors")}</a>
+                    <a
+                        href=features_href
+                        class="nav-tab"
+                        class:nav-tab-active=move || pathname.get() == "/features"
+                        aria-current=move || (pathname.get() == "/features").then_some("page")
+                    >{move_tr!("nav-features")}</a>
+                    <a
+                        href=download_href
+                        class="nav-tab"
+                        class:nav-tab-active=move || pathname.get() == "/download"
+                        aria-current=move || (pathname.get() == "/download").then_some("page")
+                    >{move_tr!("nav-download")}</a>
+                    <a
+                        href=guides_href
+                        class="nav-tab"
+                        class:nav-tab-active=move || pathname.get() == "/guides"
+                        aria-current=move || (pathname.get() == "/guides").then_some("page")
+                    >{move_tr!("guides-title")}</a>
+                    <a
+                        href=support_href
+                        class="nav-tab"
+                        class:nav-tab-active=move || pathname.get() == "/support"
+                        aria-current=move || (pathname.get() == "/support").then_some("page")
+                    >{move_tr!("support-title")}</a>
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="nav-tab">{move_tr!("nav-github")}</a>
-                    <LanguageSwitcher/>
-                    <ThemeToggle/>
-                </div>
+                  </div>
+                  <div class="nav-controls">
+                      <LanguageSwitcher/>
+                      <ThemeToggle/>
+                  </div>
             </div>
         </nav>
     }
@@ -853,32 +1241,61 @@ pub(crate) fn Nav() -> impl IntoView {
 
 #[component]
 fn ThemeToggle() -> impl IntoView {
-    let moe = expect_context::<RwSignal<bool>>();
+    let theme = expect_context::<SiteTheme>();
     view! {
         <button
             type="button"
             class="theme-toggle"
-            aria-label="Toggle theme"
-            title="Toggle theme (or add ?moe to the URL)"
+            aria-label=move || if theme.moe {
+                "Leave moe mode"
+            } else if theme.dark.get() {
+                "Use light theme"
+            } else {
+                "Use dark theme"
+            }
+            aria-pressed=move || (theme.dark.get() && !theme.moe).to_string()
+            title=move || if theme.moe {
+                "Leave moe mode"
+            } else if theme.dark.get() {
+                "Use light theme"
+            } else {
+                "Use dark theme"
+            }
             on:click=move |_| {
-                moe.update(|m| *m = !*m);
-                write_moe_cookie(moe.get_untracked());
+                if theme.moe {
+                    leave_moe_mode();
+                    return;
+                }
+                theme.dark.update(|dark| *dark = !*dark);
+                write_theme_cookie(theme.dark.get_untracked());
             }
         >
-            <i class=move || if moe.get() { "fa-solid fa-sun" } else { "fa-solid fa-moon" }></i>
+            <i
+                class=move || if theme.moe {
+                    "fa-solid fa-book-open"
+                } else if theme.dark.get() {
+                    "fa-solid fa-sun"
+                } else {
+                    "fa-solid fa-moon"
+                }
+                aria-hidden="true"
+            ></i>
         </button>
     }
 }
 
 #[component]
 fn Hero() -> impl IntoView {
+    let download_href = internal_href("/download");
+
     view! {
         <section class="hero">
             <div class="hero-left">
+                <span class="hero-badge">{move_tr!("features-chip")}</span>
                 <h1>{move_tr!("hero-title-1")}<br/>{move_tr!("hero-title-2")}</h1>
                 <p>{move_tr!("hero-desc")}</p>
                 <div class="hero-ctas">
-                    <a href="#downloads" class="btn-primary">{move_tr!("hero-cta-download")}</a>
+                    <a href=download_href class="btn-primary">{move_tr!("hero-cta-download")}</a>
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="btn-secondary">{move_tr!("hero-cta-github")}</a>
                 </div>
             </div>
@@ -918,45 +1335,52 @@ fn HeroScreenshot() -> impl IntoView {
 }
 
 #[component]
-fn Features() -> impl IntoView {
+pub(crate) fn Features() -> impl IntoView {
     view! {
         <section class="features" id="features">
-            <div class="features-grid">
-                <div class="features-sources-bar">
-                    <span class="sources-label">{move_tr!("features-works-with")}</span>
-                    <div class="sources-list">
-                        <span class="source-tag"><i class="fa-solid fa-folder-open"></i>" "{move_tr!("features-source-local")}</span>
-                        <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-jellyfin")}</span>
-                        <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-navidrome")}</span>
-                        <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
-                        <span class="source-tag"><i class="fa-brands fa-youtube"></i>" "{move_tr!("features-source-ytmusic")}</span>
-                        <span class="source-tag"><i class="fa-brands fa-soundcloud"></i>" "{move_tr!("features-source-soundcloud")}</span>
-                        <span class="source-tag"><i class="fa-brands fa-spotify"></i>" "{move_tr!("features-source-spotify")}</span>
-                    </div>
+            <div class="section-header features-header">
+                <h1>{move_tr!("features-title")}</h1>
+                <p>{move_tr!("features-chip")}</p>
+            </div>
+            <div class="features-sources-bar">
+                <span class="sources-label">{move_tr!("features-works-with")}</span>
+                <div class="sources-list">
+                    <span class="source-tag"><i class="fa-solid fa-folder-open"></i>" "{move_tr!("features-source-local")}</span>
+                    <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-jellyfin")}</span>
+                    <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-navidrome")}</span>
+                    <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
+                    <span class="source-tag"><i class="fa-brands fa-youtube"></i>" "{move_tr!("features-source-ytmusic")}</span>
+                    <span class="source-tag"><i class="fa-brands fa-soundcloud"></i>" "{move_tr!("features-source-soundcloud")}</span>
+                    <span class="source-tag"><i class="fa-brands fa-spotify"></i>" "{move_tr!("features-source-spotify")}</span>
                 </div>
+            </div>
+            <div class="features-grid features-featured">
                 <FeatureCard icon="fa-solid fa-music" title_key="feat-local-title" desc_key="feat-local-desc"/>
-                <FeatureCard icon="fa-brands fa-youtube" title_key="feat-youtube-title" desc_key="feat-youtube-desc"/>
-                <FeatureCard icon="fa-brands fa-soundcloud" title_key="feat-soundcloud-title" desc_key="feat-soundcloud-desc"/>
-                <FeatureCard icon="fa-brands fa-spotify" title_key="feat-spotify-title" desc_key="feat-spotify-desc"/>
-                <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
-                <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
                 <FeatureCard icon="fa-solid fa-align-left" title_key="feat-lyrics-title" desc_key="feat-lyrics-desc"/>
                 <FeatureCard icon="fa-solid fa-sliders" title_key="feat-eq-title" desc_key="feat-eq-desc"/>
                 <FeatureCard icon="fa-solid fa-star" title_key="feat-fav-title" desc_key="feat-fav-desc"/>
-                <FeatureCard icon="fa-solid fa-tower-broadcast" title_key="feat-scrobble-title" desc_key="feat-scrobble-desc"/>
-                <FeatureCard icon="fa-brands fa-discord" title_key="feat-discord-title" desc_key="feat-discord-desc"/>
-                <FeatureCard icon="fa-solid fa-tags" title_key="feat-genre-title" desc_key="feat-genre-desc"/>
-                <FeatureCard icon="fa-solid fa-clock" title_key="feat-logs-title" desc_key="feat-logs-desc"/>
-                <FeatureCard icon="fa-solid fa-globe" title_key="feat-i18n-title" desc_key="feat-i18n-desc"/>
-                <FeatureCard icon="fa-brands fa-youtube" title_key="feat-ytdlp-title" desc_key="feat-ytdlp-desc"/>
-                <FeatureCard icon="fa-solid fa-shuffle" title_key="feat-crossfade-title" desc_key="feat-crossfade-desc"/>
-                <FeatureCard icon="fa-solid fa-headphones" title_key="feat-channels-title" desc_key="feat-channels-desc"/>
-                <FeatureCard icon="fa-solid fa-image" title_key="feat-metadata-title" desc_key="feat-metadata-desc"/>
-                <FeatureCard icon="fa-solid fa-file-lines" title_key="feat-debug-title" desc_key="feat-debug-desc"/>
-                <FeatureCard icon="fa-solid fa-broom" title_key="feat-cleanup-title" desc_key="feat-cleanup-desc"/>
-                <FeatureCard icon="fa-solid fa-window-minimize" title_key="feat-miniplayer-title" desc_key="feat-miniplayer-desc"/>
-                <FeatureCard icon="fa-solid fa-inbox" title_key="feat-tray-title" desc_key="feat-tray-desc"/>
-                <FeatureCard icon="fa-solid fa-file-audio" title_key="feat-badges-title" desc_key="feat-badges-desc"/>
+                <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
+                <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
+            </div>
+            <div class="features-compact">
+                <FeatureItem icon="fa-solid fa-magnifying-glass" title_key="feat-search-title"/>
+                <FeatureItem icon="fa-brands fa-youtube" title_key="feat-youtube-title"/>
+                <FeatureItem icon="fa-brands fa-soundcloud" title_key="feat-soundcloud-title"/>
+                <FeatureItem icon="fa-brands fa-spotify" title_key="feat-spotify-title"/>
+                <FeatureItem icon="fa-solid fa-tower-broadcast" title_key="feat-scrobble-title"/>
+                <FeatureItem icon="fa-brands fa-discord" title_key="feat-discord-title"/>
+                <FeatureItem icon="fa-solid fa-tags" title_key="feat-genre-title"/>
+                <FeatureItem icon="fa-solid fa-clock" title_key="feat-logs-title"/>
+                <FeatureItem icon="fa-solid fa-globe" title_key="feat-i18n-title"/>
+                <FeatureItem icon="fa-solid fa-download" title_key="feat-ytdlp-title"/>
+                <FeatureItem icon="fa-solid fa-shuffle" title_key="feat-crossfade-title"/>
+                <FeatureItem icon="fa-solid fa-headphones" title_key="feat-channels-title"/>
+                <FeatureItem icon="fa-solid fa-image" title_key="feat-metadata-title"/>
+                <FeatureItem icon="fa-solid fa-file-lines" title_key="feat-debug-title"/>
+                <FeatureItem icon="fa-solid fa-broom" title_key="feat-cleanup-title"/>
+                <FeatureItem icon="fa-solid fa-window-minimize" title_key="feat-miniplayer-title"/>
+                <FeatureItem icon="fa-solid fa-inbox" title_key="feat-tray-title"/>
+                <FeatureItem icon="fa-solid fa-file-audio" title_key="feat-badges-title"/>
             </div>
         </section>
     }
@@ -979,6 +1403,16 @@ fn FeatureCard(
     }
 }
 
+#[component]
+fn FeatureItem(#[prop(into)] icon: String, #[prop(into)] title_key: &'static str) -> impl IntoView {
+    let title = feature_title(title_key);
+    view! {
+        <div class="feature-item">
+            <i class=format!("{icon}")></i>
+            <span>{title}</span>
+        </div>
+    }
+}
 fn feature_title(key: &'static str) -> Signal<String> {
     match key {
         "feat-local-title" => move_tr!("feat-local-title"),
@@ -1040,14 +1474,18 @@ fn feature_desc(key: &'static str) -> Signal<String> {
 }
 
 #[component]
-fn Performance() -> impl IntoView {
+pub(crate) fn Performance() -> impl IntoView {
     view! {
-        <section class="perf" id="performance">
-            <div class="section-header">
-                <h2>{move_tr!("perf-title")}</h2>
-                <p>{move_tr!("perf-subtitle")}</p>
-            </div>
-            <div class="perf-grid">
+        <section class="perf disclosure-section" id="performance">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("perf-title")}</span>
+                        <span class="disclosure-description">{move_tr!("perf-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="perf-grid disclosure-body">
                 <div class="perf-item">
                     <span class="perf-label">{move_tr!("perf-skip-label")}</span>
                     <p>{move_tr!("perf-skip-desc")}</p>
@@ -1076,19 +1514,25 @@ fn Performance() -> impl IntoView {
                     <span class="perf-label">{move_tr!("perf-sort-label")}</span>
                     <p>{move_tr!("perf-sort-desc")}</p>
                 </div>
-            </div>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
-fn Install() -> impl IntoView {
+pub(crate) fn Install() -> impl IntoView {
     view! {
-        <section class="install" id="install">
-            <div class="section-header">
-                <h2>{move_tr!("install-title")}</h2>
-            </div>
-            <div class="install-grid">
+        <section class="install disclosure-section" id="install">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("install-title")}</span>
+                        <span class="disclosure-description">{move_tr!("install-quick-note")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="install-grid disclosure-body">
                 <div class="install-card">
                     <h3>{move_tr!("install-quick-title")}</h3>
                     <p>{move_tr!("install-quick-desc")}</p>
@@ -1119,7 +1563,7 @@ paru -S kopuz-bin"</code></pre>
                     <h3>{move_tr!("install-flatpak-title")}</h3>
                     <p>{move_tr!("install-flatpak-desc")}</p>
                     <pre><code>"flatpak install --user --or-update \\
-    https://kopuz-org.github.io/kopuz-flatpak/com.temidaradev.kopuz.flatpakref"</code></pre>
+    https://kopuz-org.github.io/kopuz-flatpak/moe.kopuz.kopuz.flatpakref"</code></pre>
                     <p class="install-note">{move_tr!("install-flatpak-note")}</p>
                 </div>
                 <div class="install-card">
@@ -1129,23 +1573,36 @@ paru -S kopuz-bin"</code></pre>
                 </div>
                 <div class="install-card">
                     <h3>{move_tr!("install-macos-title")}" "<span class="install-chip">{move_tr!("install-macos-chip")}</span></h3>
+                    <p>{move_tr!("install-macos-homebrew")}</p>
+                    <pre><code>"brew install --cask --no-quarantine kopuz-org/tap/kopuz"</code></pre>
                     <p>{move_tr!("install-macos-desc-1")}" "<code>".dmg"</code>{move_tr!("install-macos-desc-2")}</p>
                     <pre><code>"xattr -d com.apple.quarantine /Applications/Kopuz.app"</code></pre>
                 </div>
-            </div>
+                <div class="install-card">
+                    <h3>{move_tr!("install-android-title")}" "<span class="install-chip">{move_tr!("install-android-chip")}</span></h3>
+                    <p>{move_tr!("install-android-desc")}</p>
+                    <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="btn-secondary">{move_tr!("install-quick-cta")}</a>
+                    <p class="install-note">{move_tr!("install-android-note")}</p>
+                </div>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
-fn YtMusic() -> impl IntoView {
+pub(crate) fn YtMusic() -> impl IntoView {
     view! {
-        <section class="install" id="ytmusic">
-            <div class="section-header">
-                <h2>{move_tr!("ytmusic-title")}</h2>
-                <p>{move_tr!("ytmusic-subtitle")}</p>
-            </div>
-            <div class="install-grid">
+        <section class="install disclosure-section" id="ytmusic">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("ytmusic-title")}</span>
+                        <span class="disclosure-description">{move_tr!("ytmusic-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="install-grid disclosure-body">
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-token-title")}</h3>
                     <p>{move_tr!("ytmusic-token-desc")}</p>
@@ -1163,20 +1620,25 @@ fn YtMusic() -> impl IntoView {
                     <h3>{move_tr!("ytmusic-premium-title")}</h3>
                     <p>{move_tr!("ytmusic-premium-desc")}</p>
                 </div>
-            </div>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
-fn SoundCloud() -> impl IntoView {
+pub(crate) fn SoundCloud() -> impl IntoView {
     view! {
-        <section class="install" id="soundcloud">
-            <div class="section-header">
-                <h2>{move_tr!("soundcloud-title")}</h2>
-                <p>{move_tr!("soundcloud-subtitle")}</p>
-            </div>
-            <div class="install-grid">
+        <section class="install disclosure-section" id="soundcloud">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("soundcloud-title")}</span>
+                        <span class="disclosure-description">{move_tr!("soundcloud-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="install-grid disclosure-body">
                 <div class="install-card">
                     <h3>{move_tr!("soundcloud-signin-title")}</h3>
                     <p>{move_tr!("soundcloud-signin-desc")}</p>
@@ -1185,46 +1647,40 @@ fn SoundCloud() -> impl IntoView {
                     <h3>{move_tr!("soundcloud-features-title")}</h3>
                     <p>{move_tr!("soundcloud-features-desc")}</p>
                 </div>
-            </div>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
-fn SpotifyGuide() -> impl IntoView {
+pub(crate) fn SpotifyGuide() -> impl IntoView {
     view! {
-        <section class="content-section guide-section" id="spotify">
-            <div class="section-header"><h2>{move_tr!("spotify-guide-title")}</h2><p>{move_tr!("spotify-guide-subtitle")}</p></div>
-            <div class="steps-grid">
+        <section class="content-section guide-section disclosure-section" id="spotify">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("spotify-guide-title")}</span>
+                        <span class="disclosure-description">{move_tr!("spotify-guide-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="disclosure-body">
+                    <div class="steps-grid">
                 <article class="step-card"><span>"01"</span><h3>{move_tr!("spotify-step-1-title")}</h3><p>{move_tr!("spotify-step-1-desc")}</p><code>"http://127.0.0.1:8898/callback"</code></article>
                 <article class="step-card"><span>"02"</span><h3>{move_tr!("spotify-step-2-title")}</h3><p>{move_tr!("spotify-step-2-desc")}</p></article>
                 <article class="step-card"><span>"03"</span><h3>{move_tr!("spotify-step-3-title")}</h3><p>{move_tr!("spotify-step-3-desc")}</p></article>
-            </div>
-            <div class="callout"><i class="fa-solid fa-circle-info"></i><p>{move_tr!("spotify-requirement")}</p></div>
-            <a class="text-link" href="https://github.com/Kopuz-org/kopuz#spotify-setup" target="_blank">{move_tr!("spotify-full-guide")}</a>
+                    </div>
+                    <div class="callout"><i class="fa-solid fa-circle-info"></i><p>{move_tr!("spotify-requirement")}</p></div>
+                    <a class="text-link" href="https://github.com/Kopuz-org/kopuz#spotify-setup" target="_blank">{move_tr!("spotify-full-guide")}</a>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
-fn FeatureGuides() -> impl IntoView {
-    view! {
-        <section class="content-section" id="guides">
-            <div class="section-header"><h2>{move_tr!("guides-title")}</h2><p>{move_tr!("guides-subtitle")}</p></div>
-            <div class="guide-grid">
-                <a href="#spotify" class="guide-card"><i class="fa-brands fa-spotify"></i><h3>"Spotify"</h3><p>"Client ID, browser player, Spotify Connect, and limitations."</p></a>
-                <a href="#ytmusic" class="guide-card"><i class="fa-brands fa-youtube"></i><h3>"YouTube Music"</h3><p>"Signed-in and anonymous modes, radio, Discover, and Premium tracks."</p></a>
-                <a href="#soundcloud" class="guide-card"><i class="fa-brands fa-soundcloud"></i><h3>"SoundCloud"</h3><p>"Browser sign-in, likes, playlists, and supported playback formats."</p></a>
-                <a href="https://github.com/Kopuz-org/kopuz#features" target="_blank" class="guide-card"><i class="fa-solid fa-server"></i><h3>"Jellyfin & Subsonic"</h3><p>"Server libraries, synced favorites, playlists, artist images, and scrobbling."</p></a>
-                <a href="https://github.com/Kopuz-org/kopuz#features" target="_blank" class="guide-card"><i class="fa-solid fa-palette"></i><h3>"Themes & audio"</h3><p>"Custom themes, synced lyrics, equalizer, crossfade, and channel modes."</p></a>
-                <a href="https://github.com/Kopuz-org/kopuz#features" target="_blank" class="guide-card"><i class="fa-solid fa-download"></i><h3>"yt-dlp & scrobbling"</h3><p>"Downloads, formats, SponsorBlock, and listening-history services."</p></a>
-            </div>
-        </section>
-    }
-}
-
-#[component]
-fn Privacy() -> impl IntoView {
+pub(crate) fn Privacy() -> impl IntoView {
     view! {
         <section class="content-section" id="privacy">
             <div class="section-header"><h2>{move_tr!("privacy-title")}</h2><p>{move_tr!("privacy-subtitle")}</p></div>
@@ -1233,23 +1689,31 @@ fn Privacy() -> impl IntoView {
                 <article><i class="fa-solid fa-key"></i><h3>{move_tr!("privacy-accounts-title")}</h3><p>{move_tr!("privacy-accounts-desc")}</p></article>
                 <article><i class="fa-solid fa-folder-tree"></i><h3>{move_tr!("privacy-files-title")}</h3><p>{move_tr!("privacy-files-desc")}</p></article>
             </div>
-            <details class="paths-details"><summary>{move_tr!("privacy-paths-title")}</summary><div><p><strong>"Linux: "</strong><code>"~/.config/kopuz/kopuz.db"</code></p><p><strong>"macOS: "</strong><code>"~/Library/Application Support/com.temidaradev.kopuz/kopuz.db"</code></p><p><strong>"Windows: "</strong><code>"%APPDATA%\\temidaradev\\kopuz\\config\\kopuz.db"</code></p></div></details>
+            <details class="paths-details"><summary>{move_tr!("privacy-paths-title")}</summary><div><p><strong>"Linux: "</strong><code>"~/.config/kopuz/kopuz.db"</code></p><p><strong>"macOS: "</strong><code>"~/Library/Application Support/moe.kopuz.kopuz/kopuz.db"</code></p><p><strong>"Windows: "</strong><code>"%APPDATA%\\kopuz\\kopuz\\config\\kopuz.db"</code></p></div></details>
         </section>
     }
 }
 
 #[component]
-fn Requirements() -> impl IntoView {
+pub(crate) fn Requirements() -> impl IntoView {
     view! {
-        <section class="content-section" id="requirements">
-            <div class="section-header"><h2>{move_tr!("requirements-title")}</h2><p>{move_tr!("requirements-subtitle")}</p></div>
-            <div class="requirements-list">
+        <section class="content-section disclosure-section" id="requirements">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("requirements-title")}</span>
+                        <span class="disclosure-description">{move_tr!("requirements-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="requirements-list disclosure-body">
                 <div><strong>"Spotify"</strong><span>"Premium is required for playback; a personal Client ID and supported browser are required."</span></div>
                 <div><strong>"AppImage"</strong><span>"Requires webkit2gtk-4.1 and GTK 3. The tray additionally needs an appindicator library."</span></div>
                 <div><strong>"YouTube Music"</strong><span>"Anonymous mode cannot play Premium-only tracks; yt-dlp can help signed-in playback fallbacks."</span></div>
                 <div><strong>"Crossfade"</strong><span>"Available for native desktop playback; browser-owned Spotify audio uses normal transitions."</span></div>
                 <div><strong>"Spotify limits"</strong><span>"Development Mode limits search, makes playlists read-only, and disables downloads, radio, tag editing, and Kopuz audio effects."</span></div>
-            </div>
+                </div>
+            </details>
         </section>
     }
 }
@@ -1265,7 +1729,7 @@ fn AboutName() -> impl IntoView {
 }
 
 #[component]
-fn Community() -> impl IntoView {
+pub(crate) fn Community() -> impl IntoView {
     view! {
         <section class="content-section" id="community">
             <div class="section-header"><h2>{move_tr!("community-title")}</h2><p>{move_tr!("community-subtitle")}</p></div>
@@ -1280,11 +1744,11 @@ fn Community() -> impl IntoView {
 }
 
 #[component]
-fn Platforms() -> impl IntoView {
+pub(crate) fn Platforms() -> impl IntoView {
     view! {
         <section class="platforms" id="downloads">
             <div class="section-header">
-                <h2>{move_tr!("platforms-title")}</h2>
+                <h1>{move_tr!("platforms-title")}</h1>
                 <p>{move_tr!("platforms-subtitle")}</p>
             </div>
             <div class="platform-grid">
@@ -1323,30 +1787,39 @@ fn Platforms() -> impl IntoView {
                     </div>
                     <span class="platform-dl">{move_tr!("platforms-download")}</span>
                 </a>
+                <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank" class="platform-card">
+                    <div class="platform-header">
+                        <i class="fa-brands fa-android platform-os-icon"></i>
+                        <span class="platform-name">{move_tr!("platforms-android")}</span>
+                    </div>
+                    <div class="platform-formats">
+                        <span class="platform-fmt">".apk"</span>
+                    </div>
+                    <span class="platform-note">{move_tr!("platforms-android-note")}</span>
+                    <span class="platform-dl">{move_tr!("platforms-apk")}</span>
+                </a>
             </div>
         </section>
     }
 }
 
 #[component]
-fn Support() -> impl IntoView {
+pub(crate) fn Support() -> impl IntoView {
     view! {
         <section class="support" id="support">
             <div class="section-header">
-                <h2>{move_tr!("support-title")}</h2>
+                <h1>{move_tr!("support-title")}</h1>
                 <p>{move_tr!("support-subtitle")}</p>
             </div>
+            <DonationBanner/>
             <div class="support-links">
-                <a href="https://github.com/sponsors/temidaradev" target="_blank" class="support-btn support-gh">
-                    <i class="fa-solid fa-heart"></i>
-                    {move_tr!("support-gh")}
-                </a>
                 <a href="https://buymeacoffee.com/temidaradev" target="_blank" class="support-btn support-bmc">
                     <i class="fa-solid fa-mug-hot"></i>
                     {move_tr!("support-bmc")}
                 </a>
             </div>
-            <div class="donate-divider">{move_tr!("support-crypto-divider")}</div>
+            <details class="crypto-details">
+                <summary class="donate-divider">{move_tr!("support-crypto-divider")}</summary>
             <div class="donate-grid">
                 <div class="donate-item">
                     <span class="donate-coin">"SOL"</span>
@@ -1369,13 +1842,14 @@ fn Support() -> impl IntoView {
                     <code>"GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW"</code>
                     <span class="donate-note">{move_tr!("support-usdt-note")}</span>
                 </div>
-            </div>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
-fn Sponsors() -> impl IntoView {
+pub(crate) fn Sponsors() -> impl IntoView {
     let sponsors_list = Resource::new(|| (), |_| async move { fetch_sponsors_list().await });
 
     view! {
@@ -1453,26 +1927,13 @@ fn Sponsors() -> impl IntoView {
     }
 }
 
-static GALLERY_SRCS: &[&str] = &[
-    "/normal-home.png",
-    "/modern-home.png",
-    "/normal-library.png",
-    "/vaxry-library.png",
-    "/normal-playlist.png",
-    "/modern-playlist.png",
-    "/fullscreen.png",
-    "/fullscreen-lyrics.png",
-    "/theme-editor.png",
-    "/player-settings.png",
-    "/downloader.png",
-];
-
 #[component]
-fn WebButton() -> impl IntoView {
+pub(crate) fn WebButton() -> impl IntoView {
     // Classic 88x31 "link back" button — the old-web tradition. The SVG and PNG
     // live in /public and are served from a stable, absolute URL so anyone can
     // embed the button on their own site from anywhere.
     const SITE: &str = "https://kopuz.moe";
+    let home_href = internal_href("/");
 
     let html_embed = format!(
         "<a href=\"{SITE}\"><img src=\"{SITE}/88x31.svg\" width=\"88\" height=\"31\" alt=\"Kopuz\"></a>"
@@ -1481,14 +1942,18 @@ fn WebButton() -> impl IntoView {
     let bbcode_embed = format!("[url={SITE}][img]{SITE}/88x31.svg[/img][/url]");
 
     view! {
-        <section class="webbutton" id="button">
-            <div class="section-header">
-                <h2>"Put Kopuz on your site"</h2>
-                <p>"An 88" {"\u{00d7}"} "31 button in the classic web tradition. Grab it, link it back, wear it with pride."</p>
-            </div>
-            <div class="webbutton-body">
+        <section class="webbutton disclosure-section" id="button">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">"Put Kopuz on your site"</span>
+                        <span class="disclosure-description">"A classic 88" {"\u{00d7}"} "31 link-back button."</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="webbutton-body disclosure-body">
                 <div class="webbutton-preview">
-                    <a href="/" aria-label="Kopuz home">
+                    <a href=home_href aria-label="Kopuz home">
                         <img src="/88x31.svg" width="88" height="31" alt="Kopuz 88x31 button" class="webbutton-img"/>
                     </a>
                     <span class="webbutton-note">
@@ -1510,13 +1975,17 @@ fn WebButton() -> impl IntoView {
                         <pre><code>{bbcode_embed}</code></pre>
                     </div>
                 </div>
-            </div>
+                </div>
+            </details>
         </section>
     }
 }
 
 #[component]
 pub(crate) fn Footer() -> impl IntoView {
+    let privacy_href = internal_href("/privacy");
+    let button_href = internal_href("/support#button");
+
     view! {
         <footer class="footer">
             <div class="footer-left">
@@ -1524,8 +1993,8 @@ pub(crate) fn Footer() -> impl IntoView {
                 <span>{move_tr!("footer-license")}</span>
             </div>
             <div class="footer-links">
-                <a href="/privacy">{move_tr!("footer-privacy")}</a>
-                <a href="/#button">"88" {"\u{00d7}"} "31 Button"</a>
+                <a href=privacy_href>{move_tr!("footer-privacy")}</a>
+                <a href=button_href>"88" {"\u{00d7}"} "31 Button"</a>
                 <a href="https://github.com/Kopuz-org/kopuz" target="_blank">{move_tr!("footer-github")}</a>
                 <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank">{move_tr!("footer-releases")}</a>
                 <a href="https://github.com/Kopuz-org/kopuz/issues" target="_blank">{move_tr!("footer-issues")}</a>

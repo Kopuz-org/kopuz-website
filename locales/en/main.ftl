@@ -49,7 +49,7 @@ feat-scrobble-desc = Scrobble your listening history to Last.fm, Libre.fm, or Li
 feat-discord-title = Discord RPC
 feat-discord-desc = Share what you're listening to on Discord automatically.
 feat-search-title = Search
-feat-search-desc = Real-time search across artists, albums, and tracks. Instant results as you type.
+feat-search-desc = Real-time search across artists, albums, and tracks, plus a quick-search overlay you can open from anywhere.
 feat-genre-title = Genre Browsing
 feat-genre-desc = Browse your entire library by genre — works for both local files and server music.
 feat-logs-title = Listening Logs
@@ -57,7 +57,7 @@ feat-logs-desc = Play counts tracked locally. See what you actually listen to mo
 feat-i18n-title = Languages
 feat-i18n-desc = Use Kopuz in many languages, including English, Russian, German, French, Spanish, Turkish, Japanese, Korean, Chinese, and more.
 feat-ytdlp-title = yt-dlp Downloader
-feat-ytdlp-desc = Download from YouTube and other supported sites as best audio, MP3, FLAC, Opus, WAV, or MP4 video, with SponsorBlock, chapters, cookies, and rate limiting.
+feat-ytdlp-desc = Download from YouTube and other supported sites as best audio, MP3, FLAC, Opus, WAV, or MP4 video. Requires yt-dlp; also supports SponsorBlock, chapters, cookies, and rate limiting.
 feat-crossfade-title = Crossfade & Transitions
 feat-crossfade-desc = Blend track transitions for smoother playback. Crossfade support on native desktop builds.
 feat-channels-title = Channel Modes
@@ -77,7 +77,7 @@ feat-spotify-desc = Browse saved tracks, albums, playlists, and Discover; search
 feat-miniplayer-title = Mini-Player
 feat-miniplayer-desc = A compact now-playing overlay you can toggle from the bottom bar for a smaller view.
 feat-tray-title = Minimize to Tray
-feat-tray-desc = Close to a system tray icon instead of quitting, so playback keeps running in the background. Toggle in Settings.
+feat-tray-desc = Close to a system tray icon instead of quitting, so playback continues in the background. Linux needs an appindicator library.
 feat-badges-title = File-Type Badges
 feat-badges-desc = Local tracks show a small format badge — MP3, FLAC, WAV, and more — right in the track row.
 
@@ -137,6 +137,11 @@ install-macos-title = macOS
 install-macos-chip = Apple Silicon
 install-macos-desc-1 = Download the
 install-macos-desc-2 = { " " }from GitHub Releases. If macOS blocks it, clear the quarantine flag:
+install-macos-homebrew = Install the Apple Silicon build from the project’s Homebrew tap:
+install-android-title = Android
+install-android-chip = ARM64
+install-android-desc = Download the signed arm64-v8a APK from GitHub Releases. Requires Android 7.0 / API 24 or newer.
+install-android-note = If another source signed your installed APK, uninstall it before installing the project release.
 
 ## YouTube Music
 ytmusic-title = YouTube Music Setup
@@ -155,20 +160,20 @@ ytmusic-premium-desc = Some Premium-only tracks may need local yt-dlp fallback. 
 soundcloud-title = SoundCloud Setup
 soundcloud-subtitle = Add it in Settings → Media servers → Add → SoundCloud.
 soundcloud-signin-title = One-time browser sign-in
-soundcloud-signin-desc = No manual tokens needed. Kopuz opens SoundCloud sign-in in an isolated browser profile, then connects your account for playback and library access.
+soundcloud-signin-desc = No URL, password, or manual token needed. Kopuz opens SoundCloud sign-in in an isolated profile using Chrome, Chromium, Brave, Edge, Vivaldi, or Helium. Removing the source removes that profile.
 soundcloud-features-title = What you get
-soundcloud-features-desc = Search, playback, your Liked tracks as favorites, read-only playlists, and like/unlike controls.
+soundcloud-features-desc = Search, progressive MP3 and Go+ AAC/HLS playback, Liked tracks as favorites, read-only playlists, and like/unlike controls.
 
 ## Spotify setup
 spotify-guide-title = Spotify Setup
 spotify-guide-subtitle = Spotify uses its official Web API and browser playback. Kopuz controls the experience without handling your password or audio stream.
 spotify-step-1-title = Create a Spotify app
-spotify-step-1-desc = In Spotify’s developer dashboard, create an app, enable Web API and Web Playback SDK, and add this exact redirect URI:
+spotify-step-1-desc = In Spotify’s developer dashboard, create an app, enable Web API and Web Playback SDK, add every listening account under User Management, and set this exact redirect URI:
 spotify-step-2-title = Add your Client ID
-spotify-step-2-desc = In Kopuz, open Settings → Media servers → Add → Spotify, paste the Client ID, and approve access in your browser.
+spotify-step-2-desc = In Settings → Media servers → Add → Spotify, paste the Client ID and approve access. No Client Secret is needed; port 8898 must be free during sign-in.
 spotify-step-3-title = Choose where to play
-spotify-step-3-desc = Use the browser-backed in-app player or select any Spotify Connect device from Kopuz’s device menu.
-spotify-requirement = Spotify Premium is required for playback. You also need Chrome, Edge, Brave, Chromium, Vivaldi, Helium, or Safari on macOS.
+spotify-step-3-desc = Keep the browser-backed in-app player tab open, or select one of your Spotify Connect devices from Kopuz’s device menu.
+spotify-requirement = Spotify Premium is required for playback. Use Chrome, Edge, Brave, Chromium, Vivaldi, Helium, or Safari on macOS; Firefox is not supported.
 spotify-full-guide = Read the full Spotify setup and troubleshooting guide →
 
 ## Feature guides
@@ -179,7 +184,7 @@ guides-subtitle = Get a quick path into each major integration and feature group
 privacy-title = Your library stays yours
 privacy-subtitle = Kopuz is local-first. Your app data lives on your computer, while connected services only receive requests needed for their features.
 privacy-local-title = One local database
-privacy-local-desc = Settings, scanned tracks, playlists, favorites, and source configuration live in a local SQLite database named kopuz.db.
+privacy-local-desc = Library data, playlists, favorites, play counts, and source data live in kopuz.db; preferences live beside it in settings.toml.
 privacy-accounts-title = Separate source credentials
 privacy-accounts-desc = Each connected media source keeps its own credentials and favorites. Browser sign-ins use isolated profiles instead of your normal browsing session.
 privacy-files-title = Predictable storage
@@ -216,6 +221,9 @@ platforms-macos = macOS
 platforms-macos-note = Apple Silicon only
 platforms-linux = Linux
 platforms-download = Download →
+platforms-android = Android
+platforms-android-note = ARM64 · Android 7.0+ · API 24+
+platforms-apk = Download APK →
 
 ## Support
 support-title = Support Kopuz
@@ -286,13 +294,13 @@ footer-discord = Discord
 ## Page meta
 home-title = Kopuz — Music Player
 
-home-meta-desc = Kopuz is a modern, lightweight music player for local files and streaming. Connect Jellyfin, Subsonic, YouTube Music, SoundCloud, or Spotify and enjoy synced lyrics, themes, and a built-in equalizer.
-home-meta-keywords = Kopuz, music player, Jellyfin, Navidrome, Subsonic, YouTube Music, SoundCloud, Spotify, open source, Linux, macOS, Windows, lyrics, equalizer
+home-meta-desc = Kopuz is a modern, lightweight music player for local files and streaming. Connect Jellyfin, Subsonic, YouTube Music, SoundCloud, or Spotify on desktop and Android.
+home-meta-keywords = Kopuz, music player, Jellyfin, Navidrome, Subsonic, YouTube Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, lyrics, equalizer
 og-title = Kopuz — Music Player
-og-desc = Modern, lightweight music player for local files and streaming. Jellyfin, Subsonic, YouTube Music, SoundCloud, Spotify, synced lyrics, equalizer, and more. Free and open source.
+og-desc = Modern, lightweight music player for local files and streaming on desktop and Android. Synced lyrics, themes, equalizer, and more.
 og-image-alt = Kopuz music player
 twitter-title = Kopuz — Music Player
-twitter-desc = Modern, lightweight music player. Free and open source. Stream from Jellyfin, Navidrome, YouTube Music, or SoundCloud.
+twitter-desc = Modern, lightweight music player for local files and Jellyfin, Subsonic, YouTube Music, SoundCloud, and Spotify streaming.
 
 ## Deep link (/j)
 join-title = Opening Kopuz…

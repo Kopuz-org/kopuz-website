@@ -87,7 +87,15 @@ sudo visudo -cf /etc/sudoers.d/kopuz-website-deploy
 
 ## 2. Configure Tailscale
 
-Create a Tailscale OAuth client with the writable `auth_keys` scope and permission to create ephemeral nodes tagged `tag:ci`. The tailnet policy must allow `tag:ci` to reach TCP port 22 on the homeserver.
+The workflow joins the tailnet as an ephemeral `tag:ci` device. Create its credentials in the Tailscale admin console:
+
+1. Make sure `tag:ci` exists in the tailnet policy and can reach TCP port 22 on the homeserver.
+2. Open **Trust credentials**, select **Credential**, then **OAuth**.
+3. Grant **Auth keys** (`auth_keys`) **Write** access and select `tag:ci`.
+4. Select **Generate credential**.
+5. Copy both values before closing the page. The client secret is only shown once.
+
+The generated client ID is `TS_OAUTH_CLIENT_ID`; the generated client secret is `TS_OAUTH_SECRET`. See the official [OAuth client setup](https://tailscale.com/docs/features/oauth-clients#setting-up-an-oauth-client) and [GitHub Action guide](https://tailscale.com/docs/integrations/github/github-action#using-an-oauth-client).
 
 The workflow uses the official [`tailscale/github-action`](https://github.com/tailscale/github-action) and removes its ephemeral node after each run.
 
@@ -113,22 +121,45 @@ ssh-keyscan -t ed25519 YOUR_SERVER_TAILSCALE_NAME \
 ssh-keygen -lf kopuz-website-known-hosts
 ```
 
+The two SSH secret values come from these local files:
+
+| Secret | Source |
+| --- | --- |
+| `DEPLOY_SSH_PRIVATE_KEY` | Entire contents of `~/.ssh/kopuz-website-ci`, without the `.pub` suffix |
+| `DEPLOY_SSH_KNOWN_HOSTS` | Entire verified contents of `kopuz-website-known-hosts` |
+
+Keep the private key unencrypted because the Actions runner cannot answer a passphrase prompt. The matching `.pub` file belongs only in the server's `authorized_keys`.
+
 ## 4. Configure GitHub
 
-Add this Actions variable under **Settings > Secrets and variables > Actions > Variables**:
+In `Kopuz-org/kopuz-website`, open **Settings > Secrets and variables > Actions**.
+
+On the **Variables** tab, add:
 
 | Variable | Value |
 | --- | --- |
-| `DEPLOY_HOST` | The server's Tailscale MagicDNS name or Tailscale IP |
+| `DEPLOY_HOST` | The same Tailscale MagicDNS name or Tailscale IP used by `ssh-keyscan` |
 
-Add these Actions secrets:
+On the **Secrets** tab, add:
 
-| Secret | Value |
+| Secret | Value comes from |
 | --- | --- |
-| `TS_OAUTH_CLIENT_ID` | Tailscale OAuth client ID |
-| `TS_OAUTH_SECRET` | Tailscale OAuth client secret |
-| `DEPLOY_SSH_PRIVATE_KEY` | Contents of `~/.ssh/kopuz-website-ci` |
-| `DEPLOY_SSH_KNOWN_HOSTS` | Verified contents of `kopuz-website-known-hosts` |
+| `TS_OAUTH_CLIENT_ID` | Client ID shown after generating the Tailscale OAuth credential |
+| `TS_OAUTH_SECRET` | Client secret shown once after generating that credential |
+| `DEPLOY_SSH_PRIVATE_KEY` | `~/.ssh/kopuz-website-ci` |
+| `DEPLOY_SSH_KNOWN_HOSTS` | `kopuz-website-known-hosts` |
+
+From this repository, the equivalent GitHub CLI commands are:
+
+```bash
+gh variable set DEPLOY_HOST --body 'YOUR_SERVER_TAILSCALE_NAME'
+gh secret set TS_OAUTH_CLIENT_ID
+gh secret set TS_OAUTH_SECRET
+gh secret set DEPLOY_SSH_PRIVATE_KEY < ~/.ssh/kopuz-website-ci
+gh secret set DEPLOY_SSH_KNOWN_HOSTS < kopuz-website-known-hosts
+```
+
+The first two `gh secret set` commands prompt for the copied Tailscale values without printing them. GitHub will list a secret's name afterward but will not reveal its stored value. See [GitHub's repository secret instructions](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets#creating-secrets-for-a-repository).
 
 Push to `master`, or run **CI and deploy** manually from the Actions page. The first successful automated deployment activates a release named after its Git commit.
 

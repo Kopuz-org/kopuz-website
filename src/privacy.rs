@@ -2,7 +2,7 @@ use leptos::prelude::*;
 use leptos_fluent::move_tr;
 use leptos_meta::{Link, Meta, Title};
 
-use crate::app::{provide_moe_theme, Footer, Nav};
+use crate::app::{internal_href, provide_site_theme, Footer, Nav, ThemeColorMeta};
 
 const LAST_UPDATED: &str = "23 August 2026";
 
@@ -14,16 +14,29 @@ const LAST_UPDATED: &str = "23 August 2026";
 /// the framing (title, the note explaining exactly that) is translated.
 #[component]
 pub fn PrivacyPage() -> impl IntoView {
-    let moe = provide_moe_theme();
+    let theme = provide_site_theme();
+    let home_href = internal_href("/");
 
     view! {
         <Title text="Privacy Policy | Kopuz"/>
         <Meta name="description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
         <Meta name="robots" content="index, follow"/>
+        <Meta property="og:title" content="Privacy Policy | Kopuz"/>
+        <Meta property="og:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
+        <Meta property="og:url" content="https://kopuz.moe/privacy"/>
+        <Meta name="twitter:title" content="Privacy Policy | Kopuz"/>
+        <Meta name="twitter:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
         <Link rel="canonical" href="https://kopuz.moe/privacy"/>
+        <ThemeColorMeta/>
 
-        <div class="site" class:moe=move || moe.get()>
+        <div
+            class="site"
+            class:light=move || !theme.dark.get() && !theme.moe
+            class:dark=move || theme.dark.get() && !theme.moe
+            class:moe=move || theme.moe
+        >
             <Nav/>
+            <main>
             <section class="legal">
                 <h1>"Privacy Policy"</h1>
                 <p class="legal-meta">"Last updated: " {LAST_UPDATED}</p>
@@ -172,7 +185,7 @@ pub fn PrivacyPage() -> impl IntoView {
                 <ul>
                     <li>
                         <strong>"Cookies"</strong>": two, both first party, both holding a preference rather than an identifier. "
-                        <code>"lf-lang"</code> " remembers the language you picked; " <code>"kopuz-moe"</code> " remembers which theme you picked. Neither identifies you, and clearing them costs you nothing but the preference."
+                        <code>"lf-lang"</code> " remembers the language you picked; " <code>"kopuz-theme"</code> " remembers whether you picked the light or dark theme. Neither identifies you, and clearing them costs you nothing but the preference."
                     </li>
                     <li>
                         <strong>"Server logs"</strong>": the web server processes the usual request data, including your IP address, in order to serve the page and keep the site running. It is not used to build a profile of you."
@@ -223,8 +236,9 @@ pub fn PrivacyPage() -> impl IntoView {
                     ". A privacy report is a bug report, and it will be treated as one."
                 </p>
 
-                <p class="legal-back"><a href="/">{move_tr!("privacy-back")}</a></p>
+                <p class="legal-back"><a href=home_href>{move_tr!("privacy-back")}</a></p>
             </section>
+            </main>
             <Footer/>
         </div>
     }

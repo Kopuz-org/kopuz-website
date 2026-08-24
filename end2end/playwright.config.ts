@@ -1,6 +1,11 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices, defineConfig } from "@playwright/test";
 
+const baseURL =
+  process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
+const chromiumExecutablePath =
+  process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -35,8 +40,8 @@ export default defineConfig({
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
+    /* Base URL can point at an already-running preview server. */
+    baseURL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -48,6 +53,9 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
+        launchOptions: chromiumExecutablePath
+          ? { executablePath: chromiumExecutablePath }
+          : undefined,
       },
     },
 
@@ -65,13 +73,15 @@ export default defineConfig({
       },
     },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: {
-    //     ...devices['Pixel 5'],
-    //   },
-    // },
+    {
+      name: "mobile-chromium",
+      use: {
+        ...devices["Pixel 5"],
+        launchOptions: chromiumExecutablePath
+          ? { executablePath: chromiumExecutablePath }
+          : undefined,
+      },
+    },
     // {
     //   name: 'Mobile Safari',
     //   use: {
