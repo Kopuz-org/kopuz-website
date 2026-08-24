@@ -1053,22 +1053,18 @@ fn HomeDirectory() -> impl IntoView {
     view! {
         <section class="home-directory" aria-label="Explore Kopuz">
             <a href=features_href>
-                <span class="directory-kicker">{move_tr!("nav-features")}</span>
                 <h2>{move_tr!("features-title")}</h2>
                 <p>{move_tr!("features-chip")}</p>
             </a>
             <a href=download_href>
-                <span class="directory-kicker">{move_tr!("nav-download")}</span>
                 <h2>{move_tr!("platforms-title")}</h2>
                 <p>{move_tr!("platforms-subtitle")}</p>
             </a>
             <a href=guides_href>
-                <span class="directory-kicker">{move_tr!("guides-title")}</span>
                 <h2>{move_tr!("guides-title")}</h2>
                 <p>{move_tr!("guides-subtitle")}</p>
             </a>
             <a href=support_href>
-                <span class="directory-kicker">{move_tr!("support-title")}</span>
                 <h2>{move_tr!("support-title")}</h2>
                 <p>{move_tr!("support-subtitle")}</p>
             </a>
@@ -1094,7 +1090,6 @@ fn NotFoundPage() -> impl IntoView {
             <Nav/>
             <main class="not-found">
                 <header class="page-intro">
-                    <span class="eyebrow">"404"</span>
                     <h1>"Page not found."</h1>
                     <p><a class="text-link" href=home_href>"Return to Kopuz"</a></p>
                 </header>
@@ -1111,7 +1106,6 @@ fn WhatsNew() -> impl IntoView {
     view! {
         <section class="content-section whats-new" id="whats-new">
             <div class="section-header">
-                <span class="eyebrow">{move_tr!("new-eyebrow")}</span>
                 <h2>{move_tr!("new-title")}</h2>
                 <p>{move_tr!("new-subtitle")}</p>
             </div>
@@ -1878,7 +1872,11 @@ fn AboutName() -> impl IntoView {
     view! {
         <section class="content-section about-name" id="about-name">
             <div class="about-mark"><img src="/logo.svg" alt=""/></div>
-            <div><span class="eyebrow">{move_tr!("about-eyebrow")}</span><h2>{move_tr!("about-title")}</h2><p>{move_tr!("about-desc-1")}</p><p>{move_tr!("about-desc-2")}</p></div>
+            <div>
+                <h2>{move_tr!("about-title")}</h2>
+                <p>{move_tr!("about-desc-1")}</p>
+                <p>{move_tr!("about-desc-2")}</p>
+            </div>
         </section>
     }
 }

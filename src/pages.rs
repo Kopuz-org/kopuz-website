@@ -88,7 +88,6 @@ pub fn GuidesPage() -> impl IntoView {
         />
         <PageChrome>
             <header class="page-intro">
-                <span class="eyebrow">"Kopuz"</span>
                 <h1>{move_tr!("guides-title")}</h1>
                 <p>{move_tr!("guides-subtitle")}</p>
             </header>

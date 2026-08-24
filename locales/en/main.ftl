@@ -96,7 +96,6 @@ feat-badges-title = File-Type Badges
 feat-badges-desc = Local tracks show a small format badge — MP3, FLAC, WAV, and more — right in the track row.
 
 ## What's new
-new-eyebrow = Latest release
 new-title = What’s new in Kopuz
 new-subtitle = Follow the project as playback, integrations, and the desktop experience improve.
 
@@ -234,7 +233,6 @@ requirements-title = Requirements and limitations
 requirements-subtitle = A few features depend on your platform or the connected service. Know these before installing.
 
 ## About the name
-about-eyebrow = More than a name
 about-title = What is a kopuz?
 about-desc-1 = The kopuz is an ancient Turkic string instrument, traditionally associated with bards and shamans and considered an ancestor of several Central Asian lutes.
 about-desc-2 = Turkic legend links it to Dede Korkut, a legendary bard. The Kyrgyz komuz and Kazakh kobyz are related instruments, while the similarly named xomus is not.
