@@ -92,6 +92,36 @@ test.describe("site themes", () => {
     await expect(page.locator(".site")).toHaveClass(/\bdark\b/);
   });
 
+  test("paints a saved dark theme before hydration", async ({
+    context,
+    page,
+  }) => {
+    const baseURL =
+      (test.info().project.use.baseURL as string | undefined) ??
+      "http://127.0.0.1:3000";
+    await context.addCookies([
+      { name: "kopuz-theme", value: "dark", url: new URL(baseURL).origin },
+    ]);
+    await page.route("**/pkg/*.js*", (route) => route.abort());
+
+    const response = await page.goto("/features", {
+      waitUntil: "domcontentloaded",
+    });
+
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    expect(
+      await page.locator("body").evaluate((element) => {
+        return getComputedStyle(element).backgroundColor;
+      }),
+    ).toBe("rgb(23, 20, 15)");
+    expect(
+      await page.locator(".site").evaluate((element) => {
+        return getComputedStyle(element).color;
+      }),
+    ).toBe("rgb(241, 236, 226)");
+  });
+
   test("migrates the previous theme cookie", async ({ context, page }) => {
     await page.emulateMedia({ colorScheme: "dark" });
     await page.goto("/features");

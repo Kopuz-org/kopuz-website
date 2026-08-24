@@ -42,6 +42,7 @@
     color: var(--text);
 }
 
+:root[data-theme="dark"],
 .site.dark {
     --bg:        #17140f;
     --surface:   #211d17;
@@ -67,6 +68,11 @@ body:has(.site.light) {
 }
 
 body:has(.site.dark) {
+    background-color: #17140f;
+    background-image: none;
+}
+
+:root[data-theme="dark"] body {
     background-color: #17140f;
     background-image: none;
 }
@@ -323,16 +329,6 @@ pre code {
     gap: 60px;
     align-items: center;
 }
-.hero-badge {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: var(--muted);
-    font-family: var(--display);
-    font-size: 14px;
-    font-style: italic;
-    letter-spacing: 0;
-}
-.hero-badge::before { display: none; }
 .hero h1 {
     margin-bottom: 24px;
     color: var(--text);
@@ -803,7 +799,6 @@ pre code {
     .hero { grid-template-columns: 1fr; gap: 28px; padding: 44px 0 54px; }
     .hero h1 { font-size: 52px; }
     .hero p { font-size: 17px; margin-bottom: 24px; }
-    .hero-badge { margin-bottom: 16px; }
 
     .home-directory { grid-template-columns: 1fr; padding-bottom: 64px; }
     .home-directory > a { padding: 22px 0 26px; }
@@ -1100,7 +1095,6 @@ body:has(.site.moe) {
 .site.moe .sources-label,
 .site.moe .sponsors-section-title,
 .site.moe .donate-coin,
-.site.moe .hero-badge,
 .site.moe .release-tag,
 .site.moe .install-chip,
 .site.moe .donate-divider {

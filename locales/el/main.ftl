@@ -3,7 +3,7 @@ lang-name = Ελληνικά
 
 ## Nav
 nav-new = Νέο
-nav-announce = Ροή YouTube Music, Discover, mix radio, 20+ γλώσσες
+nav-announce = Τοπικά αρχεία + συνδεδεμένες πηγές μουσικής σε μία εφαρμογή, με θέματα, στίχους και 20+ γλώσσες
 nav-features = Δυνατότητες
 nav-install = Εγκατάσταση
 nav-download = Λήψη
@@ -15,7 +15,7 @@ nav-lang-label = Γλώσσα
 ## Hero
 hero-title-1 = Η μουσική σου.
 hero-title-2 = Με τον τρόπο σου.
-hero-desc = Το Kopuz είναι ένα σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής φτιαγμένο με Rust και Dioxus. Σάρωσε τοπικούς φακέλους, ροή από Jellyfin ή Navidrome και περιήγηση στη βιβλιοθήκη σου όπως θες.
+hero-desc = Το Kopuz είναι ένα γρήγορο και ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για καθημερινή ακρόαση. Παίξε μουσική από τοπικούς φακέλους ή συνδέσου με Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify, όλα μέσα από μία ενιαία βιβλιοθήκη.
 hero-cta-download = Λήψη
 hero-cta-github = Δες στο GitHub
 hero-screenshot-alt = Kopuz — αρχική προβολή
@@ -28,23 +28,33 @@ features-source-local = Τοπικά αρχεία
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Τοπικά + Streaming
-feat-local-desc = Δείξε σε τοπικό φάκελο ή σύνδεσε σε Jellyfin / Subsonic (Navidrome). Συνδύασε όπως θες.
+feat-local-desc = Πρόσθεσε τοπικούς φακέλους ή συνδέσου με Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify. Συνδύασε ελεύθερα τις πηγές σε μία ενιαία βιβλιοθήκη.
 feat-theming-title = Θέματα
 feat-theming-desc = Δυναμικά θέματα με πλήρη έλεγχο μεταβλητών χρώματος. Φτιάξε δικό σου θέμα από την αρχή ή διάλεξε προκαθορισμένο.
 feat-native-title = Εγγενής ενσωμάτωση
 feat-native-desc = MPRIS σε Linux, Now Playing σε macOS, System Media Transport σε Windows. Πλήρως συνδεδεμένο.
+feat-android-title = Android
+feat-android-desc = Μια έκδοση ARM64 σχεδιασμένη για τηλέφωνα, με χειρονομίες σάρωσης, χειριστήρια τυχαίας αναπαραγωγής και επανάληψης στην ειδοποίηση πολυμέσων, καθώς και λειτουργία AMOLED για Android 7.0 και νεότερες εκδόσεις.
 feat-lyrics-title = Συγχρονισμένοι στίχοι
-feat-lyrics-desc = Κυλιόμενοι στίχοι σε πραγματικό χρόνο, συγχρονισμένοι ή απλοί, αυτόματη κύλιση με τη μουσική.
+feat-lyrics-desc = Υποστήριξη συγχρονισμένων, χρονισμένων ανά λέξη και απλών στίχων, με οργανικά διαλείμματα, κεντραρισμένη ενεργή γραμμή, θόλωση βάθους και χειροκίνητη ή αυτόματη μετατόπιση χρονισμού.
 feat-eq-title = Equalizer
 feat-eq-desc = Equalizer 5 ζωνών με ενσωματωμένα presets και πλήρη έλεγχο του ήχου σου.
 feat-fav-title = Αγαπημένα και λίστες
 feat-fav-desc = Σήμανε κομμάτια τοπικά ή συγχρόνισε αγαπημένα με τον server σου. Δημιούργησε λίστες, πρόσθεσε ολόκληρα άλμπουμ ταυτόχρονα.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = Ενσωματωμένο ListenBrainz scrobbling. Οι χρήστες Jellyfin μπορούν επίσης να χρησιμοποιήσουν το plugin listenbrainz.
+feat-radio-title = Διαδικτυακό ραδιόφωνο
+feat-radio-desc = Άκουσε διαδικτυακούς σταθμούς από καταλόγους ραδιοφωνικών σταθμών, με μεταδεδομένα για τη ροή και ό,τι παίζει τώρα.
+feat-offline-title = Λήψεις εκτός σύνδεσης
+feat-offline-desc = Κατέβασε κομμάτια από υποστηριζόμενες απομακρυσμένες πηγές για ακρόαση χωρίς σύνδεση στο δίκτυο.
+feat-fonts-title = Προσαρμοσμένες γραμματοσειρές διεπαφής
+feat-fonts-desc = Επίλεξε τη δική σου γραμματοσειρά διεπαφής μαζί με τα ενσωματωμένα θέματα.
 feat-discord-title = Discord RPC
 feat-discord-desc = Δείξε στους φίλους σου τι ακούς με ενσωματωμένο Discord Rich Presence. Χωρίς ρυθμίσεις.
 feat-search-title = Αναζήτηση
@@ -64,6 +74,10 @@ feat-channels-desc = Στέρεο, Μονοφωνικό, Μόνο-Αριστερ
 
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Πλήρες backend ροής με σελίδα Discover σε στυλ Spotify, πλούσια προφίλ καλλιτεχνών και mix radio. Συνδέσου για τη βιβλιοθήκη σου, την αγαπημένη σου μουσική και τις λίστες σου — ή περιηγήσου ανώνυμα.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Περιηγήσου στον κατάλογο και στη βιβλιοθήκη σου, συγχρόνισε αγαπημένα, πρόσθεσε ή αφαίρεσε κομμάτια από λίστες αναπαραγωγής, ξεκίνα ραδιόφωνο, κατέβασε κομμάτια και χρησιμοποίησε στίχους με χρονισμό ανά λέξη. Η αναπαραγωγή από το Apple Music σε υπολογιστή απαιτεί Widevine.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = Συνδέσου μέσω WebDAV, επίλεξε φακέλους βιβλιοθήκης για κάθε διακομιστή, αναπαρήγαγε μέσω ροής ή κατέβασε κομμάτια, αποθήκευσε εξώφυλλα στην προσωρινή μνήμη και ανίχνευσε τη διάρκεια των κομματιών από τις κεφαλίδες των αρχείων.
 feat-metadata-title = Εικόνες καλλιτεχνών
 feat-metadata-desc = Διάλεξε πώς προέρχονται οι εικόνες καλλιτεχνών: πρώτο εξώφυλλο άλμπουμ (προεπιλογή) ή πραγματικές φωτογραφίες καλλιτεχνών από τον server Jellyfin ή Subsonic, με αυτόματη εναλλακτική.
 feat-debug-title = Αρχεία και αναφορές κρασαρίσματος
@@ -112,8 +126,8 @@ install-aur-desc = Εγκατάσταση με τον helper της προτίμ
 install-aur-note-1 = Απαιτεί
 install-aur-note-2 = { " " }εγκατεστημένο πρώτα σε έκδοση που ταιριάζει με dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Εγκατάσταση από manifest πηγής:
-install-flatpak-note = Καταχώρηση στο Flathub σύντομα.
+install-flatpak-desc = Εγκαταστήστε το Kopuz από το Flathub:
+install-flatpak-note = Οι ενημερώσεις παρέχονται μέσω της συνήθους διαδικασίας ενημέρωσης του Flatpak.
 install-appimage-title = AppImage
 install-appimage-desc-1 = Κατέβασε από GitHub Releases και εκτέλεσε απευθείας. Απαιτεί
 install-appimage-desc-2 = { " " }και
@@ -150,6 +164,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Ρύθμιση Nextcloud
+nextcloud-subtitle = Πρόσθεσέ το από Ρυθμίσεις → Media servers → Προσθήκη → Nextcloud.
+nextcloud-connect-title = Χρησιμοποίησε κωδικό πρόσβασης εφαρμογής
+nextcloud-connect-desc = Εισαγάγε τη βασική διεύθυνση URL του Nextcloud, το όνομα χρήστη σου και έναν ανακλητό κωδικό πρόσβασης εφαρμογής που δημιούργησες από Ρυθμίσεις Nextcloud → Ασφάλεια.
+nextcloud-folders-title = Επίλεξε φακέλους βιβλιοθήκης
+nextcloud-folders-desc = Επίλεξε έναν ή περισσότερους φακέλους για κάθε πηγή. Το Kopuz διαβάζει το δέντρο φακέλων WebDAV, αποθηκεύει τα διαθέσιμα εξώφυλλα στην προσωρινή μνήμη και εξετάζει τις κεφαλίδες των αρχείων για να βρει τη διάρκεια των κομματιών.
+nextcloud-webdav-title = Λειτουργία απευθείας μέσω WebDAV
+nextcloud-webdav-desc = Η βιβλιοθήκη ακολουθεί τη διάταξη των φακέλων και δεν παρέχει λίστες αναπαραγωγής ή ραδιόφωνο. Αν το Nextcloud Music προσφέρει πρόσβαση μέσω Subsonic, χρησιμοποίησε αυτή την πηγή για πλουσιότερα μεταδεδομένα και λίστες αναπαραγωγής.
+nextcloud-playback-title = Ροή ή λήψη
+nextcloud-playback-desc = Αναπαρήγαγε αρχεία απευθείας από τον διακομιστή σου ή κατέβασέ τα για ακρόαση εκτός σύνδεσης, χωρίς να δρομολογείται ο ήχος μέσω υποδομής του Kopuz.
+
 ## YouTube Music
 ytmusic-title = Ρύθμιση YouTube Music
 ytmusic-subtitle = Πρόσθεσέ το από Ρυθμίσεις → Media servers → Προσθήκη → YouTube Music.
@@ -164,6 +190,18 @@ ytmusic-anon-desc = Καμία σύνδεση, κανένα cookie. Περιηγ
 ytmusic-premium-title = Premium κομμάτια
 ytmusic-premium-desc-1 = Τα κλειδωμένα κομμάτια Music Premium καταφεύγουν σε τοπική
 ytmusic-premium-desc-2 = { " " }επίλυση όταν η κύρια διαδρομή επιστρέφει UNPLAYABLE, οπότε το να το έχεις εγκατεστημένο βοηθά. Η ανώνυμη λειτουργία δεν μπορεί καθόλου να αναπαράγει περιεχόμενο μόνο για Premium.
+
+## Apple Music
+applemusic-title = Ρύθμιση Apple Music
+applemusic-subtitle = Πρόσθεσέ το από Ρυθμίσεις → Media servers → Προσθήκη → Apple Music.
+applemusic-signin-title = Συνδέσου ή επικόλλησε ένα token
+applemusic-signin-desc = Στην έκδοση για υπολογιστές, το Kopuz ανοίγει το Apple Music σε ένα απομονωμένο προφίλ προγράμματος περιήγησης της οικογένειας Chromium. Εναλλακτικά, μπορείς να επικολλήσεις χειροκίνητα ένα media-user-token.
+applemusic-playback-title = Widevine σε υπολογιστές
+applemusic-playback-desc = Η αναπαραγωγή από το Apple Music χρειάζεται Widevine CDM από εγκατεστημένο πρόγραμμα περιήγησης ή από την υπηρεσία προσθέτων της Mozilla. Το Kopuz δεν περιλαμβάνει το CDM.
+applemusic-features-title = Τι προσφέρει
+applemusic-features-desc = Περιήγηση στον κατάλογο και στη βιβλιοθήκη, συγχρονισμός αγαπημένων, προσθήκη και αφαίρεση κομματιών από λίστες αναπαραγωγής, ραδιόφωνο βάσει κομματιού ή λίστας αναπαραγωγής, λήψεις και στίχοι με χρονισμό ανά λέξη.
+applemusic-android-title = Κατάσταση στο Android
+applemusic-android-desc = Η σύνδεση χρησιμοποιεί WebView εντός της εφαρμογής, αλλά η αναπαραγωγή από το Apple Music δεν υποστηρίζεται ακόμη στο Android.
 
 ## SoundCloud
 soundcloud-title = Ρύθμιση SoundCloud
@@ -225,13 +263,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Το Kopuz είναι ένα σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής φτιαγμένο με Rust και Dioxus. Ροή από Jellyfin ή Navidrome, περιήγηση τοπικών αρχείων, συγχρονισμένοι στίχοι, equalizer, θέματα και άλλα.
-home-meta-keywords = Kopuz, πρόγραμμα αναπαραγωγής μουσικής, Rust, Dioxus, Jellyfin, Navidrome, ανοιχτού κώδικα, Linux, macOS, Windows, MPRIS, στίχοι
+home-meta-desc = Το Kopuz είναι ένα σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για υπολογιστές και Android. Παίξε τοπικά αρχεία ή συνδέσου με Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify. Η αναπαραγωγή από το Apple Music είναι διαθέσιμη προς το παρόν μόνο σε υπολογιστές.
+home-meta-keywords = Kopuz, πρόγραμμα αναπαραγωγής μουσικής, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, ανοιχτού κώδικα, Android, Linux, macOS, Windows, στίχοι, ισοσταθμιστής
 og-title = Kopuz — Music Player
-og-desc = Σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής φτιαγμένο με Rust. Τοπικά αρχεία, Jellyfin, Navidrome, συγχρονισμένοι στίχοι, equalizer, Discord RPC και άλλα. Δωρεάν και ανοιχτού κώδικα.
+og-desc = Σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για τοπικά αρχεία και συνδεδεμένες πηγές σε υπολογιστές και Android. Συγχρονισμένοι στίχοι, θέματα, ισοσταθμιστής και άλλα.
 og-image-alt = Πρόγραμμα αναπαραγωγής μουσικής Kopuz
 twitter-title = Kopuz — Music Player
-twitter-desc = Σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής φτιαγμένο με Rust. Δωρεάν και ανοιχτού κώδικα.
+twitter-desc = Σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για τοπικά αρχεία, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

@@ -20,6 +20,43 @@ static_loader! {
 
 const STYLE_SOURCE: &str = include_str!("../style/main.scss");
 
+const THEME_BOOT_SCRIPT: &str = r##"
+(function () {
+    const root = document.documentElement;
+    const readCookie = (name) => {
+        const prefix = `${name}=`;
+        for (const part of document.cookie.split(";")) {
+            const cookie = part.trim();
+            if (cookie.startsWith(prefix)) return cookie.slice(prefix.length);
+        }
+        return null;
+    };
+
+    let theme;
+    if (new URLSearchParams(window.location.search).has("moe")) {
+        theme = "moe";
+    } else {
+        const saved = readCookie("kopuz-theme");
+        const legacy = readCookie("kopuz-moe");
+        theme = saved === "dark" || (saved === null && legacy === "0")
+            ? "dark"
+            : saved === "light" || (saved === null && legacy === "1")
+                ? "light"
+                : window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "dark"
+                    : "light";
+    }
+
+    root.dataset.theme = theme;
+    root.style.colorScheme = theme === "dark" ? "dark" : "light";
+    root.style.backgroundColor = theme === "dark"
+        ? "#17140f"
+        : theme === "moe"
+            ? "#ffbfe6"
+            : "#f4f0e8";
+})();
+"##;
+
 fn css_cache_bust() -> u64 {
     // FNV-1a hash of the SCSS source so cache key changes whenever styles change.
     STYLE_SOURCE
@@ -657,6 +694,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
             <head>
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <script id="theme-init" inner_html=THEME_BOOT_SCRIPT></script>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
                 <link rel="preconnect" href="https://fonts.googleapis.com"/>
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
@@ -791,6 +829,22 @@ fn browser_document() -> Option<web_sys::HtmlDocument> {
         .ok()
 }
 
+fn apply_document_theme(theme: &str) {
+    let (color_scheme, background) = match theme {
+        "dark" => ("dark", "#17140f"),
+        "moe" => ("light", "#ffbfe6"),
+        _ => ("light", "#f4f0e8"),
+    };
+
+    if let Some(root) = browser_document().and_then(|document| document.document_element()) {
+        let _ = root.set_attribute("data-theme", theme);
+        let _ = root.set_attribute(
+            "style",
+            &format!("color-scheme: {color_scheme}; background-color: {background};"),
+        );
+    }
+}
+
 fn read_theme_cookie() -> Option<StoredTheme> {
     let cookies = browser_document()?.cookie().ok()?;
     if let Some(dark) =
@@ -907,6 +961,7 @@ pub(crate) fn provide_site_theme() -> SiteTheme {
 
     Effect::new(move |_| {
         if moe {
+            apply_document_theme("moe");
             return;
         }
         if let Some(saved) = read_theme_cookie() {
@@ -915,17 +970,24 @@ pub(crate) fn provide_site_theme() -> SiteTheme {
                 StoredTheme::Legacy(saved) => (saved, true),
             };
             dark.set(saved);
+            apply_document_theme(if saved { "dark" } else { "light" });
             if migrate {
                 write_theme_cookie(saved);
                 clear_legacy_theme_cookie();
             }
             return;
         }
-        if let Some(window) = web_sys::window() {
-            if let Ok(Some(query)) = window.match_media("(prefers-color-scheme: dark)") {
-                dark.set(query.matches());
-            }
-        }
+
+        let prefers_dark = web_sys::window()
+            .and_then(|window| {
+                window
+                    .match_media("(prefers-color-scheme: dark)")
+                    .ok()
+                    .flatten()
+            })
+            .is_some_and(|query| query.matches());
+        dark.set(prefers_dark);
+        apply_document_theme(if prefers_dark { "dark" } else { "light" });
     });
 
     theme
@@ -1266,8 +1328,10 @@ fn ThemeToggle() -> impl IntoView {
                     leave_moe_mode();
                     return;
                 }
-                theme.dark.update(|dark| *dark = !*dark);
-                write_theme_cookie(theme.dark.get_untracked());
+                let dark = !theme.dark.get_untracked();
+                theme.dark.set(dark);
+                write_theme_cookie(dark);
+                apply_document_theme(if dark { "dark" } else { "light" });
             }
         >
             <i
@@ -1291,7 +1355,6 @@ fn Hero() -> impl IntoView {
     view! {
         <section class="hero">
             <div class="hero-left">
-                <span class="hero-badge">{move_tr!("features-chip")}</span>
                 <h1>{move_tr!("hero-title-1")}<br/>{move_tr!("hero-title-2")}</h1>
                 <p>{move_tr!("hero-desc")}</p>
                 <div class="hero-ctas">
@@ -1349,18 +1412,23 @@ pub(crate) fn Features() -> impl IntoView {
                     <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-jellyfin")}</span>
                     <span class="source-tag"><i class="fa-solid fa-server"></i>" "{move_tr!("features-source-navidrome")}</span>
                     <span class="source-tag"><i class="fa-solid fa-satellite-dish"></i>" "{move_tr!("features-source-subsonic")}</span>
+                    <span class="source-tag"><i class="fa-solid fa-cloud"></i>" "{move_tr!("features-source-nextcloud")}</span>
                     <span class="source-tag"><i class="fa-brands fa-youtube"></i>" "{move_tr!("features-source-ytmusic")}</span>
+                    <span class="source-tag"><i class="fa-brands fa-apple"></i>" "{move_tr!("features-source-applemusic")}</span>
                     <span class="source-tag"><i class="fa-brands fa-soundcloud"></i>" "{move_tr!("features-source-soundcloud")}</span>
                     <span class="source-tag"><i class="fa-brands fa-spotify"></i>" "{move_tr!("features-source-spotify")}</span>
                 </div>
             </div>
             <div class="features-grid features-featured">
                 <FeatureCard icon="fa-solid fa-music" title_key="feat-local-title" desc_key="feat-local-desc"/>
+                <FeatureCard icon="fa-brands fa-apple" title_key="feat-applemusic-title" desc_key="feat-applemusic-desc"/>
+                <FeatureCard icon="fa-solid fa-cloud" title_key="feat-nextcloud-title" desc_key="feat-nextcloud-desc"/>
                 <FeatureCard icon="fa-solid fa-align-left" title_key="feat-lyrics-title" desc_key="feat-lyrics-desc"/>
                 <FeatureCard icon="fa-solid fa-sliders" title_key="feat-eq-title" desc_key="feat-eq-desc"/>
                 <FeatureCard icon="fa-solid fa-star" title_key="feat-fav-title" desc_key="feat-fav-desc"/>
                 <FeatureCard icon="fa-solid fa-palette" title_key="feat-theming-title" desc_key="feat-theming-desc"/>
                 <FeatureCard icon="fa-solid fa-display" title_key="feat-native-title" desc_key="feat-native-desc"/>
+                <FeatureCard icon="fa-brands fa-android" title_key="feat-android-title" desc_key="feat-android-desc"/>
             </div>
             <div class="features-compact">
                 <FeatureItem icon="fa-solid fa-magnifying-glass" title_key="feat-search-title"/>
@@ -1368,6 +1436,9 @@ pub(crate) fn Features() -> impl IntoView {
                 <FeatureItem icon="fa-brands fa-soundcloud" title_key="feat-soundcloud-title"/>
                 <FeatureItem icon="fa-brands fa-spotify" title_key="feat-spotify-title"/>
                 <FeatureItem icon="fa-solid fa-tower-broadcast" title_key="feat-scrobble-title"/>
+                <FeatureItem icon="fa-solid fa-radio" title_key="feat-radio-title"/>
+                <FeatureItem icon="fa-solid fa-cloud-arrow-down" title_key="feat-offline-title"/>
+                <FeatureItem icon="fa-solid fa-font" title_key="feat-fonts-title"/>
                 <FeatureItem icon="fa-brands fa-discord" title_key="feat-discord-title"/>
                 <FeatureItem icon="fa-solid fa-tags" title_key="feat-genre-title"/>
                 <FeatureItem icon="fa-solid fa-clock" title_key="feat-logs-title"/>
@@ -1418,10 +1489,14 @@ fn feature_title(key: &'static str) -> Signal<String> {
         "feat-local-title" => move_tr!("feat-local-title"),
         "feat-theming-title" => move_tr!("feat-theming-title"),
         "feat-native-title" => move_tr!("feat-native-title"),
+        "feat-android-title" => move_tr!("feat-android-title"),
         "feat-lyrics-title" => move_tr!("feat-lyrics-title"),
         "feat-eq-title" => move_tr!("feat-eq-title"),
         "feat-fav-title" => move_tr!("feat-fav-title"),
         "feat-scrobble-title" => move_tr!("feat-scrobble-title"),
+        "feat-radio-title" => move_tr!("feat-radio-title"),
+        "feat-offline-title" => move_tr!("feat-offline-title"),
+        "feat-fonts-title" => move_tr!("feat-fonts-title"),
         "feat-discord-title" => move_tr!("feat-discord-title"),
         "feat-search-title" => move_tr!("feat-search-title"),
         "feat-genre-title" => move_tr!("feat-genre-title"),
@@ -1431,6 +1506,8 @@ fn feature_title(key: &'static str) -> Signal<String> {
         "feat-crossfade-title" => move_tr!("feat-crossfade-title"),
         "feat-channels-title" => move_tr!("feat-channels-title"),
         "feat-youtube-title" => move_tr!("feat-youtube-title"),
+        "feat-applemusic-title" => move_tr!("feat-applemusic-title"),
+        "feat-nextcloud-title" => move_tr!("feat-nextcloud-title"),
         "feat-metadata-title" => move_tr!("feat-metadata-title"),
         "feat-debug-title" => move_tr!("feat-debug-title"),
         "feat-cleanup-title" => move_tr!("feat-cleanup-title"),
@@ -1448,10 +1525,14 @@ fn feature_desc(key: &'static str) -> Signal<String> {
         "feat-local-desc" => move_tr!("feat-local-desc"),
         "feat-theming-desc" => move_tr!("feat-theming-desc"),
         "feat-native-desc" => move_tr!("feat-native-desc"),
+        "feat-android-desc" => move_tr!("feat-android-desc"),
         "feat-lyrics-desc" => move_tr!("feat-lyrics-desc"),
         "feat-eq-desc" => move_tr!("feat-eq-desc"),
         "feat-fav-desc" => move_tr!("feat-fav-desc"),
         "feat-scrobble-desc" => move_tr!("feat-scrobble-desc"),
+        "feat-radio-desc" => move_tr!("feat-radio-desc"),
+        "feat-offline-desc" => move_tr!("feat-offline-desc"),
+        "feat-fonts-desc" => move_tr!("feat-fonts-desc"),
         "feat-discord-desc" => move_tr!("feat-discord-desc"),
         "feat-search-desc" => move_tr!("feat-search-desc"),
         "feat-genre-desc" => move_tr!("feat-genre-desc"),
@@ -1461,6 +1542,8 @@ fn feature_desc(key: &'static str) -> Signal<String> {
         "feat-crossfade-desc" => move_tr!("feat-crossfade-desc"),
         "feat-channels-desc" => move_tr!("feat-channels-desc"),
         "feat-youtube-desc" => move_tr!("feat-youtube-desc"),
+        "feat-applemusic-desc" => move_tr!("feat-applemusic-desc"),
+        "feat-nextcloud-desc" => move_tr!("feat-nextcloud-desc"),
         "feat-metadata-desc" => move_tr!("feat-metadata-desc"),
         "feat-debug-desc" => move_tr!("feat-debug-desc"),
         "feat-cleanup-desc" => move_tr!("feat-cleanup-desc"),
@@ -1562,8 +1645,7 @@ paru -S kopuz-bin"</code></pre>
                 <div class="install-card">
                     <h3>{move_tr!("install-flatpak-title")}</h3>
                     <p>{move_tr!("install-flatpak-desc")}</p>
-                    <pre><code>"flatpak install --user --or-update \\
-    https://kopuz-org.github.io/kopuz-flatpak/moe.kopuz.kopuz.flatpakref"</code></pre>
+                    <pre><code>"flatpak install flathub moe.kopuz.kopuz"</code></pre>
                     <p class="install-note">{move_tr!("install-flatpak-note")}</p>
                 </div>
                 <div class="install-card">
@@ -1619,6 +1701,76 @@ pub(crate) fn YtMusic() -> impl IntoView {
                 <div class="install-card">
                     <h3>{move_tr!("ytmusic-premium-title")}</h3>
                     <p>{move_tr!("ytmusic-premium-desc")}</p>
+                </div>
+                </div>
+            </details>
+        </section>
+    }
+}
+
+#[component]
+pub(crate) fn NextcloudGuide() -> impl IntoView {
+    view! {
+        <section class="install disclosure-section" id="nextcloud">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("nextcloud-title")}</span>
+                        <span class="disclosure-description">{move_tr!("nextcloud-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="install-grid disclosure-body">
+                <div class="install-card">
+                    <h3>{move_tr!("nextcloud-connect-title")}</h3>
+                    <p>{move_tr!("nextcloud-connect-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("nextcloud-folders-title")}</h3>
+                    <p>{move_tr!("nextcloud-folders-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("nextcloud-webdav-title")}</h3>
+                    <p>{move_tr!("nextcloud-webdav-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("nextcloud-playback-title")}</h3>
+                    <p>{move_tr!("nextcloud-playback-desc")}</p>
+                </div>
+                </div>
+            </details>
+        </section>
+    }
+}
+
+#[component]
+pub(crate) fn AppleMusicGuide() -> impl IntoView {
+    view! {
+        <section class="install disclosure-section" id="applemusic">
+            <details>
+                <summary class="disclosure-summary">
+                    <h2 class="disclosure-copy">
+                        <span class="disclosure-title">{move_tr!("applemusic-title")}</span>
+                        <span class="disclosure-description">{move_tr!("applemusic-subtitle")}</span>
+                    </h2>
+                    <i class="fa-solid fa-chevron-down disclosure-icon"></i>
+                </summary>
+                <div class="install-grid disclosure-body">
+                <div class="install-card">
+                    <h3>{move_tr!("applemusic-signin-title")}</h3>
+                    <p>{move_tr!("applemusic-signin-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("applemusic-playback-title")}</h3>
+                    <p>{move_tr!("applemusic-playback-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("applemusic-features-title")}</h3>
+                    <p>{move_tr!("applemusic-features-desc")}</p>
+                </div>
+                <div class="install-card">
+                    <h3>{move_tr!("applemusic-android-title")}</h3>
+                    <p>{move_tr!("applemusic-android-desc")}</p>
                 </div>
                 </div>
             </details>
@@ -1708,6 +1860,9 @@ pub(crate) fn Requirements() -> impl IntoView {
                 </summary>
                 <div class="requirements-list disclosure-body">
                 <div><strong>"Spotify"</strong><span>"Premium is required for playback; a personal Client ID and supported browser are required."</span></div>
+                <div><strong>"Apple Music"</strong><span>"Desktop playback requires a Widevine CDM. Sign-in works on Android, but playback is not yet supported there."</span></div>
+                <div><strong>"Nextcloud"</strong><span>"Raw WebDAV has no playlists or radio; prefer a Subsonic endpoint from Nextcloud Music when available."</span></div>
+                <div><strong>"Android"</strong><span>"Release APKs require arm64-v8a and Android 7.0 / API 24 or newer. Desktop integrations such as Discord RPC and the system tray are unavailable."</span></div>
                 <div><strong>"AppImage"</strong><span>"Requires webkit2gtk-4.1 and GTK 3. The tray additionally needs an appindicator library."</span></div>
                 <div><strong>"YouTube Music"</strong><span>"Anonymous mode cannot play Premium-only tracks; yt-dlp can help signed-in playback fallbacks."</span></div>
                 <div><strong>"Crossfade"</strong><span>"Available for native desktop playback; browser-owned Spotify audio uses normal transitions."</span></div>

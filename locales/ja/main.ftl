@@ -3,7 +3,7 @@ lang-name = 日本語
 
 ## Nav
 nav-new = 新着
-nav-announce = YouTube Musicストリーミング、Discover、ミックスラジオ、20以上の言語
+nav-announce = ローカルファイルも接続した音楽ソースも、1つのアプリで。テーマ、歌詞、20以上の言語に対応
 nav-features = 機能
 nav-install = インストール
 nav-download = ダウンロード
@@ -15,7 +15,7 @@ nav-lang-label = 言語
 ## Hero
 hero-title-1 = あなたの音楽。
 hero-title-2 = あなたのやり方で。
-hero-desc = KopuzはRustとDioxusで構築されたモダンで軽量な音楽プレイヤーです。ローカルフォルダをスキャンし、JellyfinやNavidromeからストリーミングし、ライブラリを好きなように閲覧できます。
+hero-desc = Kopuzは、日常の音楽鑑賞に適した高速で軽量な音楽プレイヤーです。ローカルフォルダを再生するか、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに接続して、すべてを1つのライブラリで楽しめます。
 hero-cta-download = ダウンロード
 hero-cta-github = GitHubで見る
 hero-screenshot-alt = Kopuz — ホーム画面
@@ -28,23 +28,33 @@ features-source-local = ローカルファイル
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = ローカル + ストリーミング
-feat-local-desc = ローカルフォルダを指定するか、Jellyfin / Subsonic (Navidrome)に接続。自由に組み合わせ可能。
+feat-local-desc = ローカルフォルダを追加したり、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに接続したりできます。複数のソースを自由に組み合わせ、1つのライブラリにまとめて利用できます。
 feat-theming-title = テーマ
 feat-theming-desc = 色変数の完全制御によるダイナミックテーマ。自分のテーマをゼロから作るかプリセットを選べます。
 feat-native-title = ネイティブ統合
 feat-native-desc = LinuxのMPRIS、macOSのNow Playing、WindowsのSystem Media Transport。完全に接続。
+feat-android-title = Android
+feat-android-desc = Android 7.0以降に対応したスマートフォン向けARM64ビルド。スワイプジェスチャー、メディア通知でのシャッフル・リピート操作、AMOLEDモードを備えています。
 feat-lyrics-title = 同期歌詞
-feat-lyrics-desc = リアルタイムスクロール歌詞、同期またはプレーン、音楽に合わせた自動スクロール。
+feat-lyrics-desc = 同期歌詞、単語単位のタイムスタンプ付き歌詞、プレーン歌詞に対応。間奏、中央に表示される再生中の行、奥行きに応じたぼかし、手動・自動のタイミング調整を備えています。
 feat-eq-title = イコライザー
 feat-eq-desc = 内蔵プリセットとサウンドの完全制御を備えた5バンドイコライザー。
 feat-fav-title = お気に入りとプレイリスト
 feat-fav-desc = ローカルでトラックにスターを付けるか、お気に入りをサーバーと同期。プレイリストを作成し、アルバム全体を一度に追加。
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = ListenBrainzスクロブリング内蔵。Jellyfinユーザーはlistenbrainzプラグインも使用可能。
+feat-radio-title = インターネットラジオ
+feat-radio-desc = ラジオ局ディレクトリからインターネットラジオ局を再生し、ストリーム情報と現在再生中の曲情報を表示します。
+feat-offline-title = オフラインダウンロード
+feat-offline-desc = 対応しているリモートトラックをダウンロードし、ネットワーク接続なしで再生できます。
+feat-fonts-title = カスタムUIフォント
+feat-fonts-desc = 内蔵テーマと合わせて、インターフェースに好きなフォントを選べます。
 feat-discord-title = Discord RPC
 feat-discord-desc = 埋め込みDiscord Rich Presenceで友達に再生中の曲を表示。セットアップ不要。
 feat-search-title = 検索
@@ -63,6 +73,10 @@ feat-channels-title = チャンネルモード
 feat-channels-desc = ステレオ、モノ、左のみ、右のみ、L/R入れ替え。きめ細かなオーディオチャンネル制御。
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Spotify風のDiscoverページ、充実したアーティストプロフィール、ミックスラジオを備えた本格的なストリーミングバックエンド。サインインしてライブラリ、高く評価した音楽、プレイリストを利用するか、匿名で閲覧できます。
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = カタログとライブラリの閲覧、お気に入りの同期、プレイリストへのトラックの追加・削除、ラジオの再生、トラックのダウンロード、単語単位で同期する歌詞に対応。デスクトップでの再生にはWidevineが必要です。
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = WebDAVで接続し、サーバーごとにライブラリフォルダを選べます。トラックのストリーミングやダウンロード、カバーアートのキャッシュ、ファイルヘッダーからの再生時間取得に対応します。
 feat-metadata-title = アーティスト画像
 feat-metadata-desc = アーティスト画像の取得方法を選択：最初のアルバムカバー（デフォルト）、またはJellyfinやSubsonicサーバーから取得した実際のアーティスト写真。自動フォールバック付き。
 feat-debug-title = ログとクラッシュレポート
@@ -111,8 +125,8 @@ install-aur-desc = お好みのヘルパーでインストール:
 install-aur-note-1 = 事前に
 install-aur-note-2 = { " " }をdioxus 0.7.xに対応するバージョンでインストールしておく必要があります。
 install-flatpak-title = Flatpak
-install-flatpak-desc = ソースマニフェストからインストール:
-install-flatpak-note = Flathub掲載予定。
+install-flatpak-desc = Flathub から Kopuz をインストール：
+install-flatpak-note = アップデートは通常の Flatpak 更新プロセスを通じて配信されます。
 install-appimage-title = AppImage
 install-appimage-desc-1 = GitHub Releasesからダウンロードして直接実行。必要なもの:
 install-appimage-desc-2 = { " " }と
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Nextcloudのセットアップ
+nextcloud-subtitle = 設定 → メディアサーバー → 追加 → Nextcloud から追加します。
+nextcloud-connect-title = アプリパスワードを使用
+nextcloud-connect-desc = NextcloudのベースURLとユーザー名、Nextcloudの「設定 → セキュリティ」で作成した、いつでも無効化できるアプリパスワードを入力します。
+nextcloud-folders-title = ライブラリフォルダを選択
+nextcloud-folders-desc = ソースごとに1つ以上のフォルダを選択します。KopuzはWebDAVのフォルダツリーを読み取り、利用可能なカバーアートをキャッシュし、ファイルヘッダーからトラックの再生時間を取得します。
+nextcloud-webdav-title = WebDAVを直接利用する場合の動作
+nextcloud-webdav-desc = ライブラリはフォルダ構成に従い、プレイリストやラジオは提供しません。Nextcloud MusicがSubsonic APIを提供している場合は、より充実したメタデータとプレイリストを利用できるSubsonicソースを使用してください。
+nextcloud-playback-title = ストリーミングまたはダウンロード
+nextcloud-playback-desc = 音声をKopuzのインフラ経由で送信することなく、サーバー上のファイルを直接再生したり、オフライン再生用にダウンロードしたりできます。
+
 ## YouTube Music
 ytmusic-title = YouTube Musicのセットアップ
 ytmusic-subtitle = 設定 → メディアサーバー → 追加 → YouTube Music から追加します。
@@ -163,6 +189,18 @@ ytmusic-anon-desc = サインインもCookieもなし。閲覧、検索、アー
 ytmusic-premium-title = Premiumトラック
 ytmusic-premium-desc-1 = Music Premiumでロックされたトラックは、プライマリパスがUNPLAYABLEを返したときにローカルの
 ytmusic-premium-desc-2 = { " " }解決にフォールバックするため、インストールしておくと役立ちます。匿名モードではPremium専用コンテンツは一切再生できません。
+
+## Apple Music
+applemusic-title = Apple Musicのセットアップ
+applemusic-subtitle = 設定 → メディアサーバー → 追加 → Apple Music から追加します。
+applemusic-signin-title = サインインまたはトークンを貼り付け
+applemusic-signin-desc = デスクトップでは、Kopuzが独立したChromium系ブラウザプロファイルでApple Musicを開きます。代わりにmedia-user-tokenを手動で貼り付けることもできます。
+applemusic-playback-title = デスクトップではWidevineが必要
+applemusic-playback-desc = Apple Musicの再生には、インストール済みのブラウザまたはMozillaのプラグインサービスから取得したWidevine CDMが必要です。KopuzはCDMを同梱していません。
+applemusic-features-title = 利用できる機能
+applemusic-features-desc = カタログとライブラリの閲覧、お気に入りの同期、プレイリスト内のトラックの追加・削除、トラックやプレイリストを基にしたラジオ、ダウンロード、単語単位で同期する歌詞を利用できます。
+applemusic-android-title = Androidでの対応状況
+applemusic-android-desc = サインインにはアプリ内WebViewを使用しますが、AndroidではApple Musicの再生にまだ対応していません。
 
 ## SoundCloud
 soundcloud-title = SoundCloudのセットアップ
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = KopuzはRustとDioxusで構築されたモダンで軽量な音楽プレイヤーです。JellyfinやNavidromeからストリーミング、ローカルファイルの閲覧、同期歌詞、イコライザー、テーマなど。
-home-meta-keywords = Kopuz, 音楽プレイヤー, Rust, Dioxus, Jellyfin, Navidrome, オープンソース, Linux, macOS, Windows, MPRIS, 歌詞
+home-meta-desc = KopuzはデスクトップとAndroid向けのモダンで軽量な音楽プレイヤーです。ローカルファイルを再生するか、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに接続できます。Apple Musicの再生は現在デスクトップでのみ利用できます。
+home-meta-keywords = Kopuz, 音楽プレイヤー, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, オープンソース, Android, Linux, macOS, Windows, 歌詞, イコライザー
 og-title = Kopuz — Music Player
-og-desc = Rustで構築されたモダンで軽量な音楽プレイヤー。ローカルファイル、Jellyfin、Navidrome、同期歌詞、イコライザー、Discord RPCなど。無料でオープンソース。
+og-desc = ローカルファイルと接続した音楽ソースに対応する、デスクトップ・Android向けのモダンで軽量な音楽プレイヤー。同期歌詞、テーマ、イコライザーなどを搭載。
 og-image-alt = Kopuz音楽プレイヤー
 twitter-title = Kopuz — Music Player
-twitter-desc = Rustで構築されたモダンで軽量な音楽プレイヤー。無料でオープンソース。
+twitter-desc = ローカルファイル、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに対応した、モダンで軽量な音楽プレイヤー。
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

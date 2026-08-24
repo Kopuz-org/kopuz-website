@@ -3,7 +3,7 @@ lang-name = English
 
 ## Nav
 nav-new = New
-nav-announce = Local music + five streaming backends in one app, with themes, lyrics, and 20+ languages
+nav-announce = Local files + connected music sources in one app, with themes, lyrics, and 20+ languages
 nav-features = Features
 nav-install = Install
 nav-download = Download
@@ -15,7 +15,7 @@ nav-lang-label = Language
 ## Hero
 hero-title-1 = Your music.
 hero-title-2 = Your way.
-hero-desc = Kopuz is a fast, lightweight music player for everyday listening. Play local folders or stream from Jellyfin, Subsonic, YouTube Music, SoundCloud, and Spotify—all in one library.
+hero-desc = Kopuz is a fast, lightweight music player for everyday listening. Play local folders or connect Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify—all in one library.
 hero-cta-download = Download
 hero-cta-github = Open Source on GitHub
 hero-screenshot-alt = Kopuz — home view
@@ -28,24 +28,34 @@ features-source-local = Local files
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 features-source-spotify = Spotify
 
 feat-local-title = Local + Streaming
-feat-local-desc = Add local folders or connect Jellyfin, Subsonic, YouTube Music, SoundCloud, and Spotify. Mix and match sources in one unified library.
+feat-local-desc = Add local folders or connect Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify. Mix and match sources in one unified library.
 feat-theming-title = Theming
 feat-theming-desc = Pick a look you like, or customize colors to make your own theme.
 feat-native-title = Desktop Controls
 feat-native-desc = Play, pause, and track controls work directly with your operating system on Linux, macOS, and Windows.
+feat-android-title = Android
+feat-android-desc = A phone-sized ARM64 build with swipe gestures, shuffle and repeat controls in the media notification, and AMOLED mode for Android 7.0 and newer.
 feat-lyrics-title = Synced Lyrics
-feat-lyrics-desc = Real-time scrolling lyrics, synced or plain, auto-scrolling to follow along with your music.
+feat-lyrics-desc = Synced, word-timed, and plain lyrics with instrumental breaks, a centered active line, depth blur, and manual or automatic timing offset.
 feat-eq-title = Equalizer
 feat-eq-desc = 10-band equalizer with built-in presets and full custom control over your sound.
 feat-fav-title = Favorites & Playlists
 feat-fav-desc = Star tracks locally or sync favorites with your server. Create playlists, add whole albums at once.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = Scrobble your listening history to Last.fm, Libre.fm, or ListenBrainz. Jellyfin users can also use the ListenBrainz plugin.
+feat-radio-title = Internet Radio
+feat-radio-desc = Play internet stations from radio registries with stream and now-playing metadata.
+feat-offline-title = Offline Downloads
+feat-offline-desc = Download supported remote tracks for listening without a network connection.
+feat-fonts-title = Custom UI Fonts
+feat-fonts-desc = Choose your own interface font alongside the built-in themes.
 feat-discord-title = Discord RPC
 feat-discord-desc = Share what you're listening to on Discord automatically.
 feat-search-title = Search
@@ -64,6 +74,10 @@ feat-channels-title = Channel Modes
 feat-channels-desc = Stereo, Mono, Left-only, Right-only, and L/R swap. Fine-grained audio channel control.
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Full streaming backend with a Spotify-style Discover page, rich artist profiles, and mix radio. Sign in for your library, Liked Music, and playlists — or browse anonymously.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Browse the catalog and your library, sync favorites, add or remove playlist tracks, start radio, download tracks, and use word-timed lyrics. Desktop playback requires Widevine.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = Connect over WebDAV, choose per-server library folders, stream or download tracks, cache cover art, and probe durations from file headers.
 feat-metadata-title = Artist Images
 feat-metadata-desc = Choose how artist images are sourced: first album cover (default) or real artist photos fetched from your Jellyfin or Subsonic server, with automatic fallback.
 feat-debug-title = Reliability Tools
@@ -125,8 +139,8 @@ install-aur-desc = Install with your preferred helper:
 install-aur-note-1 = Requires
 install-aur-note-2 = { " " }installed first at a version matching dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Install or update Kopuz from the pre-built Flatpak repository:
-install-flatpak-note = A Flathub listing is coming soon.
+install-flatpak-desc = Install Kopuz from Flathub:
+install-flatpak-note = Updates arrive through your normal Flatpak update flow.
 install-appimage-title = AppImage
 install-appimage-desc-1 = Download from GitHub Releases and run directly. On Linux, make sure
 install-appimage-desc-2 = { " " }and
@@ -143,6 +157,18 @@ install-android-chip = ARM64
 install-android-desc = Download the signed arm64-v8a APK from GitHub Releases. Requires Android 7.0 / API 24 or newer.
 install-android-note = If another source signed your installed APK, uninstall it before installing the project release.
 
+## Nextcloud
+nextcloud-title = Nextcloud Setup
+nextcloud-subtitle = Add it in Settings → Media servers → Add → Nextcloud.
+nextcloud-connect-title = Use an app password
+nextcloud-connect-desc = Enter your Nextcloud base URL, username, and a revocable app password created under Nextcloud Settings → Security.
+nextcloud-folders-title = Choose library folders
+nextcloud-folders-desc = Pick one or more folders for each source. Kopuz reads the WebDAV folder tree, caches available cover art, and probes file headers for track durations.
+nextcloud-webdav-title = Raw WebDAV behavior
+nextcloud-webdav-desc = The library follows the folder layout and does not provide playlists or radio. If Nextcloud Music exposes Subsonic, use that source for richer metadata and playlists.
+nextcloud-playback-title = Stream or download
+nextcloud-playback-desc = Play files directly from your server or download them for offline listening without routing audio through Kopuz infrastructure.
+
 ## YouTube Music
 ytmusic-title = YouTube Music Setup
 ytmusic-subtitle = Add it in Settings → Media servers → Add → YouTube Music.
@@ -155,6 +181,18 @@ ytmusic-anon-title = Anonymous mode
 ytmusic-anon-desc = No sign-in, no cookies. Browse, search, open artist, album, and playlist pages, start mix radio, and play public tracks. Liking and library views are disabled.
 ytmusic-premium-title = Premium tracks
 ytmusic-premium-desc = Some Premium-only tracks may need local yt-dlp fallback. Anonymous mode cannot play Premium-only content.
+
+## Apple Music
+applemusic-title = Apple Music Setup
+applemusic-subtitle = Add it in Settings → Media servers → Add → Apple Music.
+applemusic-signin-title = Sign in or paste a token
+applemusic-signin-desc = On desktop, Kopuz opens Apple Music in an isolated Chromium-family browser profile. You can instead paste a media-user-token manually.
+applemusic-playback-title = Widevine on desktop
+applemusic-playback-desc = Apple Music playback needs a Widevine CDM from an installed browser or Mozilla’s plugin service. Kopuz does not ship the CDM.
+applemusic-features-title = What you get
+applemusic-features-desc = Catalog and library browsing, favorites sync, playlist add/remove, track and playlist radio, downloads, and word-timed lyrics.
+applemusic-android-title = Android status
+applemusic-android-desc = Sign-in uses an in-app WebView, but Apple Music playback is not yet supported on Android.
 
 ## SoundCloud
 soundcloud-title = SoundCloud Setup
@@ -294,13 +332,13 @@ footer-discord = Discord
 ## Page meta
 home-title = Kopuz — Music Player
 
-home-meta-desc = Kopuz is a modern, lightweight music player for local files and streaming. Connect Jellyfin, Subsonic, YouTube Music, SoundCloud, or Spotify on desktop and Android.
-home-meta-keywords = Kopuz, music player, Jellyfin, Navidrome, Subsonic, YouTube Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, lyrics, equalizer
+home-meta-desc = Kopuz is a modern, lightweight music player for desktop and Android. Play local files or connect Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify; Apple Music playback currently requires desktop.
+home-meta-keywords = Kopuz, music player, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, lyrics, equalizer
 og-title = Kopuz — Music Player
-og-desc = Modern, lightweight music player for local files and streaming on desktop and Android. Synced lyrics, themes, equalizer, and more.
+og-desc = Modern, lightweight music player for local files and connected sources on desktop and Android. Synced lyrics, themes, equalizer, and more.
 og-image-alt = Kopuz music player
 twitter-title = Kopuz — Music Player
-twitter-desc = Modern, lightweight music player for local files and Jellyfin, Subsonic, YouTube Music, SoundCloud, and Spotify streaming.
+twitter-desc = Modern, lightweight music player for local files, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify.
 
 ## Deep link (/j)
 join-title = Opening Kopuz…

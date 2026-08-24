@@ -3,7 +3,7 @@ lang-name = 中文
 
 ## Nav
 nav-new = 新
-nav-announce = YouTube Music 流媒体、Discover、混合电台、20+种语言
+nav-announce = 在一个应用中畅听本地文件和已连接的音乐源，支持主题、歌词和 20 多种语言
 nav-features = 功能
 nav-install = 安装
 nav-download = 下载
@@ -15,7 +15,7 @@ nav-lang-label = 语言
 ## Hero
 hero-title-1 = 你的音乐。
 hero-title-2 = 你的方式。
-hero-desc = Kopuz是用Rust和Dioxus构建的现代轻量级音乐播放器。扫描本地文件夹、从Jellyfin或Navidrome流式传输、按你喜欢的方式浏览音乐库。
+hero-desc = Kopuz 是一款快速、轻量的日常音乐播放器。既可播放本地文件夹中的音乐，也可连接 Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify，将所有音乐汇集到同一个音乐库中。
 hero-cta-download = 下载
 hero-cta-github = 在GitHub上查看
 hero-screenshot-alt = Kopuz — 主页视图
@@ -28,23 +28,33 @@ features-source-local = 本地文件
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = 本地 + 流媒体
-feat-local-desc = 指向本地文件夹或连接到Jellyfin / Subsonic (Navidrome)。随意混用。
+feat-local-desc = 添加本地文件夹，或连接 Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify。可在统一音乐库中自由组合不同来源。
 feat-theming-title = 主题
 feat-theming-desc = 完全色彩变量控制的动态主题。从零构建自己的主题或选择预设。
 feat-native-title = 原生集成
 feat-native-desc = Linux上的MPRIS、macOS上的Now Playing、Windows上的System Media Transport。完全连接。
+feat-android-title = Android
+feat-android-desc = 面向手机屏幕的 ARM64 版本，支持滑动手势、媒体通知中的随机播放和重复播放控制，以及 AMOLED 模式，适用于 Android 7.0 及更高版本。
 feat-lyrics-title = 同步歌词
-feat-lyrics-desc = 实时滚动歌词,同步或纯文本,跟随音乐自动滚动。
+feat-lyrics-desc = 支持同步歌词、逐词定时歌词和纯文本歌词，并提供器乐间奏提示、当前歌词居中、景深模糊，以及手动或自动调整时间偏移。
 feat-eq-title = 均衡器
 feat-eq-desc = 5段均衡器,带内置预设,完全控制你的声音。
 feat-fav-title = 收藏和播放列表
 feat-fav-desc = 本地标记曲目或与服务器同步收藏。创建播放列表,一次性添加整个专辑。
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = 内置ListenBrainz scrobbling。Jellyfin用户也可使用listenbrainz插件。
+feat-radio-title = 互联网电台
+feat-radio-desc = 通过电台目录播放互联网电台，并显示流媒体和当前播放曲目的元数据。
+feat-offline-title = 离线下载
+feat-offline-desc = 下载支持的远程曲目，无需网络连接也能收听。
+feat-fonts-title = 自定义界面字体
+feat-fonts-desc = 搭配内置主题，选择你喜欢的界面字体。
 feat-discord-title = Discord RPC
 feat-discord-desc = 通过嵌入式Discord Rich Presence向朋友展示你在听什么。无需设置。
 feat-search-title = 搜索
@@ -63,6 +73,10 @@ feat-channels-title = 声道模式
 feat-channels-desc = 立体声、单声道、仅左、仅右和L/R交换。精细的音频声道控制。
 feat-youtube-title = YouTube Music
 feat-youtube-desc = 完整的流媒体后端,带有Spotify风格的Discover页面、丰富的艺术家资料和混合电台。登录以访问你的音乐库、Liked Music和播放列表 — 或匿名浏览。
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = 浏览 Apple Music 曲库和你的音乐库、同步收藏、在播放列表中添加或移除曲目、启动电台、下载曲目，并使用逐词定时歌词。桌面端播放需要 Widevine。
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = 通过 WebDAV 连接，可为每个服务器分别选择音乐库文件夹、流式播放或下载曲目、缓存封面，并从文件头探测时长。
 feat-metadata-title = 艺术家图片
 feat-metadata-desc = 选择艺术家图片的来源方式:首张专辑封面(默认)或从你的Jellyfin或Subsonic服务器获取的真实艺术家照片,并自动回退。
 feat-debug-title = 日志和崩溃报告
@@ -111,8 +125,8 @@ install-aur-desc = 使用你偏好的助手安装:
 install-aur-note-1 = 需要先安装
 install-aur-note-2 = { " " },版本需匹配dioxus 0.7.x。
 install-flatpak-title = Flatpak
-install-flatpak-desc = 从源清单安装:
-install-flatpak-note = Flathub列表即将推出。
+install-flatpak-desc = 从 Flathub 安装 Kopuz：
+install-flatpak-note = 你会通过常规 Flatpak 更新流程收到更新。
 install-appimage-title = AppImage
 install-appimage-desc-1 = 从GitHub Releases下载并直接运行。需要
 install-appimage-desc-2 = { " " }和
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Nextcloud 设置
+nextcloud-subtitle = 在设置 → 媒体服务器 → 添加 → Nextcloud 中添加。
+nextcloud-connect-title = 使用应用密码
+nextcloud-connect-desc = 输入 Nextcloud 基础 URL、用户名，以及在 Nextcloud 设置 → 安全中创建、可随时撤销的应用密码。
+nextcloud-folders-title = 选择音乐库文件夹
+nextcloud-folders-desc = 可为每个来源选择一个或多个文件夹。Kopuz 会读取 WebDAV 文件夹树、缓存可用封面，并探测文件头以获取曲目时长。
+nextcloud-webdav-title = 纯 WebDAV 模式
+nextcloud-webdav-desc = 音乐库按文件夹结构呈现，不提供播放列表或电台功能。如果 Nextcloud Music 提供 Subsonic 接口，可改用 Subsonic 来源，以获得更丰富的元数据和播放列表。
+nextcloud-playback-title = 流式播放或下载
+nextcloud-playback-desc = 直接从你的服务器播放文件，或下载后离线收听；音频不会经过 Kopuz 的基础设施转发。
+
 ## YouTube Music
 ytmusic-title = YouTube Music 设置
 ytmusic-subtitle = 从设置 → 媒体服务器 → 添加 → YouTube Music 中添加。
@@ -163,6 +189,18 @@ ytmusic-anon-desc = 无需登录,无需cookie。浏览、搜索、打开艺术�
 ytmusic-premium-title = Premium曲目
 ytmusic-premium-desc-1 = 当主路径返回UNPLAYABLE时,Music Premium锁定的曲目会回退到本地
 ytmusic-premium-desc-2 = { " " }解析,因此安装它会有所帮助。匿名模式完全无法播放仅限Premium的内容。
+
+## Apple Music
+applemusic-title = Apple Music 设置
+applemusic-subtitle = 在设置 → 媒体服务器 → 添加 → Apple Music 中添加。
+applemusic-signin-title = 登录或粘贴令牌
+applemusic-signin-desc = 在桌面端，Kopuz 会在隔离的 Chromium 系浏览器配置文件中打开 Apple Music。你也可以手动粘贴 media-user-token。
+applemusic-playback-title = 桌面端的 Widevine
+applemusic-playback-desc = Apple Music 的播放需要来自已安装浏览器或 Mozilla 插件服务的 Widevine CDM。Kopuz 不附带该 CDM。
+applemusic-features-title = 可用功能
+applemusic-features-desc = 浏览曲库和音乐库、同步收藏、在播放列表中添加或移除曲目、启动曲目电台和播放列表电台、下载曲目，以及使用逐词定时歌词。
+applemusic-android-title = Android 支持情况
+applemusic-android-desc = 可通过应用内 WebView 登录，但 Android 目前尚不支持播放 Apple Music。
 
 ## SoundCloud
 soundcloud-title = SoundCloud 设置
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz是用Rust和Dioxus构建的现代轻量级音乐播放器。从Jellyfin或Navidrome流式传输、浏览本地文件、同步歌词、均衡器、主题等。
-home-meta-keywords = Kopuz, 音乐播放器, Rust, Dioxus, Jellyfin, Navidrome, 开源, Linux, macOS, Windows, MPRIS, 歌词
+home-meta-desc = Kopuz 是一款适用于桌面端和 Android 的现代轻量级音乐播放器。播放本地文件，或连接 Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify；Apple Music 目前仅支持在桌面端播放。
+home-meta-keywords = Kopuz, 音乐播放器, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, 开源, Android, Linux, macOS, Windows, 歌词, 均衡器
 og-title = Kopuz — Music Player
-og-desc = 用Rust构建的现代轻量级音乐播放器。本地文件、Jellyfin、Navidrome、同步歌词、均衡器、Discord RPC等。免费且开源。
+og-desc = 适用于桌面端和 Android 的现代轻量级音乐播放器，支持本地文件和已连接的音乐源。提供同步歌词、主题、均衡器等功能。
 og-image-alt = Kopuz音乐播放器
 twitter-title = Kopuz — Music Player
-twitter-desc = 用Rust构建的现代轻量级音乐播放器。免费且开源。
+twitter-desc = 一款支持本地文件、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify 的现代轻量级音乐播放器。
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

@@ -1,95 +1,118 @@
-<picture>
-    <source srcset="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_Solid_White.svg" media="(prefers-color-scheme: dark)">
-    <img src="https://raw.githubusercontent.com/leptos-rs/leptos/main/docs/logos/Leptos_logo_RGB.svg" alt="Leptos Logo">
-</picture>
+<p align="center">
+  <img src="public/logo.svg" width="88" alt="Kopuz logo">
+</p>
 
-# Leptos Axum Starter Template
+<h1 align="center">Kopuz Website</h1>
 
-This is a template for use with the [Leptos](https://github.com/leptos-rs/leptos) web framework and the [cargo-leptos](https://github.com/akesson/cargo-leptos) tool using [Axum](https://github.com/tokio-rs/axum).
+<p align="center">
+  The official website for <a href="https://github.com/Kopuz-org/kopuz">Kopuz</a>, a fast, cross-platform music player for local libraries and connected music services.
+</p>
 
-## Creating your template repo
+<p align="center">
+  <a href="https://kopuz.moe">Live site</a> ·
+  <a href="https://github.com/Kopuz-org/kopuz">Kopuz source</a> ·
+  <a href="https://github.com/Kopuz-org/kopuz/releases/latest">Latest release</a>
+</p>
 
-If you don't have `cargo-leptos` installed you can install it with
+## About
+
+This repository contains the server-rendered site at [kopuz.moe](https://kopuz.moe). It provides the product overview, feature reference, downloads, setup guides, support information, privacy policy, localized content, and a browser handoff route for Kopuz share links.
+
+The site is built with:
+
+- [Leptos](https://leptos.dev/) for server rendering and WebAssembly hydration
+- [Axum](https://github.com/tokio-rs/axum) for the HTTP server and sponsor webhook
+- SCSS for the light, dark, and `?moe` themes
+- [Fluent](https://projectfluent.org/) for localization
+- [Playwright](https://playwright.dev/) for end-to-end browser tests
+
+The music player itself lives in the [Kopuz application repository](https://github.com/Kopuz-org/kopuz).
+
+## Requirements
+
+- Rust 1.96.0 with the `wasm32-unknown-unknown` target, pinned by `rust-toolchain.toml`
+- [`cargo-leptos` 0.3.6](https://github.com/leptos-rs/cargo-leptos)
+- `wasm-bindgen-cli` 0.2.127
+- Dart Sass available as `sass`
+- Node.js and npm for browser tests
+
+Install the Rust build tools with:
 
 ```bash
-cargo install cargo-leptos --locked
+cargo install --version 0.3.6 --locked cargo-leptos
+cargo install --version 0.2.127 --locked wasm-bindgen-cli
 ```
 
-Then run
-```bash
-cargo leptos new --git https://github.com/leptos-rs/start-axum
-```
-
-to generate a new project template.
+## Development
 
 ```bash
+git clone https://github.com/Kopuz-org/kopuz-website.git
 cd kopuz-website
-```
-
-to go to your newly created project.
-Feel free to explore the project structure, but the best place to start with your application code is in `src/app.rs`.
-Additionally, Cargo.toml may need updating as new versions of the dependencies are released, especially if things are not working after a `cargo update`.
-
-## Running your project
-
-```bash
 cargo leptos watch
 ```
 
-## Installing Additional Tools
+The development server listens on <http://127.0.0.1:3000>. Rust, SCSS, and hydration changes rebuild automatically.
 
-By default, `cargo-leptos` uses `nightly` Rust, `cargo-generate`, and `sass`. If you run into any trouble, you may need to install one or more of these tools.
+User-facing strings live in `locales/*/main.ftl`. English is the fallback locale for keys that have not been translated yet.
 
-1. `rustup toolchain install nightly --allow-downgrade` - make sure you have Rust nightly
-2. `rustup target add wasm32-unknown-unknown` - add the ability to compile Rust to WebAssembly
-3. `cargo install cargo-generate` - install `cargo-generate` binary (should be installed automatically in future)
-4. `npm install -g sass` - install `dart-sass` (should be optional in future
-5. Run `npm install` in end2end subdirectory before test
+## Checks
 
-## Compiling for Release
-```bash
-cargo leptos build --release
-```
-
-Will generate your server binary in target/release and your site package in target/site
-
-## Testing Your Project
-```bash
-cargo leptos end-to-end
-```
+Run formatting, server tests, an explicit hydration compile, and the production build:
 
 ```bash
-cargo leptos end-to-end --release
+cargo fmt --all -- --check
+cargo test --locked --all-targets --features ssr
+cargo check --locked --lib --no-default-features --features hydrate
+cargo leptos build --release \
+  --lib-cargo-args='--locked' \
+  --bin-cargo-args='--locked'
 ```
 
-Cargo-leptos uses Playwright as the end-to-end test tool.
-Tests are located in end2end/tests directory.
+For browser tests, keep the site running in one terminal, then run:
 
-## Executing a Server on a Remote Machine Without the Toolchain
-After running a `cargo leptos build --release` the minimum files needed are:
-
-1. The server binary located at `target/release/kopuz-website`
-2. The `site` directory and all files within located in `target/site`
-
-Copy these files to your remote server. The directory structure should be:
-```text
-kopuz-website
-site/
+```bash
+cd end2end
+npm ci
+npx playwright install chromium
+npx playwright test --project=chromium --project=mobile-chromium
 ```
-Set the following environment variables (updating for your project as needed):
-```sh
-export LEPTOS_OUTPUT_NAME="kopuz-website"
-export LEPTOS_SITE_ROOT="site"
-export LEPTOS_SITE_PKG_DIR="pkg"
-export LEPTOS_SITE_ADDR="127.0.0.1:3000"
-export LEPTOS_RELOAD_PORT="3001"
+
+Set `PLAYWRIGHT_BASE_URL` to test another server. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to use an existing Chromium binary.
+
+## Production build
+
+```bash
+cargo leptos build --release \
+  --lib-cargo-args='--locked' \
+  --bin-cargo-args='--locked'
+
+LEPTOS_SITE_ADDR=127.0.0.1:3000 \
+LEPTOS_SITE_ROOT=target/site \
+  target/release/kopuz-website
 ```
-Finally, run the server binary.
+
+The build produces the server at `target/release/kopuz-website` and browser assets under `target/site`.
+
+The sponsor webhook reads `GITHUB_SPONSORS_WEBHOOK_SECRET`. Persistent sponsor data defaults to `sponsors_state.json` and can be moved with `SPONSORS_STATE_PATH`.
+
+## Repository layout
+
+| Path | Purpose |
+| --- | --- |
+| `src/app.rs` | Shared UI, routing shell, release data, themes, and reusable sections |
+| `src/pages.rs` | Top-level feature, download, guide, and support pages |
+| `src/main.rs` | Axum server, static assets, and runtime configuration |
+| `src/sponsors.rs` | Sponsor state and signed GitHub webhook handling |
+| `locales/` | Fluent translations and language metadata |
+| `style/main.scss` | Responsive site styles and themes |
+| `public/` | Images, icons, manifests, and other static files |
+| `end2end/` | Playwright configuration and browser tests |
+| `scripts/`, `systemd/` | Atomic homeserver deployment and service files |
 
 ## Deployment
 
-Pushes to `master` can be deployed to the homeserver through GitHub Actions and Tailscale. See [DEPLOYMENT.md](DEPLOYMENT.md) for the one-time server and repository setup.
+CI checks pull requests and every push to `master`. Repository maintainers can deploy successful `master` builds through the configured Tailscale and SSH workflow. See [DEPLOYMENT.md](DEPLOYMENT.md) for server setup, secrets, rollback behavior, and operations.
 
-## Licensing
+## License
 
-This template itself is released under the Unlicense. You should replace the LICENSE for your own application with an appropriate license if you plan to release it publicly.
+Released into the public domain under the [Unlicense](LICENSE).

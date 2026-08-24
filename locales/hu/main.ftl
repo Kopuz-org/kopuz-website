@@ -3,7 +3,7 @@ lang-name = Magyar
 
 ## Nav
 nav-new = Új
-nav-announce = YouTube Music streamelés, Discover, mix rádió, 20+ nyelv
+nav-announce = Helyi fájlok és csatlakoztatott zeneforrások egyetlen alkalmazásban, témákkal, dalszövegekkel és több mint 20 nyelven
 nav-features = Funkciók
 nav-install = Telepítés
 nav-download = Letöltés
@@ -15,7 +15,7 @@ nav-lang-label = Nyelv
 ## Hero
 hero-title-1 = A te zenéd.
 hero-title-2 = A te módodon.
-hero-desc = A Kopuz egy modern, könnyűsúlyú zenelejátszó Rust és Dioxus alapokon. Helyi mappákat szkennelhetsz, Jellyfin-ról vagy Navidrome-ról streamelhetsz, és úgy böngészheted könyvtáradat ahogy akarod.
+hero-desc = A Kopuz gyors, könnyű zenelejátszó a mindennapi zenehallgatáshoz. Játssz le zenét helyi mappákból, vagy csatlakozz a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify szolgáltatásokhoz, mindezt egyetlen könyvtárban.
 hero-cta-download = Letöltés
 hero-cta-github = Megtekintés a GitHub-on
 hero-screenshot-alt = Kopuz — főképernyő
@@ -28,23 +28,33 @@ features-source-local = Helyi fájlok
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Helyi + Streaming
-feat-local-desc = Mutass helyi mappára vagy csatlakozz Jellyfin / Subsonic (Navidrome) szerverhez. Vegyítsd ahogy akarod.
+feat-local-desc = Adj hozzá helyi mappákat, vagy csatlakozz a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify szolgáltatásokhoz. Egyesítsd tetszés szerint a forrásokat egyetlen könyvtárban.
 feat-theming-title = Témák
 feat-theming-desc = Dinamikus témák teljes színváltozó-vezérléssel. Készítsd el saját témád nulláról vagy válassz presetet.
 feat-native-title = Natív integráció
 feat-native-desc = MPRIS Linux-on, Now Playing macOS-en, System Media Transport Windows-on. Teljesen bekötve.
+feat-android-title = Android
+feat-android-desc = Telefonra szabott ARM64-es kiadás csúsztatási gesztusokkal, a médiaértesítésben elérhető véletlenszerű és ismételt lejátszási vezérlőkkel, valamint AMOLED móddal Android 7.0 és újabb rendszereken.
 feat-lyrics-title = Szinkronizált dalszövegek
-feat-lyrics-desc = Valós idejű görgő dalszöveg, szinkronizált vagy egyszerű, automatikus görgetés a zenével.
+feat-lyrics-desc = Szinkronizált, szavanként időzített és egyszerű dalszövegek hangszeres szünetekkel, középre igazított aktív sorral, mélységi elmosással, valamint kézi vagy automatikus időzítési eltolással.
 feat-eq-title = Equalizer
 feat-eq-desc = 5-sávos equalizer beépített presetekkel és teljes vezérléssel a hangod fölött.
 feat-fav-title = Kedvencek és lejátszási listák
 feat-fav-desc = Csillagozz dalokat helyben vagy szinkronizáld a kedvenceket szervereddel. Hozz létre listákat, adj hozzá teljes albumokat egyszerre.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = Beépített ListenBrainz scrobbling. Jellyfin felhasználók a listenbrainz plugint is használhatják.
+feat-radio-title = Internetes rádió
+feat-radio-desc = Játssz le internetes állomásokat rádiókatalógusokból, a stream és az éppen játszott szám metaadataival.
+feat-offline-title = Offline letöltések
+feat-offline-desc = Tölts le támogatott távoli számokat, és hallgasd őket hálózati kapcsolat nélkül.
+feat-fonts-title = Egyéni felületi betűtípusok
+feat-fonts-desc = Válassz saját betűtípust a kezelőfelülethez a beépített témák mellett.
 feat-discord-title = Discord RPC
 feat-discord-desc = Mutasd a barátaidnak mit hallgatsz beépített Discord Rich Presence-szel. Nem kell beállítás.
 feat-search-title = Keresés
@@ -63,6 +73,10 @@ feat-channels-title = Csatorna módok
 feat-channels-desc = Sztereó, Mono, Csak-Bal, Csak-Jobb és L/R csere. Finom hangcsatorna-vezérlés.
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Teljes streaming háttér Spotify-stílusú Discover oldallal, gazdag előadói profilokkal és mix rádióval. Jelentkezz be a könyvtáradért, a Kedvelt zenéért és a lejátszási listákért — vagy böngéssz névtelenül.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Böngészd a katalógust és a könyvtáradat, szinkronizáld a kedvenceket, adj hozzá számokat lejátszási listákhoz, vagy távolítsd el őket, indíts rádiót, tölts le számokat, és használj szavanként időzített dalszövegeket. Az asztali lejátszáshoz Widevine szükséges.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = Kapcsolódj WebDAV-on keresztül, válassz szerverenként könyvtármappákat, streamelj vagy tölts le számokat, gyorsítótárazd a borítókat, és olvasd ki a számok hosszát a fájlfejlécekből.
 feat-metadata-title = Előadói képek
 feat-metadata-desc = Válaszd meg, honnan származnak az előadói képek: első albumborító (alapértelmezett) vagy valódi előadói fotók a Jellyfin vagy Subsonic szerveredről, automatikus tartalékkal.
 feat-debug-title = Naplók és összeomlási jelentések
@@ -111,8 +125,8 @@ install-aur-desc = Telepítés a preferált segédprogrammal:
 install-aur-note-1 = Szükséges
 install-aur-note-2 = { " " }telepítve először egy dioxus 0.7.x verzióval egyező verzióban.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Telepítés forrás-manifestből:
-install-flatpak-note = Flathub listázás hamarosan.
+install-flatpak-desc = A Kopuz telepítése a Flathub oldaláról:
+install-flatpak-note = A frissítések a megszokott Flatpak-frissítési folyamaton keresztül érkeznek.
 install-appimage-title = AppImage
 install-appimage-desc-1 = Tölts le GitHub Releases-ről és futtasd közvetlenül. Szükséges
 install-appimage-desc-2 = { " " }és
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Nextcloud beállítása
+nextcloud-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → Nextcloud útvonalon.
+nextcloud-connect-title = Használj alkalmazásjelszót
+nextcloud-connect-desc = Add meg a Nextcloud alap-URL-jét, a felhasználónevedet és egy visszavonható alkalmazásjelszót, amelyet a Nextcloud Beállítások → Biztonság menüjében hoztál létre.
+nextcloud-folders-title = Válaszd ki a könyvtármappákat
+nextcloud-folders-desc = Minden forráshoz válassz ki egy vagy több mappát. A Kopuz beolvassa a WebDAV mappaszerkezetét, gyorsítótárazza az elérhető borítókat, és a fájlfejlécekből állapítja meg a számok hosszát.
+nextcloud-webdav-title = A nyers WebDAV működése
+nextcloud-webdav-desc = A könyvtár követi a mappaszerkezetet, és nem kínál lejátszási listákat vagy rádiót. Ha a Nextcloud Music elérhetővé teszi a Subsonic API-t, a részletesebb metaadatokért és a lejátszási listákért használd azt a forrást.
+nextcloud-playback-title = Streamelés vagy letöltés
+nextcloud-playback-desc = Játssz le fájlokat közvetlenül a szerveredről, vagy töltsd le őket offline hallgatáshoz anélkül, hogy a hang a Kopuz infrastruktúráján haladna keresztül.
+
 ## YouTube Music
 ytmusic-title = YouTube Music beállítása
 ytmusic-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → YouTube Music útvonalon.
@@ -163,6 +189,18 @@ ytmusic-anon-desc = Nincs bejelentkezés, nincsenek sütik. Böngéssz, keress, 
 ytmusic-premium-title = Premium számok
 ytmusic-premium-desc-1 = A Music Premium-zárolt számok visszaesnek egy helyi
 ytmusic-premium-desc-2 = { " " }feloldásra, amikor az elsődleges útvonal UNPLAYABLE eredményt ad, így segít, ha telepítve van. A névtelen mód egyáltalán nem tud Premium-only tartalmat lejátszani.
+
+## Apple Music
+applemusic-title = Apple Music beállítása
+applemusic-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → Apple Music útvonalon.
+applemusic-signin-title = Jelentkezz be, vagy illessz be egy tokent
+applemusic-signin-desc = Asztali rendszeren a Kopuz egy elszigetelt Chromium-családú böngészőprofilban nyitja meg az Apple Music szolgáltatást. Ehelyett kézzel is beilleszthetsz egy media-user-token értéket.
+applemusic-playback-title = Widevine asztali rendszereken
+applemusic-playback-desc = Az Apple Music lejátszásához egy telepített böngészőből vagy a Mozilla bővítményszolgáltatásából származó Widevine CDM szükséges. A Kopuz nem tartalmazza a CDM-et.
+applemusic-features-title = Amit kapsz
+applemusic-features-desc = A katalógus és a könyvtár böngészése, a kedvencek szinkronizálása, számok hozzáadása lejátszási listákhoz és eltávolítása onnan, számokból és lejátszási listákból indítható rádió, letöltések és szavanként időzített dalszövegek.
+applemusic-android-title = Állapot Androidon
+applemusic-android-desc = A bejelentkezés alkalmazáson belüli WebView-t használ, de az Apple Music lejátszása Androidon még nem támogatott.
 
 ## SoundCloud
 soundcloud-title = SoundCloud beállítása
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = A Kopuz egy modern, könnyűsúlyú zenelejátszó Rust és Dioxus alapokon. Streamelj Jellyfin-ról vagy Navidrome-ról, böngéssz helyi fájlokat, szinkronizált dalszövegek, equalizer, témák és több.
-home-meta-keywords = Kopuz, zenelejátszó, Rust, Dioxus, Jellyfin, Navidrome, nyílt forráskódú, Linux, macOS, Windows, MPRIS, dalszövegek
+home-meta-desc = A Kopuz modern, könnyű zenelejátszó asztali rendszerekre és Androidra. Játssz le helyi fájlokat, vagy csatlakozz a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify szolgáltatásokhoz; az Apple Music lejátszásához jelenleg asztali rendszer szükséges.
+home-meta-keywords = Kopuz, zenelejátszó, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, nyílt forráskódú, Android, Linux, macOS, Windows, dalszövegek, hangszínszabályzó
 og-title = Kopuz — Music Player
-og-desc = Modern, könnyűsúlyú zenelejátszó Rust alapokon. Helyi fájlok, Jellyfin, Navidrome, szinkronizált dalszövegek, equalizer, Discord RPC és több. Ingyenes és nyílt forráskódú.
+og-desc = Modern, könnyű zenelejátszó helyi fájlokhoz és csatlakoztatott zeneforrásokhoz, asztali rendszerekre és Androidra. Szinkronizált dalszövegek, témák, hangszínszabályzó és még sok más.
 og-image-alt = Kopuz zenelejátszó
 twitter-title = Kopuz — Music Player
-twitter-desc = Modern, könnyűsúlyú zenelejátszó Rust alapokon. Ingyenes és nyílt forráskódú.
+twitter-desc = Modern, könnyű zenelejátszó helyi fájlok, illetve a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify használatához.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

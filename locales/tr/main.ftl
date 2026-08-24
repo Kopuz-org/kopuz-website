@@ -3,7 +3,7 @@ lang-name = Türkçe
 
 ## Nav
 nav-new = Yeni
-nav-announce = YouTube Music akışı, Discover, mix radyosu, 20+ dil
+nav-announce = Yerel dosyalar ve bağlı müzik kaynakları tek uygulamada; temalar, şarkı sözleri ve 20'den fazla dil
 nav-features = Özellikler
 nav-install = Kur
 nav-download = İndir
@@ -15,7 +15,7 @@ nav-lang-label = Dil
 ## Hero
 hero-title-1 = Müziğin.
 hero-title-2 = Senin tarzın.
-hero-desc = Kopuz, Rust ve Dioxus ile yapılmış modern, hafif bir müzik çalardır. Yerel klasörleri tara, Jellyfin veya Navidrome'dan yayınla, kütüphaneni istediğin gibi gez.
+hero-desc = Kopuz, günlük dinleme için hızlı ve hafif bir müzik çalardır. Yerel klasörlerinden müzik çal veya Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'a bağlan; tümünü tek bir kütüphanede kullan.
 hero-cta-download = İndir
 hero-cta-github = GitHub'da Gör
 hero-screenshot-alt = Kopuz — ana ekran
@@ -28,23 +28,33 @@ features-source-local = Yerel dosyalar
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Yerel + Streaming
-feat-local-desc = Yerel klasöre işaret et veya Jellyfin / Subsonic (Navidrome) bağlan. İstediğin gibi karıştır.
+feat-local-desc = Yerel klasörler ekle veya Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'a bağlan. Tüm kaynakları birleşik bir kütüphanede istediğin gibi bir araya getir.
 feat-theming-title = Temalar
 feat-theming-desc = Tam renk değişkeni kontrolüyle dinamik temalar. Sıfırdan tema oluştur veya hazır olanı seç.
 feat-native-title = Yerel Entegrasyon
 feat-native-desc = Linux'ta MPRIS, macOS'ta Now Playing, Windows'ta System Media Transport. Tamamen bağlı.
+feat-android-title = Android
+feat-android-desc = Android 7.0 ve üzeri için kaydırma hareketleri, medya bildiriminde karıştırma ve yineleme kontrolleri ile AMOLED modu sunan, telefon ekranlarına göre tasarlanmış ARM64 sürümü.
 feat-lyrics-title = Senkronize Şarkı Sözleri
-feat-lyrics-desc = Gerçek zamanlı kayan sözler, senkronize veya düz, müziği takip eden otomatik kaydırma.
+feat-lyrics-desc = Enstrümantal aralar, ortalanmış etkin satır, derinlik bulanıklığı ve elle ya da otomatik zaman kaydırma özellikleriyle senkronize, kelime zamanlamalı ve düz şarkı sözleri.
 feat-eq-title = Equalizer
 feat-eq-desc = Hazır ayarlar ve ses üzerinde tam kontrolle 5 bantlı equalizer.
 feat-fav-title = Favoriler ve Çalma Listeleri
 feat-fav-desc = Şarkıları yerel olarak yıldızla veya sunucunla senkronize et. Çalma listesi oluştur, tüm albümleri bir kerede ekle.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = Yerleşik ListenBrainz scrobbling. Jellyfin kullanıcıları listenbrainz eklentisini de kullanabilir.
+feat-radio-title = İnternet Radyosu
+feat-radio-desc = İnternet istasyonlarını radyo dizinlerinden, akış ve çalan parça meta verileriyle oynat.
+feat-offline-title = Çevrimdışı İndirmeler
+feat-offline-desc = Desteklenen uzak kaynaklardaki parçaları ağ bağlantısı olmadan dinlemek için indir.
+feat-fonts-title = Özel Arayüz Yazı Tipleri
+feat-fonts-desc = Yerleşik temaların yanında kendi arayüz yazı tipini seç.
 feat-discord-title = Discord RPC
 feat-discord-desc = Gömülü Discord Rich Presence ile arkadaşlarına ne dinlediğini göster. Kurulum gerektirmez.
 feat-search-title = Arama
@@ -63,6 +73,10 @@ feat-channels-title = Kanal Modları
 feat-channels-desc = Stereo, Mono, Sadece-Sol, Sadece-Sağ ve L/R takas. İnce ses kanalı kontrolü.
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Spotify tarzı bir Discover sayfası, zengin sanatçı profilleri ve mix radyosu ile tam akış arka ucu. Kütüphanen, Beğenilen Müzik ve çalma listelerin için giriş yap — ya da anonim olarak gez.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Kataloğa ve kütüphanene göz at, favorileri senkronize et, çalma listelerine parça ekle veya listelerden kaldır, radyo başlat, parçaları indir ve kelime zamanlamalı şarkı sözlerini kullan. Masaüstünde oynatma Widevine gerektirir.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = WebDAV üzerinden bağlan, her sunucu için kütüphane klasörleri seç, parçaları sunucudan oynat veya indir, kapak görsellerini önbelleğe al ve dosya üst bilgilerinden parça sürelerini belirle.
 feat-metadata-title = Sanatçı Görselleri
 feat-metadata-desc = Sanatçı görsellerinin nereden alınacağını seç: ilk albüm kapağı (varsayılan) ya da Jellyfin veya Subsonic sunucundan çekilen gerçek sanatçı fotoğrafları, otomatik geri dönüş ile.
 feat-debug-title = Günlükler ve Çökme Raporları
@@ -111,8 +125,8 @@ install-aur-desc = Tercih ettiğin yardımcıyla kur:
 install-aur-note-1 = Önce
 install-aur-note-2 = { " " }dioxus 0.7.x ile eşleşen bir sürümde kurulu olmasını gerektirir.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Kaynak manifestinden kur:
-install-flatpak-note = Flathub listesi yakında.
+install-flatpak-desc = Kopuz uygulamasını Flathub üzerinden yükleyin:
+install-flatpak-note = Güncellemeler her zamanki Flatpak güncelleme süreciniz üzerinden sunulur.
 install-appimage-title = AppImage
 install-appimage-desc-1 = GitHub Releases'tan indir ve doğrudan çalıştır. Gereksinimler:
 install-appimage-desc-2 = { " " }ve
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Nextcloud Kurulumu
+nextcloud-subtitle = Ayarlar → Medya sunucuları → Ekle → Nextcloud yolundan ekle.
+nextcloud-connect-title = Uygulama parolası kullan
+nextcloud-connect-desc = Nextcloud sunucunun temel URL'sini, kullanıcı adını ve Nextcloud Ayarları → Güvenlik bölümünde oluşturduğun, iptal edilebilir bir uygulama parolasını gir.
+nextcloud-folders-title = Kütüphane klasörlerini seç
+nextcloud-folders-desc = Her kaynak için bir veya daha fazla klasör seç. Kopuz, WebDAV klasör ağacını okur, mevcut kapak görsellerini önbelleğe alır ve parça sürelerini belirlemek için dosya üst bilgilerini inceler.
+nextcloud-webdav-title = Doğrudan WebDAV işleyişi
+nextcloud-webdav-desc = Kütüphane, klasör düzenini izler ve çalma listeleri veya radyo sunmaz. Nextcloud Music, Subsonic erişimi sağlıyorsa daha zengin meta veriler ve çalma listeleri için Subsonic kaynağını kullan.
+nextcloud-playback-title = Sunucudan oynat veya indir
+nextcloud-playback-desc = Ses verisini Kopuz altyapısı üzerinden yönlendirmeden dosyaları doğrudan sunucundan oynat veya çevrimdışı dinlemek için indir.
+
 ## YouTube Music
 ytmusic-title = YouTube Music Kurulumu
 ytmusic-subtitle = Ayarlar → Medya sunucuları → Ekle → YouTube Music yolundan ekle.
@@ -163,6 +189,18 @@ ytmusic-anon-desc = Giriş yok, çerez yok. Gez, ara, sanatçı, albüm ve çalm
 ytmusic-premium-title = Premium parçalar
 ytmusic-premium-desc-1 = Music Premium ile kilitli parçalar, birincil yol UNPLAYABLE döndürdüğünde yerel bir
 ytmusic-premium-desc-2 = { " " }çözümlemeye geri döner, bu yüzden kurulu olması yardımcı olur. Anonim mod Premium-only içeriği hiç çalamaz.
+
+## Apple Music
+applemusic-title = Apple Music Kurulumu
+applemusic-subtitle = Ayarlar → Medya sunucuları → Ekle → Apple Music yolundan ekle.
+applemusic-signin-title = Giriş yap veya token yapıştır
+applemusic-signin-desc = Masaüstünde Kopuz, Apple Music'i izole bir Chromium ailesi tarayıcı profilinde açar. Bunun yerine media-user-token değerini elle yapıştırabilirsin.
+applemusic-playback-title = Masaüstünde Widevine
+applemusic-playback-desc = Apple Music'i oynatmak için yüklü bir tarayıcıdan veya Mozilla'nın eklenti hizmetinden alınan bir Widevine CDM gerekir. Kopuz bu bileşeni beraberinde sunmaz.
+applemusic-features-title = Neler elde edersin
+applemusic-features-desc = Katalogda ve kütüphanede gezinme, favorileri senkronize etme, çalma listelerine parça ekleme veya listelerden kaldırma, parçalardan ve çalma listelerinden radyo başlatma, indirmeler ve kelime zamanlamalı şarkı sözleri.
+applemusic-android-title = Android durumu
+applemusic-android-desc = Giriş için uygulama içi WebView kullanılır ancak Apple Music'i oynatma henüz Android'de desteklenmiyor.
 
 ## SoundCloud
 soundcloud-title = SoundCloud Kurulumu
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz, Rust ve Dioxus ile yapılmış modern, hafif bir müzik çalardır. Jellyfin veya Navidrome'dan yayınla, yerel dosyalara göz at, senkronize sözler, equalizer, temalar ve daha fazlası.
-home-meta-keywords = Kopuz, müzik çalar, Rust, Dioxus, Jellyfin, Navidrome, açık kaynak, Linux, macOS, Windows, MPRIS, şarkı sözleri
+home-meta-desc = Kopuz, masaüstü ve Android için modern, hafif bir müzik çalardır. Yerel dosyaları çal veya Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'a bağlan; Apple Music'i oynatmak şu anda yalnızca masaüstünde destekleniyor.
+home-meta-keywords = Kopuz, müzik çalar, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, açık kaynak, Android, Linux, macOS, Windows, şarkı sözleri, ekolayzır
 og-title = Kopuz — Music Player
-og-desc = Rust ile yapılmış modern, hafif müzik çalar. Yerel dosyalar, Jellyfin, Navidrome, senkronize sözler, equalizer, Discord RPC ve daha fazlası. Ücretsiz ve açık kaynak.
+og-desc = Masaüstü ve Android'de yerel dosyaları ve bağlı kaynakları destekleyen modern, hafif bir müzik çalar. Senkronize şarkı sözleri, temalar, ekolayzır ve daha fazlası.
 og-image-alt = Kopuz müzik çalar
 twitter-title = Kopuz — Music Player
-twitter-desc = Rust ile yapılmış modern, hafif müzik çalar. Ücretsiz ve açık kaynak.
+twitter-desc = Yerel dosyalar, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'ı destekleyen modern, hafif bir müzik çalar.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

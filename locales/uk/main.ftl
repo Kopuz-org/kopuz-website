@@ -3,7 +3,7 @@ lang-name = Українська
 
 ## Nav
 nav-new = Нове
-nav-announce = Стримінг YouTube Music, Discover, мікс-радіо, 20+ мов
+nav-announce = Локальні файли та підключені музичні джерела в одному застосунку з темами, текстами пісень і підтримкою понад 20 мов
 nav-features = Можливості
 nav-install = Встановити
 nav-download = Завантажити
@@ -15,7 +15,7 @@ nav-lang-label = Мова
 ## Hero
 hero-title-1 = Твоя музика.
 hero-title-2 = Твій стиль.
-hero-desc = Kopuz — сучасний легкий музичний плеєр на Rust і Dioxus. Скануй локальні теки, стрім з Jellyfin або Navidrome, переглядай бібліотеку як зручно.
+hero-desc = Kopuz — швидкий і легкий музичний плеєр для щоденного прослуховування. Відтворюй музику з локальних тек або підключай Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify — усе в одній бібліотеці.
 hero-cta-download = Завантажити
 hero-cta-github = Переглянути на GitHub
 hero-screenshot-alt = Kopuz — головний екран
@@ -28,23 +28,33 @@ features-source-local = Локальні файли
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Локально + стрімінг
-feat-local-desc = Вкажи локальну теку або підключись до Jellyfin / Subsonic (Navidrome). Змішуй як хочеш.
+feat-local-desc = Додавай локальні теки або підключай Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify. Поєднуй різні джерела в єдиній бібліотеці.
 feat-theming-title = Теми
 feat-theming-desc = Динамічні теми з повним контролем змінних кольору. Створи свою тему з нуля або обери пресет.
 feat-native-title = Нативна інтеграція
 feat-native-desc = MPRIS на Linux, Now Playing на macOS, System Media Transport на Windows. Повністю підключено.
+feat-android-title = Android
+feat-android-desc = Збірка ARM64, адаптована для смартфонів, із жестами гортання, керуванням перемішуванням і повтором у медіасповіщенні та режимом AMOLED для Android 7.0 і новіших версій.
 feat-lyrics-title = Синхронізовані тексти
-feat-lyrics-desc = Прокручуваний текст у реальному часі, синхронізований або звичайний, з автопрокруткою.
+feat-lyrics-desc = Синхронізовані за рядками чи словами та звичайні тексти пісень з інструментальними паузами, активним рядком по центру, розмиттям за глибиною і ручним або автоматичним зміщенням синхронізації.
 feat-eq-title = Еквалайзер
 feat-eq-desc = 5-смуговий еквалайзер з вбудованими пресетами та повним контролем звуку.
 feat-fav-title = Обране та плейлисти
 feat-fav-desc = Познач треки локально або синхронізуй обране з сервером. Створюй плейлисти, додавай цілі альбоми одразу.
 feat-scrobble-title = Скроблінг
 feat-scrobble-desc = Вбудований скроблінг ListenBrainz. Користувачі Jellyfin також можуть використовувати плагін listenbrainz.
+feat-radio-title = Інтернет-радіо
+feat-radio-desc = Відтворюй інтернет-станції з реєстрів радіостанцій і переглядай метадані потоку та композиції, що зараз звучить.
+feat-offline-title = Офлайн-завантаження
+feat-offline-desc = Завантажуй підтримувані віддалені треки, щоб слухати їх без підключення до мережі.
+feat-fonts-title = Власні шрифти інтерфейсу
+feat-fonts-desc = Обирай власний шрифт інтерфейсу на додачу до вбудованих тем.
 feat-discord-title = Discord RPC
 feat-discord-desc = Покажи друзям що ти слухаєш з вбудованим Discord Rich Presence. Без налаштування.
 feat-search-title = Пошук
@@ -63,6 +73,10 @@ feat-channels-title = Режими каналів
 feat-channels-desc = Стерео, моно, тільки лівий, тільки правий і L/R swap. Точне керування каналами.
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Повноцінний стрімінговий бекенд зі сторінкою Discover у стилі Spotify, насиченими профілями виконавців і мікс-радіо. Увійди для своєї бібліотеки, Liked Music і плейлистів — або переглядай анонімно.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Переглядай каталог і свою бібліотеку, синхронізуй обране, додавай треки до плейлистів і видаляй їх, запускай радіо, завантажуй треки та користуйся текстами пісень із послівною синхронізацією. Для відтворення на комп’ютері потрібен Widevine.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = Підключайся через WebDAV, обирай окремі теки бібліотеки для кожного сервера, відтворюй або завантажуй треки, кешуй обкладинки й визначай тривалість треків за заголовками файлів.
 feat-metadata-title = Зображення виконавців
 feat-metadata-desc = Обери, звідки беруться зображення виконавців: перша обкладинка альбому (за замовчуванням) або справжні фото виконавців з твого сервера Jellyfin чи Subsonic, з автоматичним резервним варіантом.
 feat-debug-title = Логи та звіти про збої
@@ -111,8 +125,8 @@ install-aur-desc = Встановлення твоїм улюбленим пом
 install-aur-note-1 = Потрібно
 install-aur-note-2 = { " " }встановлений першим у версії, що відповідає dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Встановлення з маніфесту:
-install-flatpak-note = Лістинг на Flathub скоро.
+install-flatpak-desc = Встановіть Kopuz із Flathub:
+install-flatpak-note = Оновлення надходитимуть через звичний механізм оновлення Flatpak.
 install-appimage-title = AppImage
 install-appimage-desc-1 = Завантаж з GitHub Releases і запусти. Потрібно
 install-appimage-desc-2 = { " " }і
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Налаштування Nextcloud
+nextcloud-subtitle = Додай його в меню Налаштування → Медіасервери → Додати → Nextcloud.
+nextcloud-connect-title = Використовуй пароль застосунку
+nextcloud-connect-desc = Введи базову URL-адресу Nextcloud та ім’я користувача, а також пароль застосунку, створений у розділі Налаштування Nextcloud → Безпека. Такий пароль можна відкликати.
+nextcloud-folders-title = Обери теки бібліотеки
+nextcloud-folders-desc = Обери одну чи кілька тек для кожного джерела. Kopuz читає дерево тек WebDAV, кешує доступні обкладинки й визначає тривалість треків за заголовками файлів.
+nextcloud-webdav-title = Робота напряму через WebDAV
+nextcloud-webdav-desc = Бібліотека дотримується структури тек і не підтримує плейлисти чи радіо. Якщо Nextcloud Music підтримує Subsonic, використовуй джерело Subsonic, щоб отримати повніші метадані та плейлисти.
+nextcloud-playback-title = Відтворюй або завантажуй
+nextcloud-playback-desc = Відтворюй файли безпосередньо зі свого сервера або завантажуй їх для прослуховування офлайн. Аудіо не проходить через інфраструктуру Kopuz.
+
 ## YouTube Music
 ytmusic-title = Налаштування YouTube Music
 ytmusic-subtitle = Додай його з Налаштування → Медіасервери → Додати → YouTube Music.
@@ -163,6 +189,18 @@ ytmusic-anon-desc = Без входу, без cookie. Переглядай, шу
 ytmusic-premium-title = Преміум-треки
 ytmusic-premium-desc-1 = Треки, заблоковані Music Premium, переходять на локальне
 ytmusic-premium-desc-2 = { " " }розв'язання, коли основний шлях повертає UNPLAYABLE, тож його встановлення допомагає. Анонімний режим взагалі не може відтворювати контент лише для Premium.
+
+## Apple Music
+applemusic-title = Налаштування Apple Music
+applemusic-subtitle = Додай його в меню Налаштування → Медіасервери → Додати → Apple Music.
+applemusic-signin-title = Увійди або встав токен
+applemusic-signin-desc = На комп’ютері Kopuz відкриває Apple Music в ізольованому профілі браузера сімейства Chromium. Натомість ти можеш вручну вставити media-user-token.
+applemusic-playback-title = Widevine на комп’ютері
+applemusic-playback-desc = Для відтворення Apple Music потрібен Widevine CDM зі встановленого браузера або служби плагінів Mozilla. Kopuz не постачає цей CDM.
+applemusic-features-title = Що ти отримуєш
+applemusic-features-desc = Перегляд каталогу й бібліотеки, синхронізація обраного, додавання треків до плейлистів і видалення з них, радіо на основі треків і плейлистів, завантаження та тексти пісень із послівною синхронізацією.
+applemusic-android-title = Стан підтримки Android
+applemusic-android-desc = Для входу використовується вбудований WebView, але відтворення Apple Music на Android поки не підтримується.
 
 ## SoundCloud
 soundcloud-title = Налаштування SoundCloud
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz — сучасний легкий музичний плеєр на Rust і Dioxus. Стрім з Jellyfin або Navidrome, локальні файли, синхронізовані тексти, еквалайзер, теми і більше.
-home-meta-keywords = Kopuz, музичний плеєр, Rust, Dioxus, Jellyfin, Navidrome, open source, Linux, macOS, Windows, MPRIS, тексти пісень
+home-meta-desc = Kopuz — сучасний легкий музичний плеєр для комп’ютерів і Android. Відтворюй локальні файли або підключай Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify; відтворення Apple Music наразі можливе лише на комп’ютері.
+home-meta-keywords = Kopuz, музичний плеєр, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, відкритий код, Android, Linux, macOS, Windows, тексти пісень, еквалайзер
 og-title = Kopuz — Music Player
-og-desc = Сучасний легкий музичний плеєр на Rust. Локальні файли, Jellyfin, Navidrome, синхронізовані тексти, еквалайзер, Discord RPC і більше. Безкоштовно й open source.
+og-desc = Сучасний легкий музичний плеєр для комп’ютерів і Android із підтримкою локальних файлів та підключених джерел. Синхронізовані тексти пісень, теми, еквалайзер і багато іншого.
 og-image-alt = Музичний плеєр Kopuz
 twitter-title = Kopuz — Music Player
-twitter-desc = Сучасний легкий музичний плеєр на Rust. Безкоштовно й open source.
+twitter-desc = Сучасний легкий музичний плеєр із підтримкою локальних файлів, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

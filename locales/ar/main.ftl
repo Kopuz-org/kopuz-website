@@ -3,7 +3,7 @@ lang-name = العربية
 
 ## Nav
 nav-new = جديد
-nav-announce = بث YouTube Music، صفحة Discover، راديو ميكس، 20+ لغة
+nav-announce = ملفات محلية + مصادر موسيقى متصلة في تطبيق واحد، مع سمات وكلمات أغانٍ وأكثر من 20 لغة
 nav-features = الميزات
 nav-install = تثبيت
 nav-download = تنزيل
@@ -15,7 +15,7 @@ nav-lang-label = اللغة
 ## Hero
 hero-title-1 = موسيقاك.
 hero-title-2 = على طريقتك.
-hero-desc = Kopuz مشغل موسيقى حديث وخفيف مبني بـ Rust و Dioxus. امسح المجلدات المحلية، استمع من Jellyfin أو Navidrome، وتصفح مكتبتك كما تريد.
+hero-desc = Kopuz مشغل موسيقى سريع وخفيف للاستماع اليومي. شغّل المجلدات المحلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify، وكلها في مكتبة واحدة.
 hero-cta-download = تنزيل
 hero-cta-github = اعرض على GitHub
 hero-screenshot-alt = Kopuz — الواجهة الرئيسية
@@ -28,23 +28,33 @@ features-source-local = الملفات المحلية
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = محلي + بث
-feat-local-desc = أشِر إلى مجلد محلي أو اتصل بـ Jellyfin / Subsonic (Navidrome). امزج كما تشاء.
+feat-local-desc = أضف مجلدات محلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify. اجمع بين المصادر كما تشاء في مكتبة موحّدة.
 feat-theming-title = السمات
 feat-theming-desc = سمات ديناميكية مع تحكم كامل بمتغيرات الألوان. ابنِ سمتك من الصفر أو اختر إعدادًا مسبقًا.
 feat-native-title = تكامل أصلي
 feat-native-desc = MPRIS على Linux، Now Playing على macOS، System Media Transport على Windows. متصل بالكامل.
+feat-android-title = Android
+feat-android-desc = إصدار ARM64 ملائم لشاشات الهواتف، مع إيماءات السحب وعناصر تحكم للتشغيل العشوائي والتكرار في إشعار الوسائط ووضع AMOLED لنظام Android 7.0 أو أحدث.
 feat-lyrics-title = كلمات متزامنة
-feat-lyrics-desc = كلمات قابلة للتمرير في الوقت الفعلي، متزامنة أو عادية، تمرير تلقائي مع الموسيقى.
+feat-lyrics-desc = كلمات أغانٍ متزامنة، وموقّتة كلمة بكلمة، وعادية، مع فواصل موسيقية وسطر نشط في المنتصف وتمويه حسب العمق وإزاحة توقيت يدوية أو تلقائية.
 feat-eq-title = موازِن الصوت
 feat-eq-desc = موازِن صوت بـ 5 نطاقات مع إعدادات مسبقة وتحكم كامل بصوتك.
 feat-fav-title = المفضلة وقوائم التشغيل
 feat-fav-desc = ضع نجمة على الأغاني محليًا أو زامِن المفضلة مع خادمك. أنشئ قوائم تشغيل، أضف ألبومات كاملة دفعة واحدة.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = scrobbling ListenBrainz مدمج. يمكن لمستخدمي Jellyfin أيضًا استخدام إضافة listenbrainz.
+feat-radio-title = راديو الإنترنت
+feat-radio-desc = شغّل محطات إذاعية عبر الإنترنت من أدلة الراديو، مع بيانات وصفية للبث ولما يُشغّل الآن.
+feat-offline-title = التنزيلات للاستماع دون اتصال
+feat-offline-desc = نزّل المقاطع المدعومة من المصادر البعيدة للاستماع إليها دون اتصال بالشبكة.
+feat-fonts-title = خطوط مخصصة للواجهة
+feat-fonts-desc = اختر خط الواجهة الذي تفضّله إلى جانب السمات المضمّنة.
 feat-discord-title = Discord RPC
 feat-discord-desc = أظهر لأصدقائك ما تستمع إليه عبر Discord Rich Presence المدمج. بلا إعداد.
 feat-search-title = البحث
@@ -63,6 +73,10 @@ feat-channels-title = أوضاع القنوات
 feat-channels-desc = ستيريو، أحادي، يسار فقط، يمين فقط، وتبديل L/R. تحكم دقيق بقنوات الصوت.
 feat-youtube-title = YouTube Music
 feat-youtube-desc = خلفية بث كاملة مع صفحة Discover بأسلوب Spotify، وملفات فنانين غنية، وراديو ميكس. سجّل الدخول للوصول إلى مكتبتك وموسيقاك المفضلة وقوائم تشغيلك — أو تصفّح بشكل مجهول.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = تصفّح الكتالوج ومكتبتك، وزامِن المفضلة، وأضف المقاطع إلى قوائم التشغيل أو أزلها منها، وابدأ الراديو، ونزّل المقاطع، واستخدم كلمات أغانٍ موقّتة كلمة بكلمة. يتطلب التشغيل على سطح المكتب Widevine.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = اتصل عبر WebDAV، واختر مجلدات المكتبة لكل خادم، وشغّل المقاطع أو نزّلها، وخزّن الأغلفة مؤقتًا، وتحقق من مدد المقاطع عبر ترويسات الملفات.
 feat-metadata-title = صور الفنانين
 feat-metadata-desc = اختر كيفية الحصول على صور الفنانين: غلاف الألبوم الأول (الافتراضي) أو صور فنانين حقيقية تُجلب من خادم Jellyfin أو Subsonic، مع احتياطي تلقائي.
 feat-debug-title = السجلات وتقارير الأعطال
@@ -111,8 +125,8 @@ install-aur-desc = ثبّت باستخدام المساعد المفضل لدي�
 install-aur-note-1 = يتطلب
 install-aur-note-2 = { " " }مثبّتًا أولًا بإصدار يطابق dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = ثبّت من ملف بيان المصدر:
-install-flatpak-note = إدراج Flathub قريبًا.
+install-flatpak-desc = ثبّت Kopuz من Flathub:
+install-flatpak-note = تصل التحديثات عبر آلية تحديث Flatpak المعتادة.
 install-appimage-title = AppImage
 install-appimage-desc-1 = نزِّل من GitHub Releases وشغِّل مباشرة. يتطلب
 install-appimage-desc-2 = { " " }و
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = إعداد Nextcloud
+nextcloud-subtitle = أضِفه من الإعدادات ← خوادم الوسائط ← إضافة ← Nextcloud.
+nextcloud-connect-title = استخدم كلمة مرور للتطبيق
+nextcloud-connect-desc = أدخل عنوان URL الأساسي لـ Nextcloud واسم المستخدم وكلمة مرور تطبيق قابلة للإلغاء أنشأتها ضمن إعدادات Nextcloud ← الأمان.
+nextcloud-folders-title = اختر مجلدات المكتبة
+nextcloud-folders-desc = اختر مجلدًا واحدًا أو أكثر لكل مصدر. يقرأ Kopuz شجرة مجلدات WebDAV، ويخزّن الأغلفة المتاحة مؤقتًا، ويتحقق من ترويسات الملفات لمعرفة مدد المقاطع.
+nextcloud-webdav-title = سلوك WebDAV المباشر
+nextcloud-webdav-desc = تتبع المكتبة بنية المجلدات ولا توفّر قوائم تشغيل أو راديو. إذا كانت Nextcloud Music تتيح واجهة Subsonic، فاستخدم ذلك المصدر للحصول على بيانات وصفية أغنى وقوائم تشغيل.
+nextcloud-playback-title = البث أو التنزيل
+nextcloud-playback-desc = شغّل الملفات مباشرة من خادمك أو نزّلها للاستماع دون اتصال، من دون تمرير الصوت عبر بنية Kopuz التحتية.
+
 ## YouTube Music
 ytmusic-title = إعداد YouTube Music
 ytmusic-subtitle = أضِفه من الإعدادات ← خوادم الوسائط ← إضافة ← YouTube Music.
@@ -163,6 +189,18 @@ ytmusic-anon-desc = بلا تسجيل دخول، بلا ملفات تعريف. �
 ytmusic-premium-title = مقاطع Premium
 ytmusic-premium-desc-1 = المقاطع المقفلة بـ Music Premium تلجأ إلى تحليل محلي عبر
 ytmusic-premium-desc-2 = { " " }عندما يُرجع المسار الأساسي UNPLAYABLE، لذا فإن تثبيته يساعد. لا يمكن للوضع المجهول تشغيل محتوى Premium حصريًا على الإطلاق.
+
+## Apple Music
+applemusic-title = إعداد Apple Music
+applemusic-subtitle = أضِفه من الإعدادات ← خوادم الوسائط ← إضافة ← Apple Music.
+applemusic-signin-title = سجّل الدخول أو الصق رمزًا
+applemusic-signin-desc = على سطح المكتب، يفتح Kopuz موقع Apple Music في ملف متصفح معزول من عائلة Chromium. ويمكنك بدلًا من ذلك لصق media-user-token يدويًا.
+applemusic-playback-title = Widevine على سطح المكتب
+applemusic-playback-desc = يتطلب تشغيل Apple Music وحدة Widevine CDM من متصفح مثبّت أو من خدمة الإضافات التابعة لـ Mozilla. لا يضمّن Kopuz وحدة CDM.
+applemusic-features-title = ما الذي تحصل عليه
+applemusic-features-desc = تصفّح الكتالوج والمكتبة، ومزامنة المفضلة، وإضافة المقاطع إلى قوائم التشغيل أو إزالتها منها، وتشغيل الراديو من المقاطع وقوائم التشغيل، والتنزيلات، وكلمات أغانٍ موقّتة كلمة بكلمة.
+applemusic-android-title = حالة Android
+applemusic-android-desc = يتم تسجيل الدخول عبر WebView داخل التطبيق، لكن تشغيل Apple Music غير مدعوم بعد على Android.
 
 ## SoundCloud
 soundcloud-title = إعداد SoundCloud
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz مشغل موسيقى حديث وخفيف مبني بـ Rust و Dioxus. استمع من Jellyfin أو Navidrome، تصفح الملفات المحلية، كلمات متزامنة، موازِن صوت، سمات والمزيد.
-home-meta-keywords = Kopuz، مشغل موسيقى، Rust، Dioxus، Jellyfin، Navidrome، مفتوح المصدر، Linux، macOS، Windows، MPRIS، كلمات
+home-meta-desc = Kopuz مشغل موسيقى حديث وخفيف لأجهزة سطح المكتب وAndroid. شغّل الملفات المحلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify؛ ولا يتوفر تشغيل Apple Music حاليًا إلا على سطح المكتب.
+home-meta-keywords = Kopuz، مشغل موسيقى، Jellyfin، Navidrome، Subsonic، Nextcloud، YouTube Music، Apple Music، SoundCloud، Spotify، مفتوح المصدر، Android، Linux، macOS، Windows، كلمات أغانٍ، موازِن صوت
 og-title = Kopuz — Music Player
-og-desc = مشغل موسيقى حديث وخفيف مبني بـ Rust. ملفات محلية، Jellyfin، Navidrome، كلمات متزامنة، موازِن صوت، Discord RPC والمزيد. مجاني ومفتوح المصدر.
+og-desc = مشغل موسيقى حديث وخفيف للملفات المحلية والمصادر المتصلة على سطح المكتب وAndroid. كلمات أغانٍ متزامنة وسمات وموازِن صوت والمزيد.
 og-image-alt = مشغل موسيقى Kopuz
 twitter-title = Kopuz — Music Player
-twitter-desc = مشغل موسيقى حديث وخفيف مبني بـ Rust. مجاني ومفتوح المصدر.
+twitter-desc = مشغل موسيقى حديث وخفيف للملفات المحلية وJellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

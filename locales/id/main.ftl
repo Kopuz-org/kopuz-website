@@ -3,7 +3,7 @@ lang-name = Bahasa Indonesia
 
 ## Nav
 nav-new = Baru
-nav-announce = Streaming YouTube Music, Discover, radio mix, 20+ bahasa
+nav-announce = Berkas lokal + sumber musik terhubung dalam satu aplikasi, dengan tema, lirik, dan 20+ bahasa
 nav-features = Fitur
 nav-install = Pasang
 nav-download = Unduh
@@ -15,7 +15,7 @@ nav-lang-label = Bahasa
 ## Hero
 hero-title-1 = Musikmu.
 hero-title-2 = Caramu.
-hero-desc = Kopuz adalah pemutar musik modern dan ringan yang dibangun dengan Rust dan Dioxus. Pindai folder lokal, streaming dari Jellyfin atau Navidrome, dan jelajahi pustaka semaumu.
+hero-desc = Kopuz adalah pemutar musik cepat dan ringan untuk mendengarkan musik sehari-hari. Putar musik dari folder lokal atau hubungkan Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, dan Spotify, semuanya dalam satu pustaka.
 hero-cta-download = Unduh
 hero-cta-github = Lihat di GitHub
 hero-screenshot-alt = Kopuz — tampilan beranda
@@ -28,23 +28,33 @@ features-source-local = Berkas lokal
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Lokal + Streaming
-feat-local-desc = Arahkan ke folder lokal atau sambungkan ke Jellyfin / Subsonic (Navidrome). Campur sesukamu.
+feat-local-desc = Tambahkan folder lokal atau hubungkan Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, dan Spotify. Gabungkan berbagai sumber sesukamu dalam satu pustaka terpadu.
 feat-theming-title = Tema
 feat-theming-desc = Tema dinamis dengan kontrol penuh atas variabel warna. Bangun temamu dari nol atau pilih preset.
 feat-native-title = Integrasi Native
 feat-native-desc = MPRIS di Linux, Now Playing di macOS, System Media Transport di Windows. Tersambung penuh.
+feat-android-title = Android
+feat-android-desc = Versi ARM64 yang dioptimalkan untuk layar ponsel, dengan gestur usap, kontrol pemutaran acak dan pengulangan di notifikasi media, serta mode AMOLED untuk Android 7.0 ke atas.
 feat-lyrics-title = Lirik Tersinkron
-feat-lyrics-desc = Lirik bergulir realtime, tersinkron atau biasa, gulir-otomatis mengikuti musik.
+feat-lyrics-desc = Lirik tersinkron, lirik dengan penanda waktu per kata, dan lirik biasa, dilengkapi jeda instrumental, baris aktif di tengah, efek blur kedalaman, serta offset waktu manual atau otomatis.
 feat-eq-title = Equalizer
 feat-eq-desc = Equalizer 5-band dengan preset bawaan dan kontrol penuh atas suaramu.
 feat-fav-title = Favorit & Daftar Putar
 feat-fav-desc = Tandai lagu secara lokal atau sinkronkan favorit dengan servermu. Buat daftar putar, tambah seluruh album sekaligus.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = Scrobbling ListenBrainz terintegrasi. Pengguna Jellyfin juga dapat menggunakan plugin listenbrainz.
+feat-radio-title = Radio Internet
+feat-radio-desc = Putar stasiun internet dari direktori radio dengan metadata stream dan informasi lagu yang sedang diputar.
+feat-offline-title = Unduhan Offline
+feat-offline-desc = Unduh lagu dari sumber jarak jauh yang didukung agar dapat didengarkan tanpa koneksi jaringan.
+feat-fonts-title = Font Antarmuka Kustom
+feat-fonts-desc = Pilih font antarmukamu sendiri untuk dipadukan dengan tema bawaan.
 feat-discord-title = Discord RPC
 feat-discord-desc = Tunjukkan teman apa yang sedang kamu dengar dengan Discord Rich Presence tertanam. Tanpa pengaturan.
 feat-search-title = Pencarian
@@ -64,6 +74,10 @@ feat-channels-desc = Stereo, Mono, Hanya-Kiri, Hanya-Kanan, dan tukar L/R. Kontr
 
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Backend streaming penuh dengan halaman Discover ala Spotify, profil artis lengkap, dan radio mix. Masuk untuk pustaka, Liked Music, dan daftar putarmu — atau jelajahi secara anonim.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Jelajahi katalog dan pustakamu, sinkronkan favorit, tambahkan atau hapus lagu dari daftar putar, mulai radio, unduh lagu, dan gunakan lirik dengan penanda waktu per kata. Pemutaran di desktop memerlukan Widevine.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = Sambungkan melalui WebDAV, pilih folder pustaka untuk tiap server, putar lagu secara streaming atau unduh lagu, simpan sampul album dalam cache, dan deteksi durasi dari header berkas.
 feat-metadata-title = Gambar Artis
 feat-metadata-desc = Pilih bagaimana gambar artis diambil: sampul album pertama (bawaan) atau foto artis asli yang diambil dari server Jellyfin atau Subsonic-mu, dengan fallback otomatis.
 feat-debug-title = Catatan & Laporan Crash
@@ -112,8 +126,8 @@ install-aur-desc = Pasang dengan helper pilihanmu:
 install-aur-note-1 = Membutuhkan
 install-aur-note-2 = { " " }terpasang lebih dulu pada versi yang cocok dengan dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Pasang dari manifest sumber:
-install-flatpak-note = Listing Flathub segera.
+install-flatpak-desc = Instal Kopuz dari Flathub:
+install-flatpak-note = Anda akan menerima pembaruan melalui proses pembaruan Flatpak seperti biasa.
 install-appimage-title = AppImage
 install-appimage-desc-1 = Unduh dari GitHub Releases dan jalankan langsung. Membutuhkan
 install-appimage-desc-2 = { " " }dan
@@ -150,6 +164,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Penyiapan Nextcloud
+nextcloud-subtitle = Tambahkan dari Pengaturan → Server media → Tambah → Nextcloud.
+nextcloud-connect-title = Gunakan kata sandi aplikasi
+nextcloud-connect-desc = Masukkan URL dasar Nextcloud, nama pengguna, dan kata sandi aplikasi yang dapat dicabut. Buat kata sandi tersebut di Pengaturan Nextcloud → Keamanan.
+nextcloud-folders-title = Pilih folder pustaka
+nextcloud-folders-desc = Pilih satu atau beberapa folder untuk tiap sumber. Kopuz membaca struktur folder WebDAV, menyimpan sampul album yang tersedia dalam cache, dan memeriksa header berkas untuk mengetahui durasi lagu.
+nextcloud-webdav-title = Cara kerja WebDAV langsung
+nextcloud-webdav-desc = Pustaka mengikuti susunan folder dan tidak menyediakan daftar putar atau radio. Jika Nextcloud Music menyediakan antarmuka Subsonic, gunakan sumber tersebut untuk metadata yang lebih lengkap dan daftar putar.
+nextcloud-playback-title = Putar secara streaming atau unduh
+nextcloud-playback-desc = Putar berkas langsung dari servermu atau unduh untuk didengarkan secara offline, tanpa menyalurkan audio melalui infrastruktur Kopuz.
+
 ## YouTube Music
 ytmusic-title = Penyiapan YouTube Music
 ytmusic-subtitle = Tambahkan dari Pengaturan → Server media → Tambah → YouTube Music.
@@ -164,6 +190,18 @@ ytmusic-anon-desc = Tanpa sign-in, tanpa cookie. Jelajahi, cari, buka halaman ar
 ytmusic-premium-title = Lagu Premium
 ytmusic-premium-desc-1 = Lagu yang terkunci Music Premium jatuh ke resolve
 ytmusic-premium-desc-2 = { " " }lokal saat jalur utama mengembalikan UNPLAYABLE, jadi memasangnya membantu. Mode anonim sama sekali tidak dapat memutar konten khusus Premium.
+
+## Apple Music
+applemusic-title = Penyiapan Apple Music
+applemusic-subtitle = Tambahkan dari Pengaturan → Server media → Tambah → Apple Music.
+applemusic-signin-title = Masuk atau tempel token
+applemusic-signin-desc = Di desktop, Kopuz membuka Apple Music menggunakan profil browser keluarga Chromium yang terisolasi. Kamu juga dapat menempelkan media-user-token secara manual.
+applemusic-playback-title = Widevine di desktop
+applemusic-playback-desc = Pemutaran Apple Music memerlukan Widevine CDM dari browser yang terpasang atau layanan plugin Mozilla. Kopuz tidak menyertakan CDM tersebut.
+applemusic-features-title = Fitur yang tersedia
+applemusic-features-desc = Kamu dapat menjelajahi katalog dan pustaka, menyinkronkan favorit, menambah atau menghapus lagu dari daftar putar, memulai radio dari lagu atau daftar putar, mengunduh lagu, serta menggunakan lirik dengan penanda waktu per kata.
+applemusic-android-title = Status Android
+applemusic-android-desc = Proses masuk menggunakan WebView dalam aplikasi, tetapi pemutaran Apple Music belum didukung di Android.
 
 ## SoundCloud
 soundcloud-title = Penyiapan SoundCloud
@@ -225,13 +263,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz adalah pemutar musik modern dan ringan yang dibangun dengan Rust dan Dioxus. Streaming dari Jellyfin atau Navidrome, jelajahi berkas lokal, lirik tersinkron, equalizer, tema, dan lainnya.
-home-meta-keywords = Kopuz, pemutar musik, Rust, Dioxus, Jellyfin, Navidrome, open source, Linux, macOS, Windows, MPRIS, lirik
+home-meta-desc = Kopuz adalah pemutar musik modern dan ringan untuk desktop dan Android. Putar berkas lokal atau hubungkan Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, dan Spotify; pemutaran Apple Music saat ini hanya tersedia di desktop.
+home-meta-keywords = Kopuz, pemutar musik, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, lirik, equalizer
 og-title = Kopuz — Music Player
-og-desc = Pemutar musik modern dan ringan yang dibangun dengan Rust. Berkas lokal, Jellyfin, Navidrome, lirik tersinkron, equalizer, Discord RPC, dan lainnya. Gratis dan open source.
+og-desc = Pemutar musik modern dan ringan untuk berkas lokal dan sumber musik terhubung di desktop dan Android. Lirik tersinkron, tema, equalizer, dan lainnya.
 og-image-alt = Pemutar musik Kopuz
 twitter-title = Kopuz — Music Player
-twitter-desc = Pemutar musik modern dan ringan yang dibangun dengan Rust. Gratis dan open source.
+twitter-desc = Pemutar musik modern dan ringan untuk berkas lokal, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, dan Spotify.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }

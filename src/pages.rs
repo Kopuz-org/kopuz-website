@@ -3,8 +3,9 @@ use leptos_fluent::move_tr;
 use leptos_meta::{Link, Meta, Title};
 
 use crate::app::{
-    provide_site_theme, Community, Features, Footer, Install, Nav, Performance, Platforms, Privacy,
-    Requirements, SoundCloud, Sponsors, SpotifyGuide, Support, ThemeColorMeta, WebButton, YtMusic,
+    provide_site_theme, AppleMusicGuide, Community, Features, Footer, Install, Nav, NextcloudGuide,
+    Performance, Platforms, Privacy, Requirements, SoundCloud, Sponsors, SpotifyGuide, Support,
+    ThemeColorMeta, WebButton, YtMusic,
 };
 
 #[component]
@@ -50,7 +51,7 @@ pub fn FeaturesPage() -> impl IntoView {
     view! {
         <PageMeta
             title="Features | Kopuz"
-            description="Local and streaming playback, lyrics, equalizer, themes, playlists, scrobbling, and more in Kopuz."
+            description="Play local files or connect Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify, with lyrics, themes, playlists, and more."
             canonical="https://kopuz.moe/features"
         />
         <PageChrome>
@@ -82,7 +83,7 @@ pub fn GuidesPage() -> impl IntoView {
     view! {
         <PageMeta
             title="Guides | Kopuz"
-            description="Setup notes for using YouTube Music, SoundCloud, and Spotify with Kopuz."
+            description="Setup notes for Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify in Kopuz."
             canonical="https://kopuz.moe/guides"
         />
         <PageChrome>
@@ -91,7 +92,9 @@ pub fn GuidesPage() -> impl IntoView {
                 <h1>{move_tr!("guides-title")}</h1>
                 <p>{move_tr!("guides-subtitle")}</p>
             </header>
+            <NextcloudGuide/>
             <YtMusic/>
+            <AppleMusicGuide/>
             <SoundCloud/>
             <SpotifyGuide/>
         </PageChrome>

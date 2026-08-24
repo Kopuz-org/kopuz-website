@@ -3,7 +3,7 @@ lang-name = Polski
 
 ## Nav
 nav-new = Nowe
-nav-announce = Streaming YouTube Music, Discover, radio mix, 20+ języków
+nav-announce = Pliki lokalne + podłączone źródła muzyki w jednej aplikacji, z motywami, tekstami utworów i obsługą ponad 20 języków
 nav-features = Funkcje
 nav-install = Zainstaluj
 nav-download = Pobierz
@@ -15,7 +15,7 @@ nav-lang-label = Język
 ## Hero
 hero-title-1 = Twoja muzyka.
 hero-title-2 = Po twojemu.
-hero-desc = Kopuz to nowoczesny, lekki odtwarzacz muzyki zbudowany w Rust i Dioxus. Skanuj lokalne foldery, streamuj z Jellyfin lub Navidrome i przeglądaj bibliotekę jak chcesz.
+hero-desc = Kopuz to szybki i lekki odtwarzacz muzyki do codziennego słuchania. Odtwarzaj muzykę z lokalnych folderów lub połącz się z Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud i Spotify — wszystko w jednej bibliotece.
 hero-cta-download = Pobierz
 hero-cta-github = Zobacz na GitHub
 hero-screenshot-alt = Kopuz — widok główny
@@ -28,23 +28,33 @@ features-source-local = Pliki lokalne
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
 features-source-subsonic = Subsonic API
+features-source-nextcloud = Nextcloud
 features-source-ytmusic = YouTube Music
+features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
 feat-local-title = Lokalnie + Streaming
-feat-local-desc = Wskaż lokalny folder lub połącz z Jellyfin / Subsonic (Navidrome). Mieszaj jak chcesz.
+feat-local-desc = Dodaj lokalne foldery lub połącz się z Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud i Spotify. Łącz dowolne źródła we wspólnej bibliotece.
 feat-theming-title = Motywy
 feat-theming-desc = Dynamiczne motywy z pełną kontrolą zmiennych kolorów. Zbuduj własny motyw od zera lub wybierz preset.
 feat-native-title = Integracja natywna
 feat-native-desc = MPRIS na Linux, Now Playing na macOS, System Media Transport na Windows. W pełni podpięte.
+feat-android-title = Android
+feat-android-desc = Wersja ARM64 przystosowana do ekranów telefonów, z gestami przesuwania, przyciskami odtwarzania losowego i powtarzania w powiadomieniu multimedialnym oraz trybem AMOLED na Androidzie 7.0 lub nowszym.
 feat-lyrics-title = Zsynchronizowany tekst
-feat-lyrics-desc = Przewijany tekst w czasie rzeczywistym, zsynchronizowany lub zwykły, automatyczne przewijanie za muzyką.
+feat-lyrics-desc = Teksty utworów zsynchronizowane standardowo lub słowo po słowie, a także teksty zwykłe. Do tego przerwy instrumentalne, wyśrodkowany aktywny wers, rozmycie głębi oraz ręczna lub automatyczna korekta czasu.
 feat-eq-title = Equalizer
 feat-eq-desc = 5-pasmowy equalizer z wbudowanymi presetami i pełną kontrolą nad dźwiękiem.
 feat-fav-title = Ulubione i playlisty
 feat-fav-desc = Oznaczaj utwory lokalnie lub synchronizuj ulubione z serwerem. Twórz playlisty, dodawaj całe albumy naraz.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = Wbudowany scrobbling ListenBrainz. Użytkownicy Jellyfin mogą też używać wtyczki listenbrainz.
+feat-radio-title = Radio internetowe
+feat-radio-desc = Odtwarzaj stacje internetowe z katalogów radiowych wraz z metadanymi strumienia i aktualnie odtwarzanego utworu.
+feat-offline-title = Pobieranie offline
+feat-offline-desc = Pobieraj obsługiwane utwory ze zdalnych źródeł, aby słuchać bez połączenia z siecią.
+feat-fonts-title = Niestandardowe czcionki interfejsu
+feat-fonts-desc = Wybierz własną czcionkę interfejsu i korzystaj z niej wraz z wbudowanymi motywami.
 feat-discord-title = Discord RPC
 feat-discord-desc = Pokaż znajomym czego słuchasz dzięki wbudowanemu Discord Rich Presence. Bez konfiguracji.
 feat-search-title = Wyszukiwanie
@@ -63,6 +73,10 @@ feat-channels-title = Tryby kanałów
 feat-channels-desc = Stereo, Mono, Tylko-Lewy, Tylko-Prawy i zamiana L/R. Precyzyjna kontrola kanałów audio.
 feat-youtube-title = YouTube Music
 feat-youtube-desc = Pełny backend streamingowy ze stroną Discover w stylu Spotify, bogatymi profilami artystów i radiem mix. Zaloguj się, aby uzyskać dostęp do biblioteki, polubionej muzyki i playlist — lub przeglądaj anonimowo.
+feat-applemusic-title = Apple Music
+feat-applemusic-desc = Przeglądaj katalog i swoją bibliotekę, synchronizuj ulubione, dodawaj lub usuwaj utwory z playlist, uruchamiaj radio, pobieraj utwory i korzystaj z tekstów synchronizowanych słowo po słowie. Odtwarzanie na komputerach wymaga Widevine.
+feat-nextcloud-title = Nextcloud
+feat-nextcloud-desc = Połącz się przez WebDAV, wybierz foldery biblioteki osobno dla każdego serwera, odtwarzaj strumieniowo lub pobieraj utwory, zapisuj okładki w pamięci podręcznej i określaj czas trwania na podstawie nagłówków plików.
 feat-metadata-title = Zdjęcia artystów
 feat-metadata-desc = Wybierz źródło zdjęć artystów: okładka pierwszego albumu (domyślnie) lub prawdziwe zdjęcia artystów pobierane z serwera Jellyfin lub Subsonic, z automatycznym przełączaniem awaryjnym.
 feat-debug-title = Logi i raporty awarii
@@ -111,8 +125,8 @@ install-aur-desc = Zainstaluj preferowanym helperem:
 install-aur-note-1 = Wymaga
 install-aur-note-2 = { " " }zainstalowanego najpierw w wersji zgodnej z dioxus 0.7.x.
 install-flatpak-title = Flatpak
-install-flatpak-desc = Zainstaluj z manifestu źródłowego:
-install-flatpak-note = Listing Flathub wkrótce.
+install-flatpak-desc = Zainstaluj Kopuz z serwisu Flathub:
+install-flatpak-note = Aktualizacje będą dostarczane w ramach standardowego procesu aktualizacji Flatpak.
 install-appimage-title = AppImage
 install-appimage-desc-1 = Pobierz z GitHub Releases i uruchom bezpośrednio. Wymaga
 install-appimage-desc-2 = { " " }i
@@ -149,6 +163,18 @@ donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jT
 donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
 donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
 
+## Nextcloud
+nextcloud-title = Konfiguracja Nextcloud
+nextcloud-subtitle = Dodaj go w sekcji Ustawienia → Serwery mediów → Dodaj → Nextcloud.
+nextcloud-connect-title = Użyj hasła aplikacji
+nextcloud-connect-desc = Podaj bazowy adres URL Nextcloud, nazwę użytkownika i hasło aplikacji utworzone w sekcji Ustawienia Nextcloud → Bezpieczeństwo. Hasło aplikacji możesz w każdej chwili unieważnić.
+nextcloud-folders-title = Wybierz foldery biblioteki
+nextcloud-folders-desc = Wybierz co najmniej jeden folder dla każdego źródła. Kopuz odczytuje strukturę folderów WebDAV, zapisuje dostępne okładki w pamięci podręcznej i sprawdza nagłówki plików, aby ustalić czas trwania utworów.
+nextcloud-webdav-title = Bezpośrednia obsługa WebDAV
+nextcloud-webdav-desc = Biblioteka odwzorowuje układ folderów i nie udostępnia playlist ani radia. Jeśli Nextcloud Music udostępnia interfejs API Subsonic, użyj tego źródła, aby uzyskać bogatsze metadane i playlisty.
+nextcloud-playback-title = Odtwarzaj strumieniowo lub pobieraj
+nextcloud-playback-desc = Odtwarzaj pliki bezpośrednio z serwera lub pobieraj je do słuchania offline bez przesyłania dźwięku przez infrastrukturę Kopuz.
+
 ## YouTube Music
 ytmusic-title = Konfiguracja YouTube Music
 ytmusic-subtitle = Dodaj z Ustawienia → Serwery mediów → Dodaj → YouTube Music.
@@ -163,6 +189,18 @@ ytmusic-anon-desc = Bez logowania, bez ciasteczek. Przeglądaj, wyszukuj, otwier
 ytmusic-premium-title = Utwory Premium
 ytmusic-premium-desc-1 = Utwory zablokowane przez Music Premium przełączają się na lokalne
 ytmusic-premium-desc-2 = { " " }rozwiązanie, gdy główna ścieżka zwraca UNPLAYABLE, więc jego zainstalowanie pomaga. Tryb anonimowy w ogóle nie odtwarza treści tylko dla Premium.
+
+## Apple Music
+applemusic-title = Konfiguracja Apple Music
+applemusic-subtitle = Dodaj go w sekcji Ustawienia → Serwery mediów → Dodaj → Apple Music.
+applemusic-signin-title = Zaloguj się lub wklej token
+applemusic-signin-desc = Na komputerze Kopuz otwiera Apple Music w izolowanym profilu przeglądarki z rodziny Chromium. Zamiast tego możesz ręcznie wkleić media-user-token.
+applemusic-playback-title = Widevine na komputerach
+applemusic-playback-desc = Odtwarzanie Apple Music wymaga komponentu Widevine CDM udostępnianego przez zainstalowaną przeglądarkę lub usługę wtyczek Mozilli. Kopuz nie dostarcza tego komponentu.
+applemusic-features-title = Co otrzymujesz
+applemusic-features-desc = Przeglądanie katalogu i biblioteki, synchronizacja ulubionych, dodawanie i usuwanie utworów z playlist, radio utworów i playlist, pobieranie oraz teksty synchronizowane słowo po słowie.
+applemusic-android-title = Obsługa na Androidzie
+applemusic-android-desc = Logowanie korzysta z WebView w aplikacji, ale odtwarzanie Apple Music nie jest jeszcze obsługiwane na Androidzie.
 
 ## SoundCloud
 soundcloud-title = Konfiguracja SoundCloud
@@ -224,13 +262,13 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz — Music Player
-home-meta-desc = Kopuz to nowoczesny, lekki odtwarzacz muzyki zbudowany w Rust i Dioxus. Streamuj z Jellyfin lub Navidrome, przeglądaj pliki lokalne, zsynchronizowany tekst, equalizer, motywy i więcej.
-home-meta-keywords = Kopuz, odtwarzacz muzyki, Rust, Dioxus, Jellyfin, Navidrome, open source, Linux, macOS, Windows, MPRIS, tekst piosenek
+home-meta-desc = Kopuz to nowoczesny, lekki odtwarzacz muzyki na komputery i urządzenia z Androidem. Odtwarzaj pliki lokalne lub połącz się z Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud i Spotify. Odtwarzanie Apple Music jest obecnie dostępne tylko na komputerach.
+home-meta-keywords = Kopuz, odtwarzacz muzyki, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, teksty utworów, equalizer
 og-title = Kopuz — Music Player
-og-desc = Nowoczesny, lekki odtwarzacz muzyki zbudowany w Rust. Pliki lokalne, Jellyfin, Navidrome, zsynchronizowany tekst, equalizer, Discord RPC i więcej. Darmowy i open source.
+og-desc = Nowoczesny, lekki odtwarzacz muzyki na komputery i urządzenia z Androidem, obsługujący pliki lokalne i podłączone źródła. Zsynchronizowane teksty, motywy, korektor i więcej.
 og-image-alt = Odtwarzacz muzyki Kopuz
 twitter-title = Kopuz — Music Player
-twitter-desc = Nowoczesny, lekki odtwarzacz muzyki zbudowany w Rust. Darmowy i open source.
+twitter-desc = Nowoczesny, lekki odtwarzacz muzyki obsługujący pliki lokalne oraz Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud i Spotify.
 
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }
