@@ -323,11 +323,8 @@ pre code {
    ============================================================ */
 
 .hero {
+    max-width: 760px;
     padding: 64px 0 72px;
-    display: grid;
-    grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.35fr);
-    gap: 60px;
-    align-items: center;
 }
 .hero h1 {
     margin-bottom: 24px;
@@ -347,20 +344,6 @@ pre code {
     line-height: 1.55;
 }
 .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
-.hero-right { min-width: 0; }
-.hero-screenshot {
-    width: 100%;
-    display: block;
-    border: 1px solid var(--line);
-    border-radius: 2px;
-}
-.hero-screenshot-button {
-    width: 100%; display: block; background: none;
-    border: none; padding: 0; cursor: zoom-in;
-}
-.hero-screenshot-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.hero-screenshot-button:hover .hero-screenshot { border-color: var(--muted); }
-.hero-right-label { display: none; }
 
 /* ── buttons ── */
 .btn-primary, .btn-secondary {
@@ -644,55 +627,6 @@ pre code {
 }
 
 /* ============================================================
-   LIGHTBOX
-   ============================================================ */
-
-.lightbox {
-    position: fixed; inset: 0;
-    background: rgba(10, 8, 6, 0.85);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000; cursor: pointer;
-    padding: 20px;
-}
-.lightbox-box {
-    display: flex;
-    flex-direction: column;
-    max-width: 90vw;
-    max-height: 92vh;
-    cursor: default;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: var(--surface);
-    overflow: hidden;
-}
-.lightbox-topbar {
-    display: flex; align-items: center; gap: 12px;
-    padding: 8px 8px 8px 14px; border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
-}
-.lightbox-label { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
-.lightbox-counter { font-size: 12px; color: var(--faint); }
-.lightbox-close {
-    flex: 0 0 36px; width: 36px; height: 36px;
-    display: grid; place-items: center;
-    padding: 0; border: 0; border-radius: 2px;
-    background: transparent; color: var(--text);
-    cursor: pointer; font: 400 24px/1 var(--sans);
-}
-.lightbox-close:hover { background: var(--surface-2); color: var(--accent); }
-.lightbox-close:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-.lightbox-img { display: block; max-width: 90vw; max-height: calc(92vh - 84px); object-fit: contain; }
-.lightbox-nav { display: flex; border-top: 1px solid var(--line); flex-shrink: 0; }
-.lightbox-btn {
-    flex: 1; background: none; border: none;
-    border-right: 1px solid var(--line);
-    color: var(--muted); font-size: 13px; font-weight: 600;
-    padding: 10px 0; cursor: pointer; font-family: inherit;
-}
-.lightbox-btn:last-child { border-right: none; }
-.lightbox-btn:hover { background: var(--surface-2); color: var(--text); }
-
-/* ============================================================
    GALLERY (legacy, kept quiet)
    ============================================================ */
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
@@ -754,7 +688,6 @@ pre code {
    ============================================================ */
 
 @media (max-width: 860px) {
-    .hero { grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr); gap: 34px; }
     .hero h1 { font-size: 54px; }
     .features-grid, .features-compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .chooser-grid, .steps-grid, .privacy-grid { grid-template-columns: 1fr; }
@@ -784,7 +717,7 @@ pre code {
     .nav-lang { width: 120px; min-width: 0; }
     .theme-toggle { flex: 0 0 34px; }
 
-    .hero { grid-template-columns: 1fr; gap: 28px; padding: 44px 0 54px; }
+    .hero { padding: 44px 0 54px; }
     .hero h1 { font-size: 52px; }
     .hero p { font-size: 17px; margin-bottom: 24px; }
 
@@ -1075,8 +1008,6 @@ body:has(.site.moe) {
 .site.moe .sponsor-card img { border: 3px solid var(--accent); }
 .site.moe .sponsor-monthly img { border-color: #ff2d95; }
 .site.moe .sponsor-one-time img { border-color: #cdb4ff; }
-
-.site.moe .lightbox-box { border: 4px ridge #ff5fa2; border-radius: 0; }
 
 /* VT323 runs tiny at label sizes. Small labels use the sans font in moe,
    and anything that stays pixel-mono gets bumped up. */

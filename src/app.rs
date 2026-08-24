@@ -1365,46 +1365,7 @@ fn Hero() -> impl IntoView {
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" class="btn-secondary">{move_tr!("hero-cta-github")}</a>
                 </div>
             </div>
-            <HeroScreenshot/>
         </section>
-    }
-}
-
-#[component]
-fn HeroScreenshot() -> impl IntoView {
-    let expanded: RwSignal<bool> = RwSignal::new(false);
-
-    view! {
-        <div class="hero-right">
-            <button
-                type="button"
-                class="hero-screenshot-button"
-                aria-label=move_tr!("hero-screenshot-alt")
-                on:click=move |_| expanded.set(true)
-            >
-                <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="hero-screenshot"/>
-            </button>
-        </div>
-
-        <Show when=move || expanded.get()>
-            <div class="lightbox" on:click=move |_| expanded.set(false)>
-                <div class="lightbox-box hero-lightbox-box" on:click=move |ev| ev.stop_propagation()>
-                    <div class="lightbox-topbar">
-                        <span class="lightbox-label">{move_tr!("hero-screenshot-alt")}</span>
-                        <button
-                            type="button"
-                            class="lightbox-close"
-                            aria-label="Close image preview"
-                            on:click=move |ev| {
-                                ev.stop_propagation();
-                                expanded.set(false);
-                            }
-                        >"×"</button>
-                    </div>
-                    <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="lightbox-img hero-lightbox-img"/>
-                </div>
-            </div>
-        </Show>
     }
 }
 

@@ -84,16 +84,6 @@ test("logo returns to the home page without browser errors", async ({ page }) =>
   expect(browserErrors).toEqual([]);
 });
 
-test("hero preview closes from its close button", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Kopuz home screen" }).click();
-
-  const lightbox = page.locator(".lightbox");
-  await expect(lightbox).toBeVisible();
-  await page.getByRole("button", { name: "Close image preview" }).click();
-  await expect(lightbox).toHaveCount(0);
-});
-
 test.describe("site themes", () => {
   test("follows the OS scheme and persists an explicit choice", async ({
     context,
