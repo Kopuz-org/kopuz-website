@@ -10,7 +10,6 @@ releases_to_keep="${DEPLOY_RELEASES_TO_KEEP:-5}"
 healthcheck_attempts="${DEPLOY_HEALTHCHECK_ATTEMPTS:-30}"
 healthcheck_delay="${DEPLOY_HEALTHCHECK_DELAY:-2}"
 expected_cargo_leptos_version="cargo-leptos 0.3.6"
-expected_wasm_bindgen_version="wasm-bindgen 0.2.127"
 releases_dir="$deploy_root/releases"
 shared_dir="$deploy_root/shared"
 current_link="$deploy_root/current"
@@ -114,16 +113,13 @@ if [[ -f "$HOME/.cargo/env" ]]; then
 fi
 export PATH="$HOME/.cargo/bin:$PATH"
 
-for command_name in cargo cmp curl flock sudo systemctl wasm-bindgen; do
+for command_name in cargo cmp curl flock sudo systemctl; do
   require_command "$command_name"
 done
 
 actual_cargo_leptos_version="$(cargo leptos --version 2>/dev/null || true)"
 [[ "$actual_cargo_leptos_version" == "$expected_cargo_leptos_version" ]] || \
   fail "expected $expected_cargo_leptos_version, found ${actual_cargo_leptos_version:-nothing}"
-actual_wasm_bindgen_version="$(wasm-bindgen --version 2>/dev/null || true)"
-[[ "$actual_wasm_bindgen_version" == "$expected_wasm_bindgen_version" ]] || \
-  fail "expected $expected_wasm_bindgen_version, found ${actual_wasm_bindgen_version:-nothing}"
 cmp -s "$source_dir/systemd/$service_name" "$installed_unit" || \
   fail "$installed_unit differs from the repository; reinstall it and run systemctl daemon-reload"
 

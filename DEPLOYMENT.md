@@ -16,13 +16,12 @@ kopuz-website/
 
 ## 1. Prepare the homeserver
 
-Run the setup as `temidaradev`. The server needs `git`, `rsync`, `curl`, `flock` from `util-linux`, a C toolchain, Rust, `cargo-leptos` 0.3.6, and `wasm-bindgen-cli` 0.2.127. Install the OS packages using the server's package manager, then run:
+Run the setup as `temidaradev`. The server needs `git`, `rsync`, `curl`, `flock` from `util-linux`, a C toolchain, Rust, and `cargo-leptos` 0.3.6. Install the OS packages using the server's package manager, then run:
 
 ```bash
 rustup toolchain install 1.96.0 --profile minimal \
   --target wasm32-unknown-unknown
 cargo +1.96.0 install --version 0.3.6 --locked cargo-leptos
-cargo +1.96.0 install --version 0.2.127 --locked wasm-bindgen-cli
 
 install -d -m 0755 /home/temidaradev/Projects/kopuz-website
 git clone https://github.com/Kopuz-org/kopuz-website.git \
@@ -125,7 +124,7 @@ The two SSH secret values come from these local files:
 
 | Secret | Source |
 | --- | --- |
-| `DEPLOY_SSH_PRIVATE_KEY` | Entire contents of `~/.ssh/kopuz-website-ci`, without the `.pub` suffix |
+| `DEPLOY_SSH_PRIVATE_KEY_B64` | Single-line Base64 encoding of `~/.ssh/kopuz-website-ci` (`base64 -w 0 ~/.ssh/kopuz-website-ci`) |
 | `DEPLOY_SSH_KNOWN_HOSTS` | Entire verified contents of `kopuz-website-known-hosts` |
 
 Keep the private key unencrypted because the Actions runner cannot answer a passphrase prompt. The matching `.pub` file belongs only in the server's `authorized_keys`.
@@ -146,7 +145,7 @@ On the **Secrets** tab, add:
 | --- | --- |
 | `TS_OAUTH_CLIENT_ID` | Client ID shown after generating the Tailscale OAuth credential |
 | `TS_OAUTH_SECRET` | Client secret shown once after generating that credential |
-| `DEPLOY_SSH_PRIVATE_KEY` | `~/.ssh/kopuz-website-ci` |
+| `DEPLOY_SSH_PRIVATE_KEY_B64` | Base64-encoded `~/.ssh/kopuz-website-ci` |
 | `DEPLOY_SSH_KNOWN_HOSTS` | `kopuz-website-known-hosts` |
 
 From this repository, the equivalent GitHub CLI commands are:
@@ -155,7 +154,7 @@ From this repository, the equivalent GitHub CLI commands are:
 gh variable set DEPLOY_HOST --body 'YOUR_SERVER_TAILSCALE_NAME'
 gh secret set TS_OAUTH_CLIENT_ID
 gh secret set TS_OAUTH_SECRET
-gh secret set DEPLOY_SSH_PRIVATE_KEY < ~/.ssh/kopuz-website-ci
+base64 -w 0 ~/.ssh/kopuz-website-ci | gh secret set DEPLOY_SSH_PRIVATE_KEY_B64
 gh secret set DEPLOY_SSH_KNOWN_HOSTS < kopuz-website-known-hosts
 ```
 

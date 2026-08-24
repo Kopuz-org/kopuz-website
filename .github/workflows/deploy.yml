@@ -39,9 +39,6 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             ~/.cargo/bin/cargo-leptos
-            ~/.cargo/bin/wasm-bindgen
-            ~/.cargo/bin/wasm-bindgen-test-runner
-            ~/.cargo/bin/wasm2es6js
             target/
           key: ${{ runner.os }}-cargo-cl0.3.6-wb0.2.127-${{ hashFiles('Cargo.lock', 'rust-toolchain.toml') }}
           restore-keys: |
@@ -52,11 +49,6 @@ jobs:
           cargo_leptos_version="$(cargo leptos --version 2>/dev/null || true)"
           if [[ "$cargo_leptos_version" != 'cargo-leptos 0.3.6' ]]; then
             cargo install --version 0.3.6 --locked --force cargo-leptos
-          fi
-
-          wasm_bindgen_version="$(wasm-bindgen --version 2>/dev/null || true)"
-          if [[ "$wasm_bindgen_version" != 'wasm-bindgen 0.2.127' ]]; then
-            cargo install --version 0.2.127 --locked --force wasm-bindgen-cli
           fi
 
       - name: Check formatting
@@ -86,11 +78,11 @@ jobs:
           DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
           TS_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           TS_OAUTH_SECRET: ${{ secrets.TS_OAUTH_SECRET }}
-          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          DEPLOY_SSH_PRIVATE_KEY_B64: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY_B64 }}
           DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
         run: |
           missing=0
-          for name in DEPLOY_HOST TS_OAUTH_CLIENT_ID TS_OAUTH_SECRET DEPLOY_SSH_PRIVATE_KEY DEPLOY_SSH_KNOWN_HOSTS; do
+          for name in DEPLOY_HOST TS_OAUTH_CLIENT_ID TS_OAUTH_SECRET DEPLOY_SSH_PRIVATE_KEY_B64 DEPLOY_SSH_KNOWN_HOSTS; do
             if [[ -z "${!name}" ]]; then
               echo "::error::GitHub variable or secret ${name} is not configured"
               missing=1
@@ -108,13 +100,14 @@ jobs:
 
       - name: Configure SSH
         env:
-          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          DEPLOY_SSH_PRIVATE_KEY_B64: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY_B64 }}
           DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
         run: |
           install -d -m 0700 "$HOME/.ssh"
-          printf '%s\n' "$DEPLOY_SSH_PRIVATE_KEY" > "$HOME/.ssh/deploy_key"
+          printf '%s' "$DEPLOY_SSH_PRIVATE_KEY_B64" | base64 --decode > "$HOME/.ssh/deploy_key"
           printf '%s\n' "$DEPLOY_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
           chmod 0600 "$HOME/.ssh/deploy_key" "$HOME/.ssh/known_hosts"
+          ssh-keygen -y -f "$HOME/.ssh/deploy_key" >/dev/null
 
       - name: Synchronize source
         env:
