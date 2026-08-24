@@ -68,6 +68,22 @@ test.describe("site routes", () => {
   }
 });
 
+test("logo returns to the home page without browser errors", async ({ page }) => {
+  const browserErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") browserErrors.push(message.text());
+  });
+  page.on("pageerror", (error) => browserErrors.push(error.message));
+
+  await page.goto("/features");
+  await page.locator(".nav-logo").click();
+
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveTitle("Kopuz Music Player");
+  await expect(page.locator("main h1")).toContainText("Local files.");
+  expect(browserErrors).toEqual([]);
+});
+
 test.describe("site themes", () => {
   test("follows the OS scheme and persists an explicit choice", async ({
     context,

@@ -1,4 +1,5 @@
 use fluent_templates::static_loader;
+use leptos::context::Provider;
 use leptos::prelude::*;
 use leptos_fluent::{leptos_fluent, move_tr, I18n};
 use leptos_meta::{provide_meta_context, Link, Meta, MetaTags, Stylesheet, Title};
@@ -731,6 +732,10 @@ pub fn App() -> impl IntoView {
         initial_language_from_navigator: true,
     };
 
+    // Root metadata runs under an owner that does not inherit App's context
+    // during client-side navigation, so pass I18n explicitly.
+    let home_i18n = expect_context::<I18n>();
+
     view! {
         <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
         <Link rel="icon" href="/favicon.ico"/>
@@ -743,7 +748,10 @@ pub fn App() -> impl IntoView {
         <Meta name="twitter:image" content="https://kopuz.moe/banner.png"/>
         <Router>
             <Routes fallback=|| view! { <NotFoundPage/> }.into_view()>
-                <Route path=StaticSegment("") view=HomePage/>
+                <Route
+                    path=StaticSegment("")
+                    view=move || view! { <HomePage i18n=home_i18n/> }
+                />
                 <Route path=StaticSegment("features") view=crate::pages::FeaturesPage/>
                 <Route path=StaticSegment("download") view=crate::pages::DownloadPage/>
                 <Route path=StaticSegment("guides") view=crate::pages::GuidesPage/>
@@ -1011,35 +1019,37 @@ pub(crate) fn ThemeColorMeta() -> impl IntoView {
 }
 
 #[component]
-fn HomePage() -> impl IntoView {
+fn HomePage(i18n: I18n) -> impl IntoView {
     let theme = provide_site_theme();
     view! {
-        <Title text=move_tr!("home-title")/>
-        <Meta name="description" content=move_tr!("home-meta-desc")/>
-        <Meta name="keywords" content=move_tr!("home-meta-keywords")/>
-        <Meta name="robots" content="index, follow"/>
-        <Meta property="og:title" content=move_tr!("og-title")/>
-        <Meta property="og:description" content=move_tr!("og-desc")/>
-        <Meta property="og:url" content="https://kopuz.moe"/>
-        <Meta name="twitter:title" content=move_tr!("twitter-title")/>
-        <Meta name="twitter:description" content=move_tr!("twitter-desc")/>
-        <Link rel="canonical" href="https://kopuz.moe"/>
-        <ThemeColorMeta/>
-        <div
-            class="site"
-            class:light=move || !theme.dark.get() && !theme.moe
-            class:dark=move || theme.dark.get() && !theme.moe
-            class:moe=move || theme.moe
-        >
-            <Nav/>
-            <main>
-                <Hero/>
-                <HomeDirectory/>
-                <WhatsNew/>
-                <AboutName/>
-            </main>
-            <Footer/>
-        </div>
+        <Provider value=i18n>
+            <Title text=move_tr!(i18n, "home-title")/>
+            <Meta name="description" content=move_tr!(i18n, "home-meta-desc")/>
+            <Meta name="keywords" content=move_tr!(i18n, "home-meta-keywords")/>
+            <Meta name="robots" content="index, follow"/>
+            <Meta property="og:title" content=move_tr!(i18n, "og-title")/>
+            <Meta property="og:description" content=move_tr!(i18n, "og-desc")/>
+            <Meta property="og:url" content="https://kopuz.moe"/>
+            <Meta name="twitter:title" content=move_tr!(i18n, "twitter-title")/>
+            <Meta name="twitter:description" content=move_tr!(i18n, "twitter-desc")/>
+            <Link rel="canonical" href="https://kopuz.moe"/>
+            <ThemeColorMeta/>
+            <div
+                class="site"
+                class:light=move || !theme.dark.get() && !theme.moe
+                class:dark=move || theme.dark.get() && !theme.moe
+                class:moe=move || theme.moe
+            >
+                <Nav/>
+                <main>
+                    <Hero/>
+                    <HomeDirectory/>
+                    <WhatsNew/>
+                    <AboutName/>
+                </main>
+                <Footer/>
+            </div>
+        </Provider>
     }
 }
 
