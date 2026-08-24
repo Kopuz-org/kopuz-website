@@ -1391,7 +1391,15 @@ fn HeroScreenshot() -> impl IntoView {
                 <div class="lightbox-box hero-lightbox-box" on:click=move |ev| ev.stop_propagation()>
                     <div class="lightbox-topbar">
                         <span class="lightbox-label">{move_tr!("hero-screenshot-alt")}</span>
-                        <button class="lightbox-close" on:click=move |ev| { ev.stop_propagation(); expanded.set(false); } >"×"</button>
+                        <button
+                            type="button"
+                            class="lightbox-close"
+                            aria-label="Close image preview"
+                            on:click=move |ev| {
+                                ev.stop_propagation();
+                                expanded.set(false);
+                            }
+                        >"×"</button>
                     </div>
                     <img src="/normal-home.png" alt=move_tr!("hero-screenshot-alt") class="lightbox-img hero-lightbox-img"/>
                 </div>
