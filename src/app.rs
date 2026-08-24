@@ -94,7 +94,7 @@ impl ReleaseNotes {
             tag_name: "Latest release".into(),
             name: "Kopuz release notes".into(),
             published_at: String::new(),
-            body: "Release notes are temporarily unavailable. Please check again soon.".into(),
+            body: "Could not load release notes.".into(),
         }
     }
 }
@@ -759,8 +759,8 @@ pub fn App() -> impl IntoView {
 ///
 /// Discord only accepts http/https in a Rich Presence button, so the button
 /// points here and this hands off to `kopuz://`. The queue rides in the URL
-/// **fragment**, which browsers never send to the server — so despite this being
-/// an SSR app, nobody's queue ever reaches the box or its logs. Everything below
+/// **fragment**, which browsers never send to the server. Despite this being an
+/// SSR app, nobody's queue ever reaches the box or its logs. Everything below
 /// runs client-side for the same reason: there is nothing to render on the
 /// server, because the server cannot see the payload.
 #[component]
@@ -782,7 +782,7 @@ fn JoinPage() -> impl IntoView {
         payload.set(Some(encoded.clone()));
 
         // Navigating to an unregistered scheme fails silently, so there is no
-        // error to catch — assume failure after a beat and offer the download
+        // error to catch. Assume failure after a beat and offer the download
         // instead. A handoff that worked has already backgrounded this tab.
         if let Some(win) = web_sys::window() {
             let _ = win.location().set_href(&format!("kopuz://j/{encoded}"));
@@ -1154,14 +1154,13 @@ fn DonationBanner() -> impl IntoView {
         <div class="donation-banner" role="group" aria-label="Support the developer">
             <div class="donation-banner-label">
                 <i class="fa-solid fa-heart"></i>
-                <span>"Support Notice"</span>
+                <span>"Funding"</span>
             </div>
             <p class="donation-banner-text">
-                <strong>"Temidaradev here."</strong>
-                " I am a student and I do not have a stable income. I work very hard on this project, and I need your help."
-                " Please consider donating so I can raise "
+                <strong>"I'm Temidaradev, Kopuz's developer."</strong>
+                " I am a student without a stable income. My sponsorship goal is "
                 <strong class="donation-goal">"$400/month"</strong>
-                " as general income support while I study and cover things I need to buy."
+                " while I study."
             </p>
             <div class="donation-banner-meta">
                 <Suspense fallback=|| view! { <div class="donation-progress-wrap"></div> }>
@@ -1176,8 +1175,8 @@ fn DonationBanner() -> impl IntoView {
                                 <p class="donation-progress">
                                     <i class="fa-brands fa-github"></i>
                                     " GitHub Sponsors: "
-                                    <strong>{format!("${}/{} per month", stats.current_monthly_income, stats.monthly_goal)}</strong>
-                                    {format!(" ({}% goal, {} current sponsors)", stats.progress_percent, stats.current_sponsors)}
+                                    <strong>{format!("${} of ${} per month", stats.current_monthly_income, stats.monthly_goal)}</strong>
+                                    {format!(" ({}% of goal; monthly sponsors: {})", stats.progress_percent, stats.current_sponsors)}
                                 </p>
                                 <div
                                     class="donation-progress-track"
@@ -1853,13 +1852,13 @@ pub(crate) fn Requirements() -> impl IntoView {
                     <i class="fa-solid fa-chevron-down disclosure-icon"></i>
                 </summary>
                 <div class="requirements-list disclosure-body">
-                <div><strong>"Spotify"</strong><span>"Premium is required for playback; a personal Client ID and supported browser are required."</span></div>
+                <div><strong>"Spotify"</strong><span>"Playback requires Premium, a personal Client ID, and a supported browser."</span></div>
                 <div><strong>"Apple Music"</strong><span>"Desktop playback requires a Widevine CDM. Sign-in works on Android, but playback is not yet supported there."</span></div>
-                <div><strong>"Nextcloud"</strong><span>"Raw WebDAV has no playlists or radio; prefer a Subsonic endpoint from Nextcloud Music when available."</span></div>
-                <div><strong>"Android"</strong><span>"Release APKs require arm64-v8a and Android 7.0 / API 24 or newer. Desktop integrations such as Discord RPC and the system tray are unavailable."</span></div>
-                <div><strong>"AppImage"</strong><span>"Requires webkit2gtk-4.1 and GTK 3. The tray additionally needs an appindicator library."</span></div>
-                <div><strong>"YouTube Music"</strong><span>"Anonymous mode cannot play Premium-only tracks; yt-dlp can help signed-in playback fallbacks."</span></div>
-                <div><strong>"Crossfade"</strong><span>"Available for native desktop playback; browser-owned Spotify audio uses normal transitions."</span></div>
+                <div><strong>"Nextcloud"</strong><span>"Raw WebDAV does not support playlists or radio. Use a Subsonic endpoint from Nextcloud Music when available."</span></div>
+                <div><strong>"Android"</strong><span>"Release APKs require arm64-v8a and Android 7.0 / API 24 or newer. Discord RPC and the system tray are unavailable."</span></div>
+                <div><strong>"AppImage"</strong><span>"Requires webkit2gtk-4.1 and GTK 3. The tray also requires an appindicator library."</span></div>
+                <div><strong>"YouTube Music"</strong><span>"Anonymous mode cannot play Premium-only tracks. Signed-in playback can fall back to yt-dlp."</span></div>
+                <div><strong>"Crossfade"</strong><span>"Crossfade works with native desktop playback. It does not apply to Spotify audio played in the browser."</span></div>
                 <div><strong>"Spotify limits"</strong><span>"Development Mode limits search, makes playlists read-only, and disables downloads, radio, tag editing, and Kopuz audio effects."</span></div>
                 </div>
             </details>
@@ -2082,7 +2081,7 @@ pub(crate) fn Sponsors() -> impl IntoView {
 
 #[component]
 pub(crate) fn WebButton() -> impl IntoView {
-    // Classic 88x31 "link back" button — the old-web tradition. The SVG and PNG
+    // Classic 88x31 "link back" button from the old web. The SVG and PNG
     // live in /public and are served from a stable, absolute URL so anyone can
     // embed the button on their own site from anywhere.
     const SITE: &str = "https://kopuz.moe";

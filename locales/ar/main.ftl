@@ -3,7 +3,7 @@ lang-name = العربية
 
 ## Nav
 nav-new = جديد
-nav-announce = ملفات محلية + مصادر موسيقى متصلة في تطبيق واحد، مع سمات وكلمات أغانٍ وأكثر من 20 لغة
+nav-announce = ملفات محلية وخدمات متصلة على أجهزة سطح المكتب وAndroid
 nav-features = الميزات
 nav-install = تثبيت
 nav-download = تنزيل
@@ -13,16 +13,16 @@ nav-gallery = المعرض
 nav-lang-label = اللغة
 
 ## Hero
-hero-title-1 = موسيقاك.
-hero-title-2 = على طريقتك.
-hero-desc = Kopuz مشغل موسيقى سريع وخفيف للاستماع اليومي. شغّل المجلدات المحلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify، وكلها في مكتبة واحدة.
+hero-title-1 = ملفات محلية.
+hero-title-2 = خدمات متصلة.
+hero-desc = يشغّل Kopuz الموسيقى من المجلدات المحلية وJellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify.
 hero-cta-download = تنزيل
 hero-cta-github = اعرض على GitHub
-hero-screenshot-alt = Kopuz — الواجهة الرئيسية
+hero-screenshot-alt = شاشة Kopuz الرئيسية
 
 ## Features
-features-title = كل ما تحتاجه.
-features-chip = بلا اشتراكات. بلا تتبع. موسيقاك فقط.
+features-title = الميزات
+features-chip = تشغيل محلي، وخدمات متصلة، وكلمات أغانٍ، وقوائم تشغيل، وسمات.
 features-works-with = يعمل مع
 features-source-local = الملفات المحلية
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = أظهر لأصدقائك ما تستمع إليه عبر Di
 feat-search-title = البحث
 feat-search-desc = بحث في الوقت الفعلي عبر الفنانين والألبومات والمقاطع. نتائج فورية أثناء الكتابة.
 feat-genre-title = التصفح حسب النوع
-feat-genre-desc = تصفح مكتبتك بالكامل حسب النوع — يعمل للملفات المحلية وموسيقى الخادم.
+feat-genre-desc = تصفّح الملفات المحلية وموسيقى الخادم حسب النوع.
 feat-logs-title = سجلات الاستماع
 feat-logs-desc = عدد التشغيلات يُتتبع محليًا. اعرف ما تستمع إليه أكثر بمرور الوقت.
 feat-i18n-title = i18n
@@ -72,7 +72,7 @@ feat-crossfade-desc = امزج انتقالات المقاطع لتشغيل أك
 feat-channels-title = أوضاع القنوات
 feat-channels-desc = ستيريو، أحادي، يسار فقط، يمين فقط، وتبديل L/R. تحكم دقيق بقنوات الصوت.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = خلفية بث كاملة مع صفحة Discover بأسلوب Spotify، وملفات فنانين غنية، وراديو ميكس. سجّل الدخول للوصول إلى مكتبتك وموسيقاك المفضلة وقوائم تشغيلك — أو تصفّح بشكل مجهول.
+feat-youtube-desc = تصفّح YouTube Music، وابحث في الكتالوج، واعرض صفحات الفنانين، وابدأ راديو المزيج. سجّل الدخول للوصول إلى مكتبتك والمقاطع التي أعجبتك وقوائم التشغيل، أو تصفّح من دون تسجيل الدخول.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = تصفّح الكتالوج ومكتبتك، وزامِن المفضلة، وأضف المقاطع إلى قوائم التشغيل أو أزلها منها، وابدأ الراديو، ونزّل المقاطع، واستخدم كلمات أغانٍ موقّتة كلمة بكلمة. يتطلب التشغيل على سطح المكتب Widevine.
 feat-nextcloud-title = Nextcloud
@@ -90,11 +90,18 @@ feat-miniplayer-desc = تراكب مدمج لِما يُشغَّل الآن يم
 feat-tray-title = التصغير إلى شريط النظام
 feat-tray-desc = أغلق إلى أيقونة شريط النظام بدلًا من الإنهاء، لتستمر الموسيقى في التشغيل بالخلفية. بدّله في الإعدادات.
 feat-badges-title = شارات نوع الملف
-feat-badges-desc = تعرض المقاطع المحلية شارة صيغة صغيرة — MP3 و FLAC و WAV والمزيد — مباشرة في صف المقطع.
+feat-badges-desc = تعرض صفوف المقاطع المحلية صيغة الملف، مثل MP3 أو FLAC أو WAV.
+
+## What's new
+new-subtitle = ملاحظات الإصدارات وتغييرات المشروع.
+
+## Install chooser
+chooser-title = اختر طريقة التنزيل
+chooser-subtitle = اختر نظام التشغيل أو اعرض جميع طرق التثبيت.
 
 ## Performance
-perf-title = مبني ليكون سريعًا.
-perf-subtitle = مكتبات كبيرة. بدء فوري. بلا تجمد.
+perf-title = الأداء
+perf-subtitle = عمليات مسح تدريجية، وتحميل متزامن، وتخزين مؤقت للصور، ومعالجة في الخلفية.
 perf-skip-label = تخطّي المفهرسة مسبقًا
 perf-skip-desc = إعادة المسح تعالج الملفات الجديدة فقط. 10 آلاف مقطع + 5 جديدة = قراءة 5 فقط.
 perf-parallel-label = بدء متوازٍ
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = . فتح فوري تقريبًا.
 perf-art-label = ذاكرة مؤقتة للأغلفة
 perf-art-desc = الأغلفة تُستخرج مرة واحدة وتُحفظ على القرص. لا إعادة فك تشفير عند العرض المتكرر.
 perf-lazy-label = تحميل الصور البطيء
-perf-lazy-desc = مئات الأغلفة في نتائج البحث — لا تُحمَّل حتى تظهر.
+perf-lazy-desc = تُحمَّل الصور عند ظهورها على الشاشة.
 perf-io-label = I/O غير معطِّل
 perf-io-desc-1 = العمل الثقيل يجري على خيوط
 perf-io-desc-2 = { " " }. الواجهة تبقى متجاوبة أثناء مسح المكتبة الكامل.
@@ -138,9 +145,24 @@ install-macos-chip = Apple Silicon
 install-macos-desc-1 = نزِّل ملف
 install-macos-desc-2 = { " " }من GitHub Releases. إن منع macOS، أزل علم الحجر:
 
+## Feature guides
+guides-title = الأدلة
+guides-subtitle = أدلة إعداد خدمات الموسيقى والميزات الرئيسية.
+
+## Privacy and storage
+privacy-title = الخصوصية والتخزين
+privacy-subtitle = يخزّن Kopuz بيانات التطبيق على حاسوبك. يرسل طلبات إلى الخدمات المتصلة عند استخدام ميزاتها.
+
+## Requirements
+requirements-subtitle = يختلف الدعم حسب المنصة والخدمة المتصلة.
+
+## Community
+community-title = المساهمة في Kopuz
+community-subtitle = أبلغ عن الأخطاء، أو اقترح تغييرات، أو ترجم الواجهة، أو ساهم في الشفرة البرمجية.
+
 ## Platforms
 platforms-title = تنزيل Kopuz
-platforms-subtitle = مجاني ومفتوح المصدر. كل الإصدارات على GitHub.
+platforms-subtitle = نزّل الإصدارات الحالية لأنظمة Windows وmacOS وLinux وAndroid.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Silicon فقط
@@ -149,10 +171,10 @@ platforms-download = تنزيل ←
 
 ## Support
 support-title = ادعم Kopuz
-support-subtitle = Kopuz مجاني ومفتوح المصدر. الدعم يبقيه حيًا.
+support-subtitle = Kopuz مجاني ومفتوح المصدر. تدعم التبرعات تطوير المشروع.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — أو أرسل عملة مشفرة —
+support-crypto-divider = أو أرسل عملات مشفرة
 support-usdt-note = (شبكة Solana)
 
 donate-title = تبرعات بالعملات المشفرة
@@ -179,16 +201,16 @@ nextcloud-playback-desc = شغّل الملفات مباشرة من خادمك �
 ytmusic-title = إعداد YouTube Music
 ytmusic-subtitle = أضِفه من الإعدادات ← خوادم الوسائط ← إضافة ← YouTube Music.
 ytmusic-token-title = لا حاجة لمساعد
-ytmusic-token-desc-1 = يحتاج التشغيل المجهول إلى رمز PO token للمحتوى، وهو ما يصكّه Kopuz الآن داخل التطبيق عبر WebView مخفي يشغّل BotGuard من YouTube. أما العملية الفرعية
-ytmusic-token-desc-2 = { " " }القديمة فقد اختفت — لا شيء للتثبيت، وهو يعمل داخل Flatpak.
+ytmusic-token-desc-1 = لا يتطلب التشغيل المجهول برنامجًا مساعدًا. يتولى Kopuz معالجة الرمز
+ytmusic-token-desc-2 = { " " }داخل التطبيق، بما في ذلك Flatpak.
 ytmusic-signin-title = سجّل الدخول عبر متصفح
-ytmusic-signin-desc = يفتح Kopuz تسجيل دخول Google في ملف متصفح معزول — لا يُمسّ تصفحك العادي أبدًا — ويستخرج ملفات تعريف الجلسة. يفتح ذلك مكتبتك وموسيقاك المفضلة وقوائم تشغيلك والفنانين المتابَعين.
-ytmusic-signin-note = على Windows، تسجيل الدخول عبر المتصفح معطّل حاليًا؛ يحصل مستخدمو Windows على الوضع المجهول تلقائيًا. يعمل تسجيل الدخول على Linux و macOS.
+ytmusic-signin-desc = يفتح Kopuz تسجيل الدخول إلى Google في ملف تعريف متصفح منفصل ويقرأ ملفات تعريف ارتباط الجلسة الناتجة. يتيح تسجيل الدخول الوصول إلى مكتبتك والمقاطع التي أعجبتك وقوائم التشغيل والفنانين الذين تتابعهم.
+ytmusic-signin-note = اختر متصفحًا مثبتًا من عائلة Chromium، مثل Chrome أو Chromium أو Brave أو Edge أو Vivaldi أو Helium.
 ytmusic-anon-title = الوضع المجهول
 ytmusic-anon-desc = بلا تسجيل دخول، بلا ملفات تعريف. تصفّح، وابحث، وافتح صفحات الفنانين والألبومات وقوائم التشغيل، وابدأ راديو ميكس، وشغّل المقاطع العامة. الإعجاب وعروض المكتبة معطّلة.
 ytmusic-premium-title = مقاطع Premium
-ytmusic-premium-desc-1 = المقاطع المقفلة بـ Music Premium تلجأ إلى تحليل محلي عبر
-ytmusic-premium-desc-2 = { " " }عندما يُرجع المسار الأساسي UNPLAYABLE، لذا فإن تثبيته يساعد. لا يمكن للوضع المجهول تشغيل محتوى Premium حصريًا على الإطلاق.
+ytmusic-premium-desc-1 = قد تحتاج بعض المقاطع المتاحة لمشتركي Premium فقط إلى الرجوع محليًا إلى yt-dlp.
+ytmusic-premium-desc-2 = لا يمكن للوضع المجهول تشغيل محتوى Premium الحصري.
 
 ## Apple Music
 applemusic-title = إعداد Apple Music
@@ -206,20 +228,20 @@ applemusic-android-desc = يتم تسجيل الدخول عبر WebView داخل
 soundcloud-title = إعداد SoundCloud
 soundcloud-subtitle = أضِفه من الإعدادات ← خوادم الوسائط ← إضافة ← SoundCloud.
 soundcloud-signin-title = تسجيل دخول لمرة واحدة عبر المتصفح
-soundcloud-signin-desc = لا حاجة لكتابة رابط أو كلمة مرور. يفتح Kopuz soundcloud.com/signin في ملف متصفح معزول — لا يُمسّ تصفحك العادي أبدًا — ويسحب oauth_token الخاص بالجلسة. اختر أي متصفح من عائلة Chromium تستخدم (Chrome أو Chromium أو Brave أو Edge أو Vivaldi).
+soundcloud-signin-desc = لا يلزم إدخال عنوان URL أو كلمة مرور أو رمز يدوي. يفتح Kopuz تسجيل الدخول إلى SoundCloud في ملف تعريف معزول باستخدام Chrome أو Chromium أو Brave أو Edge أو Vivaldi أو Helium. تؤدي إزالة المصدر إلى حذف ملف التعريف.
 soundcloud-features-title = ما الذي تحصل عليه
 soundcloud-features-desc = البحث، وتشغيل المقاطع (MP3 التدريجي بالإضافة إلى بثوث Go+ AAC/HLS)، ومقاطعك المفضلة كمفضلات، وقوائم تشغيل للقراءة فقط، والإعجاب وإلغاؤه. تؤدي إزالة المصدر إلى تنظيف ملفه المعزول.
 
 ## Sponsors
 sponsors-title = الرعاة
-sponsors-subtitle = أشخاص يبقون Kopuz مستمرًا.
+sponsors-subtitle = رعاة المشروع الحاليون والسابقون.
 sponsors-cta = كن راعيًا
 
 ## Gallery
-gallery-page-title = المعرض — Kopuz Music Player
-gallery-page-desc = لقطات Kopuz أثناء العمل — الرئيسية، المكتبة، قائمة التشغيل، مشغل ملء الشاشة، الكلمات، محرر السمات والمزيد.
+gallery-page-title = معرض Kopuz Music Player
+gallery-page-desc = لقطات شاشة للشاشة الرئيسية والمكتبة وقوائم التشغيل والمشغّل وكلمات الأغاني ومحرر السمات والإعدادات.
 gallery-title = المعرض
-gallery-subtitle = لقطات Kopuz — أنماط Normal و Modern.
+gallery-subtitle = لقطات شاشة لنمطي Normal وModern.
 gallery-home = الرئيسية
 gallery-home-styles = Normal / Modern
 gallery-library = المكتبة
@@ -240,12 +262,12 @@ gallery-downloader-title = المُنزِّل
 gallery-downloader-desc = نزِّل المقاطع مباشرة من داخل Kopuz.
 gallery-prev = ← السابق
 gallery-next = التالي →
-gallery-label-normal-home = Normal — الرئيسية
-gallery-label-modern-home = Modern — الرئيسية
-gallery-label-normal-library = Normal — المكتبة
-gallery-label-vaxry-library = Vaxry — المكتبة
-gallery-label-normal-playlist = Normal — قائمة التشغيل
-gallery-label-modern-playlist = Modern — قائمة التشغيل
+gallery-label-normal-home = الرئيسية (Normal)
+gallery-label-modern-home = الرئيسية (Modern)
+gallery-label-normal-library = المكتبة (Normal)
+gallery-label-vaxry-library = المكتبة (Vaxry)
+gallery-label-normal-playlist = قائمة التشغيل (Normal)
+gallery-label-modern-playlist = قائمة التشغيل (Modern)
 gallery-label-fullscreen = مشغل ملء الشاشة
 gallery-label-fullscreen-lyrics = كلمات ملء الشاشة
 gallery-label-search = البحث
@@ -254,20 +276,20 @@ gallery-label-player-settings = إعدادات المشغل
 gallery-label-downloader = المُنزِّل
 
 ## Footer
-footer-license = رخصة MIT — مجاني ومفتوح المصدر
+footer-license = رخصة MIT، مجاني ومفتوح المصدر
 footer-github = GitHub
 footer-releases = الإصدارات
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz: مشغل موسيقى
 home-meta-desc = Kopuz مشغل موسيقى حديث وخفيف لأجهزة سطح المكتب وAndroid. شغّل الملفات المحلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify؛ ولا يتوفر تشغيل Apple Music حاليًا إلا على سطح المكتب.
 home-meta-keywords = Kopuz، مشغل موسيقى، Jellyfin، Navidrome، Subsonic، Nextcloud، YouTube Music، Apple Music، SoundCloud، Spotify، مفتوح المصدر، Android، Linux، macOS، Windows، كلمات أغانٍ، موازِن صوت
-og-title = Kopuz — Music Player
+og-title = Kopuz: مشغل موسيقى
 og-desc = مشغل موسيقى حديث وخفيف للملفات المحلية والمصادر المتصلة على سطح المكتب وAndroid. كلمات أغانٍ متزامنة وسمات وموازِن صوت والمزيد.
 og-image-alt = مشغل موسيقى Kopuz
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz: مشغل موسيقى
 twitter-desc = مشغل موسيقى حديث وخفيف للملفات المحلية وJellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify.
 
 ## User-friendly aliases (synced with EN updates)

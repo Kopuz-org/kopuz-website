@@ -3,7 +3,7 @@ lang-name = Română
 
 ## Nav
 nav-new = Nou
-nav-announce = Fișiere locale + surse de muzică conectate într-o singură aplicație, cu teme, versuri și peste 20 de limbi
+nav-announce = Fișiere locale și servicii conectate pe desktop și Android
 nav-features = Funcții
 nav-install = Instalează
 nav-download = Descarcă
@@ -13,16 +13,16 @@ nav-gallery = Galerie
 nav-lang-label = Limbă
 
 ## Hero
-hero-title-1 = Muzica ta.
-hero-title-2 = În felul tău.
-hero-desc = Kopuz este un player de muzică rapid și ușor, potrivit pentru ascultarea de zi cu zi. Redă muzică din foldere locale sau conectează-te la Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud și Spotify, toate într-o singură bibliotecă.
+hero-title-1 = Fișiere locale.
+hero-title-2 = Servicii conectate.
+hero-desc = Kopuz redă muzică din foldere locale și de pe Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud și Spotify.
 hero-cta-download = Descarcă
 hero-cta-github = Vezi pe GitHub
-hero-screenshot-alt = Kopuz — vizualizare acasă
+hero-screenshot-alt = Ecranul principal Kopuz
 
 ## Features
-features-title = Tot ce ai nevoie.
-features-chip = Fără abonamente. Fără urmărire. Doar muzica ta.
+features-title = Funcții
+features-chip = Redare locală, servicii conectate, versuri, liste de redare și teme.
 features-works-with = Funcționează cu
 features-source-local = Fișiere locale
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = Arată prietenilor ce asculți cu Discord Rich Presence înc
 feat-search-title = Căutare
 feat-search-desc = Căutare în timp real în artiști, albume și piese. Rezultate instant în timp ce scrii.
 feat-genre-title = Răsfoire după gen
-feat-genre-desc = Răsfoiește toată biblioteca după gen — funcționează pentru fișiere locale și muzică de pe server.
+feat-genre-desc = Răsfoiește toată biblioteca după gen. Funcția este disponibilă pentru fișiere locale și muzică de pe server.
 feat-logs-title = Jurnale de ascultare
 feat-logs-desc = Contoare de redare urmărite local. Vezi ce asculți cu adevărat mai mult de-a lungul timpului.
 feat-i18n-title = i18n
@@ -73,7 +73,7 @@ feat-channels-title = Moduri canal
 feat-channels-desc = Stereo, Mono, Doar-Stânga, Doar-Dreapta și schimbare L/R. Control fin al canalelor audio.
 
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Backend complet de streaming cu o pagină Discover în stil Spotify, profiluri bogate de artiști și radio mix. Conectează-te pentru biblioteca ta, Liked Music și liste — sau răsfoiește anonim.
+feat-youtube-desc = Backend complet de streaming cu o pagină Discover în stil Spotify, profiluri bogate de artiști și radio mix. Conectează-te pentru bibliotecă, Liked Music și liste. Poți răsfoi și anonim.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = Răsfoiește catalogul și biblioteca ta, sincronizează favoritele, adaugă sau elimină piese din listele de redare, pornește radio, descarcă piese și folosește versuri sincronizate la nivel de cuvânt. Redarea pe desktop necesită Widevine.
 feat-nextcloud-title = Nextcloud
@@ -91,11 +91,18 @@ feat-miniplayer-desc = O suprapunere compactă a piesei curente pe care o poți 
 feat-tray-title = Minimizare în tray
 feat-tray-desc = Închide într-o pictogramă din tray-ul de sistem în loc să închizi aplicația, astfel încât redarea continuă în fundal. Comută în Setări.
 feat-badges-title = Insigne tip de fișier
-feat-badges-desc = Piesele locale afișează o mică insignă de format — MP3, FLAC, WAV și altele — chiar în rândul piesei.
+feat-badges-desc = Rândurile pieselor locale afișează formatul fișierului, de exemplu MP3, FLAC sau WAV.
+
+## What's new
+new-subtitle = Note de versiune și modificări ale proiectului.
+
+## Install chooser
+chooser-title = Alege versiunea de descărcat
+chooser-subtitle = Alege sistemul de operare sau vezi toate metodele de instalare.
 
 ## Performance
-perf-title = Construit să fie rapid.
-perf-subtitle = Biblioteci mari. Pornire instantanee. Fără înghețuri.
+perf-title = Performanță
+perf-subtitle = Scanări incrementale, încărcare concurentă, memorarea imaginilor în cache și procesare în fundal.
 perf-skip-label = Sări peste cele deja indexate
 perf-skip-desc = Rescanările procesează doar fișiere noi. 10k piese + 5 noi = doar 5 citite.
 perf-parallel-label = Pornire paralelă
@@ -104,7 +111,7 @@ perf-parallel-desc-2 = . Deschidere aproape instantanee.
 perf-art-label = Cache coperți album
 perf-art-desc = Coperțile sunt extrase o singură dată, salvate pe disc. Nu sunt niciodată decodificate din nou la vizionări repetate.
 perf-lazy-label = Încărcare leneșă imagini
-perf-lazy-desc = Sute de coperți de album în rezultatele căutării — niciuna nu se încarcă până nu este vizibilă.
+perf-lazy-desc = Rezultatele căutării pot conține sute de coperți. Imaginile se încarcă atunci când devin vizibile.
 perf-io-label = I/O non-blocant
 perf-io-desc-1 = Lucrul greu rulează pe fire
 perf-io-desc-2 = { " " }. UI rămâne receptiv în timpul scanărilor complete ale bibliotecii.
@@ -141,7 +148,7 @@ install-macos-desc-2 = { " " }de pe GitHub Releases. Dacă macOS blochează, șt
 
 ## Platforms
 platforms-title = Descarcă Kopuz
-platforms-subtitle = Gratuit și open source. Toate versiunile pe GitHub.
+platforms-subtitle = Descarcă versiunile curente pentru Windows, macOS, Linux și Android.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Doar Apple Silicon
@@ -150,10 +157,10 @@ platforms-download = Descarcă →
 
 ## Support
 support-title = Susține Kopuz
-support-subtitle = Kopuz e gratuit și open source. Sprijinul îl ține în viață.
+support-subtitle = Kopuz este gratuit și open source. Donațiile susțin dezvoltarea.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — sau trimite cripto —
+support-crypto-divider = sau trimite criptomonede
 support-usdt-note = (rețeaua Solana)
 
 donate-title = Donații cripto
@@ -181,9 +188,9 @@ ytmusic-title = Configurare YouTube Music
 ytmusic-subtitle = Adaugă-l din Setări → Servere media → Adaugă → YouTube Music.
 ytmusic-token-title = Niciun helper necesar
 ytmusic-token-desc-1 = Redarea anonimă necesită un content PO token, pe care Kopuz îl generează acum în aplicație cu un WebView ascuns ce rulează BotGuard de la YouTube. Vechiul
-ytmusic-token-desc-2 = { " " }subproces a dispărut — nimic de instalat, iar funcționează în Flatpak.
+ytmusic-token-desc-2 = { " " }subproces nu mai este folosit. Nu trebuie instalat nimic, iar funcția merge și în Flatpak.
 ytmusic-signin-title = Conectare cu un browser
-ytmusic-signin-desc = Kopuz deschide conectarea Google într-un profil de browser izolat — navigarea ta obișnuită nu este niciodată atinsă — și extrage cookie-urile de sesiune. Deblochează biblioteca ta, Liked Music, listele și artiștii urmăriți.
+ytmusic-signin-desc = Kopuz deschide conectarea Google într-un profil separat de browser și preia cookie-urile sesiunii. Nu folosește profilul tău obișnuit. Conectarea oferă acces la bibliotecă, Liked Music, liste și artiștii urmăriți.
 ytmusic-signin-note = Pe Windows, conectarea prin browser este momentan dezactivată; utilizatorii Windows primesc automat modul anonim. Conectarea funcționează pe Linux și macOS.
 ytmusic-anon-title = Mod anonim
 ytmusic-anon-desc = Fără conectare, fără cookie-uri. Răsfoiește, caută, deschide pagini de artiști, albume și liste, pornește radio mix și redă piese publice. Aprecierea și vizualizările bibliotecii sunt dezactivate.
@@ -207,20 +214,35 @@ applemusic-android-desc = Conectarea folosește un WebView în aplicație, dar r
 soundcloud-title = Configurare SoundCloud
 soundcloud-subtitle = Adaugă-l din Setări → Servere media → Adaugă → SoundCloud.
 soundcloud-signin-title = Conectare unică prin browser
-soundcloud-signin-desc = Niciun URL sau parolă de tastat. Kopuz deschide soundcloud.com/signin într-un profil de browser izolat — navigarea ta obișnuită nu este niciodată atinsă — și preia oauth_token-ul sesiunii. Alege ce browser din familia Chromium să folosești (Chrome, Chromium, Brave, Edge sau Vivaldi).
+soundcloud-signin-desc = Nu trebuie să introduci un URL sau o parolă. Kopuz deschide soundcloud.com/signin într-un profil separat de browser și preia oauth_token-ul sesiunii. Alege un browser din familia Chromium: Chrome, Chromium, Brave, Edge sau Vivaldi.
 soundcloud-features-title = Ce primești
 soundcloud-features-desc = Căutare, redare de piese (MP3 progresiv plus fluxuri Go+ AAC/HLS), piesele tale Liked ca favorite, liste doar pentru citire și apreciere/dezapreciere. Eliminarea sursei curăță profilul său izolat.
 
+## Feature guides
+guides-title = Ghiduri
+guides-subtitle = Ghiduri de configurare pentru servicii muzicale și funcții principale.
+
+## Privacy and storage
+privacy-title = Confidențialitate și stocare
+privacy-subtitle = Kopuz stochează datele aplicației pe computerul tău. Trimite cereri către serviciile conectate când le folosești funcțiile.
+
+## Requirements
+requirements-subtitle = Compatibilitatea variază în funcție de platformă și de serviciul conectat.
+
+## Community
+community-title = Contribuie la Kopuz
+community-subtitle = Raportează erori, propune modificări, traduce interfața sau contribuie cu cod.
+
 ## Sponsors
 sponsors-title = Sponsori
-sponsors-subtitle = Oameni care țin Kopuz în mișcare.
+sponsors-subtitle = Sponsorii actuali și foști ai proiectului.
 sponsors-cta = Devino sponsor
 
 ## Gallery
-gallery-page-title = Galerie — Kopuz Music Player
-gallery-page-desc = Capturi cu Kopuz în acțiune — acasă, bibliotecă, listă, player fullscreen, versuri, editor de teme și altele.
+gallery-page-title = Galerie | Player muzical Kopuz
+gallery-page-desc = Capturi de ecran cu pagina principală, biblioteca, listele de redare, playerul, versurile, editorul de teme și setările.
 gallery-title = Galerie
-gallery-subtitle = Capturi cu Kopuz — stilurile Normal și Modern.
+gallery-subtitle = Capturi de ecran cu stilurile Normal și Modern.
 gallery-home = Acasă
 gallery-home-styles = Normal / Modern
 gallery-library = Bibliotecă
@@ -241,12 +263,12 @@ gallery-downloader-title = Descărcător
 gallery-downloader-desc = Descarcă piese direct din Kopuz.
 gallery-prev = ← Anterior
 gallery-next = Următor →
-gallery-label-normal-home = Normal — Acasă
-gallery-label-modern-home = Modern — Acasă
-gallery-label-normal-library = Normal — Bibliotecă
-gallery-label-vaxry-library = Vaxry — Bibliotecă
-gallery-label-normal-playlist = Normal — Listă
-gallery-label-modern-playlist = Modern — Listă
+gallery-label-normal-home = Normal: Acasă
+gallery-label-modern-home = Modern: Acasă
+gallery-label-normal-library = Normal: Bibliotecă
+gallery-label-vaxry-library = Vaxry: Bibliotecă
+gallery-label-normal-playlist = Normal: Listă
+gallery-label-modern-playlist = Modern: Listă
 gallery-label-fullscreen = Player fullscreen
 gallery-label-fullscreen-lyrics = Versuri fullscreen
 gallery-label-search = Căutare
@@ -255,20 +277,20 @@ gallery-label-player-settings = Setări player
 gallery-label-downloader = Descărcător
 
 ## Footer
-footer-license = Licență MIT — Gratuit & Open Source
+footer-license = Licență MIT | Gratuit și open source
 footer-github = GitHub
 footer-releases = Versiuni
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Player muzical Kopuz
 home-meta-desc = Kopuz este un player de muzică modern și ușor pentru desktop și Android. Redă fișiere locale sau conectează-te la Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud și Spotify; redarea din Apple Music este disponibilă momentan doar pe desktop.
 home-meta-keywords = Kopuz, player de muzică, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, versuri, egalizator
-og-title = Kopuz — Music Player
+og-title = Player muzical Kopuz
 og-desc = Player de muzică modern și ușor pentru fișiere locale și surse conectate, pe desktop și Android. Versuri sincronizate, teme, egalizator și altele.
 og-image-alt = Player de muzică Kopuz
-twitter-title = Kopuz — Music Player
+twitter-title = Player muzical Kopuz
 twitter-desc = Player de muzică modern și ușor pentru fișiere locale, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud și Spotify.
 
 ## User-friendly aliases (synced with EN updates)

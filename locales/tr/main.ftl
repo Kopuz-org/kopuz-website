@@ -3,7 +3,7 @@ lang-name = Türkçe
 
 ## Nav
 nav-new = Yeni
-nav-announce = Yerel dosyalar ve bağlı müzik kaynakları tek uygulamada; temalar, şarkı sözleri ve 20'den fazla dil
+nav-announce = Masaüstü ve Android'de yerel dosyalar ve bağlı hizmetler
 nav-features = Özellikler
 nav-install = Kur
 nav-download = İndir
@@ -13,16 +13,16 @@ nav-gallery = Galeri
 nav-lang-label = Dil
 
 ## Hero
-hero-title-1 = Müziğin.
-hero-title-2 = Senin tarzın.
-hero-desc = Kopuz, günlük dinleme için hızlı ve hafif bir müzik çalardır. Yerel klasörlerinden müzik çal veya Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'a bağlan; tümünü tek bir kütüphanede kullan.
+hero-title-1 = Yerel dosyalar.
+hero-title-2 = Bağlı hizmetler.
+hero-desc = Kopuz yerel klasörlerdeki müziklerin yanı sıra Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify hizmetlerindeki müzikleri de çalar.
 hero-cta-download = İndir
 hero-cta-github = GitHub'da Gör
-hero-screenshot-alt = Kopuz — ana ekran
+hero-screenshot-alt = Kopuz ana ekranı
 
 ## Features
-features-title = İhtiyacın olan her şey.
-features-chip = Abonelik yok. Takip yok. Sadece müziğin.
+features-title = Özellikler
+features-chip = Yerel oynatma, bağlı hizmetler, şarkı sözleri, çalma listeleri ve temalar.
 features-works-with = Şununla çalışır
 features-source-local = Yerel dosyalar
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = Gömülü Discord Rich Presence ile arkadaşlarına ne dinle
 feat-search-title = Arama
 feat-search-desc = Sanatçı, albüm ve parçalarda gerçek zamanlı arama. Yazarken anlık sonuçlar.
 feat-genre-title = Türe Göre Gezinme
-feat-genre-desc = Tüm kütüphaneni türe göre gez — yerel dosyalar ve sunucu müziği için çalışır.
+feat-genre-desc = Tüm kütüphaneni türe göre gez. Yerel dosyalar ve sunucu müzikleriyle çalışır.
 feat-logs-title = Dinleme Günlükleri
 feat-logs-desc = Çalma sayıları yerel olarak takip edilir. Gerçekte ne dinlediğini zaman içinde gör.
 feat-i18n-title = i18n
@@ -72,7 +72,7 @@ feat-crossfade-desc = Daha pürüzsüz oynatma için parça geçişlerini harman
 feat-channels-title = Kanal Modları
 feat-channels-desc = Stereo, Mono, Sadece-Sol, Sadece-Sağ ve L/R takas. İnce ses kanalı kontrolü.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Spotify tarzı bir Discover sayfası, zengin sanatçı profilleri ve mix radyosu ile tam akış arka ucu. Kütüphanen, Beğenilen Müzik ve çalma listelerin için giriş yap — ya da anonim olarak gez.
+feat-youtube-desc = Spotify tarzı Discover sayfası, sanatçı profilleri ve mix radyosu sunan bir akış arka ucu. Kütüphanen, Beğenilen Müzik ve çalma listelerin için giriş yap veya anonim olarak gez.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = Kataloğa ve kütüphanene göz at, favorileri senkronize et, çalma listelerine parça ekle veya listelerden kaldır, radyo başlat, parçaları indir ve kelime zamanlamalı şarkı sözlerini kullan. Masaüstünde oynatma Widevine gerektirir.
 feat-nextcloud-title = Nextcloud
@@ -90,11 +90,18 @@ feat-miniplayer-desc = Daha küçük bir görünüm için alt çubuktan açıp k
 feat-tray-title = Sistem Tepsisine Küçült
 feat-tray-desc = Çıkmak yerine bir sistem tepsisi simgesine kapan, böylece oynatma arka planda çalışmaya devam eder. Ayarlar'dan aç/kapat.
 feat-badges-title = Dosya Türü Rozetleri
-feat-badges-desc = Yerel parçalar parça satırında küçük bir format rozeti gösterir — MP3, FLAC, WAV ve daha fazlası.
+feat-badges-desc = Yerel parçaların satırında MP3, FLAC veya WAV gibi küçük bir format rozeti gösterilir.
+
+## Yenilikler
+new-subtitle = Sürüm notları ve projedeki değişiklikler.
+
+## İndirme seçimi
+chooser-title = İndirme seçeneğini belirle
+chooser-subtitle = İşletim sistemini seç veya tüm kurulum yöntemlerini görüntüle.
 
 ## Performance
-perf-title = Hızlı olmak için yapıldı.
-perf-subtitle = Büyük kütüphaneler. Anlık başlatma. Donma yok.
+perf-title = Performans
+perf-subtitle = Artımlı taramalar, eşzamanlı yükleme, görüntü önbelleği ve arka plan işlemleri.
 perf-skip-label = İndekslenmişleri atla
 perf-skip-desc = Yeniden taramalar sadece yeni dosyaları işler. 10k parça + 5 yeni = sadece 5 okunur.
 perf-parallel-label = Paralel başlatma
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = { " " }ile. Neredeyse anlık açılış.
 perf-art-label = Albüm kapağı önbelleği
 perf-art-desc = Kapaklar bir kez çıkarılır, diske kaydedilir. Tekrar görüntülemede asla yeniden çözülmez.
 perf-lazy-label = Tembel görüntü yükleme
-perf-lazy-desc = Arama sonuçlarındaki yüzlerce kapak — görünür hale gelene kadar hiçbiri yüklenmez.
+perf-lazy-desc = Arama sonuçlarındaki kapaklar ancak görünür hale geldiğinde yüklenir.
 perf-io-label = Bloklamayan I/O
 perf-io-desc-1 = Ağır işler
 perf-io-desc-2 = { " " }thread'lerinde çalışır. Tam kütüphane taraması sırasında UI duyarlı kalır.
@@ -140,7 +147,7 @@ install-macos-desc-2 = { " " }dosyasını indir. macOS engellerse karantina bayr
 
 ## Platforms
 platforms-title = Kopuz'u İndir
-platforms-subtitle = Ücretsiz ve açık kaynak. Tüm sürümler GitHub'da.
+platforms-subtitle = Windows, macOS, Linux ve Android için güncel sürümleri indir.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Sadece Apple Silicon
@@ -149,10 +156,10 @@ platforms-download = İndir →
 
 ## Support
 support-title = Kopuz'u Destekle
-support-subtitle = Kopuz ücretsiz ve açık kaynak. Destek onu yaşatır.
+support-subtitle = Kopuz ücretsiz ve açık kaynaklıdır. Bağışlar geliştirmeyi destekler.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — veya kripto gönder —
+support-crypto-divider = veya kripto gönder
 support-usdt-note = (Solana zinciri)
 
 donate-title = Kripto Bağışları
@@ -180,9 +187,9 @@ ytmusic-title = YouTube Music Kurulumu
 ytmusic-subtitle = Ayarlar → Medya sunucuları → Ekle → YouTube Music yolundan ekle.
 ytmusic-token-title = Yardımcı gerekmez
 ytmusic-token-desc-1 = Anonim oynatma bir içerik PO token'ı gerektirir, ki Kopuz bunu artık YouTube'un BotGuard'ını çalıştıran gizli bir WebView ile uygulama içinde üretir. Eski
-ytmusic-token-desc-2 = { " " }alt süreci gitti — kurulacak bir şey yok ve Flatpak içinde çalışır.
+ytmusic-token-desc-2 = { " " }alt süreç artık kullanılmıyor. Kurulacak bir şey yok ve bu özellik Flatpak içinde çalışır.
 ytmusic-signin-title = Tarayıcıyla giriş yap
-ytmusic-signin-desc = Kopuz, Google girişini izole bir tarayıcı profilinde açar — normal taraman asla etkilenmez — ve oturum çerezlerini çıkarır. Kütüphanenin, Beğenilen Müzik, çalma listeleri ve takip edilen sanatçıların kilidini açar.
+ytmusic-signin-desc = Kopuz, Google girişini izole bir tarayıcı profilinde açar ve oturum çerezlerini çıkarır. Giriş, kütüphaneni, Beğenilen Müzik'i, çalma listelerini ve takip ettiğin sanatçıları erişime açar.
 ytmusic-signin-note = Windows'ta tarayıcı girişi şu anda devre dışı; Windows kullanıcıları otomatik olarak anonim mod alır. Giriş Linux ve macOS'ta çalışır.
 ytmusic-anon-title = Anonim mod
 ytmusic-anon-desc = Giriş yok, çerez yok. Gez, ara, sanatçı, albüm ve çalma listesi sayfalarını aç, mix radyosu başlat ve herkese açık parçaları çal. Beğenme ve kütüphane görünümleri devre dışıdır.
@@ -206,20 +213,35 @@ applemusic-android-desc = Giriş için uygulama içi WebView kullanılır ancak 
 soundcloud-title = SoundCloud Kurulumu
 soundcloud-subtitle = Ayarlar → Medya sunucuları → Ekle → SoundCloud yolundan ekle.
 soundcloud-signin-title = Bir kerelik tarayıcı girişi
-soundcloud-signin-desc = Yazılacak URL veya parola yok. Kopuz, soundcloud.com/signin adresini izole bir tarayıcı profilinde açar — normal taraman asla etkilenmez — ve oturumun oauth_token'ını çeker. Hangi Chromium ailesi tarayıcısını kullanacağını seç (Chrome, Chromium, Brave, Edge veya Vivaldi).
+soundcloud-signin-desc = Yazılacak URL veya parola yok. Kopuz, soundcloud.com/signin adresini izole bir tarayıcı profilinde açar ve oturumun oauth_token'ını alır. Kullanılacak Chromium ailesi tarayıcısını seç (Chrome, Chromium, Brave, Edge veya Vivaldi).
 soundcloud-features-title = Neler elde edersin
 soundcloud-features-desc = Arama, parça oynatma (progresif MP3 artı Go+ AAC/HLS akışları), favori olarak Beğenilen parçaların, salt okunur çalma listeleri ve beğen/beğenmekten vazgeç. Kaynağı kaldırmak izole profilini temizler.
 
+## Özellik kılavuzları
+guides-title = Kılavuzlar
+guides-subtitle = Müzik hizmetleri ve önemli özellikler için kurulum kılavuzları.
+
+## Gizlilik ve depolama
+privacy-title = Gizlilik ve depolama
+privacy-subtitle = Kopuz uygulama verilerini bilgisayarında saklar. Bağlı hizmetlerin özelliklerini kullandığında bu hizmetlere istek gönderir.
+
+## Gereksinimler
+requirements-subtitle = Destek, platforma ve bağlı hizmete göre değişir.
+
+## Topluluk
+community-title = Kopuz'a katkıda bulun
+community-subtitle = Hataları bildir, değişiklik öner, arayüzü çevir veya kod katkısında bulun.
+
 ## Sponsors
 sponsors-title = Destekçiler
-sponsors-subtitle = Kopuz'u ayakta tutan insanlar.
+sponsors-subtitle = Projenin mevcut ve geçmiş destekçileri.
 sponsors-cta = Destekçi Ol
 
 ## Gallery
-gallery-page-title = Galeri — Kopuz Music Player
-gallery-page-desc = Kopuz'un ekran görüntüleri — ana sayfa, kütüphane, çalma listesi, tam ekran çalar, sözler, tema düzenleyici ve daha fazlası.
+gallery-page-title = Kopuz Müzik Çalar Galerisi
+gallery-page-desc = Ana ekranın, kütüphanenin, çalma listelerinin, çaların, şarkı sözlerinin, tema düzenleyicinin ve ayarların ekran görüntüleri.
 gallery-title = Galeri
-gallery-subtitle = Kopuz ekran görüntüleri — Normal ve Modern stilleri.
+gallery-subtitle = Normal ve Modern stillerinin ekran görüntüleri.
 gallery-home = Ana Sayfa
 gallery-home-styles = Normal / Modern
 gallery-library = Kütüphane
@@ -240,12 +262,12 @@ gallery-downloader-title = İndirici
 gallery-downloader-desc = Parçaları doğrudan Kopuz'dan indir.
 gallery-prev = ← Önceki
 gallery-next = Sonraki →
-gallery-label-normal-home = Normal — Ana Sayfa
-gallery-label-modern-home = Modern — Ana Sayfa
-gallery-label-normal-library = Normal — Kütüphane
-gallery-label-vaxry-library = Vaxry — Kütüphane
-gallery-label-normal-playlist = Normal — Çalma Listesi
-gallery-label-modern-playlist = Modern — Çalma Listesi
+gallery-label-normal-home = Normal: Ana Sayfa
+gallery-label-modern-home = Modern: Ana Sayfa
+gallery-label-normal-library = Normal: Kütüphane
+gallery-label-vaxry-library = Vaxry: Kütüphane
+gallery-label-normal-playlist = Normal: Çalma Listesi
+gallery-label-modern-playlist = Modern: Çalma Listesi
 gallery-label-fullscreen = Tam ekran çalar
 gallery-label-fullscreen-lyrics = Tam ekran sözler
 gallery-label-search = Arama
@@ -254,20 +276,20 @@ gallery-label-player-settings = Çalar ayarları
 gallery-label-downloader = İndirici
 
 ## Footer
-footer-license = MIT Lisansı — Ücretsiz ve Açık Kaynak
+footer-license = MIT Lisansı. Ücretsiz ve açık kaynak.
 footer-github = GitHub
 footer-releases = Sürümler
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz Music Player
 home-meta-desc = Kopuz, masaüstü ve Android için modern, hafif bir müzik çalardır. Yerel dosyaları çal veya Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'a bağlan; Apple Music'i oynatmak şu anda yalnızca masaüstünde destekleniyor.
 home-meta-keywords = Kopuz, müzik çalar, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, açık kaynak, Android, Linux, macOS, Windows, şarkı sözleri, ekolayzır
-og-title = Kopuz — Music Player
+og-title = Kopuz Music Player
 og-desc = Masaüstü ve Android'de yerel dosyaları ve bağlı kaynakları destekleyen modern, hafif bir müzik çalar. Senkronize şarkı sözleri, temalar, ekolayzır ve daha fazlası.
 og-image-alt = Kopuz müzik çalar
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz Music Player
 twitter-desc = Yerel dosyalar, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ve Spotify'ı destekleyen modern, hafif bir müzik çalar.
 
 ## User-friendly aliases (synced with EN updates)

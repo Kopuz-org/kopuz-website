@@ -3,15 +3,15 @@ import { expect, test } from "@playwright/test";
 const routes = [
   {
     path: "/",
-    title: "Kopuz — Music Player",
-    heading: "Your music.",
+    title: "Kopuz Music Player",
+    heading: "Local files.",
     canonical: "https://kopuz.moe",
     activeNav: "Kopuz",
   },
   {
     path: "/features",
     title: "Features | Kopuz",
-    heading: "Everything you need.",
+    heading: "Features",
     canonical: "https://kopuz.moe/features",
     activeNav: "Features",
   },
@@ -25,9 +25,9 @@ const routes = [
   {
     path: "/guides",
     title: "Guides | Kopuz",
-    heading: "Explore Kopuz",
+    heading: "Guides",
     canonical: "https://kopuz.moe/guides",
-    activeNav: "Explore Kopuz",
+    activeNav: "Guides",
   },
   {
     path: "/support",

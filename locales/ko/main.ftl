@@ -3,7 +3,7 @@ lang-name = 한국어
 
 ## Nav
 nav-new = 신규
-nav-announce = 로컬 파일과 연결된 음악 소스를 하나의 앱에서, 테마와 가사, 20개 이상의 언어까지
+nav-announce = 데스크톱과 Android에서 로컬 파일과 연결된 서비스를 이용할 수 있습니다
 nav-features = 기능
 nav-install = 설치
 nav-download = 다운로드
@@ -13,16 +13,16 @@ nav-gallery = 갤러리
 nav-lang-label = 언어
 
 ## Hero
-hero-title-1 = 당신의 음악.
-hero-title-2 = 당신의 방식으로.
-hero-desc = Kopuz는 일상적인 음악 감상을 위한 빠르고 가벼운 음악 플레이어입니다. 로컬 폴더의 음악을 재생하거나 Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify를 연결해 하나의 라이브러리에서 모두 이용하세요.
+hero-title-1 = 로컬 파일.
+hero-title-2 = 연결된 서비스.
+hero-desc = Kopuz는 로컬 폴더, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify의 음악을 재생합니다.
 hero-cta-download = 다운로드
 hero-cta-github = GitHub에서 보기
-hero-screenshot-alt = Kopuz — 홈 뷰
+hero-screenshot-alt = Kopuz 홈 화면
 
 ## Features
-features-title = 필요한 모든 것.
-features-chip = 구독 없음. 추적 없음. 오직 당신의 음악.
+features-title = 기능
+features-chip = 로컬 재생, 연결된 서비스, 가사, 재생목록 및 테마를 지원합니다.
 features-works-with = 함께 작동
 features-source-local = 로컬 파일
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = 내장 Discord Rich Presence로 친구에게 듣고 있는 �
 feat-search-title = 검색
 feat-search-desc = 아티스트, 앨범, 트랙 전반에 걸친 실시간 검색. 입력하는 즉시 결과 표시.
 feat-genre-title = 장르 탐색
-feat-genre-desc = 장르별로 전체 라이브러리 탐색 — 로컬 파일과 서버 음악 모두 작동.
+feat-genre-desc = 로컬 파일과 서버 음악을 장르별로 탐색합니다.
 feat-logs-title = 청취 로그
 feat-logs-desc = 재생 횟수를 로컬에서 추적. 시간이 지나면서 실제로 가장 많이 듣는 음악 확인.
 feat-i18n-title = i18n
@@ -92,9 +92,16 @@ feat-tray-desc = 종료하는 대신 시스템 트레이 아이콘으로 닫아 
 feat-badges-title = 파일 형식 배지
 feat-badges-desc = 로컬 트랙은 트랙 행에 바로 작은 형식 배지(MP3, FLAC, WAV 등)를 표시.
 
+## What's new
+new-subtitle = 릴리스 노트와 프로젝트 변경 사항.
+
+## Install chooser
+chooser-title = 다운로드 선택
+chooser-subtitle = 운영 체제를 선택하거나 모든 설치 방법을 확인하세요.
+
 ## Performance
-perf-title = 빠르게 설계됨.
-perf-subtitle = 대용량 라이브러리. 즉시 시작. 멈춤 없음.
+perf-title = 성능
+perf-subtitle = 증분 스캔, 동시 로딩, 이미지 캐싱 및 백그라운드 처리.
 perf-skip-label = 이미 인덱싱된 항목 건너뛰기
 perf-skip-desc = 재스캔은 새 파일만 처리. 1만 트랙 + 5개 신규 = 5개만 읽기.
 perf-parallel-label = 병렬 시작
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = { " " }로. 거의 즉시 열림.
 perf-art-label = 앨범 아트 캐싱
 perf-art-desc = 커버는 한 번 추출되어 디스크에 저장. 반복 보기 시 다시 디코딩되지 않음.
 perf-lazy-label = 지연 이미지 로딩
-perf-lazy-desc = 검색 결과의 수백 개 앨범 커버 — 화면에 보일 때까지 로드되지 않음.
+perf-lazy-desc = 앨범 커버는 화면에 나타날 때 로드됩니다.
 perf-io-label = 비차단 I/O
 perf-io-desc-1 = 무거운 작업은
 perf-io-desc-2 = { " " }스레드에서 실행. 전체 라이브러리 스캔 중에도 UI 응답 유지.
@@ -138,9 +145,24 @@ install-macos-chip = Apple Silicon
 install-macos-desc-1 = GitHub Releases에서
 install-macos-desc-2 = { " " }를 다운로드. macOS가 차단하면 격리 플래그 제거:
 
+## Feature guides
+guides-title = 가이드
+guides-subtitle = 음악 서비스 및 주요 기능 설정 가이드.
+
+## Privacy and storage
+privacy-title = 개인정보 보호 및 데이터 저장
+privacy-subtitle = Kopuz는 앱 데이터를 컴퓨터에 저장합니다. 연결된 서비스의 기능을 사용하면 해당 서비스로 요청을 보냅니다.
+
+## Requirements
+requirements-subtitle = 지원 범위는 플랫폼과 연결된 서비스에 따라 다릅니다.
+
+## Community
+community-title = Kopuz에 기여하기
+community-subtitle = 버그를 보고하거나 변경 사항을 제안하고, 인터페이스를 번역하거나 코드로 기여할 수 있습니다.
+
 ## Platforms
 platforms-title = Kopuz 다운로드
-platforms-subtitle = 무료 오픈소스. 모든 릴리스는 GitHub에 있음.
+platforms-subtitle = Windows, macOS, Linux, Android용으로 현재 제공되는 빌드를 다운로드하세요.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Silicon 전용
@@ -149,10 +171,10 @@ platforms-download = 다운로드 →
 
 ## Support
 support-title = Kopuz 후원
-support-subtitle = Kopuz는 무료 오픈소스입니다. 후원이 유지를 가능하게 합니다.
+support-subtitle = Kopuz는 무료 오픈소스 소프트웨어입니다. 후원금은 개발에 사용됩니다.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — 또는 암호화폐 전송 —
+support-crypto-divider = 또는 암호화폐 보내기
 support-usdt-note = (Solana 체인)
 
 donate-title = 암호화폐 후원
@@ -180,9 +202,9 @@ ytmusic-title = YouTube Music 설정
 ytmusic-subtitle = 설정 → 미디어 서버 → 추가 → YouTube Music에서 추가하세요.
 ytmusic-token-title = 헬퍼 불필요
 ytmusic-token-desc-1 = 익명 재생에는 콘텐츠 PO token이 필요하며, Kopuz는 이제 YouTube의 BotGuard를 실행하는 숨겨진 WebView로 앱 내에서 이를 발급합니다. 기존의
-ytmusic-token-desc-2 = { " " }서브프로세스는 사라졌습니다 — 설치할 것이 없고, Flatpak 내부에서도 작동합니다.
+ytmusic-token-desc-2 = { " " }서브프로세스는 더 이상 사용하지 않습니다. 추가 설치 없이 Flatpak에서도 작동합니다.
 ytmusic-signin-title = 브라우저로 로그인
-ytmusic-signin-desc = Kopuz는 격리된 브라우저 프로필에서 Google 로그인을 엽니다 — 평소 브라우징은 절대 건드리지 않습니다 — 그리고 세션 쿠키를 추출합니다. 라이브러리, Liked Music, 재생목록, 팔로우한 아티스트를 잠금 해제합니다.
+ytmusic-signin-desc = Kopuz는 별도의 브라우저 프로필에서 Google 로그인을 열고 세션 쿠키를 가져옵니다. 로그인하면 라이브러리, Liked Music, 재생목록 및 팔로우한 아티스트를 이용할 수 있습니다.
 ytmusic-signin-note = Windows에서는 현재 브라우저 로그인이 비활성화되어 있으며, Windows 사용자는 자동으로 익명 모드를 사용합니다. 로그인은 Linux와 macOS에서 작동합니다.
 ytmusic-anon-title = 익명 모드
 ytmusic-anon-desc = 로그인 없음, 쿠키 없음. 탐색, 검색, 아티스트, 앨범, 재생목록 페이지 열기, 믹스 라디오 시작, 공개 트랙 재생. 좋아요와 라이브러리 뷰는 비활성화됩니다.
@@ -206,20 +228,20 @@ applemusic-android-desc = 로그인에는 앱 내 WebView를 사용하지만 And
 soundcloud-title = SoundCloud 설정
 soundcloud-subtitle = 설정 → 미디어 서버 → 추가 → SoundCloud에서 추가하세요.
 soundcloud-signin-title = 일회성 브라우저 로그인
-soundcloud-signin-desc = 입력할 URL이나 비밀번호 없음. Kopuz는 격리된 브라우저 프로필에서 soundcloud.com/signin을 엽니다 — 평소 브라우징은 절대 건드리지 않습니다 — 그리고 세션의 oauth_token을 가져옵니다. 사용할 Chromium 계열 브라우저를 선택하세요 (Chrome, Chromium, Brave, Edge 또는 Vivaldi).
+soundcloud-signin-desc = URL이나 비밀번호를 입력할 필요가 없습니다. Kopuz는 별도의 브라우저 프로필에서 soundcloud.com/signin을 열고 세션의 oauth_token을 가져옵니다. Chrome, Chromium, Brave, Edge 또는 Vivaldi 중 사용할 브라우저를 선택할 수 있습니다.
 soundcloud-features-title = 제공되는 기능
 soundcloud-features-desc = 검색, 트랙 재생(프로그레시브 MP3 및 Go+ AAC/HLS 스트림), 즐겨찾기로서의 Liked 트랙, 읽기 전용 재생목록, 좋아요/좋아요 취소. 소스를 제거하면 격리된 프로필이 정리됩니다.
 
 ## Sponsors
 sponsors-title = 후원자
-sponsors-subtitle = Kopuz를 유지하는 사람들.
+sponsors-subtitle = 현재 및 이전 프로젝트 후원자.
 sponsors-cta = 후원자 되기
 
 ## Gallery
-gallery-page-title = 갤러리 — Kopuz Music Player
-gallery-page-desc = 동작 중인 Kopuz 스크린샷 — 홈, 라이브러리, 재생목록, 전체화면 플레이어, 가사, 테마 편집기 등.
+gallery-page-title = Kopuz Music Player 갤러리
+gallery-page-desc = 홈 화면, 라이브러리, 재생목록, 플레이어, 가사, 테마 편집기 및 설정 스크린샷.
 gallery-title = 갤러리
-gallery-subtitle = Kopuz 스크린샷 — Normal 및 Modern 스타일.
+gallery-subtitle = Normal 및 Modern 스타일 스크린샷.
 gallery-home = 홈
 gallery-home-styles = Normal / Modern
 gallery-library = 라이브러리
@@ -240,12 +262,12 @@ gallery-downloader-title = 다운로더
 gallery-downloader-desc = Kopuz 내에서 트랙을 직접 다운로드.
 gallery-prev = ← 이전
 gallery-next = 다음 →
-gallery-label-normal-home = Normal — 홈
-gallery-label-modern-home = Modern — 홈
-gallery-label-normal-library = Normal — 라이브러리
-gallery-label-vaxry-library = Vaxry — 라이브러리
-gallery-label-normal-playlist = Normal — 재생목록
-gallery-label-modern-playlist = Modern — 재생목록
+gallery-label-normal-home = Normal: 홈
+gallery-label-modern-home = Modern: 홈
+gallery-label-normal-library = Normal: 라이브러리
+gallery-label-vaxry-library = Vaxry: 라이브러리
+gallery-label-normal-playlist = Normal: 재생목록
+gallery-label-modern-playlist = Modern: 재생목록
 gallery-label-fullscreen = 전체화면 플레이어
 gallery-label-fullscreen-lyrics = 전체화면 가사
 gallery-label-search = 검색
@@ -254,20 +276,20 @@ gallery-label-player-settings = 플레이어 설정
 gallery-label-downloader = 다운로더
 
 ## Footer
-footer-license = MIT 라이선스 — 무료 & 오픈소스
+footer-license = MIT 라이선스(무료 오픈소스)
 footer-github = GitHub
 footer-releases = 릴리스
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz Music Player
 home-meta-desc = Kopuz는 데스크톱과 Android를 위한 현대적이고 가벼운 음악 플레이어입니다. 로컬 파일을 재생하거나 Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify에 연결할 수 있으며, Apple Music 재생은 현재 데스크톱에서만 지원됩니다.
 home-meta-keywords = Kopuz, 음악 플레이어, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, 오픈 소스, Android, Linux, macOS, Windows, 가사, 이퀄라이저
-og-title = Kopuz — Music Player
+og-title = Kopuz Music Player
 og-desc = 데스크톱과 Android에서 로컬 파일과 연결된 소스를 이용할 수 있는 현대적이고 가벼운 음악 플레이어입니다. 동기화 가사, 테마, 이퀄라이저 등 다양한 기능을 제공합니다.
 og-image-alt = Kopuz 음악 플레이어
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz Music Player
 twitter-desc = 로컬 파일, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify를 지원하는 현대적이고 가벼운 음악 플레이어입니다.
 
 ## User-friendly aliases (synced with EN updates)

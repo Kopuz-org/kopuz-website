@@ -3,7 +3,7 @@ lang-name = Magyar
 
 ## Nav
 nav-new = Új
-nav-announce = Helyi fájlok és csatlakoztatott zeneforrások egyetlen alkalmazásban, témákkal, dalszövegekkel és több mint 20 nyelven
+nav-announce = Helyi fájlok és csatlakoztatott szolgáltatások asztali rendszereken és Androidon
 nav-features = Funkciók
 nav-install = Telepítés
 nav-download = Letöltés
@@ -13,16 +13,16 @@ nav-gallery = Galéria
 nav-lang-label = Nyelv
 
 ## Hero
-hero-title-1 = A te zenéd.
-hero-title-2 = A te módodon.
-hero-desc = A Kopuz gyors, könnyű zenelejátszó a mindennapi zenehallgatáshoz. Játssz le zenét helyi mappákból, vagy csatlakozz a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify szolgáltatásokhoz, mindezt egyetlen könyvtárban.
+hero-title-1 = Helyi fájlok.
+hero-title-2 = Csatlakoztatott szolgáltatások.
+hero-desc = A Kopuz helyi mappákból, valamint a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify szolgáltatásokból játszik le zenét.
 hero-cta-download = Letöltés
 hero-cta-github = Megtekintés a GitHub-on
-hero-screenshot-alt = Kopuz — főképernyő
+hero-screenshot-alt = A Kopuz főképernyője
 
 ## Features
-features-title = Minden, amire szükséged van.
-features-chip = Nincsenek előfizetések. Nincs követés. Csak a zenéd.
+features-title = Funkciók
+features-chip = Helyi lejátszás, csatlakoztatott szolgáltatások, dalszövegek, lejátszási listák és témák.
 features-works-with = Együttműködik
 features-source-local = Helyi fájlok
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = Mutasd a barátaidnak mit hallgatsz beépített Discord Rich
 feat-search-title = Keresés
 feat-search-desc = Valós idejű keresés előadók, albumok és számok között. Azonnali eredmények gépelés közben.
 feat-genre-title = Műfaj szerinti böngészés
-feat-genre-desc = Böngészd az egész könyvtárat műfaj szerint — helyi fájlokra és szerveres zenére is működik.
+feat-genre-desc = Böngészd az egész könyvtárat műfaj szerint. Helyi fájlokkal és szerveres zenével is működik.
 feat-logs-title = Hallgatási naplók
 feat-logs-desc = Lejátszásszámlálók helyben követve. Lásd mit hallgatsz valójában a legtöbbet idővel.
 feat-i18n-title = i18n
@@ -72,7 +72,7 @@ feat-crossfade-desc = Olvaszd össze a számok közötti átmeneteket simább le
 feat-channels-title = Csatorna módok
 feat-channels-desc = Sztereó, Mono, Csak-Bal, Csak-Jobb és L/R csere. Finom hangcsatorna-vezérlés.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Teljes streaming háttér Spotify-stílusú Discover oldallal, gazdag előadói profilokkal és mix rádióval. Jelentkezz be a könyvtáradért, a Kedvelt zenéért és a lejátszási listákért — vagy böngéssz névtelenül.
+feat-youtube-desc = Teljes streaming háttér Spotify-stílusú Discover oldallal, gazdag előadói profilokkal és mix rádióval. Jelentkezz be a könyvtáradért, a Kedvelt zenéért és a lejátszási listákért. Névtelenül is böngészhetsz.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = Böngészd a katalógust és a könyvtáradat, szinkronizáld a kedvenceket, adj hozzá számokat lejátszási listákhoz, vagy távolítsd el őket, indíts rádiót, tölts le számokat, és használj szavanként időzített dalszövegeket. Az asztali lejátszáshoz Widevine szükséges.
 feat-nextcloud-title = Nextcloud
@@ -90,11 +90,18 @@ feat-miniplayer-desc = Egy kompakt most-játszott overlay, amit az alsó sávbó
 feat-tray-title = Kicsinyítés a tálcára
 feat-tray-desc = Zárj be egy rendszertálca-ikonra kilépés helyett, így a lejátszás a háttérben folytatódik. Kapcsold be a Beállításokban.
 feat-badges-title = Fájltípus-jelvények
-feat-badges-desc = A helyi számok kis formátum-jelvényt mutatnak — MP3, FLAC, WAV és több — közvetlenül a szám sorában.
+feat-badges-desc = A helyi számok sorában megjelenik a fájlformátum, például MP3, FLAC vagy WAV.
+
+## What's new
+new-subtitle = Kiadási jegyzetek és projektváltozások.
+
+## Install chooser
+chooser-title = Válassz letöltést
+chooser-subtitle = Válaszd ki az operációs rendszeredet, vagy tekintsd meg az összes telepítési módot.
 
 ## Performance
-perf-title = Gyorsnak építve.
-perf-subtitle = Nagy könyvtárak. Azonnali indítás. Nincs lefagyás.
+perf-title = Teljesítmény
+perf-subtitle = Növekményes beolvasás, párhuzamos betöltés, képgyorsítótárazás és háttérfeldolgozás.
 perf-skip-label = Már indexelt átugrása
 perf-skip-desc = Az újraszkennelések csak új fájlokat dolgoznak fel. 10k szám + 5 új = csak 5 olvasva.
 perf-parallel-label = Párhuzamos indulás
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = { " " }segítségével. Majdnem azonnali nyitás.
 perf-art-label = Borító-gyorsítótár
 perf-art-desc = A borítók egyszer kivonva, lemezre mentve. Soha többé nem dekódolva újra ismételt megtekintésnél.
 perf-lazy-label = Lusta képbetöltés
-perf-lazy-desc = Több száz borító a keresési találatokban — egy sem töltődik be amíg nem látható.
+perf-lazy-desc = Több száz borító jelenhet meg a keresési találatokban. Csak a látható képek töltődnek be.
 perf-io-label = Nem blokkoló I/O
 perf-io-desc-1 = A nehéz munka
 perf-io-desc-2 = { " " }szálakon fut. Az UI reszponzív marad teljes könyvtárszkennelés alatt.
@@ -140,7 +147,7 @@ install-macos-desc-2 = { " " }fájlt GitHub Releases-ről. Ha macOS blokkolja, t
 
 ## Platforms
 platforms-title = Kopuz letöltése
-platforms-subtitle = Ingyenes és nyílt forráskódú. Minden kiadás GitHub-on.
+platforms-subtitle = A jelenlegi kiadások Windowsra, macOS-re, Linuxra és Androidra tölthetők le.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Csak Apple Silicon
@@ -149,10 +156,10 @@ platforms-download = Letöltés →
 
 ## Support
 support-title = Támogasd a Kopuzt
-support-subtitle = A Kopuz ingyenes és nyílt forráskódú. A támogatás tartja életben.
+support-subtitle = A Kopuz ingyenes és nyílt forráskódú. Az adományok a fejlesztést támogatják.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — vagy küldj kriptót —
+support-crypto-divider = vagy küldj kriptót
 support-usdt-note = (Solana lánc)
 
 donate-title = Kripto adományok
@@ -180,9 +187,9 @@ ytmusic-title = YouTube Music beállítása
 ytmusic-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → YouTube Music útvonalon.
 ytmusic-token-title = Nincs szükség segédprogramra
 ytmusic-token-desc-1 = A névtelen lejátszáshoz tartalom PO token szükséges, amit a Kopuz most az alkalmazáson belül készít egy rejtett WebView-vel, amely a YouTube BotGuard-ját futtatja. A régi
-ytmusic-token-desc-2 = { " " }alfolyamat eltűnt — nincs mit telepíteni, és Flatpak-en belül is működik.
+ytmusic-token-desc-2 = { " " }alfolyamatra már nincs szükség. Nincs mit telepíteni, és Flatpakben is működik.
 ytmusic-signin-title = Bejelentkezés böngészővel
-ytmusic-signin-desc = A Kopuz egy elszigetelt böngészőprofilban nyitja meg a Google bejelentkezést — a normál böngészésedet sosem érinti — és kinyeri a munkamenet sütijeit. Feloldja a könyvtáradat, a Kedvelt zenét, a lejátszási listákat és a követett előadókat.
+ytmusic-signin-desc = A Kopuz külön böngészőprofilban nyitja meg a Google-bejelentkezést, majd kiolvassa a munkamenet sütijeit. A szokásos böngészőprofilodat nem használja. Ezzel elérhetővé válik a könyvtárad, a Kedvelt zene, a lejátszási listák és a követett előadók.
 ytmusic-signin-note = Windows-on a böngészős bejelentkezés jelenleg le van tiltva; a Windows felhasználók automatikusan névtelen módot kapnak. A bejelentkezés Linux-on és macOS-en működik.
 ytmusic-anon-title = Névtelen mód
 ytmusic-anon-desc = Nincs bejelentkezés, nincsenek sütik. Böngéssz, keress, nyiss meg előadói, albumi és lejátszásilista-oldalakat, indíts mix rádiót, és játssz nyilvános számokat. A kedvelés és a könyvtárnézetek le vannak tiltva.
@@ -206,20 +213,35 @@ applemusic-android-desc = A bejelentkezés alkalmazáson belüli WebView-t haszn
 soundcloud-title = SoundCloud beállítása
 soundcloud-subtitle = Add hozzá a Beállítások → Médiaszerverek → Hozzáadás → SoundCloud útvonalon.
 soundcloud-signin-title = Egyszeri böngészős bejelentkezés
-soundcloud-signin-desc = Nincs URL vagy jelszó begépelése. A Kopuz egy elszigetelt böngészőprofilban nyitja meg a soundcloud.com/signin oldalt — a normál böngészésedet sosem érinti — és kinyeri a munkamenet oauth_token-jét. Válaszd ki, melyik Chromium-családú böngészőt használod (Chrome, Chromium, Brave, Edge vagy Vivaldi).
+soundcloud-signin-desc = Nincs szükség URL vagy jelszó megadására. A Kopuz külön böngészőprofilban nyitja meg a soundcloud.com/signin oldalt, majd kiolvassa a munkamenet oauth_token értékét. Válaszd ki a használni kívánt Chromium-alapú böngészőt (Chrome, Chromium, Brave, Edge vagy Vivaldi).
 soundcloud-features-title = Amit kapsz
 soundcloud-features-desc = Keresés, számlejátszás (progresszív MP3 plusz Go+ AAC/HLS streamek), Kedvelt számaid kedvencként, csak-olvasható lejátszási listák, és kedvelés/kedvelés visszavonása. A forrás eltávolítása megtisztítja az elszigetelt profilját.
 
+## Feature guides
+guides-title = Útmutatók
+guides-subtitle = Beállítási útmutatók a zeneszolgáltatásokhoz és a főbb funkciókhoz.
+
+## Privacy and storage
+privacy-title = Adatvédelem és adattárolás
+privacy-subtitle = A Kopuz az alkalmazás adatait a számítógépeden tárolja. A csatlakoztatott szolgáltatásoknak akkor küld kéréseket, amikor használod a funkcióikat.
+
+## Requirements
+requirements-subtitle = A támogatás platformonként és csatlakoztatott szolgáltatásonként eltér.
+
+## Community
+community-title = Közreműködés a Kopuz fejlesztésében
+community-subtitle = Jelents hibát, javasolj változtatásokat, fordítsd le a felületet, vagy írj kódot.
+
 ## Sponsors
 sponsors-title = Támogatók
-sponsors-subtitle = Akik életben tartják a Kopuzt.
+sponsors-subtitle = A projekt jelenlegi és korábbi támogatói.
 sponsors-cta = Legyél támogató
 
 ## Gallery
-gallery-page-title = Galéria — Kopuz Music Player
-gallery-page-desc = Képernyőképek a Kopuz működéséről — főoldal, könyvtár, lejátszási lista, teljesképernyős lejátszó, dalszövegek, témaszerkesztő és több.
+gallery-page-title = Galéria | Kopuz zenelejátszó
+gallery-page-desc = Képernyőképek a főképernyőről, a könyvtárról, a lejátszási listákról, a lejátszóról, a dalszövegekről, a témaszerkesztőről és a beállításokról.
 gallery-title = Galéria
-gallery-subtitle = Képernyőképek a Kopuzról — Normal és Modern stílusok.
+gallery-subtitle = Képernyőképek a Normal és Modern stílusokról.
 gallery-home = Főoldal
 gallery-home-styles = Normal / Modern
 gallery-library = Könyvtár
@@ -240,12 +262,12 @@ gallery-downloader-title = Letöltő
 gallery-downloader-desc = Tölts le számokat közvetlenül a Kopuzból.
 gallery-prev = ← Előző
 gallery-next = Következő →
-gallery-label-normal-home = Normal — Főoldal
-gallery-label-modern-home = Modern — Főoldal
-gallery-label-normal-library = Normal — Könyvtár
-gallery-label-vaxry-library = Vaxry — Könyvtár
-gallery-label-normal-playlist = Normal — Lejátszási lista
-gallery-label-modern-playlist = Modern — Lejátszási lista
+gallery-label-normal-home = Normal: Főoldal
+gallery-label-modern-home = Modern: Főoldal
+gallery-label-normal-library = Normal: Könyvtár
+gallery-label-vaxry-library = Vaxry: Könyvtár
+gallery-label-normal-playlist = Normal: Lejátszási lista
+gallery-label-modern-playlist = Modern: Lejátszási lista
 gallery-label-fullscreen = Teljesképernyős lejátszó
 gallery-label-fullscreen-lyrics = Teljesképernyős dalszövegek
 gallery-label-search = Keresés
@@ -254,20 +276,20 @@ gallery-label-player-settings = Lejátszó beállítások
 gallery-label-downloader = Letöltő
 
 ## Footer
-footer-license = MIT licenc — Ingyenes és nyílt forráskódú
+footer-license = MIT licenc | Ingyenes és nyílt forráskódú
 footer-github = GitHub
 footer-releases = Kiadások
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz zenelejátszó
 home-meta-desc = A Kopuz modern, könnyű zenelejátszó asztali rendszerekre és Androidra. Játssz le helyi fájlokat, vagy csatlakozz a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify szolgáltatásokhoz; az Apple Music lejátszásához jelenleg asztali rendszer szükséges.
 home-meta-keywords = Kopuz, zenelejátszó, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, nyílt forráskódú, Android, Linux, macOS, Windows, dalszövegek, hangszínszabályzó
-og-title = Kopuz — Music Player
+og-title = Kopuz zenelejátszó
 og-desc = Modern, könnyű zenelejátszó helyi fájlokhoz és csatlakoztatott zeneforrásokhoz, asztali rendszerekre és Androidra. Szinkronizált dalszövegek, témák, hangszínszabályzó és még sok más.
 og-image-alt = Kopuz zenelejátszó
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz zenelejátszó
 twitter-desc = Modern, könnyű zenelejátszó helyi fájlok, illetve a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud és Spotify használatához.
 
 ## User-friendly aliases (synced with EN updates)

@@ -3,7 +3,7 @@ lang-name = Українська
 
 ## Nav
 nav-new = Нове
-nav-announce = Локальні файли та підключені музичні джерела в одному застосунку з темами, текстами пісень і підтримкою понад 20 мов
+nav-announce = Локальні файли й підключені сервіси на комп’ютерах і пристроях Android
 nav-features = Можливості
 nav-install = Встановити
 nav-download = Завантажити
@@ -13,16 +13,16 @@ nav-gallery = Галерея
 nav-lang-label = Мова
 
 ## Hero
-hero-title-1 = Твоя музика.
-hero-title-2 = Твій стиль.
-hero-desc = Kopuz — швидкий і легкий музичний плеєр для щоденного прослуховування. Відтворюй музику з локальних тек або підключай Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify — усе в одній бібліотеці.
+hero-title-1 = Локальні файли.
+hero-title-2 = Підключені сервіси.
+hero-desc = Kopuz відтворює музику з локальних тек, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify.
 hero-cta-download = Завантажити
 hero-cta-github = Переглянути на GitHub
-hero-screenshot-alt = Kopuz — головний екран
+hero-screenshot-alt = Головний екран Kopuz
 
 ## Features
-features-title = Усе, що потрібно.
-features-chip = Жодних підписок. Жодного стеження. Тільки твоя музика.
+features-title = Можливості
+features-chip = Локальне відтворення, підключені сервіси, тексти пісень, плейлисти й теми.
 features-works-with = Працює з
 features-source-local = Локальні файли
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = Покажи друзям що ти слухаєш з вбу
 feat-search-title = Пошук
 feat-search-desc = Пошук у реальному часі по виконавцях, альбомах і треках. Миттєві результати.
 feat-genre-title = Перегляд за жанрами
-feat-genre-desc = Переглядай всю бібліотеку за жанрами — працює для локальних файлів і серверної музики.
+feat-genre-desc = Переглядай локальну та серверну музику за жанрами.
 feat-logs-title = Логи прослуховування
 feat-logs-desc = Лічильники відтворень локально. Бач що слухаєш найбільше з часом.
 feat-i18n-title = i18n
@@ -72,7 +72,7 @@ feat-crossfade-desc = Плавні переходи між треками. Пі�
 feat-channels-title = Режими каналів
 feat-channels-desc = Стерео, моно, тільки лівий, тільки правий і L/R swap. Точне керування каналами.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Повноцінний стрімінговий бекенд зі сторінкою Discover у стилі Spotify, насиченими профілями виконавців і мікс-радіо. Увійди для своєї бібліотеки, Liked Music і плейлистів — або переглядай анонімно.
+feat-youtube-desc = Переглядай каталог YouTube Music і сторінки виконавців, запускай мікс-радіо. Після входу доступні бібліотека, Liked Music і плейлисти; також можна використовувати анонімний режим.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = Переглядай каталог і свою бібліотеку, синхронізуй обране, додавай треки до плейлистів і видаляй їх, запускай радіо, завантажуй треки та користуйся текстами пісень із послівною синхронізацією. Для відтворення на комп’ютері потрібен Widevine.
 feat-nextcloud-title = Nextcloud
@@ -90,11 +90,18 @@ feat-miniplayer-desc = Компактне накладання now-playing, як
 feat-tray-title = Згортання в трей
 feat-tray-desc = Закривай у іконку системного трею замість виходу, щоб відтворення тривало у фоні. Перемикається в Налаштуваннях.
 feat-badges-title = Значки типів файлів
-feat-badges-desc = Локальні треки показують маленький значок формату — MP3, FLAC, WAV та інші — прямо в рядку треку.
+feat-badges-desc = У рядку локального треку відображається формат файлу, наприклад MP3, FLAC або WAV.
+
+## What's new
+new-subtitle = Примітки до випусків і зміни в проєкті.
+
+## Install chooser
+chooser-title = Обери варіант завантаження
+chooser-subtitle = Обери операційну систему або переглянь усі способи встановлення.
 
 ## Performance
-perf-title = Створено бути швидким.
-perf-subtitle = Великі бібліотеки. Миттєвий запуск. Без зависань.
+perf-title = Швидкодія
+perf-subtitle = Інкрементальне сканування, паралельне завантаження, кешування зображень і фонова обробка.
 perf-skip-label = Пропуск проіндексованого
 perf-skip-desc = Повторне сканування обробляє тільки нові файли. 10k треків + 5 нових = читаються тільки 5.
 perf-parallel-label = Паралельний запуск
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = . Майже миттєве відкриття.
 perf-art-label = Кешування обкладинок
 perf-art-desc = Обкладинки витягуються один раз, зберігаються на диск. Жодного повторного декодування.
 perf-lazy-label = Лінива загрузка зображень
-perf-lazy-desc = Сотні обкладинок у результатах пошуку — жодна не завантажується доки не з'явиться у видимості.
+perf-lazy-desc = Зображення завантажуються, коли потрапляють у видиму область.
 perf-io-label = Неблокуючий I/O
 perf-io-desc-1 = Важка робота працює на
 perf-io-desc-2 = { " " }потоках. UI лишається чуйним під час повного сканування.
@@ -140,7 +147,7 @@ install-macos-desc-2 = { " " }з GitHub Releases. Якщо macOS блокує, �
 
 ## Platforms
 platforms-title = Завантажити Kopuz
-platforms-subtitle = Безкоштовно й з відкритим кодом. Усі релізи на GitHub.
+platforms-subtitle = Актуальні збірки для Windows, macOS, Linux і Android.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Тільки Apple Silicon
@@ -149,10 +156,10 @@ platforms-download = Завантажити →
 
 ## Support
 support-title = Підтримати Kopuz
-support-subtitle = Kopuz безкоштовний і open source. Підтримка тримає його на плаву.
+support-subtitle = Kopuz безкоштовний і має відкритий вихідний код. Пожертви підтримують розробку.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — або відправ крипту —
+support-crypto-divider = або надішли криптовалюту
 support-usdt-note = (мережа Solana)
 
 donate-title = Криптопожертви
@@ -180,9 +187,9 @@ ytmusic-title = Налаштування YouTube Music
 ytmusic-subtitle = Додай його з Налаштування → Медіасервери → Додати → YouTube Music.
 ytmusic-token-title = Помічник не потрібен
 ytmusic-token-desc-1 = Анонімне відтворення потребує content PO token, який Kopuz тепер генерує всередині застосунку через прихований WebView з YouTube BotGuard. Старий
-ytmusic-token-desc-2 = { " " }підпроцес зник — нічого встановлювати, і це працює всередині Flatpak.
+ytmusic-token-desc-2 = { " " }підпроцес видалено. Нічого встановлювати не потрібно; це працює й у Flatpak.
 ytmusic-signin-title = Вхід через браузер
-ytmusic-signin-desc = Kopuz відкриває вхід Google в ізольованому профілі браузера — твій звичайний перегляд ніколи не зачіпається — і витягує cookie сесії. Розблоковує твою бібліотеку, Liked Music, плейлисти і виконавців, на яких ти підписаний.
+ytmusic-signin-desc = Kopuz відкриває сторінку входу Google в окремому профілі браузера й отримує cookie сеансу. Після входу доступні бібліотека, Liked Music, плейлисти та виконавці, на яких ти підписаний.
 ytmusic-signin-note = На Windows вхід через браузер наразі вимкнено; користувачі Windows автоматично отримують анонімний режим. Вхід працює на Linux і macOS.
 ytmusic-anon-title = Анонімний режим
 ytmusic-anon-desc = Без входу, без cookie. Переглядай, шукай, відкривай сторінки виконавців, альбомів і плейлистів, запускай мікс-радіо і відтворюй публічні треки. Лайки та перегляди бібліотеки вимкнено.
@@ -206,20 +213,35 @@ applemusic-android-desc = Для входу використовується в�
 soundcloud-title = Налаштування SoundCloud
 soundcloud-subtitle = Додай його з Налаштування → Медіасервери → Додати → SoundCloud.
 soundcloud-signin-title = Одноразовий вхід через браузер
-soundcloud-signin-desc = Не треба вводити URL чи пароль. Kopuz відкриває soundcloud.com/signin в ізольованому профілі браузера — твій звичайний перегляд ніколи не зачіпається — і витягує oauth_token сесії. Обери, який браузер сімейства Chromium використовувати (Chrome, Chromium, Brave, Edge або Vivaldi).
+soundcloud-signin-desc = Не треба вводити URL чи пароль. Kopuz відкриває soundcloud.com/signin в окремому профілі браузера й отримує oauth_token сеансу. Можна використовувати Chrome, Chromium, Brave, Edge або Vivaldi.
 soundcloud-features-title = Що ти отримуєш
 soundcloud-features-desc = Пошук, відтворення треків (прогресивне MP3 плюс Go+ AAC/HLS стріми), твої Liked треки як обране, плейлисти лише для читання та лайк/анлайк. Видалення джерела очищує його ізольований профіль.
 
+## Feature guides
+guides-title = Посібники
+guides-subtitle = Посібники з налаштування музичних сервісів і основних функцій.
+
+## Privacy and storage
+privacy-title = Конфіденційність і зберігання даних
+privacy-subtitle = Kopuz зберігає дані застосунку на комп’ютері. Під час використання функцій підключених сервісів Kopuz надсилає їм запити.
+
+## Requirements
+requirements-subtitle = Підтримка залежить від платформи та підключеного сервісу.
+
+## Community
+community-title = Участь у проєкті Kopuz
+community-subtitle = Повідомляй про помилки, пропонуй зміни, перекладай інтерфейс або надсилай код.
+
 ## Sponsors
 sponsors-title = Спонсори
-sponsors-subtitle = Люди, що підтримують Kopuz.
+sponsors-subtitle = Поточні та колишні спонсори проєкту.
 sponsors-cta = Стати спонсором
 
 ## Gallery
-gallery-page-title = Галерея — Kopuz Music Player
-gallery-page-desc = Скріншоти Kopuz у дії — головна, бібліотека, плейлист, повноекранний плеєр, тексти, редактор тем і більше.
+gallery-page-title = Галерея | Музичний плеєр Kopuz
+gallery-page-desc = Скріншоти головного екрана, бібліотеки, плейлистів, плеєра, текстів пісень, редактора тем і налаштувань.
 gallery-title = Галерея
-gallery-subtitle = Скріншоти Kopuz — стилі Normal та Modern.
+gallery-subtitle = Скріншоти стилів Normal і Modern.
 gallery-home = Головна
 gallery-home-styles = Normal / Modern
 gallery-library = Бібліотека
@@ -240,12 +262,12 @@ gallery-downloader-title = Завантажувач
 gallery-downloader-desc = Завантажуй треки напряму з Kopuz.
 gallery-prev = ← Назад
 gallery-next = Вперед →
-gallery-label-normal-home = Normal — Головна
-gallery-label-modern-home = Modern — Головна
-gallery-label-normal-library = Normal — Бібліотека
-gallery-label-vaxry-library = Vaxry — Бібліотека
-gallery-label-normal-playlist = Normal — Плейлист
-gallery-label-modern-playlist = Modern — Плейлист
+gallery-label-normal-home = Normal: Головна
+gallery-label-modern-home = Modern: Головна
+gallery-label-normal-library = Normal: Бібліотека
+gallery-label-vaxry-library = Vaxry: Бібліотека
+gallery-label-normal-playlist = Normal: Плейлист
+gallery-label-modern-playlist = Modern: Плейлист
 gallery-label-fullscreen = Повноекранний плеєр
 gallery-label-fullscreen-lyrics = Повноекранні тексти
 gallery-label-search = Пошук
@@ -254,20 +276,20 @@ gallery-label-player-settings = Налаштування плеєра
 gallery-label-downloader = Завантажувач
 
 ## Footer
-footer-license = MIT License — Безкоштовно й Open Source
+footer-license = Ліцензія MIT | Безкоштовне ПЗ із відкритим вихідним кодом
 footer-github = GitHub
 footer-releases = Релізи
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
-home-meta-desc = Kopuz — сучасний легкий музичний плеєр для комп’ютерів і Android. Відтворюй локальні файли або підключай Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify; відтворення Apple Music наразі можливе лише на комп’ютері.
+home-title = Музичний плеєр Kopuz
+home-meta-desc = Kopuz відтворює локальні файли та музику з Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify на комп’ютерах і пристроях Android. Для відтворення Apple Music наразі потрібен комп’ютер.
 home-meta-keywords = Kopuz, музичний плеєр, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, відкритий код, Android, Linux, macOS, Windows, тексти пісень, еквалайзер
-og-title = Kopuz — Music Player
+og-title = Музичний плеєр Kopuz
 og-desc = Сучасний легкий музичний плеєр для комп’ютерів і Android із підтримкою локальних файлів та підключених джерел. Синхронізовані тексти пісень, теми, еквалайзер і багато іншого.
 og-image-alt = Музичний плеєр Kopuz
-twitter-title = Kopuz — Music Player
+twitter-title = Музичний плеєр Kopuz
 twitter-desc = Сучасний легкий музичний плеєр із підтримкою локальних файлів, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud і Spotify.
 
 ## User-friendly aliases (synced with EN updates)

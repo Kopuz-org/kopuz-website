@@ -3,7 +3,7 @@ lang-name = עברית
 
 ## Nav
 nav-new = חדש
-nav-announce = קבצים מקומיים + מקורות מוזיקה מחוברים באפליקציה אחת, עם ערכות נושא, מילות שירים ויותר מ־20 שפות
+nav-announce = קבצים מקומיים ושירותים מחוברים במחשב וב־Android
 nav-features = תכונות
 nav-install = התקנה
 nav-download = הורדה
@@ -13,16 +13,16 @@ nav-gallery = גלריה
 nav-lang-label = שפה
 
 ## Hero
-hero-title-1 = המוזיקה שלך.
-hero-title-2 = בדרך שלך.
-hero-desc = Kopuz הוא נגן מוזיקה מהיר וקל משקל להאזנה יומיומית. אפשר לנגן מוזיקה מתיקיות מקומיות או להתחבר ל־Jellyfin, ל־Subsonic, ל־Nextcloud, ל־YouTube Music, ל־Apple Music, ל־SoundCloud ול־Spotify, והכול בספרייה אחת.
+hero-title-1 = קבצים מקומיים.
+hero-title-2 = שירותים מחוברים.
+hero-desc = Kopuz מנגן מוזיקה מתיקיות מקומיות ומשירותי Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ו־Spotify.
 hero-cta-download = הורדה
 hero-cta-github = צפה ב-GitHub
-hero-screenshot-alt = Kopuz — תצוגת הבית
+hero-screenshot-alt = מסך הבית של Kopuz
 
 ## Features
-features-title = כל מה שצריך.
-features-chip = ללא מנויים. ללא מעקב. רק המוזיקה שלך.
+features-title = תכונות
+features-chip = נגינה מקומית, שירותים מחוברים, מילות שירים, רשימות השמעה וערכות נושא.
 features-works-with = עובד עם
 features-source-local = קבצים מקומיים
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = הצג לחברים מה אתה שומע עם Discord Rich P
 feat-search-title = חיפוש
 feat-search-desc = חיפוש בזמן אמת על פני אמנים, אלבומים ורצועות. תוצאות מיידיות בזמן הקלדה.
 feat-genre-title = דפדוף לפי ז'אנר
-feat-genre-desc = דפדף בכל הספרייה לפי ז'אנר — עובד לקבצים מקומיים ומוזיקת שרת.
+feat-genre-desc = אפשר לעיין לפי ז'אנר בקבצים מקומיים ובמוזיקה מהשרת.
 feat-logs-title = יומני האזנה
 feat-logs-desc = ספירת השמעות נעקבת מקומית. ראה מה אתה באמת שומע הכי הרבה לאורך זמן.
 feat-i18n-title = i18n
@@ -72,7 +72,7 @@ feat-crossfade-desc = מזג מעברי רצועות לנגינה חלקה יו�
 feat-channels-title = מצבי ערוצים
 feat-channels-desc = סטריאו, מונו, רק-שמאל, רק-ימין, והחלפת L/R. שליטה דקה בערוצי שמע.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = שירות הזרמה מלא עם עמוד Discover בסגנון Spotify, פרופילי אמנים עשירים ורדיו מיקס. התחבר כדי לגשת לספרייה שלך, למוזיקה האהובה ולרשימות — או דפדף באופן אנונימי.
+feat-youtube-desc = אפשר לעיין ב־YouTube Music, לחפש בקטלוג, להציג דפי אמנים ולהפעיל רדיו מיקס. התחברות מאפשרת גישה לספרייה, למוזיקה שאהבת ולרשימות ההשמעה. אפשר גם לעיין ללא התחברות.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = עיינו בקטלוג ובספרייה שלכם, סנכרנו מועדפים, הוסיפו רצועות לרשימות השמעה או הסירו אותן, הפעילו רדיו, הורידו רצועות והשתמשו במילות שירים המתוזמנות לפי מילה. נגינה בגרסת שולחן העבודה דורשת Widevine.
 feat-nextcloud-title = Nextcloud
@@ -90,11 +90,18 @@ feat-miniplayer-desc = שכבת נגינה קומפקטית שאפשר להחל�
 feat-tray-title = מזעור למגש
 feat-tray-desc = סגור לסמל במגש המערכת במקום לצאת, כך שהנגינה ממשיכה לרוץ ברקע. ניתן להחלפה בהגדרות.
 feat-badges-title = תגי סוג קובץ
-feat-badges-desc = רצועות מקומיות מציגות תג פורמט קטן — MP3, FLAC, WAV ועוד — ישירות בשורת הרצועה.
+feat-badges-desc = רצועות מקומיות מציגות את פורמט הקובץ, כגון MP3, FLAC או WAV.
+
+## What's new
+new-subtitle = הערות גרסה ושינויים בפרויקט.
+
+## Install chooser
+chooser-title = בחרו אפשרות הורדה
+chooser-subtitle = בחרו את מערכת ההפעלה או הציגו את כל שיטות ההתקנה.
 
 ## Performance
-perf-title = בנוי להיות מהיר.
-perf-subtitle = ספריות גדולות. הפעלה מיידית. ללא קפיאות.
+perf-title = ביצועים
+perf-subtitle = סריקות מצטברות, טעינה במקביל, מטמון תמונות ועיבוד ברקע.
 perf-skip-label = דילוג על אינדקס קיים
 perf-skip-desc = סריקות מחדש מעבדות רק קבצים חדשים. 10k רצועות + 5 חדשות = רק 5 נקראות.
 perf-parallel-label = הפעלה מקבילית
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = . פתיחה כמעט מיידית.
 perf-art-label = מטמון עטיפות
 perf-art-desc = עטיפות מחולצות פעם אחת, נשמרות לדיסק. אף פעם לא מפוענחות מחדש בצפיות חוזרות.
 perf-lazy-label = טעינת תמונות עצלה
-perf-lazy-desc = מאות עטיפות בתוצאות חיפוש — אף אחת לא נטענת עד שהיא בתצוגה.
+perf-lazy-desc = התמונות נטענות כשהן נכנסות לאזור התצוגה.
 perf-io-label = I/O לא חוסם
 perf-io-desc-1 = עבודה כבדה רצה על threads
 perf-io-desc-2 = { " " }. הממשק נשאר תגובתי במהלך סריקות ספרייה מלאות.
@@ -138,9 +145,24 @@ install-macos-chip = Apple Silicon
 install-macos-desc-1 = הורד את
 install-macos-desc-2 = { " " }מ-GitHub Releases. אם macOS חוסם, נקה את דגל ההסגר:
 
+## Feature guides
+guides-title = מדריכים
+guides-subtitle = מדריכי הגדרה לשירותי מוזיקה ולתכונות המרכזיות.
+
+## Privacy and storage
+privacy-title = פרטיות ואחסון
+privacy-subtitle = Kopuz שומר את נתוני האפליקציה במחשב שלך. הוא שולח בקשות לשירותים מחוברים כשמשתמשים בתכונות שלהם.
+
+## Requirements
+requirements-subtitle = התמיכה משתנה לפי הפלטפורמה והשירות המחובר.
+
+## Community
+community-title = תרמו ל־Kopuz
+community-subtitle = דווחו על תקלות, הציעו שינויים, תרגמו את הממשק או תרמו קוד.
+
 ## Platforms
 platforms-title = הורדת Kopuz
-platforms-subtitle = חינם וקוד פתוח. כל הגרסאות ב-GitHub.
+platforms-subtitle = הורידו גרסאות עדכניות ל־Windows, ל־macOS, ל־Linux ול־Android.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = רק Apple Silicon
@@ -149,10 +171,10 @@ platforms-download = הורדה ←
 
 ## Support
 support-title = תמיכה ב-Kopuz
-support-subtitle = Kopuz חינם וקוד פתוח. תמיכה מחזיקה אותו בחיים.
+support-subtitle = Kopuz חינמי ובקוד פתוח. התרומות תומכות בפיתוח.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — או שלח קריפטו —
+support-crypto-divider = או שלחו קריפטו
 support-usdt-note = (שרשרת Solana)
 
 donate-title = תרומות קריפטו
@@ -179,16 +201,16 @@ nextcloud-playback-desc = נגנו קבצים ישירות מהשרת שלכם �
 ytmusic-title = הגדרת YouTube Music
 ytmusic-subtitle = הוסף אותו מהגדרות ← שרתי מדיה ← הוספה ← YouTube Music.
 ytmusic-token-title = לא צריך עוזר
-ytmusic-token-desc-1 = נגינה אנונימית דורשת PO token של תוכן, ש-Kopuz מייצר כעת בתוך האפליקציה עם WebView נסתר שמריץ את BotGuard של YouTube. תהליך
-ytmusic-token-desc-2 = { " " }המשנה הישן נעלם — אין מה להתקין, וזה עובד בתוך Flatpak.
+ytmusic-token-desc-1 = הפעלה אנונימית אינה דורשת תוכנת עזר. Kopuz מטפל בתהליך האסימון
+ytmusic-token-desc-2 = { " " }בתוך האפליקציה, גם ב־Flatpak.
 ytmusic-signin-title = התחבר עם דפדפן
-ytmusic-signin-desc = Kopuz פותח התחברות ל-Google בפרופיל דפדפן מבודד — הגלישה הרגילה שלך לעולם לא נוגעת — ומחלץ את עוגיות ההפעלה. פותח גישה לספרייה שלך, למוזיקה האהובה, לרשימות ולאמנים שאתה עוקב אחריהם.
-ytmusic-signin-note = ב-Windows, התחברות בדפדפן מושבתת כרגע; משתמשי Windows מקבלים מצב אנונימי אוטומטית. ההתחברות עובדת ב-Linux וב-macOS.
+ytmusic-signin-desc = Kopuz פותח את דף ההתחברות של Google בפרופיל דפדפן נפרד וקורא את עוגיות ההפעלה שנוצרות. התחברות מאפשרת גישה לספרייה, למוזיקה שאהבת, לרשימות ההשמעה ולאמנים במעקב.
+ytmusic-signin-note = בחרו דפדפן מותקן ממשפחת Chromium, כגון Chrome, Chromium, Brave, Edge, Vivaldi או Helium.
 ytmusic-anon-title = מצב אנונימי
 ytmusic-anon-desc = ללא התחברות, ללא עוגיות. דפדף, חפש, פתח עמודי אמן, אלבום ורשימה, התחל רדיו מיקס, ונגן רצועות ציבוריות. סימון אהבה ותצוגות הספרייה מושבתים.
 ytmusic-premium-title = רצועות Premium
-ytmusic-premium-desc-1 = רצועות נעולות ל-Music Premium נופלות חזרה לפענוח מקומי באמצעות
-ytmusic-premium-desc-2 = { " " }כאשר הנתיב הראשי מחזיר UNPLAYABLE, כך שהתקנתו עוזרת. מצב אנונימי לא יכול לנגן תוכן בלעדי ל-Premium כלל.
+ytmusic-premium-desc-1 = חלק מהרצועות הזמינות רק למנויי Premium עשויות לדרוש שימוש מקומי חלופי ב־yt-dlp.
+ytmusic-premium-desc-2 = מצב אנונימי אינו יכול לנגן תוכן למנויי Premium בלבד.
 
 ## Apple Music
 applemusic-title = הגדרת Apple Music
@@ -206,20 +228,20 @@ applemusic-android-desc = ההתחברות משתמשת ב־WebView בתוך ה�
 soundcloud-title = הגדרת SoundCloud
 soundcloud-subtitle = הוסף אותו מהגדרות ← שרתי מדיה ← הוספה ← SoundCloud.
 soundcloud-signin-title = התחברות חד-פעמית בדפדפן
-soundcloud-signin-desc = אין כתובת או סיסמה להקליד. Kopuz פותח את soundcloud.com/signin בפרופיל דפדפן מבודד — הגלישה הרגילה שלך לעולם לא נוגעת — ושולף את ה-oauth_token של ההפעלה. בחר באיזה דפדפן ממשפחת Chromium להשתמש (Chrome, Chromium, Brave, Edge או Vivaldi).
+soundcloud-signin-desc = אין צורך להזין כתובת URL, סיסמה או אסימון ידני. Kopuz פותח את דף ההתחברות של SoundCloud בפרופיל מבודד באמצעות Chrome, Chromium, Brave, Edge, Vivaldi או Helium. הסרת המקור מוחקת את הפרופיל.
 soundcloud-features-title = מה אתה מקבל
 soundcloud-features-desc = חיפוש, נגינת רצועות (MP3 פרוגרסיבי בתוספת זרמי Go+ AAC/HLS), הרצועות האהובות שלך כמועדפים, רשימות לקריאה בלבד, וסימון אהבה/ביטול. הסרת המקור מנקה את הפרופיל המבודד שלו.
 
 ## Sponsors
 sponsors-title = תומכים
-sponsors-subtitle = אנשים שמשאירים את Kopuz בחיים.
+sponsors-subtitle = תומכי הפרויקט בהווה ובעבר.
 sponsors-cta = הפוך לתומך
 
 ## Gallery
-gallery-page-title = גלריה — Kopuz Music Player
-gallery-page-desc = צילומי מסך של Kopuz בפעולה — בית, ספרייה, רשימה, נגן מסך מלא, מילים, עורך ערכות נושא ועוד.
+gallery-page-title = גלריית Kopuz Music Player
+gallery-page-desc = צילומי מסך של מסך הבית, הספרייה, רשימות ההשמעה, הנגן, מילות השירים, עורך ערכות הנושא וההגדרות.
 gallery-title = גלריה
-gallery-subtitle = צילומי מסך של Kopuz — סגנונות Normal ו-Modern.
+gallery-subtitle = צילומי מסך של הסגנונות Normal ו־Modern.
 gallery-home = בית
 gallery-home-styles = Normal / Modern
 gallery-library = ספרייה
@@ -240,12 +262,12 @@ gallery-downloader-title = מוריד
 gallery-downloader-desc = הורד רצועות ישירות מתוך Kopuz.
 gallery-prev = ← הקודם
 gallery-next = הבא →
-gallery-label-normal-home = Normal — בית
-gallery-label-modern-home = Modern — בית
-gallery-label-normal-library = Normal — ספרייה
-gallery-label-vaxry-library = Vaxry — ספרייה
-gallery-label-normal-playlist = Normal — רשימה
-gallery-label-modern-playlist = Modern — רשימה
+gallery-label-normal-home = בית (Normal)
+gallery-label-modern-home = בית (Modern)
+gallery-label-normal-library = ספרייה (Normal)
+gallery-label-vaxry-library = ספרייה (Vaxry)
+gallery-label-normal-playlist = רשימה (Normal)
+gallery-label-modern-playlist = רשימה (Modern)
 gallery-label-fullscreen = נגן מסך מלא
 gallery-label-fullscreen-lyrics = מילים במסך מלא
 gallery-label-search = חיפוש
@@ -254,20 +276,20 @@ gallery-label-player-settings = הגדרות נגן
 gallery-label-downloader = מוריד
 
 ## Footer
-footer-license = רישיון MIT — חינם וקוד פתוח
+footer-license = רישיון MIT, חינמי ובקוד פתוח
 footer-github = GitHub
 footer-releases = גרסאות
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz: נגן מוזיקה
 home-meta-desc = Kopuz הוא נגן מוזיקה מודרני וקל משקל למערכות שולחן עבודה ול־Android. נגנו קבצים מקומיים או התחברו ל־Jellyfin, ל־Subsonic, ל־Nextcloud, ל־YouTube Music, ל־Apple Music, ל־SoundCloud ול־Spotify; נגינת Apple Music דורשת כרגע גרסת שולחן עבודה.
 home-meta-keywords = Kopuz, נגן מוזיקה, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, קוד פתוח, Android, Linux, macOS, Windows, מילות שירים, שוויונאי
-og-title = Kopuz — Music Player
+og-title = Kopuz: נגן מוזיקה
 og-desc = נגן מוזיקה מודרני וקל משקל לקבצים מקומיים ולמקורות מחוברים במערכות שולחן עבודה וב־Android. מילות שירים מסונכרנות, ערכות נושא, שוויונאי ועוד.
 og-image-alt = נגן מוזיקה Kopuz
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz: נגן מוזיקה
 twitter-desc = נגן מוזיקה מודרני וקל משקל לקבצים מקומיים, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud ו־Spotify.
 
 ## User-friendly aliases (synced with EN updates)

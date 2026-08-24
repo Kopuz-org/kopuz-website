@@ -51,7 +51,7 @@ pub fn FeaturesPage() -> impl IntoView {
     view! {
         <PageMeta
             title="Features | Kopuz"
-            description="Play local files or connect Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify, with lyrics, themes, playlists, and more."
+            description="Kopuz features for local music, connected services, lyrics, playlists, themes, and playback controls."
             canonical="https://kopuz.moe/features"
         />
         <PageChrome>
@@ -67,7 +67,7 @@ pub fn DownloadPage() -> impl IntoView {
     view! {
         <PageMeta
             title="Download | Kopuz"
-            description="Download Kopuz for Windows, macOS, Linux, or Android, with installation notes for Homebrew, Flatpak, Nix, Cargo, AUR, and AppImage."
+            description="Current Kopuz downloads for Windows, macOS, Linux, and Android, with installation notes for each package format."
             canonical="https://kopuz.moe/download"
         />
         <PageChrome>
@@ -83,7 +83,7 @@ pub fn GuidesPage() -> impl IntoView {
     view! {
         <PageMeta
             title="Guides | Kopuz"
-            description="Setup notes for Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify in Kopuz."
+            description="Setup instructions for Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify in Kopuz."
             canonical="https://kopuz.moe/guides"
         />
         <PageChrome>
@@ -105,7 +105,7 @@ pub fn SupportPage() -> impl IntoView {
     view! {
         <PageMeta
             title="Support | Kopuz"
-            description="Support Kopuz, meet its sponsors, join the community, or link back to the project."
+            description="Kopuz donation links, sponsors, community links, and web buttons."
             canonical="https://kopuz.moe/support"
         />
         <PageChrome>

@@ -923,7 +923,7 @@ body:has(.site.moe) {
 }
 
 .site.moe {
-    /* remap the whole palette — every rule below inherits these */
+    /* Remap the whole palette. Every rule below inherits these values. */
     --bg:        #fff5fb;
     --surface:   #fff5fb;
     --surface-2: #ffeaf6;
@@ -1077,7 +1077,7 @@ body:has(.site.moe) {
 
 .site.moe .lightbox-box { border: 4px ridge #ff5fa2; border-radius: 0; }
 
-/* VT323 runs tiny at label sizes — small labels use the sans font in moe,
+/* VT323 runs tiny at label sizes. Small labels use the sans font in moe,
    and anything that stays pixel-mono gets bumped up. */
 .site.moe .perf-label,
 .site.moe .sources-label,

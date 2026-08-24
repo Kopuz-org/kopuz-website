@@ -3,7 +3,7 @@ lang-name = Español
 
 ## Nav
 nav-new = Nuevo
-nav-announce = Archivos locales + fuentes de música conectadas en una sola aplicación, con temas, letras y más de 20 idiomas
+nav-announce = Archivos locales y servicios conectados para equipos de escritorio y Android
 nav-features = Funciones
 nav-install = Instalar
 nav-download = Descargar
@@ -13,16 +13,16 @@ nav-gallery = Galería
 nav-lang-label = Idioma
 
 ## Hero
-hero-title-1 = Tu música.
-hero-title-2 = A tu manera.
-hero-desc = Kopuz es un reproductor de música rápido y ligero para el día a día. Reproduce música de carpetas locales o conéctate a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud y Spotify, todo desde una sola biblioteca.
+hero-title-1 = Archivos locales.
+hero-title-2 = Servicios conectados.
+hero-desc = Kopuz reproduce música de carpetas locales, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud y Spotify.
 hero-cta-download = Descargar
 hero-cta-github = Ver en GitHub
-hero-screenshot-alt = Kopuz — vista inicio
+hero-screenshot-alt = Pantalla de inicio de Kopuz
 
 ## Features
-features-title = Todo lo que necesitas.
-features-chip = Sin suscripciones. Sin rastreo. Solo tu música.
+features-title = Funciones
+features-chip = Reproducción local, servicios conectados, letras, listas de reproducción y temas.
 features-works-with = Funciona con
 features-source-local = Archivos locales
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = Muestra a tus amigos qué estás escuchando con Discord Rich
 feat-search-title = Búsqueda
 feat-search-desc = Búsqueda en tiempo real en artistas, álbumes y pistas. Resultados instantáneos al escribir.
 feat-genre-title = Navegación por género
-feat-genre-desc = Navega toda tu biblioteca por género — funciona para archivos locales y música de servidor.
+feat-genre-desc = Explora por género los archivos locales y la música del servidor.
 feat-logs-title = Registros de escucha
 feat-logs-desc = Conteo de reproducciones local. Mira qué escuchas más con el tiempo.
 feat-i18n-title = i18n
@@ -72,7 +72,7 @@ feat-crossfade-desc = Mezcla transiciones de pistas para reproducción más suav
 feat-channels-title = Modos de canal
 feat-channels-desc = Estéreo, Mono, Solo-Izquierda, Solo-Derecha, e intercambio L/R. Control fino de canales de audio.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Backend de streaming completo con una página Discover estilo Spotify, perfiles de artista detallados y radio mix. Inicia sesión para acceder a tu biblioteca, Música que te gusta y listas — o navega de forma anónima.
+feat-youtube-desc = Explora YouTube Music, busca en su catálogo, consulta páginas de artistas e inicia una radio mix. Inicia sesión para acceder a tu biblioteca, a Música que te gusta y a tus listas. También puedes explorar sin iniciar sesión.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = Explora el catálogo y tu biblioteca, sincroniza favoritos, añade o elimina pistas de las listas, inicia la radio, descarga pistas y usa letras sincronizadas palabra por palabra. La reproducción en escritorio requiere Widevine.
 feat-nextcloud-title = Nextcloud
@@ -90,11 +90,18 @@ feat-miniplayer-desc = Una superposición compacta de reproducción actual que p
 feat-tray-title = Minimizar a la bandeja
 feat-tray-desc = Cierra a un icono de la bandeja del sistema en lugar de salir, para que la reproducción siga corriendo en segundo plano. Alterna en Ajustes.
 feat-badges-title = Insignias de tipo de archivo
-feat-badges-desc = Las pistas locales muestran una pequeña insignia de formato — MP3, FLAC, WAV y más — justo en la fila de la pista.
+feat-badges-desc = Las pistas locales muestran su formato, por ejemplo MP3, FLAC o WAV, directamente en la fila de la pista.
+
+## Novedades
+new-subtitle = Notas de la versión y cambios del proyecto.
+
+## Elección de descarga
+chooser-title = Elige una descarga
+chooser-subtitle = Elige tu sistema operativo o consulta todos los métodos de instalación.
 
 ## Performance
-perf-title = Construido para ser rápido.
-perf-subtitle = Bibliotecas grandes. Inicio instantáneo. Sin congelaciones.
+perf-title = Rendimiento
+perf-subtitle = Escaneos incrementales, carga simultánea, caché de imágenes y procesamiento en segundo plano.
 perf-skip-label = Omitir ya indexados
 perf-skip-desc = Los reescaneos solo procesan archivos nuevos. 10k pistas + 5 nuevas = solo 5 leídas.
 perf-parallel-label = Inicio paralelo
@@ -103,7 +110,7 @@ perf-parallel-desc-2 = . Apertura casi instantánea.
 perf-art-label = Caché de carátulas
 perf-art-desc = Carátulas extraídas una vez, guardadas en disco. Nunca redecodificadas en vistas repetidas.
 perf-lazy-label = Carga perezosa de imágenes
-perf-lazy-desc = Cientos de carátulas en resultados de búsqueda — ninguna carga hasta ser visible.
+perf-lazy-desc = Las carátulas de los resultados de búsqueda solo se cargan cuando son visibles.
 perf-io-label = I/O no bloqueante
 perf-io-desc-1 = El trabajo pesado corre en hilos
 perf-io-desc-2 = { " " }. La UI permanece responsiva durante escaneos completos.
@@ -140,7 +147,7 @@ install-macos-desc-2 = { " " }desde GitHub Releases. Si macOS lo bloquea, quita 
 
 ## Platforms
 platforms-title = Descargar Kopuz
-platforms-subtitle = Gratis y open source. Todas las versiones en GitHub.
+platforms-subtitle = Descarga las versiones actuales para Windows, macOS, Linux y Android.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Solo Apple Silicon
@@ -149,10 +156,10 @@ platforms-download = Descargar →
 
 ## Support
 support-title = Apoyar Kopuz
-support-subtitle = Kopuz es gratis y open source. El apoyo lo mantiene vivo.
+support-subtitle = Kopuz es gratis y de código abierto. Las donaciones apoyan el desarrollo.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — o envía cripto —
+support-crypto-divider = o envía cripto
 support-usdt-note = (cadena Solana)
 
 donate-title = Donaciones cripto
@@ -180,9 +187,9 @@ ytmusic-title = Configuración de YouTube Music
 ytmusic-subtitle = Añádelo desde Ajustes → Servidores de medios → Añadir → YouTube Music.
 ytmusic-token-title = Sin ayudante necesario
 ytmusic-token-desc-1 = La reproducción anónima necesita un PO token de contenido, que Kopuz ahora genera dentro de la app con un WebView oculto que ejecuta el BotGuard de YouTube. El antiguo
-ytmusic-token-desc-2 = { " " }subproceso ya no existe — nada que instalar, y funciona dentro de Flatpak.
+ytmusic-token-desc-2 = { " " }subproceso se eliminó. No hay nada que instalar y también funciona dentro de Flatpak.
 ytmusic-signin-title = Inicia sesión con un navegador
-ytmusic-signin-desc = Kopuz abre el inicio de sesión de Google en un perfil de navegador aislado — tu navegación normal nunca se toca — y extrae las cookies de sesión. Desbloquea tu biblioteca, Música que te gusta, listas y artistas seguidos.
+ytmusic-signin-desc = Kopuz abre el inicio de sesión de Google en un perfil de navegador separado y lee las cookies de sesión resultantes. Al iniciar sesión se habilitan tu biblioteca, Música que te gusta, las listas y los artistas que sigues.
 ytmusic-signin-note = En Windows, el inicio de sesión por navegador está desactivado actualmente; los usuarios de Windows obtienen el modo anónimo automáticamente. El inicio de sesión funciona en Linux y macOS.
 ytmusic-anon-title = Modo anónimo
 ytmusic-anon-desc = Sin inicio de sesión, sin cookies. Navega, busca, abre páginas de artista, álbum y lista, inicia radio mix y reproduce pistas públicas. Los gustos y las vistas de biblioteca están desactivados.
@@ -206,20 +213,35 @@ applemusic-android-desc = El inicio de sesión usa un WebView integrado, pero la
 soundcloud-title = Configuración de SoundCloud
 soundcloud-subtitle = Añádelo desde Ajustes → Servidores de medios → Añadir → SoundCloud.
 soundcloud-signin-title = Inicio de sesión único en el navegador
-soundcloud-signin-desc = Sin URL ni contraseña que escribir. Kopuz abre soundcloud.com/signin en un perfil de navegador aislado — tu navegación normal nunca se toca — y obtiene el oauth_token de la sesión. Elige qué navegador de la familia Chromium usar (Chrome, Chromium, Brave, Edge o Vivaldi).
+soundcloud-signin-desc = No tienes que escribir una URL ni una contraseña. Kopuz abre soundcloud.com/signin en un perfil de navegador aislado y obtiene el oauth_token de la sesión. Elige un navegador de la familia Chromium (Chrome, Chromium, Brave, Edge o Vivaldi).
 soundcloud-features-title = Lo que obtienes
 soundcloud-features-desc = Búsqueda, reproducción de pistas (MP3 progresivo más streams Go+ AAC/HLS), tus pistas favoritas, listas de solo lectura, y dar/quitar me gusta. Quitar la fuente limpia su perfil aislado.
 
+## Guías
+guides-title = Guías
+guides-subtitle = Guías de configuración para servicios de música y funciones principales.
+
+## Privacidad y almacenamiento
+privacy-title = Privacidad y almacenamiento
+privacy-subtitle = Kopuz guarda los datos de la aplicación en tu equipo. Envía solicitudes a los servicios conectados cuando usas sus funciones.
+
+## Requisitos
+requirements-subtitle = La compatibilidad depende de la plataforma y del servicio conectado.
+
+## Comunidad
+community-title = Contribuye a Kopuz
+community-subtitle = Informa de errores, sugiere cambios, traduce la interfaz o contribuye al código.
+
 ## Sponsors
 sponsors-title = Patrocinadores
-sponsors-subtitle = Gente que mantiene Kopuz andando.
+sponsors-subtitle = Patrocinadores actuales y anteriores del proyecto.
 sponsors-cta = Hazte patrocinador
 
 ## Gallery
-gallery-page-title = Galería — Kopuz Music Player
-gallery-page-desc = Capturas de Kopuz en acción — inicio, biblioteca, lista, reproductor pantalla completa, letras, editor de temas y más.
+gallery-page-title = Galería | Kopuz Music Player
+gallery-page-desc = Capturas de la pantalla de inicio, la biblioteca, las listas de reproducción, el reproductor, las letras, el editor de temas y los ajustes.
 gallery-title = Galería
-gallery-subtitle = Capturas de Kopuz — estilos Normal y Modern.
+gallery-subtitle = Capturas de los estilos Normal y Modern.
 gallery-home = Inicio
 gallery-home-styles = Normal / Modern
 gallery-library = Biblioteca
@@ -240,12 +262,12 @@ gallery-downloader-title = Descargador
 gallery-downloader-desc = Descarga pistas directamente desde Kopuz.
 gallery-prev = ← Atrás
 gallery-next = Siguiente →
-gallery-label-normal-home = Normal — Inicio
-gallery-label-modern-home = Modern — Inicio
-gallery-label-normal-library = Normal — Biblioteca
-gallery-label-vaxry-library = Vaxry — Biblioteca
-gallery-label-normal-playlist = Normal — Lista
-gallery-label-modern-playlist = Modern — Lista
+gallery-label-normal-home = Normal: Inicio
+gallery-label-modern-home = Modern: Inicio
+gallery-label-normal-library = Normal: Biblioteca
+gallery-label-vaxry-library = Vaxry: Biblioteca
+gallery-label-normal-playlist = Normal: Lista
+gallery-label-modern-playlist = Modern: Lista
 gallery-label-fullscreen = Reproductor pantalla completa
 gallery-label-fullscreen-lyrics = Letras pantalla completa
 gallery-label-search = Búsqueda
@@ -254,20 +276,20 @@ gallery-label-player-settings = Ajustes del reproductor
 gallery-label-downloader = Descargador
 
 ## Footer
-footer-license = Licencia MIT — Gratis y Open Source
+footer-license = Licencia MIT | Gratis y de código abierto
 footer-github = GitHub
 footer-releases = Versiones
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz Music Player
 home-meta-desc = Kopuz es un reproductor de música moderno y ligero para equipos de escritorio y Android. Reproduce archivos locales o conéctate a Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud y Spotify; actualmente, la reproducción de Apple Music requiere un equipo de escritorio.
 home-meta-keywords = Kopuz, reproductor de música, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, código abierto, Android, Linux, macOS, Windows, letras, ecualizador
-og-title = Kopuz — Music Player
+og-title = Kopuz Music Player
 og-desc = Reproductor de música moderno y ligero para archivos locales y fuentes conectadas en equipos de escritorio y Android. Letras sincronizadas, temas, ecualizador y más.
 og-image-alt = Reproductor de música Kopuz
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz Music Player
 twitter-desc = Reproductor de música moderno y ligero para archivos locales, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud y Spotify.
 
 ## User-friendly aliases (synced with EN updates)

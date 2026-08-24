@@ -3,7 +3,7 @@ lang-name = Ελληνικά
 
 ## Nav
 nav-new = Νέο
-nav-announce = Τοπικά αρχεία + συνδεδεμένες πηγές μουσικής σε μία εφαρμογή, με θέματα, στίχους και 20+ γλώσσες
+nav-announce = Τοπικά αρχεία και συνδεδεμένες υπηρεσίες σε υπολογιστές και Android
 nav-features = Δυνατότητες
 nav-install = Εγκατάσταση
 nav-download = Λήψη
@@ -13,16 +13,16 @@ nav-gallery = Συλλογή
 nav-lang-label = Γλώσσα
 
 ## Hero
-hero-title-1 = Η μουσική σου.
-hero-title-2 = Με τον τρόπο σου.
-hero-desc = Το Kopuz είναι ένα γρήγορο και ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για καθημερινή ακρόαση. Παίξε μουσική από τοπικούς φακέλους ή συνδέσου με Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify, όλα μέσα από μία ενιαία βιβλιοθήκη.
+hero-title-1 = Τοπικά αρχεία.
+hero-title-2 = Συνδεδεμένες υπηρεσίες.
+hero-desc = Το Kopuz αναπαράγει μουσική από τοπικούς φακέλους, καθώς και από Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify.
 hero-cta-download = Λήψη
 hero-cta-github = Δες στο GitHub
-hero-screenshot-alt = Kopuz — αρχική προβολή
+hero-screenshot-alt = Αρχική οθόνη του Kopuz
 
 ## Features
-features-title = Όλα όσα χρειάζεσαι.
-features-chip = Καμία συνδρομή. Καμία παρακολούθηση. Μόνο η μουσική σου.
+features-title = Δυνατότητες
+features-chip = Τοπική αναπαραγωγή, συνδεδεμένες υπηρεσίες, στίχοι, λίστες αναπαραγωγής και θέματα.
 features-works-with = Λειτουργεί με
 features-source-local = Τοπικά αρχεία
 features-source-jellyfin = Jellyfin
@@ -60,7 +60,7 @@ feat-discord-desc = Δείξε στους φίλους σου τι ακούς μ
 feat-search-title = Αναζήτηση
 feat-search-desc = Αναζήτηση πραγματικού χρόνου σε καλλιτέχνες, άλμπουμ και κομμάτια. Άμεσα αποτελέσματα ενώ πληκτρολογείς.
 feat-genre-title = Περιήγηση κατά είδος
-feat-genre-desc = Περιήγηση όλης της βιβλιοθήκης κατά είδος — λειτουργεί για τοπικά αρχεία και μουσική server.
+feat-genre-desc = Περιηγήσου στη βιβλιοθήκη ανά είδος. Λειτουργεί με τοπικά αρχεία και μουσική από διακομιστή.
 feat-logs-title = Αρχεία ακρόασης
 feat-logs-desc = Μετρητές αναπαραγωγής τοπικά. Δες τι ακούς πραγματικά πιο πολύ με τον καιρό.
 feat-i18n-title = i18n
@@ -73,7 +73,7 @@ feat-channels-title = Λειτουργίες καναλιών
 feat-channels-desc = Στέρεο, Μονοφωνικό, Μόνο-Αριστερά, Μόνο-Δεξιά και εναλλαγή L/R. Λεπτομερής έλεγχος καναλιών ήχου.
 
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Πλήρες backend ροής με σελίδα Discover σε στυλ Spotify, πλούσια προφίλ καλλιτεχνών και mix radio. Συνδέσου για τη βιβλιοθήκη σου, την αγαπημένη σου μουσική και τις λίστες σου — ή περιηγήσου ανώνυμα.
+feat-youtube-desc = Περιηγήσου στο YouTube Music, αναζήτησε τον κατάλογο, δες σελίδες καλλιτεχνών και ξεκίνα mix radio. Συνδέσου για πρόσβαση στη βιβλιοθήκη, την αγαπημένη μουσική και τις λίστες σου ή περιηγήσου χωρίς σύνδεση.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = Περιηγήσου στον κατάλογο και στη βιβλιοθήκη σου, συγχρόνισε αγαπημένα, πρόσθεσε ή αφαίρεσε κομμάτια από λίστες αναπαραγωγής, ξεκίνα ραδιόφωνο, κατέβασε κομμάτια και χρησιμοποίησε στίχους με χρονισμό ανά λέξη. Η αναπαραγωγή από το Apple Music σε υπολογιστή απαιτεί Widevine.
 feat-nextcloud-title = Nextcloud
@@ -91,11 +91,18 @@ feat-miniplayer-desc = Μια συμπαγής επικάλυψη του τρέ�
 feat-tray-title = Ελαχιστοποίηση στη γραμμή εργασιών
 feat-tray-desc = Κλείσε σε εικονίδιο γραμμής εργασιών συστήματος αντί να βγεις, ώστε η αναπαραγωγή να συνεχίζει στο παρασκήνιο. Εναλλαγή στις Ρυθμίσεις.
 feat-badges-title = Σήματα τύπου αρχείου
-feat-badges-desc = Τα τοπικά κομμάτια εμφανίζουν ένα μικρό σήμα μορφής — MP3, FLAC, WAV και άλλα — ακριβώς στη γραμμή του κομματιού.
+feat-badges-desc = Οι γραμμές των τοπικών κομματιών εμφανίζουν τη μορφή αρχείου, όπως MP3, FLAC ή WAV.
+
+## What's new
+new-subtitle = Σημειώσεις εκδόσεων και αλλαγές στο έργο.
+
+## Install chooser
+chooser-title = Επίλεξε τρόπο λήψης
+chooser-subtitle = Επίλεξε το λειτουργικό σου σύστημα ή δες όλες τις μεθόδους εγκατάστασης.
 
 ## Performance
-perf-title = Φτιαγμένο για ταχύτητα.
-perf-subtitle = Μεγάλες βιβλιοθήκες. Άμεση εκκίνηση. Καμία παγωμένη.
+perf-title = Επιδόσεις
+perf-subtitle = Σταδιακές σαρώσεις, παράλληλη φόρτωση, προσωρινή αποθήκευση εικόνων και επεξεργασία στο παρασκήνιο.
 perf-skip-label = Παράλειψη ήδη ευρετηριασμένων
 perf-skip-desc = Οι επανασαρώσεις επεξεργάζονται μόνο νέα αρχεία. 10k κομμάτια + 5 νέα = μόνο 5 διαβάζονται.
 perf-parallel-label = Παράλληλη εκκίνηση
@@ -104,7 +111,7 @@ perf-parallel-desc-2 = . Σχεδόν άμεσο άνοιγμα.
 perf-art-label = Cache εξωφύλλων
 perf-art-desc = Τα εξώφυλλα εξάγονται μία φορά, αποθηκεύονται στο δίσκο. Ποτέ ξανά αποκωδικοποίηση σε επαναλαμβανόμενες προβολές.
 perf-lazy-label = Νωθρή φόρτωση εικόνων
-perf-lazy-desc = Εκατοντάδες εξώφυλλα σε αποτελέσματα αναζήτησης — κανένα δε φορτώνει αν δεν είναι ορατό.
+perf-lazy-desc = Οι εικόνες φορτώνονται όταν εμφανίζονται στην οθόνη.
 perf-io-label = Μη μπλοκαριστικό I/O
 perf-io-desc-1 = Η βαριά εργασία τρέχει σε νήματα
 perf-io-desc-2 = { " " }. Το UI παραμένει αποκριτικό κατά τη διάρκεια πλήρων σαρώσεων βιβλιοθήκης.
@@ -139,9 +146,24 @@ install-macos-chip = Apple Silicon
 install-macos-desc-1 = Κατέβασε το
 install-macos-desc-2 = { " " }από GitHub Releases. Αν το macOS μπλοκάρει, καθάρισε τη σημαία καραντίνας:
 
+## Feature guides
+guides-title = Οδηγοί
+guides-subtitle = Οδηγοί ρύθμισης για υπηρεσίες μουσικής και βασικές δυνατότητες.
+
+## Privacy and storage
+privacy-title = Απόρρητο και αποθήκευση
+privacy-subtitle = Το Kopuz αποθηκεύει τα δεδομένα της εφαρμογής στον υπολογιστή σου. Στέλνει αιτήματα σε συνδεδεμένες υπηρεσίες όταν χρησιμοποιούνται οι δυνατότητές τους.
+
+## Requirements
+requirements-subtitle = Η υποστήριξη διαφέρει ανά πλατφόρμα και συνδεδεμένη υπηρεσία.
+
+## Community
+community-title = Συνεισφορά στο Kopuz
+community-subtitle = Ανάφερε σφάλματα, πρότεινε αλλαγές, μετάφρασε τη διεπαφή ή συνεισέφερε κώδικα.
+
 ## Platforms
 platforms-title = Κατέβασε Kopuz
-platforms-subtitle = Δωρεάν και ανοιχτού κώδικα. Όλες οι εκδόσεις στο GitHub.
+platforms-subtitle = Κατέβασε τις τρέχουσες εκδόσεις για Windows, macOS, Linux και Android.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Μόνο Apple Silicon
@@ -150,10 +172,10 @@ platforms-download = Λήψη →
 
 ## Support
 support-title = Στήριξε Kopuz
-support-subtitle = Το Kopuz είναι δωρεάν και ανοιχτού κώδικα. Η στήριξη το κρατά ζωντανό.
+support-subtitle = Το Kopuz είναι δωρεάν και ανοιχτού κώδικα. Οι δωρεές υποστηρίζουν την ανάπτυξη.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = — ή στείλε crypto —
+support-crypto-divider = Ή στείλε κρυπτονομίσματα
 support-usdt-note = (αλυσίδα Solana)
 
 donate-title = Δωρεές crypto
@@ -180,16 +202,16 @@ nextcloud-playback-desc = Αναπαρήγαγε αρχεία απευθείας
 ytmusic-title = Ρύθμιση YouTube Music
 ytmusic-subtitle = Πρόσθεσέ το από Ρυθμίσεις → Media servers → Προσθήκη → YouTube Music.
 ytmusic-token-title = Δεν χρειάζεται helper
-ytmusic-token-desc-1 = Η ανώνυμη αναπαραγωγή χρειάζεται ένα content PO token, το οποίο το Kopuz τώρα δημιουργεί εντός εφαρμογής με ένα κρυφό WebView που τρέχει το BotGuard του YouTube. Το παλιό
-ytmusic-token-desc-2 = { " " }subprocess έφυγε — τίποτα προς εγκατάσταση, και λειτουργεί μέσα στο Flatpak.
+ytmusic-token-desc-1 = Η ανώνυμη αναπαραγωγή δεν χρειάζεται βοηθητικό πρόγραμμα. Το Kopuz διαχειρίζεται τη ροή του token
+ytmusic-token-desc-2 = { " " }μέσα στην εφαρμογή, ακόμη και στο Flatpak.
 ytmusic-signin-title = Σύνδεση μέσω προγράμματος περιήγησης
-ytmusic-signin-desc = Το Kopuz ανοίγει τη σύνδεση Google σε ένα απομονωμένο προφίλ περιήγησης — η κανονική σου περιήγηση δεν επηρεάζεται ποτέ — και εξάγει τα cookies της συνεδρίας. Ξεκλειδώνει τη βιβλιοθήκη σου, την αγαπημένη σου μουσική, τις λίστες και τους καλλιτέχνες που ακολουθείς.
-ytmusic-signin-note = Στα Windows, η σύνδεση μέσω προγράμματος περιήγησης είναι προς το παρόν απενεργοποιημένη· οι χρήστες Windows λαμβάνουν αυτόματα ανώνυμη λειτουργία. Η σύνδεση λειτουργεί σε Linux και macOS.
+ytmusic-signin-desc = Το Kopuz ανοίγει τη σύνδεση Google σε ξεχωριστό προφίλ προγράμματος περιήγησης και διαβάζει τα cookies της συνεδρίας. Η σύνδεση παρέχει πρόσβαση στη βιβλιοθήκη, την αγαπημένη μουσική, τις λίστες και τους καλλιτέχνες που ακολουθείς.
+ytmusic-signin-note = Επίλεξε ένα εγκατεστημένο πρόγραμμα περιήγησης της οικογένειας Chromium, όπως Chrome, Chromium, Brave, Edge, Vivaldi ή Helium.
 ytmusic-anon-title = Ανώνυμη λειτουργία
 ytmusic-anon-desc = Καμία σύνδεση, κανένα cookie. Περιηγήσου, αναζήτησε, άνοιξε σελίδες καλλιτέχνη, άλμπουμ και λίστας, ξεκίνα mix radio και αναπαρήγαγε δημόσια κομμάτια. Το like και οι προβολές βιβλιοθήκης είναι απενεργοποιημένα.
 ytmusic-premium-title = Premium κομμάτια
-ytmusic-premium-desc-1 = Τα κλειδωμένα κομμάτια Music Premium καταφεύγουν σε τοπική
-ytmusic-premium-desc-2 = { " " }επίλυση όταν η κύρια διαδρομή επιστρέφει UNPLAYABLE, οπότε το να το έχεις εγκατεστημένο βοηθά. Η ανώνυμη λειτουργία δεν μπορεί καθόλου να αναπαράγει περιεχόμενο μόνο για Premium.
+ytmusic-premium-desc-1 = Ορισμένα κομμάτια μόνο για Premium ίσως χρειαστούν τοπική εναλλακτική μέσω yt-dlp.
+ytmusic-premium-desc-2 = Η ανώνυμη λειτουργία δεν μπορεί να αναπαράγει περιεχόμενο μόνο για Premium.
 
 ## Apple Music
 applemusic-title = Ρύθμιση Apple Music
@@ -207,20 +229,20 @@ applemusic-android-desc = Η σύνδεση χρησιμοποιεί WebView ε�
 soundcloud-title = Ρύθμιση SoundCloud
 soundcloud-subtitle = Πρόσθεσέ το από Ρυθμίσεις → Media servers → Προσθήκη → SoundCloud.
 soundcloud-signin-title = Μία σύνδεση μέσω προγράμματος περιήγησης
-soundcloud-signin-desc = Καμία URL ή κωδικός προς πληκτρολόγηση. Το Kopuz ανοίγει το soundcloud.com/signin σε ένα απομονωμένο προφίλ περιήγησης — η κανονική σου περιήγηση δεν επηρεάζεται ποτέ — και αντλεί το oauth_token της συνεδρίας. Διάλεξε ποιο πρόγραμμα περιήγησης οικογένειας Chromium θα χρησιμοποιήσεις (Chrome, Chromium, Brave, Edge ή Vivaldi).
+soundcloud-signin-desc = Δεν χρειάζεται να πληκτρολογήσεις URL, κωδικό πρόσβασης ή token. Το Kopuz ανοίγει τη σύνδεση SoundCloud σε απομονωμένο προφίλ μέσω Chrome, Chromium, Brave, Edge, Vivaldi ή Helium. Η αφαίρεση της πηγής διαγράφει το προφίλ.
 soundcloud-features-title = Τι παίρνεις
 soundcloud-features-desc = Αναζήτηση, αναπαραγωγή κομματιών (προοδευτικό MP3 συν ροές Go+ AAC/HLS), τα αγαπημένα σου κομμάτια ως favorites, λίστες μόνο για ανάγνωση και like/unlike. Η αφαίρεση της πηγής καθαρίζει το απομονωμένο προφίλ της.
 
 ## Sponsors
 sponsors-title = Χορηγοί
-sponsors-subtitle = Άνθρωποι που κρατούν το Kopuz ζωντανό.
+sponsors-subtitle = Τωρινοί και παλαιότεροι χορηγοί του έργου.
 sponsors-cta = Γίνε χορηγός
 
 ## Gallery
-gallery-page-title = Συλλογή — Kopuz Music Player
-gallery-page-desc = Στιγμιότυπα του Kopuz σε δράση — αρχική, βιβλιοθήκη, λίστα, αναπαραγωγή πλήρους οθόνης, στίχοι, επεξεργαστής θεμάτων και άλλα.
+gallery-page-title = Συλλογή του Kopuz Music Player
+gallery-page-desc = Στιγμιότυπα οθόνης από την αρχική οθόνη, τη βιβλιοθήκη, τις λίστες αναπαραγωγής, το πρόγραμμα αναπαραγωγής, τους στίχους, τον επεξεργαστή θεμάτων και τις ρυθμίσεις.
 gallery-title = Συλλογή
-gallery-subtitle = Στιγμιότυπα του Kopuz — στυλ Normal και Modern.
+gallery-subtitle = Στιγμιότυπα οθόνης των στυλ Normal και Modern.
 gallery-home = Αρχική
 gallery-home-styles = Normal / Modern
 gallery-library = Βιβλιοθήκη
@@ -241,12 +263,12 @@ gallery-downloader-title = Λήπτης
 gallery-downloader-desc = Κατέβασε κομμάτια απευθείας μέσα από Kopuz.
 gallery-prev = ← Προηγούμενο
 gallery-next = Επόμενο →
-gallery-label-normal-home = Normal — Αρχική
-gallery-label-modern-home = Modern — Αρχική
-gallery-label-normal-library = Normal — Βιβλιοθήκη
-gallery-label-vaxry-library = Vaxry — Βιβλιοθήκη
-gallery-label-normal-playlist = Normal — Λίστα
-gallery-label-modern-playlist = Modern — Λίστα
+gallery-label-normal-home = Normal: Αρχική
+gallery-label-modern-home = Modern: Αρχική
+gallery-label-normal-library = Normal: Βιβλιοθήκη
+gallery-label-vaxry-library = Vaxry: Βιβλιοθήκη
+gallery-label-normal-playlist = Normal: Λίστα
+gallery-label-modern-playlist = Modern: Λίστα
 gallery-label-fullscreen = Αναπαραγωγή πλήρους οθόνης
 gallery-label-fullscreen-lyrics = Στίχοι πλήρους οθόνης
 gallery-label-search = Αναζήτηση
@@ -255,20 +277,20 @@ gallery-label-player-settings = Ρυθμίσεις αναπαραγωγής
 gallery-label-downloader = Λήπτης
 
 ## Footer
-footer-license = Άδεια MIT — Δωρεάν & Ανοιχτού Κώδικα
+footer-license = Άδεια MIT: Δωρεάν και ανοιχτού κώδικα
 footer-github = GitHub
 footer-releases = Εκδόσεις
 footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz — Music Player
+home-title = Kopuz: Πρόγραμμα αναπαραγωγής μουσικής
 home-meta-desc = Το Kopuz είναι ένα σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για υπολογιστές και Android. Παίξε τοπικά αρχεία ή συνδέσου με Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify. Η αναπαραγωγή από το Apple Music είναι διαθέσιμη προς το παρόν μόνο σε υπολογιστές.
 home-meta-keywords = Kopuz, πρόγραμμα αναπαραγωγής μουσικής, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, ανοιχτού κώδικα, Android, Linux, macOS, Windows, στίχοι, ισοσταθμιστής
-og-title = Kopuz — Music Player
+og-title = Kopuz: Πρόγραμμα αναπαραγωγής μουσικής
 og-desc = Σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για τοπικά αρχεία και συνδεδεμένες πηγές σε υπολογιστές και Android. Συγχρονισμένοι στίχοι, θέματα, ισοσταθμιστής και άλλα.
 og-image-alt = Πρόγραμμα αναπαραγωγής μουσικής Kopuz
-twitter-title = Kopuz — Music Player
+twitter-title = Kopuz: Πρόγραμμα αναπαραγωγής μουσικής
 twitter-desc = Σύγχρονο, ελαφρύ πρόγραμμα αναπαραγωγής μουσικής για τοπικά αρχεία, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud και Spotify.
 
 ## User-friendly aliases (synced with EN updates)

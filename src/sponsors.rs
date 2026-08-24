@@ -145,7 +145,7 @@ fn apply_event(store: &mut SponsorsStore, event: &SponsorshipEvent) {
                 store.past.push(record);
             } else {
                 // A new monthly sponsorship must not erase a past one-time
-                // donation — the sponsor stays in both lists.
+                // donation. The sponsor stays in both lists.
                 store
                     .current
                     .retain(|r| !r.login.eq_ignore_ascii_case(login));
