@@ -277,7 +277,7 @@ gallery-label-player-settings = Ρυθμίσεις αναπαραγωγής
 gallery-label-downloader = Λήπτης
 
 ## Footer
-footer-license = Άδεια MIT: Δωρεάν και ανοιχτού κώδικα
+footer-license = Άδεια EUPL v1.2: Δωρεάν και ανοιχτού κώδικα
 footer-github = GitHub
 footer-releases = Εκδόσεις
 footer-issues = Issues

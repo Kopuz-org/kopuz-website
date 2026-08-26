@@ -276,7 +276,7 @@ gallery-label-player-settings = הגדרות נגן
 gallery-label-downloader = מוריד
 
 ## Footer
-footer-license = רישיון MIT, חינמי ובקוד פתוח
+footer-license = רישיון EUPL v1.2, חינמי ובקוד פתוח
 footer-github = GitHub
 footer-releases = גרסאות
 footer-issues = Issues

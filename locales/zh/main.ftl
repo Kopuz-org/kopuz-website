@@ -276,7 +276,7 @@ gallery-label-player-settings = 播放器设置
 gallery-label-downloader = 下载器
 
 ## Footer
-footer-license = MIT 许可证（免费开源）
+footer-license = EUPL v1.2 许可证（免费开源）
 footer-github = GitHub
 footer-releases = 发布
 footer-issues = Issues

@@ -276,7 +276,7 @@ gallery-label-player-settings = Lejátszó beállítások
 gallery-label-downloader = Letöltő
 
 ## Footer
-footer-license = MIT licenc | Ingyenes és nyílt forráskódú
+footer-license = EUPL v1.2 licenc | Ingyenes és nyílt forráskódú
 footer-github = GitHub
 footer-releases = Kiadások
 footer-issues = Issues

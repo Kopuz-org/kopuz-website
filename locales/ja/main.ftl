@@ -276,7 +276,7 @@ gallery-label-player-settings = プレイヤー設定
 gallery-label-downloader = ダウンローダー
 
 ## Footer
-footer-license = MITライセンス（無料・オープンソース）
+footer-license = EUPL v1.2 ライセンス（無料・オープンソース）
 footer-github = GitHub
 footer-releases = リリース
 footer-issues = Issues

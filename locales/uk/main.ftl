@@ -276,7 +276,7 @@ gallery-label-player-settings = Налаштування плеєра
 gallery-label-downloader = Завантажувач
 
 ## Footer
-footer-license = Ліцензія MIT | Безкоштовне ПЗ із відкритим вихідним кодом
+footer-license = Ліцензія EUPL v1.2 | Безкоштовне ПЗ із відкритим вихідним кодом
 footer-github = GitHub
 footer-releases = Релізи
 footer-issues = Issues

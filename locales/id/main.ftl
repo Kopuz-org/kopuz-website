@@ -277,7 +277,7 @@ gallery-label-player-settings = Pengaturan pemutar
 gallery-label-downloader = Pengunduh
 
 ## Footer
-footer-license = Lisensi MIT. Gratis dan bersumber terbuka.
+footer-license = Lisensi EUPL v1.2. Gratis dan bersumber terbuka.
 footer-github = GitHub
 footer-releases = Rilis
 footer-issues = Issues

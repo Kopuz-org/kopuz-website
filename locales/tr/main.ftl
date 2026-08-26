@@ -276,7 +276,7 @@ gallery-label-player-settings = Çalar ayarları
 gallery-label-downloader = İndirici
 
 ## Footer
-footer-license = MIT Lisansı. Ücretsiz ve açık kaynak.
+footer-license = EUPL v1.2 Lisansı. Ücretsiz ve açık kaynak.
 footer-github = GitHub
 footer-releases = Sürümler
 footer-issues = Issues

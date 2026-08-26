@@ -52,7 +52,7 @@ pub fn PrivacyPage() -> impl IntoView {
                 </p>
                 <h2>"Who is responsible"</h2>
                 <p>
-                    "Kopuz is an MIT-licensed open source project maintained by temidaradev and its contributors. Compare this policy with the source code at "
+                    "Kopuz is an open source project licensed under the EUPL v1.2 and maintained by temidaradev and its contributors. Compare this policy with the source code at "
                     <a href="https://github.com/Kopuz-org/kopuz" target="_blank" rel="noopener noreferrer">"github.com/Kopuz-org/kopuz"</a>
                     "."
                 </p>

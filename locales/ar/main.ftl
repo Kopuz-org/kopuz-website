@@ -276,7 +276,7 @@ gallery-label-player-settings = إعدادات المشغل
 gallery-label-downloader = المُنزِّل
 
 ## Footer
-footer-license = رخصة MIT، مجاني ومفتوح المصدر
+footer-license = رخصة EUPL v1.2، مجاني ومفتوح المصدر
 footer-github = GitHub
 footer-releases = الإصدارات
 footer-issues = Issues
