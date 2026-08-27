@@ -1,8 +1,16 @@
 #![recursion_limit = "256"]
 
 pub mod app;
+pub mod download;
+pub mod features;
+pub mod guides;
+pub mod home;
+pub mod icons;
 pub mod pages;
 pub mod privacy;
+pub mod releases;
+pub mod shell;
+pub mod support;
 
 #[cfg(feature = "ssr")]
 pub mod sponsors;

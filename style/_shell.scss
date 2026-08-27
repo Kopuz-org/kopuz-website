@@ -1,0 +1,486 @@
+/* Nav, footer, 88x31 shelf and the player bar. */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  height: var(--nav-h);
+  background: var(--player-bg);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 100%;
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.nav-mark {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-inline-start: 8px;
+}
+
+.nav-link {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 120ms var(--ease);
+}
+.nav-link-active {
+  color: var(--copper);
+}
+
+.nav-right {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: none;
+}
+
+.nav-util {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 120ms var(--ease);
+}
+
+.lang-switch {
+  position: relative;
+}
+.lang-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  font: inherit;
+  /* Anything under 16px makes iOS zoom the page when the control takes focus. */
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.nav-menu-btn {
+  display: none;
+}
+
+/* The switch is two 13px icons once the language name is dropped, which is far
+   short of a thumb. The select fills the box, so sizing the box sizes the hit
+   area with it. */
+@media (pointer: coarse) {
+  .lang-switch {
+    justify-content: center;
+    min-inline-size: 40px;
+    min-block-size: 40px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-link:hover,
+  .nav-util:hover {
+    color: var(--text);
+  }
+  .nav-link-active:hover {
+    color: var(--copper-deep);
+  }
+}
+
+@media (max-width: 899px) {
+  .nav-links {
+    position: absolute;
+    inset-inline: 0;
+    top: var(--nav-h);
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-inline-start: 0;
+    padding: 8px var(--gutter) 16px;
+    background: var(--surface);
+    box-shadow: 0 12px 24px -18px rgba(0, 0, 0, 0.7);
+    /* A landscape phone has less room than the panel needs, and the player bar
+       covers whatever runs past the bottom, so the panel scrolls itself. */
+    max-block-size: calc(100dvh - var(--nav-h) - var(--player-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .nav-links.open {
+    display: flex;
+  }
+  .nav-link {
+    padding-block: 12px;
+    font-size: 14px;
+  }
+  .nav-menu-btn {
+    display: inline-flex;
+  }
+  .nav-gh,
+  .lang-switch-value {
+    display: none;
+  }
+}
+
+/* ── footer ── */
+
+.footer {
+  padding-block: 36px 24px;
+}
+.footer-inner {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.footer-logo {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+}
+.footer-license {
+  font-size: 12px;
+  color: var(--faint);
+}
+.footer-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-links a:hover {
+    color: var(--text);
+  }
+}
+
+/* One 12.5px line is 19px tall, so the row gap is spent on hit area instead. */
+@media (pointer: coarse) {
+  .footer-links {
+    row-gap: 0;
+  }
+  .footer-links a {
+    padding-block: 11px;
+  }
+}
+
+/* ── 88x31 shelf ── */
+
+.shelf {
+  background: var(--shelf);
+  border-block-start: 1px solid var(--line);
+  padding-block: 20px;
+}
+.shelf-inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.shelf-button img {
+  width: 176px;
+  height: 62px;
+  image-rendering: pixelated;
+  border: 1px solid var(--line-strong);
+  outline: 1px dotted transparent;
+  outline-offset: 3px;
+  transition: outline-color 120ms var(--ease);
+}
+.shelf-caption {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--pixel);
+  font-size: 10px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  /* The deeper copper is the one that clears 4.5:1 on the shelf in light. */
+  color: var(--copper-deep);
+}
+.shelf-stamp {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.shelf-snip {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  max-width: 100%;
+}
+.shelf-snip pre {
+  margin: 0;
+  font-size: 11px;
+  max-width: min(52vw, 520px);
+  background: var(--surface);
+}
+.shelf-copy {
+  height: 30px;
+  flex: none;
+  padding-inline: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  transition:
+    transform 160ms var(--ease),
+    border-color 160ms var(--ease);
+}
+.shelf-copy:active {
+  transform: scale(0.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shelf-button:hover img {
+    outline-color: var(--copper);
+  }
+  .shelf-copy:hover {
+    border-color: var(--copper);
+    color: var(--copper);
+  }
+}
+
+@media (max-width: 899px) {
+  .shelf-snip {
+    margin-inline-start: 0;
+    width: 100%;
+  }
+  .shelf-snip pre {
+    max-width: none;
+    min-width: 0;
+    flex: 1;
+    font-size: 12px;
+  }
+  /* Silkscreen at 10px is legible on a desktop and not on a phone. */
+  .shelf-caption {
+    font-size: 12px;
+  }
+}
+
+/* ── player bar ── */
+
+.player {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 50;
+  height: var(--player-h);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(12px, 2vw, 28px);
+  padding-inline: clamp(12px, 2vw, 24px);
+  background: var(--player-bg);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-block-start: 1px solid var(--line);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .player { background: var(--ground); }
+}
+
+.player button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+  cursor: default;
+}
+
+.player-now {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.player-thumb {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-sm);
+  background: var(--brand);
+}
+.player-thumb img {
+  width: 26px;
+  height: 26px;
+}
+.player-title {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.player-title > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-title strong {
+  font-weight: 700;
+  color: var(--text);
+}
+.player-section {
+  color: var(--muted);
+}
+.player-like {
+  flex: none;
+}
+
+.player-center {
+  min-width: 0;
+}
+.player-transport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.player-step .ico {
+  fill: currentColor;
+}
+.player .player-play {
+  width: 38px;
+  height: 38px;
+  background: var(--cream);
+  color: var(--on-cream);
+}
+.player .player-play .ico {
+  fill: currentColor;
+  stroke: none;
+}
+.player .player-play-compact {
+  display: none;
+}
+
+.player-seek {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-block-start: 4px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.player-track {
+  position: relative;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  overflow: hidden;
+}
+.player-track i {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--p, 0%);
+  background: var(--cream);
+  border-radius: 2px;
+}
+
+.player-side {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+  color: var(--muted);
+}
+.player-volume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 6px;
+}
+.player-vol-track {
+  position: relative;
+  width: 80px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line-strong);
+}
+.player-vol-track::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 78%;
+  border-radius: 2px;
+  background: var(--cream);
+}
+
+@media (max-width: 899px) {
+  .player {
+    height: 56px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .player-center,
+  .player-side {
+    display: none;
+  }
+  .player .player-like {
+    display: none;
+  }
+  .player .player-play-compact {
+    display: grid;
+    margin-inline-start: auto;
+  }
+  .player-thumb {
+    width: 36px;
+    height: 36px;
+  }
+  .player-thumb img {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* The boot script stamps html[data-os] before first paint; the server renders
+   every label and CSS picks one, so the button never changes after load. */
+.os-label { display: none; }
+html[data-os] .os-generic { display: none; }
+html[data-os="linux"] .os-label[data-os="linux"],
+html[data-os="macos"] .os-label[data-os="macos"],
+html[data-os="windows"] .os-label[data-os="windows"],
+html[data-os="android"] .os-label[data-os="android"] { display: inline; }

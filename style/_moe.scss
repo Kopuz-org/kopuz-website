@@ -1,0 +1,176 @@
+/* MOE MODE  (´｡• ᵕ •｡`) ♡
+   Explicit retro-kawaii easter egg: visit any page with ?moe. */
+
+body:has(.site.moe) {
+  background-color: #ffbfe6;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.5) 1.5px, transparent 1.6px),
+    radial-gradient(rgba(255, 255, 255, 0.35) 1.5px, transparent 1.6px),
+    linear-gradient(135deg, #ffd1ec 0%, #d9baff 45%, #b6ecff 100%);
+  background-size: 26px 26px, 26px 26px, 100% 100%;
+  background-position: 0 0, 13px 13px, 0 0;
+  background-attachment: fixed;
+}
+
+.site.moe {
+  /* Remap the whole palette. Every rule in the other partials inherits this. */
+  --ground: #fff5fb;
+  --surface: #fff5fb;
+  --raised: #ffeaf6;
+  --line: #ffb9d9;
+  --line-strong: #ff5fa2;
+
+  --text: #4a2e5d;
+  --muted: #8a5c9e;
+  --faint: #b083c4;
+
+  --copper: #ff2d95;
+  --copper-deep: #e5348a;
+  --cream: #ff2d95;
+  --on-cream: #ffffff;
+
+  --shelf: #ffeaf6;
+  --player-bg: rgba(255, 245, 251, 0.92);
+
+  --sans: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Segoe Print", cursive, sans-serif;
+  --mono: var(--vga);
+
+  max-width: 1040px;
+  margin: 14px auto 24px;
+  background: var(--ground);
+  border: 4px ridge #ff5fa2;
+  box-shadow: 0 0 0 3px #cdb4ff;
+  color: var(--text);
+}
+
+/* The VGA face has no weights and no negative tracking. */
+.site.moe h1,
+.site.moe h2,
+.site.moe h3,
+.site.moe .nav-brand,
+.site.moe .footer-logo,
+.site.moe .btn {
+  font-family: var(--vga);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.site.moe h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.3;
+  color: var(--copper);
+  text-shadow: 3px 3px 0 #fff, 5px 5px 0 #cdb4ff;
+}
+.site.moe h2 {
+  font-size: clamp(20px, 2.6vw, 26px);
+  line-height: 1.4;
+  color: var(--copper);
+  text-shadow: 2px 2px 0 #fff;
+}
+.site.moe .nav-brand {
+  font-size: 18px;
+  color: var(--copper);
+  text-shadow: 2px 2px 0 #ffe14d;
+}
+
+.site.moe .nav,
+.site.moe .player {
+  backdrop-filter: none;
+}
+.site.moe .nav {
+  border-block-end: 3px dotted #ff5fa2;
+}
+.site.moe .footer {
+  border-block-start: 3px dotted #ff5fa2;
+}
+.site.moe .shelf {
+  border-block-start: 3px dotted #ff5fa2;
+}
+
+.site.moe .footer-links a {
+  color: #1f9fd6;
+  text-decoration: underline;
+}
+
+/* bevels come back */
+.site.moe .btn {
+  border-radius: 0;
+  border: 3px outset #ff5fa2;
+}
+.site.moe .btn:active {
+  border-style: inset;
+  transform: none;
+}
+.site.moe .btn-ghost {
+  background: var(--raised);
+  color: #a86cff;
+  border-color: #cdb4ff;
+}
+.site.moe .nav-link {
+  padding: 2px 8px;
+  background: var(--raised);
+  border: 2px outset #cdb4ff;
+  color: var(--text);
+}
+
+.site.moe .card,
+.site.moe .frame,
+.site.moe .sponsor-avatars img {
+  border-radius: 0;
+  outline: 0;
+}
+.site.moe .card {
+  border: 3px outset #cdb4ff;
+}
+.site.moe .hero {
+  border-radius: 0;
+}
+.site.moe .hero-wash {
+  display: none;
+}
+.site.moe .sponsor-avatars img {
+  border: 3px solid var(--copper);
+  border-radius: 50%;
+}
+
+.site.moe .donation-progress-track {
+  height: 14px;
+  border-radius: 0;
+  background: #fff;
+  border: 2px inset #cdb4ff;
+}
+.site.moe .donation-progress-fill {
+  border-radius: 0;
+  background: repeating-linear-gradient(45deg, #ff2d95 0 10px, #ff8ec7 10px 20px);
+}
+
+/* terminal-green code blocks */
+.site.moe pre {
+  background: #1a0028;
+  border: 3px double #ff5fa2;
+  border-radius: 0;
+  color: #9dff8a;
+  font-size: 14px;
+}
+.site.moe code {
+  background: #200030;
+  color: #7fff6a;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+/* kaomoji flourish under section headings, moe only */
+.site.moe .sec-head::after {
+  content: "✿ ｡ﾟ･ ✿ ｡ﾟ･ ✿";
+  display: block;
+  margin-block-start: 10px;
+  color: #cdb4ff;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 720px) {
+  .site.moe {
+    margin: 8px auto 14px;
+    border-width: 3px;
+  }
+}

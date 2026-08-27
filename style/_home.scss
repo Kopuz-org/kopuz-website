@@ -1,0 +1,666 @@
+/* Home page: hero banner, sources, moments, download list, sponsors,
+   release notes, the name. */
+
+.hero-sec {
+  padding-block-start: 24px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  min-height: 420px;
+}
+
+.hero-wash {
+  position: absolute;
+  inset-block-start: -80px;
+  inset-inline: -40px;
+  height: 640px;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(48px);
+  background:
+    radial-gradient(48% 60% at 78% 24%, rgba(232, 168, 102, 0.26), transparent 62%),
+    radial-gradient(36% 50% at 12% 70%, rgba(137, 17, 17, 0.22), transparent 60%),
+    radial-gradient(40% 40% at 60% 90%, rgba(120, 86, 150, 0.16), transparent 60%);
+}
+.site.light .hero-wash {
+  opacity: 0.4;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: clamp(28px, 4vw, 52px);
+}
+
+.hero-release {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.hero-star {
+  color: var(--copper);
+}
+
+.hero .lede {
+  font-size: 15.5px;
+  max-width: 44ch;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-block-start: 8px;
+}
+
+.hero-platforms {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-block-start: 6px;
+  font-size: 12px;
+  color: var(--faint);
+}
+.hero-platforms span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-art {
+  position: relative;
+  min-height: 260px;
+}
+.hero-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 28%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 28%);
+}
+[dir="rtl"] .hero-art img {
+  object-position: right top;
+  -webkit-mask-image: linear-gradient(270deg, transparent 0, #000 28%);
+  mask-image: linear-gradient(270deg, transparent 0, #000 28%);
+}
+
+@media (max-width: 899px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .hero-art {
+    order: -1;
+    min-height: 220px;
+  }
+  .hero-art img,
+  [dir="rtl"] .hero-art img {
+    object-position: left top;
+    -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent);
+    mask-image: linear-gradient(180deg, #000 40%, transparent);
+  }
+}
+
+/* ── sources ── */
+
+.sources-sec h2,
+.get-sec h2,
+.home-sponsors h2,
+.whats-new h2,
+.about-name h2 {
+  margin-block-end: 20px;
+}
+
+.sources-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  list-style: none;
+}
+.sources-inline a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 120ms var(--ease);
+}
+.sources-inline .ico {
+  color: var(--copper);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sources-inline a:hover {
+    color: var(--copper);
+  }
+}
+
+/* The row gap becomes hit area: each link ends up 41px tall, so the rows read
+   the same distance apart and a thumb lands on one of them. */
+@media (pointer: coarse) {
+  .sources-inline {
+    row-gap: 0;
+  }
+  .sources-inline a {
+    padding-block: 11px;
+  }
+}
+
+/* ── moments ── */
+
+/* Each moment is a full-height card that windows a viewport-fixed frame through
+   its clip-path, so all three screenshots share one spot and scrolling wipes one
+   into the next. No transform or filter may sit on .moment or any ancestor, or
+   the fixed stage reparents to it and scrolls away with the card. */
+.moments-list {
+  --card-pad: clamp(24px, 4vw, 40px);
+  --stage-cols: minmax(0, 4fr) minmax(0, 7fr);
+  --stage-gap: clamp(32px, 6vw, 72px);
+  --moment-h: clamp(440px, 64dvh, 640px);
+  /* Shared by every frame that tilts: two different depths read as two
+     different cards under the same pointer. */
+  --tilt-depth: 1200px;
+  display: grid;
+  gap: 16px;
+}
+.moment {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: var(--card-pad);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 24px;
+}
+.moment-copy h2 {
+  font-size: clamp(24px, 2.4vw, 30px);
+  margin-block-end: 12px;
+}
+.moment-copy .prose {
+  font-size: 15px;
+}
+.moment-copy .prose + .prose {
+  margin-block-start: 10px;
+}
+.moment-copy .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 14px;
+}
+.moment-stage {
+  min-width: 0;
+}
+/* The frame tilts as one composited unit toward the pointer (--tilt-* from
+   site.js). WebKit gives a composited descendant only a rectangular clip, so
+   the rounding lives in clip-path, which survives compositing. */
+.moment-art {
+  perspective: var(--tilt-depth);
+  min-width: 0;
+}
+.moment-art .frame {
+  aspect-ratio: 16 / 9;
+  clip-path: inset(0 round var(--r-lg));
+  transform: rotateY(var(--tilt-y, 0deg)) rotateX(var(--tilt-x, 0deg));
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.moment-art .frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .moment-art .frame.reveal {
+      opacity: 1;
+      transition: none;
+      animation: frame-open linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 75%;
+    }
+  }
+}
+@keyframes frame-open {
+  from {
+    clip-path: inset(10% 8% 10% 8% round 24px);
+    opacity: 0.35;
+  }
+  to {
+    clip-path: inset(0 round var(--r-lg));
+    opacity: 1;
+  }
+}
+
+@media (min-width: 900px) {
+  .moment {
+    min-height: var(--moment-h);
+    display: grid;
+    grid-template-columns: var(--stage-cols);
+    column-gap: var(--stage-gap);
+    align-items: center;
+  }
+  .moment-copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .moment-stage {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .moment-stage-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .moment-art {
+    width: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .moment {
+      clip-path: inset(0 round 16px);
+    }
+    .moment-stage {
+      position: fixed;
+      inset: var(--nav-h) 0 var(--player-h);
+      pointer-events: none;
+    }
+    /* Mirrors .wrap plus the card padding so the stage grid overlays the card
+       grid at every viewport width. */
+    .moment-stage-inner {
+      display: grid;
+      grid-template-columns: var(--stage-cols);
+      column-gap: var(--stage-gap);
+      align-items: center;
+      max-width: var(--wrap);
+      margin-inline: auto;
+      padding-inline: calc(var(--gutter) + var(--card-pad));
+    }
+    .moment-art {
+      grid-column: 2;
+    }
+    .moment-art .frame.reveal {
+      animation: none;
+      opacity: 1;
+      clip-path: inset(0 round var(--r-lg));
+    }
+  }
+}
+
+/* ── theme stage ── */
+
+/* The theming card buys one extra screen of scroll per wipe. site.js turns that
+   scroll into --reveal on each stacked layer, so the frame holds still while one
+   theme wipes into the next. */
+.moment-themes {
+  --theme-steps: 3; /* .theme-layer count minus the layer already on screen */
+  --theme-hold: 1; /* the grown preview holds the first theme for one step */
+  /* The card clips itself, so the desk stops 12px short of the card's edge. */
+  --desk-bleed: calc(var(--card-pad) - 12px);
+}
+/* The scene grows once the seam from the previous card has crossed the frame,
+   and fades over the last frame-height of the card rather than being cut off by
+   the card's own edge. Both come from site.js. */
+.theme-scene {
+  position: relative;
+  transform: scale(var(--grow, 1));
+  transform-origin: 100% 50%;
+  opacity: var(--exit, 1);
+  /* The frame is a grandchild here, so the card's own perspective never
+     reaches it and the tilt would flatten into a squash. */
+  perspective: var(--tilt-depth);
+}
+[dir="rtl"] .theme-scene {
+  transform-origin: 0 50%;
+}
+/* The sweep runs across the desk, which is wider than the frame by the bleed on
+   each side, so site.js writes --desk-reveal as a pixel offset from the desk's
+   own start edge and derives the frame's --reveal from it. The opacity guard
+   keeps the start bleed hidden until the wipe for that theme starts. */
+.theme-desk {
+  position: absolute;
+  inset: calc(-1 * var(--desk-bleed));
+  z-index: 0;
+  border-radius: 16px;
+  background-position: center;
+  background-size: cover;
+  clip-path: inset(0 calc(100% - var(--desk-reveal, 0px)) 0 0);
+  opacity: clamp(0%, calc(var(--reveal, 0%) * 100), 100%);
+}
+/* The scroll rewrites these every frame; a transition would fight it. */
+.theme-layer,
+.theme-desk,
+.theme-line {
+  transition: none;
+}
+.theme-frame {
+  position: relative;
+  z-index: 1;
+  background: var(--ground);
+}
+.theme-layer {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--reveal, 0%)) 0 0);
+}
+/* The theme already on screen is never clipped, and neither is its desk. */
+.theme-frame > .theme-layer:first-child {
+  --reveal: 100%;
+}
+.theme-desk[data-theme-index="0"] {
+  clip-path: none;
+  opacity: 1;
+  background: linear-gradient(135deg, #32302f, #504945 55%, #3c3836);
+}
+.theme-desk[data-theme-index="1"] {
+  background: linear-gradient(135deg, #000, #15130f);
+}
+/* The line runs the height of the desk, so it takes the desk's box and corner
+   radius to be cut by, and site.js writes --line-x in that same box. */
+.theme-line-mask {
+  position: absolute;
+  inset: calc(-1 * var(--desk-bleed));
+  z-index: 2;
+  border-radius: 16px;
+  clip-path: inset(0 round 16px);
+  overflow: hidden;
+  pointer-events: none;
+}
+.theme-line {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--line-x, 0px);
+  width: 2px;
+  background: var(--surface);
+  opacity: var(--line-on, 0);
+}
+.theme-caption {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + var(--desk-bleed) + 10px);
+  inset-inline-start: 0;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .moment-themes {
+    min-height: calc(var(--moment-h) + (var(--theme-steps) + var(--theme-hold)) * 42vh);
+  }
+  .moment-themes .moment-copy {
+    align-self: stretch;
+  }
+  /* The grown scene reaches back into the column gap, so the copy stops short
+     of it. */
+  .moment-themes .moment-copy-inner {
+    max-width: 280px;
+    position: sticky;
+    top: var(--nav-h);
+    min-height: calc(100dvh - var(--nav-h) - var(--player-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Without the fixed stage the frame would sit centred in a card three screens
+     tall, so it has to pin itself. */
+  @media (prefers-reduced-motion: reduce) {
+    .moment-themes .moment-stage {
+      align-self: stretch;
+      position: sticky;
+      top: var(--nav-h);
+      height: calc(100dvh - var(--nav-h) - var(--player-h));
+    }
+    .moment-themes .moment-stage-inner {
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 899px) {
+  /* The frame keeps the other cards' place at the top of the card; both columns
+     pin so the tall card does not scroll the copy behind the frame. */
+  .moment-themes {
+    justify-content: flex-end;
+    min-height: calc(72vh + (var(--theme-steps) + var(--theme-hold)) * 42vh);
+    --frame-h: calc((100vw - 2 * var(--gutter) - 2 * var(--card-pad)) * 0.5625);
+  }
+  .moment-themes .moment-stage {
+    position: sticky;
+    top: calc(var(--nav-h) + 12px + var(--desk-bleed));
+    margin-block-end: calc(var(--desk-bleed) + 34px);
+  }
+  /* Below this the pinned pair would not fit, so the copy scrolls instead. */
+  @media (min-height: 700px) {
+    .moment-themes .moment-copy {
+      position: sticky;
+      top: calc(var(--nav-h) + 46px + var(--desk-bleed) * 2 + var(--frame-h) + 34px);
+    }
+  }
+
+  /* A landscape phone is shorter than the 16/9 frame a full-width card would
+     give it, so the desk and its caption would be pinned half under the player
+     bar. Capping the stage's width caps that height with it. */
+  @media (max-height: 620px) {
+    .moment-themes .moment-art {
+      max-inline-size: calc(
+        (100dvh - var(--nav-h) - var(--player-h) - var(--desk-bleed) * 2 - 54px) * 16 / 9
+      );
+      margin-inline: auto;
+    }
+  }
+}
+
+/* ── get Kopuz ── */
+
+.get-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.get-row {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+.get-row .ico {
+  color: var(--copper);
+}
+.get-name {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+}
+.get-formats {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.get-dl {
+  justify-self: end;
+}
+.get-also {
+  margin-block-start: 24px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--muted);
+}
+.get-also a {
+  color: var(--copper);
+}
+
+/* Padding on an inline box grows the hit area without moving the line. */
+@media (pointer: coarse) {
+  .get-also a {
+    padding-block: 11px;
+  }
+}
+
+@media (max-width: 599px) {
+  .get-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  .get-formats,
+  .get-dl {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* ── sponsors ── */
+
+.sponsor-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-block-end: 24px;
+}
+.sponsor-tier {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.sponsor-tier-label {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+.sponsor-avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sponsor-avatars img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  outline: 1px solid var(--line-strong);
+  outline-offset: -1px;
+}
+
+/* ── release notes ── */
+
+.release-notes > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 14px;
+  cursor: pointer;
+  list-style: none;
+}
+.release-notes > summary::-webkit-details-marker {
+  display: none;
+}
+.release-heads {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  min-width: 0;
+}
+.release-version {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--copper);
+  font-variant-numeric: tabular-nums;
+}
+.release-date {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.release-name {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.release-chevron {
+  color: var(--faint);
+  transition: transform 160ms var(--ease);
+}
+.release-notes[open] .release-chevron {
+  transform: rotate(180deg);
+}
+.release-body {
+  max-width: 72ch;
+  padding-block: 8px 4px;
+  font-family: var(--sans);
+}
+.release-body h3 {
+  font-family: var(--mono);
+  font-size: 16px;
+  margin-block: 22px 8px;
+}
+.release-body h4 {
+  font-family: var(--mono);
+  font-size: 14px;
+  margin-block: 18px 6px;
+}
+.release-body p,
+.release-body li {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.release-body p {
+  margin-block: 10px;
+}
+.release-body strong {
+  color: var(--text);
+  font-weight: 500;
+}
+.release-body a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.release-body ul {
+  margin-block: 10px 16px;
+  padding-inline-start: 20px;
+}
+.release-body li + li {
+  margin-block-start: 6px;
+}
+.release-loading {
+  padding-block: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .release-chevron {
+    transition: none;
+  }
+}

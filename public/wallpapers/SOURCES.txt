@@ -1,0 +1,8 @@
+Example wallpapers for the live theme demo. All CC0 (public domain dedication).
+
+sunset.jpg  Sunset over ocean, Lisa Ann Yount
+            https://commons.wikimedia.org/wiki/File:Sunset_over_ocean_(27717086074).jpg
+lake.jpg    Seaside Cliffs, Josh Aarons
+            https://commons.wikimedia.org/wiki/File:Seaside_Cliffs_(Unsplash).jpg
+
+Resized to 1600px wide, JPEG quality 80.
