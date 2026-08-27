@@ -2,7 +2,9 @@ use fluent_templates::static_loader;
 use leptos::context::Provider;
 use leptos::prelude::*;
 use leptos_fluent::{leptos_fluent, move_tr, I18n};
-use leptos_meta::{provide_meta_context, Html, Link, Meta, MetaTags, Stylesheet, Title};
+use leptos_meta::{
+    provide_meta_context, Html, Link, Meta, MetaTags, Script, Style, Stylesheet, Title,
+};
 use leptos_router::{
     components::{Route, Router, Routes},
     ParamSegment, StaticSegment,
@@ -10,8 +12,8 @@ use leptos_router::{
 
 use crate::home::HomePage;
 use crate::shell::{
-    internal_href, provide_site_theme, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta,
-    THEME_BOOT_SCRIPT,
+    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta,
+    SIMPLE_CSS, THEME_BOOT_SCRIPT,
 };
 
 static_loader! {
@@ -72,8 +74,6 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
-                <script src="/lenis.min.js" defer></script>
-                <script src="/site.js" defer></script>
             </head>
             <body>
                 <App/>
@@ -85,7 +85,6 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
-    let css_version = css_cache_bust();
 
     leptos_fluent! {
         translations: [TRANSLATIONS],
@@ -109,11 +108,6 @@ pub fn App() -> impl IntoView {
     let i18n = expect_context::<I18n>();
 
     view! {
-        <Html
-            attr:lang=move || i18n.language.get().id.to_string()
-            attr:dir=move || i18n.language.get().dir.as_str()
-        />
-        <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
         <Link rel="icon" href="/favicon.ico"/>
         <Meta name="author" content="temidaradev"/>
         <Meta property="og:type" content="website"/>
@@ -123,6 +117,7 @@ pub fn App() -> impl IntoView {
         <Meta name="twitter:card" content="summary_large_image"/>
         <Meta name="twitter:image" content="https://kopuz.moe/banner.png"/>
         <Router>
+            <RootDocument i18n=i18n/>
             <Routes fallback=move || view! { <NotFoundPage i18n=i18n/> }.into_view()>
                 <Route
                     path=StaticSegment("")
@@ -155,6 +150,34 @@ pub fn App() -> impl IntoView {
                 />
             </Routes>
         </Router>
+    }
+}
+
+/// The `<html>` attributes, the stylesheet and the page scripts.
+///
+/// This sits inside the router because simple mode is a query parameter and
+/// `shell()` renders before there is a router to read it from. Simple mode
+/// takes its own inline stylesheet and none of the site one.
+#[component]
+fn RootDocument(i18n: I18n) -> impl IntoView {
+    let simple = simple_mode();
+    let css_version = css_cache_bust();
+
+    view! {
+        <Html
+            attr:lang=move || i18n.language.get().id.to_string()
+            attr:dir=move || i18n.language.get().dir.as_str()
+            attr:data-simple=simple.then_some("1")
+        />
+        {if simple {
+            view! { <Style>{SIMPLE_CSS}</Style> }.into_any()
+        } else {
+            view! {
+                <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
+                <Script src="/lenis.min.js" defer=""/>
+                <Script src="/site.js" defer=""/>
+            }.into_any()
+        }}
     }
 }
 
@@ -242,6 +265,7 @@ pub fn NotFoundBody() -> impl IntoView {
 #[component]
 fn NotFoundPage(i18n: I18n) -> impl IntoView {
     let theme = provide_site_theme();
+    let simple = simple_mode();
 
     view! {
         <Provider value=i18n>
@@ -250,6 +274,7 @@ fn NotFoundPage(i18n: I18n) -> impl IntoView {
             <ThemeColorMeta/>
             <div
                 class="site page"
+                class:simple=simple
                 class:light=move || !theme.dark.get() && !theme.moe
                 class:dark=move || theme.dark.get() && !theme.moe
                 class:moe=move || theme.moe

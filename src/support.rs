@@ -379,10 +379,12 @@ fn crypto_row(coin: &'static str, address: &'static str) -> impl IntoView {
 
 /// A sponsor's GitHub avatar. The username is carried by `title` and
 /// `aria-label`, so the image itself stays out of the accessibility tree.
+/// Simple mode drops the avatar and shows the username instead.
 pub(crate) fn sponsor_avatar(login: &str, px: u32) -> impl IntoView {
     let profile = format!("https://github.com/{login}");
     let src = format!("https://github.com/{login}.png?size={}", px * 2);
     let name = login.to_string();
+    let label = login.to_string();
 
     view! {
         <a
@@ -392,7 +394,11 @@ pub(crate) fn sponsor_avatar(login: &str, px: u32) -> impl IntoView {
             title=name.clone()
             aria-label=name
         >
-            <img src=src alt="" width=px height=px loading="lazy"/>
+            {if crate::shell::simple_mode() {
+                view! { <span>{label}</span> }.into_any()
+            } else {
+                view! { <img src=src alt="" width=px height=px loading="lazy"/> }.into_any()
+            }}
         </a>
     }
 }

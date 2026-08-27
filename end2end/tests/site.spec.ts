@@ -243,3 +243,36 @@ test.describe("site themes", () => {
     ).toBe("dark");
   });
 });
+
+test.describe("simple mode", () => {
+  test("serves text only and carries the mode through navigation", async ({
+    page,
+  }) => {
+    const response = await page.goto("/?simple");
+
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("main h1")).toContainText("Local files.");
+    await expect(page.locator("img")).toHaveCount(0);
+    await expect(page.locator(".player")).toHaveCount(0);
+    await expect(page.locator('script[src*="site.js"]')).toHaveCount(0);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "noindex, follow",
+    );
+
+    const features = page
+      .locator("nav.nav")
+      .getByRole("link", { name: "Features", exact: true });
+    await expect(features).toHaveAttribute("href", "/features?simple");
+
+    // Client-side navigation needs hydration, same as the moe easter egg.
+    await page.locator("html[data-hydrated]").waitFor();
+    await features.click();
+    await expect(page).toHaveURL(/\/features\?simple$/);
+    await expect(page.locator(".site")).toHaveClass(/\bsimple\b/);
+
+    await page.getByRole("link", { name: "Full site", exact: true }).first().click();
+    await expect(page).toHaveURL(/\/features$/);
+    await expect(page.locator(".site")).not.toHaveClass(/\bsimple\b/);
+  });
+});

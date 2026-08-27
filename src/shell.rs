@@ -58,6 +58,87 @@ pub const THEME_BOOT_SCRIPT: &str = r##"
 })();
 "##;
 
+/// Simple mode serves this instead of the site stylesheet. Stripping the full
+/// CSS back is not an option: it is built around cards, fixed chrome and
+/// clamp-sized type. Colors are the `--ground` and `--text` pairs from
+/// style/_tokens.scss, resolved without a script.
+pub const SIMPLE_CSS: &str = r##"
+:root {
+  color-scheme: light;
+  --ground: #e7e2d6;
+  --text: #1a1712;
+  --muted: #5d574c;
+  --line: rgba(26, 23, 18, 0.18);
+  --code: #f3efe6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #121110;
+    --text: #f1e9d2;
+    --muted: #a79e89;
+    --line: rgba(241, 233, 210, 0.18);
+    --code: #1b1916;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #121110;
+  --text: #f1e9d2;
+  --muted: #a79e89;
+  --line: rgba(241, 233, 210, 0.18);
+  --code: #1b1916;
+}
+* {
+  position: static;
+  transition: none;
+  animation: none;
+}
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.site {
+  max-width: 70ch;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+h1, h2, h3 {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  line-height: 1.3;
+  margin: 32px 0 8px;
+}
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1.05rem; }
+p, ul, ol, pre, table, figure { margin: 0 0 16px; }
+ul, ol { padding-left: 20px; }
+li { margin-bottom: 4px; }
+a { color: inherit; text-decoration: underline; }
+img, svg, video { display: none; }
+.lede, .hero-release, .hero-platforms, .footer-brand, .legal-meta { color: var(--muted); }
+.nav { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.nav ul { list-style: none; padding: 0; margin: 0 0 8px; }
+.nav li { display: inline; margin-right: 14px; }
+.footer { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 12px; }
+/* Nothing here is laid out, so inline runs need their own separation. */
+a + a, a + span, span + a, span + span { margin-left: 8px; }
+.sponsor-avatars { display: flex; flex-wrap: wrap; gap: 4px; }
+/* One call to action, not one per operating system. */
+.os-label { display: none; }
+pre, code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 14px; }
+pre { background: var(--code); border: 1px solid var(--line); padding: 12px; overflow-x: auto; }
+code { background: var(--code); padding: 1px 4px; }
+pre code { background: none; padding: 0; }
+select, button { font: inherit; font-size: 16px; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+/* The copy handler lives in site.js, which simple mode does not load. */
+[data-copy] { display: none; }
+"##;
+
 #[derive(Clone, Copy)]
 enum StoredTheme {
     Current(bool),
@@ -129,7 +210,7 @@ fn clear_legacy_theme_cookie() {
     }
 }
 
-fn query_without_moe(search: &str) -> String {
+fn query_without(search: &str, drop: &str) -> String {
     let query = search
         .strip_prefix('?')
         .unwrap_or(search)
@@ -138,7 +219,7 @@ fn query_without_moe(search: &str) -> String {
             !part.is_empty()
                 && part
                     .split_once('=')
-                    .map_or(*part != "moe", |(name, _)| name != "moe")
+                    .map_or(*part != drop, |(name, _)| name != drop)
         })
         .collect::<Vec<_>>()
         .join("&");
@@ -156,7 +237,7 @@ fn leave_moe_mode() {
         let path = location.pathname().unwrap_or_else(|_| "/".to_string());
         let search = location
             .search()
-            .map(|search| query_without_moe(&search))
+            .map(|search| query_without(&search, "moe"))
             .unwrap_or_default();
         let hash = location.hash().unwrap_or_default();
         let _ = location.set_href(&format!("{path}{search}{hash}"));
@@ -167,16 +248,31 @@ fn leave_moe_mode() {
 struct MoeQuery(bool);
 
 #[derive(Clone, Copy)]
+struct SimpleQuery(bool);
+
+/// Page metadata renders as a sibling of the chrome rather than inside it, so
+/// it asks before `provide_site_theme` has put the context in place.
+pub(crate) fn simple_mode() -> bool {
+    match use_context::<SimpleQuery>() {
+        Some(mode) => mode.0,
+        None => use_query_map().with_untracked(|query| query.get("simple").is_some()),
+    }
+}
+
+#[derive(Clone, Copy)]
 pub(crate) struct SiteTheme {
     pub(crate) dark: RwSignal<bool>,
     pub(crate) moe: bool,
 }
 
 pub(crate) fn internal_href(path: &str) -> String {
-    let preserve_moe = use_context::<MoeQuery>()
+    let moe = use_context::<MoeQuery>()
         .map(|mode| mode.0)
         .unwrap_or(false);
-    if !preserve_moe {
+    let simple = use_context::<SimpleQuery>()
+        .map(|mode| mode.0)
+        .unwrap_or(false);
+    if !moe && !simple {
         return path.to_owned();
     }
 
@@ -184,8 +280,16 @@ pub(crate) fn internal_href(path: &str) -> String {
         Some((base, fragment)) => (base, Some(fragment)),
         None => (path, None),
     };
-    let separator = if base.contains('?') { '&' } else { '?' };
-    let mut href = format!("{base}{separator}moe");
+    let mut href = base.to_owned();
+    let mut separator = if base.contains('?') { '&' } else { '?' };
+    for (name, set) in [("moe", moe), ("simple", simple)] {
+        if !set {
+            continue;
+        }
+        href.push(separator);
+        href.push_str(name);
+        separator = '&';
+    }
     if let Some(fragment) = fragment {
         href.push('#');
         href.push_str(fragment);
@@ -204,10 +308,12 @@ pub(crate) fn internal_href(path: &str) -> String {
 pub(crate) fn provide_site_theme() -> SiteTheme {
     let query = use_query_map();
     let moe = query.with_untracked(|q| q.get("moe").is_some());
+    let simple = query.with_untracked(|q| q.get("simple").is_some());
     let dark: RwSignal<bool> = RwSignal::new(false);
     let theme = SiteTheme { dark, moe };
     provide_context(theme);
     provide_context(MoeQuery(moe));
+    provide_context(SimpleQuery(simple));
     provide_latest_release();
 
     Effect::new(move |_| {
@@ -261,6 +367,48 @@ pub(crate) fn ThemeColorMeta() -> impl IntoView {
     }
 }
 
+/// Simple mode is a second address for the same content, so only the full
+/// site is offered to search engines.
+#[component]
+pub(crate) fn RobotsMeta() -> impl IntoView {
+    let content = if simple_mode() {
+        "noindex, follow"
+    } else {
+        "index, follow"
+    };
+
+    view! { <Meta name="robots" content=content/> }
+}
+
+/// The link between the full site and the text-only one. Every other query
+/// parameter, `moe` and `lang` included, rides along.
+#[component]
+pub(crate) fn ModeSwitch() -> impl IntoView {
+    let simple = simple_mode();
+    let location = use_location();
+    let to_simple = move_tr!("mode-simple");
+    let to_full = move_tr!("mode-full");
+
+    let href = Signal::derive(move || {
+        let path = location.pathname.get();
+        let query = query_without(&location.search.get(), "simple");
+        if simple {
+            format!("{path}{query}")
+        } else {
+            let separator = if query.is_empty() { '?' } else { '&' };
+            format!("{path}{query}{separator}simple")
+        }
+    });
+
+    // rel=external keeps the router's click handler off it: the mode decides
+    // what the server renders, so it has to be a document load.
+    view! {
+        <a class="mode-switch" rel="external" href=href>
+            {move || if simple { to_full.get() } else { to_simple.get() }}
+        </a>
+    }
+}
+
 #[component]
 fn ThemeToggle() -> impl IntoView {
     let theme = expect_context::<SiteTheme>();
@@ -310,7 +458,7 @@ fn ThemeToggle() -> impl IntoView {
 }
 
 #[component]
-fn LanguageSwitcher() -> impl IntoView {
+fn LanguageSelect() -> impl IntoView {
     let i18n = expect_context::<I18n>();
     let on_change = move |ev: leptos::ev::Event| {
         let v = event_target_value(&ev);
@@ -320,35 +468,83 @@ fn LanguageSwitcher() -> impl IntoView {
     };
 
     view! {
+        <select
+            class="lang-select"
+            aria-label=move_tr!("nav-lang-label")
+            on:change=on_change
+        >
+            {i18n.languages.iter().map(|lang| {
+                let lang_id = lang.id.to_string();
+                let lang_id_cmp = lang_id.clone();
+                let name = lang.name;
+                view! {
+                    <option
+                        value=lang_id
+                        selected=move || i18n.language.get().id.to_string() == lang_id_cmp
+                    >
+                        {name}
+                    </option>
+                }
+            }).collect_view()}
+        </select>
+    }
+}
+
+#[component]
+fn LanguageSwitcher() -> impl IntoView {
+    let i18n = expect_context::<I18n>();
+
+    view! {
         <span class="nav-util lang-switch">
             <Icon name="languages" size=13/>
             <span class="lang-switch-value">{move || i18n.language.get().name}</span>
             <Icon name="chevron-down" size=13/>
-            <select
-                class="lang-select"
-                aria-label=move_tr!("nav-lang-label")
-                on:change=on_change
-            >
-                {i18n.languages.iter().map(|lang| {
-                    let lang_id = lang.id.to_string();
-                    let lang_id_cmp = lang_id.clone();
-                    let name = lang.name;
-                    view! {
-                        <option
-                            value=lang_id
-                            selected=move || i18n.language.get().id.to_string() == lang_id_cmp
-                        >
-                            {name}
-                        </option>
-                    }
-                }).collect_view()}
-            </select>
+            <LanguageSelect/>
         </span>
     }
 }
 
 #[component]
 pub(crate) fn Nav() -> impl IntoView {
+    if simple_mode() {
+        view! { <SimpleNav/> }.into_any()
+    } else {
+        view! { <FullNav/> }.into_any()
+    }
+}
+
+#[component]
+fn SimpleNav() -> impl IntoView {
+    let pathname = use_location().pathname;
+    let links = [
+        (internal_href("/"), "/", move_tr!("nav-home")),
+        (internal_href("/features"), "/features", move_tr!("nav-features")),
+        (internal_href("/download"), "/download", move_tr!("nav-download")),
+        (internal_href("/guides"), "/guides", move_tr!("guides-title")),
+        (internal_href("/support"), "/support", move_tr!("support-title")),
+    ];
+
+    view! {
+        <nav class="nav" aria-label=move_tr!("nav-primary-aria")>
+            <ul>
+                {links.into_iter().map(|(href, path, label)| {
+                    let active = move || pathname.get() == path;
+                    view! {
+                        <li>
+                            <a href=href aria-current=move || active().then_some("page")>{label}</a>
+                        </li>
+                    }
+                }).collect_view()}
+                <li><a href=GITHUB>"GitHub"</a></li>
+            </ul>
+            <p><LanguageSelect/></p>
+            <p><ModeSwitch/></p>
+        </nav>
+    }
+}
+
+#[component]
+fn FullNav() -> impl IntoView {
     let pathname = use_location().pathname;
     let open = RwSignal::new(false);
 
@@ -442,6 +638,7 @@ pub(crate) fn Footer() -> impl IntoView {
                     <a href="https://discord.gg/K6Bmzw2E4M" target="_blank">{move_tr!("footer-discord")}</a>
                     <a href=privacy_href>{move_tr!("footer-privacy")}</a>
                     <a href=GITHUB target="_blank">{move_tr!("footer-github")}</a>
+                    <ModeSwitch/>
                 </nav>
             </div>
         </footer>
@@ -450,6 +647,10 @@ pub(crate) fn Footer() -> impl IntoView {
 
 #[component]
 pub(crate) fn Shelf() -> impl IntoView {
+    if simple_mode() {
+        return None;
+    }
+
     let button_href = "/88x31.png".to_string();
     let release = use_latest_release();
     let stamp = move || {
@@ -464,7 +665,7 @@ pub(crate) fn Shelf() -> impl IntoView {
         }
     };
 
-    view! {
+    Some(view! {
         <div class="shelf">
             <div class="wrap shelf-inner">
                 <a class="shelf-button" href=button_href>
@@ -495,12 +696,16 @@ pub(crate) fn Shelf() -> impl IntoView {
                 </div>
             </div>
         </div>
-    }
+    })
 }
 
 #[component]
 pub(crate) fn PlayerBar() -> impl IntoView {
-    view! {
+    if simple_mode() {
+        return None;
+    }
+
+    Some(view! {
         <div class="player">
             <div class="player-now">
                 <span class="player-thumb">
@@ -540,5 +745,5 @@ pub(crate) fn PlayerBar() -> impl IntoView {
                 <button type="button" tabindex="-1"><Icon name="maximize-2" size=14/></button>
             </div>
         </div>
-    }
+    })
 }

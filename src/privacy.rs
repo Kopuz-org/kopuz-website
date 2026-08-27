@@ -3,7 +3,10 @@ use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
 use leptos_meta::{Link, Meta, Title};
 
-use crate::shell::{internal_href, provide_site_theme, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta};
+use crate::shell::{
+    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf,
+    ThemeColorMeta,
+};
 
 const LAST_UPDATED: &str = "23 August 2026";
 
@@ -16,13 +19,14 @@ const LAST_UPDATED: &str = "23 August 2026";
 #[component]
 pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
     let theme = provide_site_theme();
+    let simple = simple_mode();
     let home_href = internal_href("/");
 
     view! {
         <Provider value=i18n>
             <Title text="Privacy Policy | Kopuz"/>
             <Meta name="description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
-            <Meta name="robots" content="index, follow"/>
+            <RobotsMeta/>
             <Meta property="og:title" content="Privacy Policy | Kopuz"/>
             <Meta property="og:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <Meta property="og:url" content="https://kopuz.moe/privacy"/>
@@ -33,6 +37,7 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
 
             <div
                 class="site"
+                class:simple=simple
                 class:light=move || !theme.dark.get() && !theme.moe
                 class:dark=move || theme.dark.get() && !theme.moe
                 class:moe=move || theme.moe

@@ -307,6 +307,8 @@ footer-nav-aria = Footer
 theme-use-light = Use light theme
 theme-use-dark = Use dark theme
 theme-leave-moe = Leave moe mode
+mode-simple = Simple site
+mode-full = Full site
 webbutton-alt = Kopuz 88x31 web button
 
 ## Page titles

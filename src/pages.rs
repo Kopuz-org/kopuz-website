@@ -8,7 +8,9 @@ use crate::app::NotFoundBody;
 use crate::download::{Install, Platforms, Requirements};
 use crate::features::Features;
 use crate::guides::{guide_by_slug, GuideArticle, GuideIndex};
-use crate::shell::{provide_site_theme, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta};
+use crate::shell::{
+    provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf, ThemeColorMeta,
+};
 use crate::support::{Community, Sponsors, Support};
 
 #[component]
@@ -20,7 +22,7 @@ fn PageMeta(
     view! {
         <Title text=title/>
         <Meta name="description" content=description/>
-        <Meta name="robots" content="index, follow"/>
+        <RobotsMeta/>
         <Meta property="og:title" content=title/>
         <Meta property="og:description" content=description/>
         <Meta property="og:url" content=canonical/>
@@ -33,11 +35,13 @@ fn PageMeta(
 #[component]
 fn PageChrome(children: Children) -> impl IntoView {
     let theme = provide_site_theme();
+    let simple = simple_mode();
 
     view! {
         <ThemeColorMeta/>
         <div
             class="site page"
+            class:simple=simple
             class:light=move || !theme.dark.get() && !theme.moe
             class:dark=move || theme.dark.get() && !theme.moe
             class:moe=move || theme.moe

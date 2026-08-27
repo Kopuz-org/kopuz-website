@@ -8,7 +8,10 @@ use crate::download::{platform, platform_text};
 use crate::features::feature_desc;
 use crate::icons::Icon;
 use crate::releases::{use_latest_release, WhatsNew};
-use crate::shell::{internal_href, provide_site_theme, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta};
+use crate::shell::{
+    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf,
+    ThemeColorMeta,
+};
 use crate::support::{fetch_sponsors_list, sponsor_avatar};
 
 const GITHUB: &str = "https://github.com/Kopuz-org/kopuz";
@@ -33,26 +36,28 @@ fn asset(path: &str) -> String {
 #[component]
 pub fn HomePage(i18n: I18n) -> impl IntoView {
     let theme = provide_site_theme();
+    let simple = simple_mode();
 
     view! {
         <Provider value=i18n>
             <Title text=move_tr!(i18n, "home-title")/>
             <Meta name="description" content=move_tr!(i18n, "home-meta-desc")/>
             <Meta name="keywords" content=move_tr!(i18n, "home-meta-keywords")/>
-            <Meta name="robots" content="index, follow"/>
+            <RobotsMeta/>
             <Meta property="og:title" content=move_tr!(i18n, "og-title")/>
             <Meta property="og:description" content=move_tr!(i18n, "og-desc")/>
             <Meta property="og:url" content="https://kopuz.moe"/>
             <Meta name="twitter:title" content=move_tr!(i18n, "twitter-title")/>
             <Meta name="twitter:description" content=move_tr!(i18n, "twitter-desc")/>
             <Link rel="canonical" href="https://kopuz.moe"/>
-            {THEME_PRELOADS
+            {(!simple).then(|| THEME_PRELOADS
                 .iter()
                 .map(|href| view! { <Link rel="preload" as_="image" href=asset(href)/> })
-                .collect_view()}
+                .collect_view())}
             <ThemeColorMeta/>
             <div
                 class="site"
+                class:simple=simple
                 class:light=move || !theme.dark.get() && !theme.moe
                 class:dark=move || theme.dark.get() && !theme.moe
                 class:moe=move || theme.moe
@@ -77,6 +82,7 @@ pub fn HomePage(i18n: I18n) -> impl IntoView {
 
 #[component]
 fn Hero() -> impl IntoView {
+    let simple = simple_mode();
     let download_href = internal_href("/download");
     let release = use_latest_release();
     let release_label = move_tr!("hero-release");
@@ -97,10 +103,10 @@ fn Hero() -> impl IntoView {
         <section class="sec hero-sec" data-title="Home">
             <div class="wrap">
                 <div class="card hero">
-                    <div class="hero-wash" aria-hidden="true"></div>
+                    {(!simple).then(|| view! { <div class="hero-wash" aria-hidden="true"></div> })}
                     <div class="hero-copy">
                         <p class="hero-release rise rise-1">
-                            <Icon name="star" size=12 class="hero-star"/>
+                            {(!simple).then(|| view! { <Icon name="star" size=12 class="hero-star"/> })}
                             <Transition fallback=|| view! { <span>{move_tr!("hero-release")}</span> }>
                                 {move || view! { <span>{release_tag()}</span> }}
                             </Transition>
@@ -109,54 +115,66 @@ fn Hero() -> impl IntoView {
                             {move_tr!("hero-title-1")}<br/>{move_tr!("hero-title-2")}
                         </h1>
                         <p class="lede rise rise-3">{move_tr!("hero-desc")}</p>
-                        <div class="hero-actions rise rise-4">
-                            <a
-                                class="btn btn-primary"
-                                href=download_href.clone()
-                                data-os-cta
-                            >
-                                <Icon name="download" size=15/>
-                                <span class="os-generic">{move_tr!("hero-cta-download")}</span>
-                                {["linux", "macos", "windows", "android"].into_iter().map(|os| {
-                                    let name = match os {
-                                        "linux" => "Linux",
-                                        "macos" => "macOS",
-                                        "windows" => "Windows",
-                                        _ => "Android",
-                                    };
-                                    view! {
-                                        <span class="os-label" data-os=os>
-                                            {move_tr!("hero-cta-download-for")}" "{name}
-                                        </span>
-                                    }
-                                }).collect_view()}
-                            </a>
-                            <a class="btn btn-ghost" href=download_href>{move_tr!("hero-cta-all")}</a>
-                            <a
-                                class="btn btn-ghost btn-icon"
-                                href=GITHUB
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label=move_tr!("hero-cta-github")
-                            >
-                                <Icon name="github" size=16/>
-                            </a>
-                        </div>
+                        {if simple {
+                            view! {
+                                <p>
+                                    <a href=download_href.clone()>{move_tr!("nav-download")}</a>
+                                </p>
+                            }.into_any()
+                        } else {
+                            view! {
+                                <div class="hero-actions rise rise-4">
+                                    <a
+                                        class="btn btn-primary"
+                                        href=download_href.clone()
+                                        data-os-cta
+                                    >
+                                        <Icon name="download" size=15/>
+                                        <span class="os-generic">{move_tr!("hero-cta-download")}</span>
+                                        {["linux", "macos", "windows", "android"].into_iter().map(|os| {
+                                            let name = match os {
+                                                "linux" => "Linux",
+                                                "macos" => "macOS",
+                                                "windows" => "Windows",
+                                                _ => "Android",
+                                            };
+                                            view! {
+                                                <span class="os-label" data-os=os>
+                                                    {move_tr!("hero-cta-download-for")}" "{name}
+                                                </span>
+                                            }
+                                        }).collect_view()}
+                                    </a>
+                                    <a class="btn btn-ghost" href=download_href>{move_tr!("hero-cta-all")}</a>
+                                    <a
+                                        class="btn btn-ghost btn-icon"
+                                        href=GITHUB
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label=move_tr!("hero-cta-github")
+                                    >
+                                        <Icon name="github" size=16/>
+                                    </a>
+                                </div>
+                            }.into_any()
+                        }}
                         <p class="hero-platforms rise rise-4">
                             <span><Icon name="monitor" size=13/>"Linux · macOS · Windows"</span>
                             <span><Icon name="smartphone" size=13/>"Android 7+"</span>
                         </p>
                     </div>
-                    <div class="hero-art">
-                        <img
-                            src=asset("/app-home.jpg")
-                            alt=move_tr!("hero-screenshot-alt")
-                            width="1800"
-                            height="987"
-                            loading="eager"
-                            fetchpriority="high"
-                        />
-                    </div>
+                    {(!simple).then(|| view! {
+                        <div class="hero-art">
+                            <img
+                                src=asset("/app-home.jpg")
+                                alt=move_tr!("hero-screenshot-alt")
+                                width="1800"
+                                height="987"
+                                loading="eager"
+                                fetchpriority="high"
+                            />
+                        </div>
+                    })}
                 </div>
             </div>
         </section>
@@ -234,6 +252,8 @@ fn source_name(key: &'static str) -> Signal<String> {
 
 #[component]
 fn Sources() -> impl IntoView {
+    let simple = simple_mode();
+
     view! {
         <section class="sec sources-sec" data-title="Plays from">
             <div class="wrap">
@@ -245,7 +265,7 @@ fn Sources() -> impl IntoView {
                         view! {
                             <li>
                                 <a href=href>
-                                    <Icon name=source.icon/>
+                                    {(!simple).then(|| view! { <Icon name=source.icon/> })}
                                     <span>{name}</span>
                                 </a>
                             </li>
@@ -344,7 +364,23 @@ fn Moment(
     #[prop(optional)] see_all: bool,
     #[prop(optional)] themes: bool,
 ) -> impl IntoView {
+    let simple = simple_mode();
     let features_href = internal_href("/features");
+
+    if simple {
+        let see_all_href = features_href.clone();
+        return view! {
+            <section>
+                <h2>{moment_text(title_key)}</h2>
+                <p>{feature_desc(desc_key)}</p>
+                {extra_key.map(|key| view! { <p>{moment_text(key)}</p> })}
+                {see_all.then(|| view! {
+                    <p><a href=see_all_href>{move_tr!("home-see-all-features")}</a></p>
+                })}
+            </section>
+        }
+        .into_any();
+    }
 
     view! {
         <article class="moment" class:moment-themes=themes data-tilt>
@@ -384,6 +420,7 @@ fn Moment(
             </div>
         </article>
     }
+    .into_any()
 }
 
 /// One plain screenshot per theme, stacked, each with the desk it sits on. The

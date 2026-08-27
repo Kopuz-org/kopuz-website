@@ -448,10 +448,21 @@
     min-height: calc(72vh + (var(--theme-steps) + var(--theme-hold)) * 42vh);
     --frame-h: calc((100vw - 2 * var(--gutter) - 2 * var(--card-pad)) * 0.5625);
   }
+  /* The scene paints outside the stage on every side: the desk bleeds all
+     round and the caption sits a line below it. The sticky background has to
+     reach both edges or the copy scrolls through the gap around the frame.
+     The padding grows the painted box; the negative margins and the smaller
+     sticky offset put the frame back where it was. */
   .moment-themes .moment-stage {
     position: sticky;
-    top: calc(var(--nav-h) + 12px + var(--desk-bleed));
-    margin-block-end: calc(var(--desk-bleed) + 34px);
+    top: calc(var(--nav-h) + 12px);
+    z-index: 1;
+    background: var(--surface);
+    padding: var(--desk-bleed);
+    /* Bleed, the caption's own 10px offset, its line, and clearance. */
+    padding-block-end: calc(var(--desk-bleed) + 40px);
+    margin-inline: calc(-1 * var(--desk-bleed));
+    margin-block-start: calc(-1 * var(--desk-bleed));
   }
   /* Below this the pinned pair would not fit, so the copy scrolls instead. */
   @media (min-height: 700px) {
