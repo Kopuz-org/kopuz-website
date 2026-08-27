@@ -1,7 +1,3 @@
-/* Progressive enhancement for the Kopuz site: the OS-aware download button,
-   the screenshot reveal, the player bar readout and the shelf copy button.
-   Everything here re-runs after a client-side navigation, so every step has to
-   be safe to repeat and must not write a value that is already in place. */
 (function () {
   "use strict";
 
@@ -17,9 +13,7 @@
     return document.documentElement.hasAttribute("data-hydrated");
   }
 
-  // The label is picked by CSS from the boot script's html[data-os], so this
-  // only rewrites the target. Attribute writes are safe before hydration;
-  // text writes are not.
+  // Attribute writes are safe before hydration; text writes are not.
   function applyOs() {
     if (!document.documentElement.dataset.os) return;
     var ctas = document.querySelectorAll("[data-os-cta]");
@@ -44,8 +38,7 @@
     for (var i = 0; i < hosts.length; i += 1) attachTilt(hosts[i]);
   }
 
-  /* Frames that share a stage (the home moments) share one tilt, so the wipe
-     between screenshots reads as a single frame. */
+  // One tilt per stage, so a wipe between screenshots reads as a single frame.
   function attachTilt(host) {
     var group = host.closest("[data-tilt-group]") || host;
     var frames = group === host
@@ -80,9 +73,8 @@
       return Math.max(-1, Math.min(1, value));
     }
 
-    /* Every frame in the group shares one viewport rect, so the pointer is
-       measured against that rect and not against the card it is over: the
-       theming card is four segments taller and would read its own angle. */
+    // Measured against the group's frame, not the card under the pointer: the
+    // theming card is four segments taller and would read its own angle.
     host.addEventListener("pointermove", function (event) {
       var rect = state.frames[0].getBoundingClientRect();
       if (!rect.width || !rect.height) return;
@@ -120,9 +112,8 @@
     for (var j = 0; j < pending.length; j += 1) revealObserver.observe(pending[j]);
   }
 
-  /* The theming card is taller than the others by one screen per theme. Scrolling
-     that extra height wipes the stacked layers open from the start edge, one at a
-     time, while the frame itself holds still. */
+  // The theming card carries one extra screen per theme. Scrolling that height
+  // wipes the stacked layers open while the frame itself holds still.
   var themeStages = [];
   var GROW = 1.15;
   var GROW_OVER = 120;
@@ -136,8 +127,7 @@
       var card = stage.closest(".moment");
       var layers = Array.prototype.slice.call(stage.querySelectorAll(".theme-layer"));
       if (!card || layers.length < 2) continue;
-      // The frame's layers and the desks around it wipe together, so the index
-      // on the element is what ties a desk to the theme it belongs to.
+      // data-theme-index is what ties a desk to the theme it belongs to.
       var parts = Array.prototype.slice.call(stage.querySelectorAll("[data-theme-index]"));
       themeStages.push({
         stage: stage,
@@ -166,8 +156,8 @@
     paintThemes();
   }
 
-  /* Layout sizes, not painted ones: the scene is scaled, so a rect taken from it
-     would carry the scale into every pixel value written back into it. */
+  // Layout sizes, not painted ones: a rect off the scaled scene would carry the
+  // scale into every value written back into it.
   function measureThemes() {
     for (var i = 0; i < themeStages.length; i += 1) {
       var item = themeStages[i];
@@ -178,8 +168,6 @@
       for (var j = 0; j < peers.length && !base; j += 1) {
         base = peers[j].getBoundingClientRect().height;
       }
-      // The card scrolls one plain moment's worth of height before the first
-      // wipe, so the stage arrives the way the other frames do.
       item.base = base || window.innerHeight * 0.64;
 
       var desk = item.stage.querySelector(".theme-desk");
@@ -188,9 +176,8 @@
       item.left = item.frame ? item.frame.offsetLeft : 0;
       item.bleed = desk ? item.left - desk.offsetLeft : 0;
 
-      /* Growing about the end edge swings the desk's start edge, not the
-         frame's, back towards the copy, so that edge is what the cap measures.
-         The end edge is the transform origin, so its rect survives the scale. */
+      // The end edge is the transform origin, so its rect survives the scale.
+      // Growth swings the desk's start edge, which is what the cap measures.
       var reach = item.stage.offsetWidth - (item.left - item.bleed);
       var room = item.copy
         ? item.stage.getBoundingClientRect().right -
@@ -221,8 +208,7 @@
     var frameHeight = painted.height / item.grow;
     var frameTop = painted.top + (painted.height - frameHeight) / 2;
 
-    /* The seam with the previous card has to cross a frame the same size as that
-       card's own, so nothing grows until the card's top edge is past it. */
+    // Nothing grows until the card's top edge clears the seam above it.
     var growing = clamp01((frameTop - 16 - rect.top) / GROW_OVER);
     var grow = 1 + (item.growTo - 1) * growing;
     setVar(item.stage, "--grow", grow.toFixed(4));
@@ -236,14 +222,12 @@
     if (item.growTo > 1) start = Math.min(start, frameTop - 16 - GROW_OVER);
     var progress = travel > 0 ? clamp01((start - rect.top) / travel) : 0;
 
-    /* The scroll buys one segment per wipe plus one at the front, which the
-       grown preview holds on the theme already on screen. */
+    // One segment per wipe, plus one at the front held on the theme on screen.
     var steps = item.layers.length - 1;
     var pos = Math.min(steps, Math.max(0, progress * (steps + 1) - 1));
 
-    /* The sweep is measured across the desk, which is wider than the frame by
-       the bleed on both sides. Driving it off the frame's width instead would
-       leave the desk's last bleed covered for good. */
+    // Swept across the desk, wider than the frame by the bleed on both sides.
+    // Off the frame's width the desk's last bleed would stay covered for good.
     for (var i = 0; i < item.parts.length; i += 1) {
       var part = item.parts[i];
       if (part.index < 1) continue;
@@ -264,8 +248,6 @@
     setVar(item.stage, "--line-on", moving ? "1" : "0");
 
     if (item.caption && hydrated()) {
-      // The caption names the incoming theme once its wipe is under way, not
-      // at the midpoint.
       var settled = item.layers[Math.min(steps, Math.ceil(pos - 0.08))];
       write(item.caption, settled.getAttribute("data-theme-label") || "");
     }
@@ -285,10 +267,8 @@
     return minutes + ":" + (rest < 10 ? "0" : "") + rest;
   }
 
-  /* Writing textContent replaces the node's child, which the observer below
-     reads as a childList mutation and answers with a full re-scan. During a
-     scroll that is one re-scan per frame, which is what starves the paint, so
-     an existing text node is edited in place instead. */
+  // textContent replaces the child, which the observer below answers with a full
+  // re-scan: one per frame during a scroll. Edit the text node in place instead.
   function write(node, text) {
     if (!node || node.textContent === text) return;
     var only = node.childNodes.length === 1 ? node.firstChild : null;
@@ -401,10 +381,8 @@
     });
   });
 
-  /* Every text write waits on hydration, so a position the page arrived at
-     without a scroll event of its own leaves the last painted label in place:
-     a restored scroll offset, a step back into the bfcache, or the framework's
-     own first write over the node. Each of those gets a repaint. */
+  // Text writes wait on hydration, so anything that arrives without a scroll
+  // event (bfcache, a restored offset) needs a repaint of its own.
   window.addEventListener("load", paintAll);
   window.addEventListener("pageshow", paintAll);
   window.addEventListener("scroll", onScroll, { passive: true });
@@ -414,8 +392,7 @@
   }, { passive: true });
   window.addEventListener("popstate", scan);
 
-  // Leptos swaps the contents of <main> on a client-side navigation without a
-  // document load, so the section list has to be rebuilt from the DOM itself.
+  // Leptos swaps <main> on a client-side navigation without a document load.
   var pendingScan = false;
   var observer = new MutationObserver(function () {
     if (pendingScan) return;
@@ -429,8 +406,7 @@
   function start() {
     scan();
     observer.observe(document.body, { childList: true, subtree: true });
-    // Hydration finishing is what unblocks the text writes above. The repaint
-    // waits a frame so it lands after the framework's own first write.
+    // The repaint waits a frame so it lands after hydration's own first write.
     new MutationObserver(function () {
       scan();
       window.requestAnimationFrame(paintAll);
