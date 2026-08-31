@@ -446,7 +446,29 @@
   .moment-themes {
     justify-content: flex-end;
     min-height: calc(72vh + (var(--theme-steps) + var(--theme-hold)) * 42vh);
-    --frame-h: calc((100vw - 2 * var(--gutter) - 2 * var(--card-pad)) * 0.5625);
+    /* What the pinned copy needs under the frame: 232px in English, rounded up
+       for the locales that wrap a line further. Overshooting costs frame width
+       on a short viewport; undershooting puts the last line under the player. */
+    --copy-h: 248px;
+    /* Full width until the frame, its caption and the copy stop sharing one
+       screen, then whatever height is left after them. */
+    --frame-w: min(
+      100vw - 2 * var(--gutter) - 2 * var(--card-pad),
+      (100dvh - var(--nav-h) - var(--player-h) - var(--desk-bleed) * 2 - 80px - var(--copy-h)) *
+        16 / 9
+    );
+    --frame-h: calc(var(--frame-w) * 0.5625);
+    /* Half the height the pinned pair does not use, so a tall screen splits its
+       slack above and below the pair instead of dumping all of it under the
+       copy. The frame is capped to keep this at zero on a short one. */
+    --pin: max(
+      0px,
+      (100dvh - var(--nav-h) - var(--player-h) - 104px - var(--frame-h) - var(--copy-h)) / 2
+    );
+  }
+  .moment-themes .moment-art {
+    max-inline-size: var(--frame-w);
+    margin-inline: auto;
   }
   /* The scene paints outside the stage on every side: the desk bleeds all
      round and the caption sits a line below it. The sticky background has to
@@ -455,7 +477,7 @@
      sticky offset put the frame back where it was. */
   .moment-themes .moment-stage {
     position: sticky;
-    top: calc(var(--nav-h) + 12px);
+    top: calc(var(--nav-h) + 12px + var(--pin));
     z-index: 1;
     background: var(--surface);
     padding: var(--desk-bleed);
@@ -464,23 +486,24 @@
     margin-inline: calc(-1 * var(--desk-bleed));
     margin-block-start: calc(-1 * var(--desk-bleed));
   }
-  /* Below this the pinned pair would not fit, so the copy scrolls instead. */
-  @media (min-height: 700px) {
-    .moment-themes .moment-copy {
-      position: sticky;
-      top: calc(var(--nav-h) + 46px + var(--desk-bleed) * 2 + var(--frame-h) + 34px);
-    }
+  .moment-themes .moment-copy {
+    position: sticky;
+    top: calc(var(--nav-h) + 46px + var(--desk-bleed) * 2 + var(--frame-h) + 34px + var(--pin));
   }
 
-  /* A landscape phone is shorter than the 16/9 frame a full-width card would
-     give it, so the desk and its caption would be pinned half under the player
-     bar. Capping the stage's width caps that height with it. */
-  @media (max-height: 620px) {
-    .moment-themes .moment-art {
-      max-inline-size: calc(
-        (100dvh - var(--nav-h) - var(--player-h) - var(--desk-bleed) * 2 - 54px) * 16 / 9
-      );
-      margin-inline: auto;
+  /* Under this the height left for the frame is too small to read a screenshot
+     in, so the card gives up the wipes: no scroll to spend, nothing pinned, and
+     it reads as a plain screenshot card like the two above it. */
+  @media (max-height: 599px) {
+    .moment-themes {
+      min-height: 0;
+      /* Nothing pins any more, so the frame takes the width the other cards
+         take. site.js reads the static stage as the cue to hold theme one. */
+      --frame-w: calc(100vw - 2 * var(--gutter) - 2 * var(--card-pad));
+    }
+    .moment-themes .moment-stage,
+    .moment-themes .moment-copy {
+      position: static;
     }
   }
 }

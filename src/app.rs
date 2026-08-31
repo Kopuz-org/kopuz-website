@@ -174,7 +174,6 @@ fn RootDocument(i18n: I18n) -> impl IntoView {
         } else {
             view! {
                 <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
-                <Script src="/lenis.min.js" defer=""/>
                 <Script src="/site.js" defer=""/>
             }.into_any()
         }}
