@@ -141,7 +141,9 @@
           };
         }),
         frame: stage.querySelector(".theme-frame"),
+        box: card.querySelector(".moment-stage"),
         copy: card.querySelector(".moment-copy-inner"),
+        plain: false,
         caption: stage.querySelector("[data-theme-caption]"),
         base: 0,
         width: 0,
@@ -161,6 +163,11 @@
   function measureThemes() {
     for (var i = 0; i < themeStages.length; i += 1) {
       var item = themeStages[i];
+      // A viewport too short to pin the frame gets no wipes at all, and CSS
+      // owns that call: an unpinned stage is the cue to hold the first theme.
+      item.plain = !!item.box && getComputedStyle(item.box).position === "static";
+      if (item.plain) continue;
+
       var peers = item.card.parentNode
         ? item.card.parentNode.querySelectorAll(".moment:not(.moment-themes)")
         : [];
@@ -201,7 +208,25 @@
     for (var i = 0; i < themeStages.length; i += 1) paintTheme(themeStages[i]);
   }
 
+  function holdTheme(item) {
+    item.grow = 1;
+    setVar(item.stage, "--grow", "1");
+    setVar(item.stage, "--exit", "1");
+    setVar(item.stage, "--line-on", "0");
+    for (var i = 0; i < item.parts.length; i += 1) {
+      var part = item.parts[i];
+      if (part.index < 1) continue;
+      setVar(part.node, "--reveal", "0%");
+      if (part.desk) setVar(part.node, "--desk-reveal", "0px");
+    }
+    if (item.caption && hydrated()) {
+      write(item.caption, item.layers[0].getAttribute("data-theme-label") || "");
+    }
+  }
+
   function paintTheme(item) {
+    if (item.plain) return holdTheme(item);
+
     var rect = item.card.getBoundingClientRect();
     var painted = item.frame.getBoundingClientRect();
     // Undo the scale already on the scene: it grows about the vertical centre.
@@ -360,10 +385,6 @@
     scanThemes();
     paintPlayer();
     spyJump();
-  }
-
-  if (window.Lenis && matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-    new window.Lenis({ autoRaf: true, lerp: 0.1, anchors: true });
   }
 
   document.addEventListener("click", function (event) {
