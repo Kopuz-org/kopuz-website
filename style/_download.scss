@@ -1,0 +1,185 @@
+/* Download page: the header action, the platform rows, the install snippets
+   and the requirements list. */
+
+.dl-head h1 {
+  margin-block-end: 12px;
+}
+.dl-head .lede {
+  margin-block-end: 26px;
+}
+
+.dl-action {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-block-end: 40px;
+}
+.dl-version {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── platform rows ── */
+
+.dl-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dl-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+}
+.dl-row > .ico {
+  color: var(--copper);
+}
+.dl-row-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.dl-name {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+}
+.dl-formats {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.dl-note {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+}
+.dl-get {
+  justify-self: end;
+}
+
+@media (max-width: 639px) {
+  .dl-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 8px;
+  }
+  .dl-get {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* ── install methods ── */
+
+.install-sec h2,
+.req-sec h2 {
+  margin-block-end: 24px;
+}
+
+.install-list {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+.install-block h3 {
+  margin-block-end: 6px;
+}
+.install-block .prose {
+  font-size: 15px;
+}
+.snip + .prose {
+  margin-block-start: 16px;
+}
+.install-block .text-link {
+  margin-block-start: 12px;
+}
+.install-note {
+  margin-block-start: 12px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* Shell commands read left to right in every locale, so the snippet opts out
+   of the page direction and the copy button stays at the code's end corner. */
+.snip {
+  direction: ltr;
+  position: relative;
+  margin-block-start: 10px;
+}
+.snip pre {
+  margin: 0;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--raised);
+  padding: 12px 14px;
+  padding-inline-end: 76px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+  overflow-x: auto;
+}
+.snip-copy {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  height: 26px;
+  padding-inline: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--raised);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  transition:
+    transform 160ms var(--ease),
+    border-color 160ms var(--ease),
+    color 160ms var(--ease);
+}
+.snip-copy:active {
+  transform: scale(0.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .snip-copy:hover {
+    border-color: var(--copper);
+    color: var(--copper);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .snip-copy {
+    transition: none;
+  }
+}
+
+/* ── requirements ── */
+
+.req-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.req-list li {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.req-list strong {
+  color: var(--text);
+  font-weight: 500;
+}

@@ -1,0 +1,144 @@
+/* Guides index and the per-service guide pages. */
+
+.guide-index {
+  display: grid;
+  gap: 16px;
+  max-width: 62ch;
+  list-style: none;
+}
+.guide-index-name {
+  display: block;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 160ms var(--ease);
+}
+.guide-index-desc {
+  display: block;
+  margin-block-start: 3px;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.guide-layout {
+  display: grid;
+  gap: 28px;
+}
+
+.guide-side {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 13px;
+  scrollbar-width: none;
+}
+.guide-side::-webkit-scrollbar {
+  display: none;
+}
+.guide-side-link {
+  display: inline-block;
+  padding-block: 11px;
+  color: var(--muted);
+  transition: color 160ms var(--ease);
+}
+.guide-side-link.is-current {
+  color: var(--copper);
+}
+
+.guide-main h1 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  margin-block-end: 12px;
+}
+.guide-main .lede {
+  margin-block-end: 32px;
+}
+
+.guide-blocks {
+  display: grid;
+  gap: 26px;
+  max-width: 62ch;
+}
+.guide-blocks h2 {
+  margin-block-end: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.guide-aside {
+  font-size: 14px;
+  color: var(--faint);
+}
+
+.guide-steps {
+  display: grid;
+  gap: 22px;
+  max-width: 62ch;
+  padding-inline-start: 26px;
+}
+.guide-steps > li {
+  padding-inline-start: 4px;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.guide-steps > li::marker {
+  color: var(--copper);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.guide-step-lead {
+  display: block;
+  color: var(--text);
+  font-weight: 500;
+}
+.guide-value {
+  display: inline-block;
+  margin-block-start: 8px;
+}
+
+.guide-after {
+  margin-block-start: 26px;
+}
+.guide-link {
+  margin-block-start: 18px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .guide-index a:hover .guide-index-name,
+  .guide-side-link:hover {
+    color: var(--copper);
+  }
+}
+
+@media (min-width: 1024px) {
+  .guide-layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .guide-side {
+    position: sticky;
+    top: 84px;
+    flex-direction: column;
+    gap: 10px;
+    overflow: visible;
+    white-space: normal;
+  }
+  .guide-side-link {
+    padding-block: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-index-name,
+  .guide-side-link {
+    transition: none;
+  }
+}

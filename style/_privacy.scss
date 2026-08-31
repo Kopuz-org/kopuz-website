@@ -1,0 +1,63 @@
+/* /privacy: a reading column, not a grid. */
+
+.legal {
+  max-width: 640px;
+}
+.legal h1 {
+  font-size: clamp(28px, 3.4vw, 36px);
+  line-height: 1.1;
+}
+.legal h2 {
+  margin-block: 44px 12px;
+  font-size: 20px;
+}
+.legal h3 {
+  margin-block: 26px 6px;
+  font-size: 15px;
+}
+.legal p,
+.legal li {
+  max-width: 62ch;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+.legal p {
+  margin-block: 12px;
+}
+.legal ul {
+  margin-block: 14px;
+  padding-inline-start: 20px;
+}
+.legal li {
+  margin-block: 8px;
+}
+.legal strong {
+  color: var(--text);
+  font-weight: 500;
+}
+.legal a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal .legal-meta {
+  margin-block: 10px 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--faint);
+}
+.legal .legal-emph {
+  color: var(--text);
+}
+.legal-paths li {
+  line-height: 1.9;
+}
+.legal-back {
+  margin-block-start: 44px;
+}

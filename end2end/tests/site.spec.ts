@@ -1,3 +1,4 @@
+import type { Page } from "@playwright/test";
 import { expect, test } from "@playwright/test";
 
 const routes = [
@@ -44,6 +45,17 @@ const routes = [
   },
 ] as const;
 
+// Under 900px the nav links live in a menu panel behind a toggle, so they are
+// out of the accessibility tree until it is opened.
+async function openNavIfCollapsed(page: Page) {
+  const menu = page.getByRole("button", { name: "Open menu" });
+  if (!(await menu.isVisible())) return;
+  // The toggle is a client signal, so a click before hydration does nothing.
+  await page.locator("html[data-hydrated]").waitFor();
+  await menu.click();
+  await expect(page.locator(".nav-links")).toBeVisible();
+}
+
 test.describe("site routes", () => {
   for (const route of routes) {
     test(`${route.path} has its own content and metadata`, async ({ page }) => {
@@ -57,7 +69,8 @@ test.describe("site routes", () => {
         "href",
         route.canonical,
       );
-      await expect(page.locator(".nav-tab").first()).toBeVisible();
+      await openNavIfCollapsed(page);
+      await expect(page.locator(".nav-link").first()).toBeVisible();
 
       if ("activeNav" in route) {
         await expect(
@@ -76,12 +89,44 @@ test("logo returns to the home page without browser errors", async ({ page }) =>
   page.on("pageerror", (error) => browserErrors.push(error.message));
 
   await page.goto("/features");
-  await page.locator(".nav-logo").click();
+  await page.locator(".nav-brand").click();
 
   await expect(page).toHaveURL(/\/$/);
   await expect(page).toHaveTitle("Kopuz Music Player");
   await expect(page.locator("main h1")).toContainText("Local files.");
   expect(browserErrors).toEqual([]);
+});
+
+test("nav links move between pages without browser errors", async ({
+  page,
+}) => {
+  const browserErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") browserErrors.push(message.text());
+  });
+  page.on("pageerror", (error) => browserErrors.push(error.message));
+
+  const navLink = (name: string) =>
+    page.locator(".nav-links").getByRole("link", { name, exact: true });
+
+  await page.goto("/download");
+
+  await openNavIfCollapsed(page);
+  await navLink("Guides").click();
+  await expect(page).toHaveURL(/\/guides$/);
+  await expect(page.locator("main h1")).toContainText("Guides");
+
+  await openNavIfCollapsed(page);
+  await navLink("Download").click();
+  await expect(page).toHaveURL(/\/download$/);
+  await expect(page.locator("main h1")).toContainText("Download Kopuz");
+
+  await openNavIfCollapsed(page);
+  await navLink("Support Kopuz").click();
+  await expect(page).toHaveURL(/\/support$/);
+
+  expect(browserErrors).toEqual([]);
+  await expect(page.locator("html")).toHaveAttribute("data-hydrated", "1");
 });
 
 test.describe("site themes", () => {
@@ -97,6 +142,7 @@ test.describe("site themes", () => {
     await page.reload();
     await expect(page.locator(".site")).toHaveClass(/\blight\b/);
 
+    await page.locator("html[data-hydrated]").waitFor();
     await page.getByRole("button", { name: "Use dark theme" }).click();
     await expect(page.locator(".site")).toHaveClass(/\bdark\b/);
     expect(
@@ -130,12 +176,12 @@ test.describe("site themes", () => {
       await page.locator("body").evaluate((element) => {
         return getComputedStyle(element).backgroundColor;
       }),
-    ).toBe("rgb(23, 20, 15)");
+    ).toBe("rgb(18, 17, 16)");
     expect(
       await page.locator(".site").evaluate((element) => {
         return getComputedStyle(element).color;
       }),
-    ).toBe("rgb(241, 236, 226)");
+    ).toBe("rgb(241, 233, 210)");
   });
 
   test("migrates the previous theme cookie", async ({ context, page }) => {
@@ -163,6 +209,7 @@ test.describe("site themes", () => {
     page,
   }) => {
     await page.goto("/features");
+    await page.locator("html[data-hydrated]").waitFor();
     await page.getByRole("button", { name: "Use dark theme" }).click();
     await page.goto("/features?moe");
 
@@ -173,7 +220,8 @@ test.describe("site themes", () => {
       page.getByRole("button", { name: "Leave moe mode" }),
     ).toBeVisible();
 
-    const download = page.locator('a.nav-tab[href="/download?moe"]');
+    await openNavIfCollapsed(page);
+    const download = page.locator('a.nav-link[href="/download?moe"]');
     await expect(download).toBeVisible();
     await download.click();
     await expect(page).toHaveURL(/\/download\?moe$/);
@@ -184,6 +232,8 @@ test.describe("site themes", () => {
     ).toBe("dark");
 
     await page.goto("/download?lang=en&moe");
+    // Leaving moe mode is a client handler, so it needs hydration first.
+    await page.locator("html[data-hydrated]").waitFor();
     await page.getByRole("button", { name: "Leave moe mode" }).click();
     await expect(page).toHaveURL(/\/download\?lang=en$/);
     await expect(page.locator(".site")).toHaveClass(/\bdark\b/);
@@ -191,5 +241,38 @@ test.describe("site themes", () => {
       (await context.cookies()).find((cookie) => cookie.name === "kopuz-theme")
         ?.value,
     ).toBe("dark");
+  });
+});
+
+test.describe("simple mode", () => {
+  test("serves text only and carries the mode through navigation", async ({
+    page,
+  }) => {
+    const response = await page.goto("/?simple");
+
+    expect(response?.ok()).toBe(true);
+    await expect(page.locator("main h1")).toContainText("Local files.");
+    await expect(page.locator("img")).toHaveCount(0);
+    await expect(page.locator(".player")).toHaveCount(0);
+    await expect(page.locator('script[src*="site.js"]')).toHaveCount(0);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "noindex, follow",
+    );
+
+    const features = page
+      .locator("nav.nav")
+      .getByRole("link", { name: "Features", exact: true });
+    await expect(features).toHaveAttribute("href", "/features?simple");
+
+    // Client-side navigation needs hydration, same as the moe easter egg.
+    await page.locator("html[data-hydrated]").waitFor();
+    await features.click();
+    await expect(page).toHaveURL(/\/features\?simple$/);
+    await expect(page.locator(".site")).toHaveClass(/\bsimple\b/);
+
+    await page.getByRole("link", { name: "Full site", exact: true }).first().click();
+    await expect(page).toHaveURL(/\/features$/);
+    await expect(page.locator(".site")).not.toHaveClass(/\bsimple\b/);
   });
 });

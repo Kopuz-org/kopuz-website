@@ -1,0 +1,157 @@
+/* /features: a reference page. A jump list beside eight groups of
+   term-and-description rows. */
+
+$jump-top: calc(var(--nav-h) + 24px);
+
+.feat-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+
+/* ── jump list ── */
+
+/* Under the two-column breakpoint the list is a rail that rides under the nav,
+   so it needs the ground under it and has to sit below the nav's own layer. */
+.feat-jump {
+  position: sticky;
+  inset-block-start: var(--nav-h);
+  z-index: 30;
+  background: var(--ground);
+  border-block-end: 1px solid var(--line);
+}
+
+.feat-jump ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  padding-inline-end: 32px;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+}
+.feat-jump ul::-webkit-scrollbar {
+  display: none;
+}
+[dir="rtl"] .feat-jump ul {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 32px), transparent);
+}
+.feat-jump a {
+  display: inline-block;
+  padding-block: 11px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  transition: color 120ms var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feat-jump a:hover {
+    color: var(--copper);
+  }
+}
+
+.feat-jump a.is-current {
+  color: var(--copper);
+}
+
+@media (min-width: 1024px) {
+  .feat-layout {
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .feat-jump {
+    inset-block-start: $jump-top;
+    z-index: auto;
+    background: none;
+    border-block-end: 0;
+  }
+  .feat-jump ul {
+    flex-direction: column;
+    gap: 10px;
+    overflow-x: visible;
+    white-space: normal;
+    padding-inline-end: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .feat-jump a {
+    padding-block: 0;
+  }
+}
+
+/* ── groups ── */
+
+.feat-group {
+  scroll-margin-block-start: $jump-top;
+}
+.feat-group + .feat-group {
+  margin-block-start: clamp(40px, 5vw, 56px);
+}
+.feat-group h2 {
+  font-size: 22px;
+  margin-block-end: 10px;
+}
+
+.feat-row {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 24px;
+  align-items: baseline;
+  padding-block: 14px;
+  border-block-end: 1px solid var(--line);
+  scroll-margin-block-start: $jump-top;
+}
+.feat-row:last-child {
+  border-block-end: 0;
+}
+.feat-name {
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.feat-desc {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 62ch;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+/* Rows that several home links share: the extra ids need a scroll target of
+   their own. */
+.feat-anchor {
+  display: block;
+  height: 0;
+  scroll-margin-block-start: $jump-top;
+}
+
+/* Below the two-column breakpoint an anchored heading has to clear the pinned
+   rail as well as the nav. */
+@media (max-width: 1023px) {
+  .feat-group,
+  .feat-row,
+  .feat-anchor {
+    scroll-margin-block-start: calc(var(--nav-h) + 68px);
+  }
+}
+
+.feat-more {
+  margin-block-start: 18px;
+}
+
+@media (max-width: 767px) {
+  .feat-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+}

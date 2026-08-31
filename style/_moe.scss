@@ -1,0 +1,326 @@
+/* MOE MODE  (´｡• ᵕ •｡`) ♡
+   Explicit retro-kawaii easter egg: visit any page with ?moe.
+
+   The palette lands on the root as well as on .site, because the player bar
+   renders as a sibling of .site and would otherwise keep the regular tokens.
+   The boot script stamps data-theme before first paint; .site.moe carries the
+   same values for a scriptless render.
+
+   Nothing here may put transform, filter or backdrop-filter on .site, .moment
+   or .moment-art, and nothing may change --wrap, --gutter or --card-pad: the
+   home page windows a viewport-fixed stage through the cards and the stage
+   grid is built from those three values. */
+
+/* Shows past the site's own edges: overscroll, and the strip under the fold
+   on a page shorter than the viewport. */
+body:has(.site.moe) {
+  background-color: #ffbfe6;
+  background-image: linear-gradient(135deg, #ffd1ec 0%, #d9baff 45%, #b6ecff 100%);
+  background-attachment: fixed;
+}
+
+:root[data-theme="moe"],
+.site.moe {
+  --ground: #ffeaf6;
+  --surface: #fff5fb;
+  --raised: #ffdff2;
+  --line: #ffa9d4;
+  --line-strong: #e8449b;
+
+  --text: #43265a;
+  --muted: #6f4487;
+  --faint: #855798;
+
+  --copper: #b8156d;
+  --copper-deep: #8f0f54;
+  --cream: #d6187f;
+  --on-cream: #ffffff;
+  --brand: #6d1052;
+
+  --shelf: #ffdcef;
+  --player-bg: rgba(255, 240, 250, 0.86);
+
+  /* Square everything the tokens reach: buttons, cards, frames, snippets. */
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+  --r-xl: 0;
+  --pill: 0;
+
+  --sans: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Segoe Print", "Geist", sans-serif;
+  /* --mono stays JetBrains Mono. The VGA face is a 8x16 bitmap and turns to
+     mush below its own raster size, which is where most of the UI type sits. */
+
+  --moe-lilac: #cdb4ff;
+  --moe-lilac-deep: #6d3fd0;
+  --moe-blue: #0e6d9e;
+  --moe-ink: #1a0028;
+}
+
+.site.moe {
+  background-color: var(--ground);
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.6) 1.5px, transparent 1.6px),
+    radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.6px);
+  background-size: 26px 26px, 26px 26px;
+  background-position: 0 0, 13px 13px;
+  color: var(--text);
+}
+
+/* ── display type ── */
+
+/* The VGA face has no weights, no negative tracking, and only looks like a
+   bitmap when the renderer stops smoothing it. */
+.site.moe h1,
+.site.moe h2,
+.site.moe .nav-brand,
+.site.moe .footer-logo {
+  font-family: var(--vga);
+  font-weight: 400;
+  letter-spacing: 0;
+  -webkit-font-smoothing: none;
+}
+.site.moe h1 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.25;
+  color: var(--copper);
+  text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--moe-lilac);
+}
+.site.moe h2 {
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.3;
+  color: var(--copper);
+  text-shadow: 2px 2px 0 #fff;
+}
+.site.moe .nav-brand {
+  /* 16px is the face's own raster height, so it stays pixel-exact. */
+  font-size: 16px;
+  color: var(--copper);
+  text-shadow: 2px 2px 0 #ffdf6a;
+}
+.site.moe .footer-logo {
+  font-size: 16px;
+  color: var(--copper);
+}
+
+/* The kaomoji flourish. Halfwidth katakana has no glyph in most of the fallback
+   chain, so the decoration stays in characters a UI font actually carries. */
+.site.moe .sec-head::after {
+  content: "✿ ⋆ ✿ ⋆ ✿";
+  display: block;
+  margin-block-start: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--moe-lilac-deep);
+}
+
+/* ── nav ── */
+
+.site.moe .nav {
+  /* Enough blur that headings passing under the bar stop reading as text. */
+  backdrop-filter: blur(10px) saturate(115%);
+  border-block-end: 3px dotted var(--line-strong);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .site.moe .nav {
+    background: var(--surface);
+  }
+}
+
+.site.moe .nav-link {
+  padding: 3px 9px;
+  background: var(--raised);
+  border: 2px outset var(--moe-lilac);
+  color: var(--text);
+}
+.site.moe .nav-link-active {
+  background: var(--cream);
+  border-style: inset;
+  color: var(--on-cream);
+}
+.site.moe .nav-link:active {
+  border-style: inset;
+}
+
+/* ── buttons ── */
+
+.site.moe .btn {
+  border-width: 3px;
+  border-style: outset;
+}
+.site.moe .btn-primary {
+  border-color: var(--cream);
+  text-shadow: 1px 1px 0 #7a0b48;
+}
+.site.moe .btn-ghost {
+  background: var(--raised);
+  border-color: var(--moe-lilac);
+  color: var(--moe-lilac-deep);
+}
+.site.moe .btn:active {
+  border-style: inset;
+  transform: none;
+}
+/* The moe toggle and the menu button both carry an x; filling the toggle keeps
+   them apart. */
+.site.moe .theme-toggle {
+  background: var(--cream);
+  border-color: var(--copper-deep);
+  color: var(--on-cream);
+}
+.site.moe .shelf-copy,
+.site.moe .copy-btn,
+.site.moe .snip-copy {
+  border-width: 2px;
+  border-style: outset;
+  border-color: var(--moe-lilac);
+  background: var(--raised);
+  color: var(--text);
+}
+.site.moe .shelf-copy:active,
+.site.moe .copy-btn:active,
+.site.moe .snip-copy:active {
+  border-style: inset;
+  transform: none;
+}
+
+/* ── surfaces ── */
+
+.site.moe .card {
+  border: 3px outset var(--moe-lilac);
+}
+.site.moe .frame {
+  outline: 0;
+}
+.site.moe .hero-wash {
+  display: none;
+}
+
+/* The fixed stage is placed from the card's padding box, so the card gets an
+   inset ring rather than a border: a border would move that box and cut the
+   frame at the card's end edge. */
+.site.moe .moment {
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 3px var(--moe-lilac);
+}
+
+/* ── theme stage ── */
+
+.site.moe .theme-desk,
+.site.moe .theme-line-mask {
+  border-radius: 0;
+}
+.site.moe .theme-line-mask {
+  clip-path: inset(0);
+}
+/* The first desk is the site's own furniture rather than one of the app
+   themes, so it wears moe's colours. */
+.site.moe .theme-desk[data-theme-index="0"] {
+  background: linear-gradient(135deg, #3d1140, #7a2a7e 55%, #2a0d33);
+}
+.site.moe .theme-line {
+  background: #fff;
+}
+
+/* ── shelf and footer ── */
+
+.site.moe .shelf,
+.site.moe .footer {
+  border-block-start: 3px dotted var(--line-strong);
+}
+.site.moe .shelf-button img {
+  border: 3px solid var(--copper);
+}
+.site.moe .footer-links a {
+  color: var(--moe-blue);
+  text-decoration: underline;
+}
+
+/* ── code ── */
+
+.site.moe pre {
+  background: var(--moe-ink);
+  border: 3px double var(--line-strong);
+  color: #9dff8a;
+}
+.site.moe code {
+  background: #200030;
+  color: #7fff6a;
+}
+
+/* ── disclosures, meters, avatars ── */
+
+.site.moe .release-notes {
+  border-block-end: 2px dotted var(--line);
+}
+.site.moe .crypto-row code {
+  background: none;
+  color: var(--muted);
+}
+
+.site.moe .donation-progress-track {
+  height: 14px;
+  background: #fff;
+  border: 2px inset var(--moe-lilac);
+}
+.site.moe .donation-progress-fill {
+  background: repeating-linear-gradient(45deg, var(--cream) 0 10px, #ff8ec7 10px 20px);
+}
+
+.site.moe .sponsor-avatars img {
+  border: 3px solid var(--copper);
+  border-radius: 50%;
+  outline: 0;
+}
+
+/* ── player bar ── */
+
+/* Outside .site, so it takes the root palette and needs only the retro edges. */
+:root[data-theme="moe"] .player,
+body:has(.site.moe) .player {
+  border-block-start: 3px dotted var(--line-strong);
+  backdrop-filter: blur(10px) saturate(115%);
+}
+:root[data-theme="moe"] .player-thumb,
+body:has(.site.moe) .player-thumb {
+  border-radius: 0;
+  outline: 2px solid var(--line-strong);
+  outline-offset: -2px;
+}
+:root[data-theme="moe"] .player-track,
+:root[data-theme="moe"] .player-vol-track,
+body:has(.site.moe) .player-track,
+body:has(.site.moe) .player-vol-track {
+  border-radius: 0;
+  background: var(--line);
+}
+:root[data-theme="moe"] .player-track i,
+:root[data-theme="moe"] .player-vol-track::after,
+body:has(.site.moe) .player-track i,
+body:has(.site.moe) .player-vol-track::after {
+  border-radius: 0;
+}
+
+/* ── narrow ── */
+
+@media (max-width: 899px) {
+  /* The chip padding would otherwise shrink the dropdown's rows back under a
+     thumb's worth of height. */
+  .site.moe .nav-links {
+    border-block-end: 3px dotted var(--line-strong);
+  }
+  .site.moe .nav-link {
+    padding-block: 12px;
+  }
+}
+
+@media (min-width: 900px) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* The card is square here, so the window it cuts is square too. */
+    .site.moe .moment {
+      clip-path: inset(0);
+    }
+  }
+}

@@ -1,15 +1,6 @@
-## Language
-lang-name = English
-
 ## Nav
-nav-new = New
-nav-announce = Local files and connected services on desktop and Android
 nav-features = Features
-nav-install = Install
 nav-download = Download
-nav-sponsors = Sponsors
-nav-github = GitHub ↗
-nav-gallery = Gallery
 nav-lang-label = Language
 
 ## Hero
@@ -23,7 +14,6 @@ hero-screenshot-alt = Kopuz home screen
 ## Features
 features-title = Features
 features-chip = Local playback, connected services, lyrics, playlists, and themes.
-features-works-with = Works with
 features-source-local = Local files
 features-source-jellyfin = Jellyfin
 features-source-navidrome = Navidrome
@@ -97,15 +87,8 @@ feat-badges-desc = Local track rows show the file format, such as MP3, FLAC, or 
 
 ## What's new
 new-title = What’s new in Kopuz
-new-subtitle = Release notes and project changes.
-
-## Install chooser
-chooser-title = Choose a download
-chooser-subtitle = Choose your operating system or view all installation methods.
 
 ## Performance
-perf-title = Performance
-perf-subtitle = Incremental scans, concurrent loading, image caching, and background processing.
 perf-skip-label = Skip already indexed
 perf-skip-desc = Rescans index new and changed files instead of rebuilding the library.
 perf-parallel-label = Concurrent loading
@@ -122,11 +105,6 @@ perf-sort-label = Large-list sorting
 perf-sort-desc = Sorting is optimized for large lists.
 
 ## Install
-install-title = Install Kopuz
-install-quick-title = Quick start (most users)
-install-quick-desc = Download the latest release for your platform and open it.
-install-quick-cta = Open Releases
-install-quick-note = If you are not sure which option to choose, start here.
 install-cargo-title = Cargo (crates.io)
 install-cargo-desc = Install the latest published version directly with Cargo:
 install-nix-title = Nix / NixOS
@@ -147,17 +125,14 @@ install-appimage-desc-3 = { " " }are installed on your system.
 install-appimage-note-1 = Arch users: if it crashes with a WebKitNetworkProcess error, prefix the command with
 install-appimage-note-2 = .
 install-macos-title = macOS
-install-macos-chip = Apple Silicon
 install-macos-desc-1 = Download the
 install-macos-desc-2 = { " " }from GitHub Releases. If macOS blocks it, clear the quarantine flag:
 install-macos-homebrew = Install the Apple Silicon build from the project’s Homebrew tap:
 install-android-title = Android
-install-android-chip = ARM64
 install-android-desc = Download the signed arm64-v8a APK from GitHub Releases. Requires Android 7.0 / API 24 or newer.
 install-android-note = If another source signed your installed APK, uninstall it before installing the project release.
 
 ## Nextcloud
-nextcloud-title = Nextcloud Setup
 nextcloud-subtitle = Add it in Settings → Media servers → Add → Nextcloud.
 nextcloud-connect-title = Use an app password
 nextcloud-connect-desc = Enter your Nextcloud base URL, username, and a revocable app password created under Nextcloud Settings → Security.
@@ -169,7 +144,6 @@ nextcloud-playback-title = Stream or download
 nextcloud-playback-desc = Play files directly from your server or download them for offline listening without routing audio through Kopuz infrastructure.
 
 ## YouTube Music
-ytmusic-title = YouTube Music Setup
 ytmusic-subtitle = Add it in Settings → Media servers → Add → YouTube Music.
 ytmusic-token-title = No helper needed
 ytmusic-token-desc = Anonymous playback does not require a helper. Kopuz handles the token flow, including inside Flatpak.
@@ -182,7 +156,6 @@ ytmusic-premium-title = Premium tracks
 ytmusic-premium-desc = Some Premium-only tracks may need local yt-dlp fallback. Anonymous mode cannot play Premium-only content.
 
 ## Apple Music
-applemusic-title = Apple Music Setup
 applemusic-subtitle = Add it in Settings → Media servers → Add → Apple Music.
 applemusic-signin-title = Sign in or paste a token
 applemusic-signin-desc = On desktop, Kopuz opens Apple Music in an isolated Chromium-family browser profile. You can instead paste a media-user-token manually.
@@ -194,7 +167,6 @@ applemusic-android-title = Android status
 applemusic-android-desc = Sign-in uses an in-app WebView, but Apple Music playback is not yet supported on Android.
 
 ## SoundCloud
-soundcloud-title = SoundCloud Setup
 soundcloud-subtitle = Add it in Settings → Media servers → Add → SoundCloud.
 soundcloud-signin-title = One-time browser sign-in
 soundcloud-signin-desc = No URL, password, or manual token needed. Kopuz opens SoundCloud sign-in in an isolated profile using Chrome, Chromium, Brave, Edge, Vivaldi, or Helium. Removing the source removes that profile.
@@ -202,7 +174,6 @@ soundcloud-features-title = Supported features
 soundcloud-features-desc = Search, progressive MP3 and Go+ AAC/HLS playback, Liked tracks as favorites, read-only playlists, and like/unlike controls.
 
 ## Spotify setup
-spotify-guide-title = Spotify Setup
 spotify-guide-subtitle = Spotify uses its official Web API and browser playback. Kopuz does not receive your password or proxy the audio stream.
 spotify-step-1-title = Create a Spotify app
 spotify-step-1-desc = In Spotify’s developer dashboard, create an app, enable Web API and Web Playback SDK, add every listening account under User Management, and set this exact redirect URI:
@@ -218,19 +189,15 @@ guides-title = Guides
 guides-subtitle = Setup guides for music services and major features.
 
 ## Privacy and storage
-privacy-title = Privacy and Storage
-privacy-subtitle = Kopuz stores app data on your computer. It sends requests to connected services when their features are used.
 privacy-local-title = One local database
 privacy-local-desc = Library data, playlists, favorites, play counts, and source data live in kopuz.db; preferences live beside it in settings.toml.
 privacy-accounts-title = Separate source credentials
 privacy-accounts-desc = Each connected media source keeps its own credentials and favorites. Browser sign-ins use isolated profiles instead of your normal browsing session.
 privacy-files-title = Cache and logs
 privacy-files-desc = Album art and offline tracks use your system cache directory. Open or export logs from Settings.
-privacy-paths-title = Show database locations
 
 ## Requirements
 requirements-title = Requirements and limitations
-requirements-subtitle = Support varies by platform and connected service.
 
 ## About the name
 about-title = What is a kopuz?
@@ -239,7 +206,6 @@ about-desc-2 = Turkic legend links it to Dede Korkut, a legendary bard. The Kyrg
 
 ## Community
 community-title = Contribute to Kopuz
-community-subtitle = Report bugs, suggest changes, translate the interface, or contribute code.
 community-issues-title = Issues
 community-issues-desc = Report a bug or pick up an open task.
 community-discussions-title = Discussions
@@ -248,7 +214,6 @@ community-discord-desc = Chat with users and contributors in real time.
 community-contribute-title = Contribute
 community-contribute-desc = Source code, development setup, and translations.
 
-
 ## Platforms
 platforms-title = Download Kopuz
 platforms-subtitle = Download current builds for Windows, macOS, Linux, and Android.
@@ -256,69 +221,18 @@ platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Silicon only
 platforms-linux = Linux
-platforms-download = Download →
 platforms-android = Android
 platforms-android-note = ARM64 · Android 7.0+ · API 24+
-platforms-apk = Download APK →
 
 ## Support
 support-title = Support Kopuz
 support-subtitle = Kopuz is free and open source. Donations support development.
 support-gh = GitHub Sponsors
 support-bmc = Buy Me a Coffee
-support-crypto-divider = Or send crypto
 support-usdt-note = (Solana chain)
 
-donate-title = Crypto Donations
-donate-subtitle = Support development by sending crypto to these addresses.
-donate-solana = Solana: 2fapJYRztnTRLpJbmyEUnsuZ36AzLK2JrMmmLEfDqKpN
-donate-bitcoin = Bitcoin: bc1qz94yz9xvufa6hxlvjzaajgd2zyfu86arn68hu4
-donate-monero = Monero: 86mz3HxTrKyYpuvx78m6pufbXdwAnoyoZBztz6HyYrnM1XP5YVrMy9jTVRY5vzgGtkizACLpFwHEdafKTMoj6y8mAVgvWMz
-donate-ethereum = Ethereum: 0xa490D50470cdFf837B6663F7f6cBe50B157224e5
-donate-usdt-sol = USDT (Solana): GYmnAcrA5MbF6cUxT2m5d5cwdfr14qSY9WFYRwXxaibW
-
 ## Sponsors
-sponsors-title = Sponsors
-sponsors-subtitle = Current and past project sponsors.
 sponsors-cta = Become a Sponsor
-
-## Gallery
-gallery-page-title = Gallery | Kopuz Music Player
-gallery-page-desc = Screenshots of the home screen, library, playlists, player, lyrics, theme editor, and settings.
-gallery-title = Gallery
-gallery-subtitle = Screenshots of the Normal, Modern, and Vaxry styles.
-gallery-home = Home
-gallery-home-styles = Normal / Modern
-gallery-library = Library
-gallery-library-styles = Normal / Vaxry
-gallery-playlist = Playlist
-gallery-playlist-styles = Normal / Modern
-gallery-fullscreen-title = Fullscreen player
-gallery-fullscreen-desc = Full-window playback view.
-gallery-fullscreen-lyrics-title = Fullscreen lyrics
-gallery-fullscreen-lyrics-desc = Synced lyrics in full-window mode.
-gallery-search-title = Search
-gallery-search-desc = Real-time search across artists, albums, and tracks.
-gallery-theme-title = Theme editor
-gallery-theme-desc = Set interface colors or choose a preset.
-gallery-settings-title = Player settings
-gallery-settings-desc = Configure audio, behavior, and integrations.
-gallery-downloader-title = Downloader
-gallery-downloader-desc = Download tracks from within Kopuz.
-gallery-prev = ← Prev
-gallery-next = Next →
-gallery-label-normal-home = Normal: Home
-gallery-label-modern-home = Modern: Home
-gallery-label-normal-library = Normal: Library
-gallery-label-vaxry-library = Vaxry: Library
-gallery-label-normal-playlist = Normal: Playlist
-gallery-label-modern-playlist = Modern: Playlist
-gallery-label-fullscreen = Fullscreen player
-gallery-label-fullscreen-lyrics = Fullscreen lyrics
-gallery-label-search = Search
-gallery-label-theme-editor = Theme editor
-gallery-label-player-settings = Player settings
-gallery-label-downloader = Downloader
 
 ## Footer
 footer-license = EUPL v1.2 | Free and Open Source
@@ -349,3 +263,98 @@ join-download = Download Kopuz
 footer-privacy = Privacy
 privacy-english-note = This policy is maintained in English. Other site translations do not alter it.
 privacy-back = Back to the homepage
+
+## Home page (2026 redesign)
+nav-home = Home
+footer-license-line = EUPL 1.2 · free and open source
+shelf-link-to-us = Link to us · 88×31
+hero-release = Latest release
+hero-cta-download-for = Download for
+hero-cta-all = All platforms
+home-sources-title = Plays from
+source-local = Local folders
+source-navidrome = Navidrome and Subsonic
+source-radio = Internet radio
+moment-lyrics-title = The line you are on, and nothing louder
+moment-lyrics-alt = Kopuz playing a track with full-screen synced lyrics
+moment-library-title = One library, every server
+moment-library-alt = The Kopuz library with albums from several sources
+moment-themes-title = Your colors, or a wallpaper's
+moment-themes-alt = The Kopuz theme editor
+moment-themes-extra = 11 built-in themes, AMOLED, and a live theme from your wallpaper.
+theme-default = Gruvbox dark soft
+theme-amoled = AMOLED
+theme-wallpaper = Wallpaper
+wallpaper-sunset = Sunset
+wallpaper-lake = Lake
+home-see-all-features = See all features
+home-get-title = Get Kopuz
+home-get-download = Download
+home-also-on = Also on Cargo, Nix, AUR, Flatpak and AppImage
+home-sponsors-title = Kept alive by sponsors
+home-sponsor-cta = Sponsor on GitHub
+
+## Shared controls
+copy = Copy
+copied = Copied
+copy-address = Copy { $coin } address
+
+## Chrome
+nav-primary-aria = Primary navigation
+nav-menu-open = Open menu
+nav-menu-close = Close menu
+footer-nav-aria = Footer
+theme-use-light = Use light theme
+theme-use-dark = Use dark theme
+theme-leave-moe = Leave moe mode
+mode-simple = Simple site
+mode-full = Full site
+webbutton-alt = Kopuz 88x31 web button
+
+## Page titles
+features-page-title = Features | Kopuz
+download-page-title = Download | Kopuz
+guides-page-title = Guides | Kopuz
+support-page-title = Support | Kopuz
+notfound-page-title = Page not found | Kopuz
+guide-title-suffix = guide | Kopuz
+
+## Not found
+notfound-title = Page not found.
+notfound-desc = Nothing plays at this address.
+notfound-home = Go to the home page
+
+## Features page
+features-group-sources = Sources
+features-group-playback = Playback
+features-group-library = Library
+features-group-desktop = Desktop
+features-group-android = Android
+features-group-integrations = Integrations
+features-group-performance = Performance
+features-group-privacy = Privacy
+features-jump-aria = Feature groups
+features-privacy-link = Read the privacy policy
+
+## Download page
+download-latest-cta = Download the latest release
+install-other-title = Other ways to install
+req-spotify = Playback requires Premium, a personal Client ID, and a supported browser.
+req-applemusic = Desktop playback requires a Widevine CDM. Sign-in works on Android, but playback is not yet supported there.
+req-nextcloud = Raw WebDAV does not support playlists or radio. Use a Subsonic endpoint from Nextcloud Music when available.
+req-android = Release APKs require arm64-v8a and Android 7.0 / API 24 or newer. Discord RPC and the system tray are unavailable.
+req-appimage = Requires webkit2gtk-4.1 and GTK 3. The tray also requires an appindicator library.
+req-ytmusic = Anonymous mode cannot play Premium-only tracks. Signed-in playback can fall back to yt-dlp.
+req-crossfade = Crossfade works with native desktop playback. It does not apply to Spotify audio played in the browser.
+req-spotify-limits-label = Spotify limits
+req-spotify-limits = Development Mode limits search, makes playlists read-only, and disables downloads, radio, tag editing, and Kopuz audio effects.
+
+## Support page
+support-note = I’m Temidaradev, Kopuz’s developer. I am a student without a stable income, and sponsors are what let me keep working on Kopuz while I study.
+support-goal-label = GitHub Sponsors goal
+support-goal-amount = ${ $current } of ${ $goal } per month
+support-goal-aria = GitHub Sponsors goal progress
+support-crypto-summary = Crypto addresses
+sponsors-tier-special = Special
+sponsors-tier-monthly = Monthly
+sponsors-tier-one-time = One-time

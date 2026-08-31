@@ -13,7 +13,7 @@ use std::{
 };
 use tokio::sync::RwLock;
 
-use crate::app::{fetch_sponsor_stats_via_scrape, fetch_sponsors_list_via_scrape};
+use crate::support::{fetch_sponsor_stats_via_scrape, fetch_sponsors_list_via_scrape};
 
 #[derive(Clone, Debug, Serialize, Deserialize, Default)]
 pub struct SponsorRecord {
