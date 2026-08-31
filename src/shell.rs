@@ -518,10 +518,26 @@ fn SimpleNav() -> impl IntoView {
     let pathname = use_location().pathname;
     let links = [
         (internal_href("/"), "/", move_tr!("nav-home")),
-        (internal_href("/features"), "/features", move_tr!("nav-features")),
-        (internal_href("/download"), "/download", move_tr!("nav-download")),
-        (internal_href("/guides"), "/guides", move_tr!("guides-title")),
-        (internal_href("/support"), "/support", move_tr!("support-title")),
+        (
+            internal_href("/features"),
+            "/features",
+            move_tr!("nav-features"),
+        ),
+        (
+            internal_href("/download"),
+            "/download",
+            move_tr!("nav-download"),
+        ),
+        (
+            internal_href("/guides"),
+            "/guides",
+            move_tr!("guides-title"),
+        ),
+        (
+            internal_href("/support"),
+            "/support",
+            move_tr!("support-title"),
+        ),
     ];
 
     view! {

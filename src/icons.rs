@@ -16,7 +16,11 @@ pub fn Icon(
     };
 
     let brand = is_brand(name);
-    let class = if brand { format!("{class} ico-brand") } else { class };
+    let class = if brand {
+        format!("{class} ico-brand")
+    } else {
+        class
+    };
 
     view! {
         <svg
@@ -145,9 +149,7 @@ fn icon_body(name: &str) -> &'static str {
         "star" => {
             r#"<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>"#
         }
-        "info" => {
-            r#"<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>"#
-        }
+        "info" => r#"<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>"#,
         "coffee" => {
             r#"<path d="M10 2v2"/><path d="M14 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/><path d="M6 2v2"/>"#
         }

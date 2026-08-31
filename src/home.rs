@@ -17,7 +17,7 @@ use crate::support::{fetch_sponsors_list, sponsor_avatar};
 const GITHUB: &str = "https://github.com/Kopuz-org/kopuz";
 
 /* The theme wipe reveals a screenshot and its desk in the same frame, so every
-   one of them has to be decoded before the card reaches the viewport. */
+one of them has to be decoded before the card reaches the viewport. */
 const THEME_PRELOADS: &[&str] = &[
     "/themes/default.png",
     "/themes/amoled.png",
@@ -328,7 +328,7 @@ fn moment_text(key: &'static str) -> Signal<String> {
 }
 
 /* Example wallpapers for the live theme. CC0 / public domain, sources listed
-   in public/wallpapers/SOURCES.txt. */
+in public/wallpapers/SOURCES.txt. */
 struct Wallpaper {
     slug: &'static str,
     name_key: &'static str,

@@ -113,9 +113,8 @@ pub(crate) fn provide_latest_release() {
 }
 
 pub(crate) fn use_latest_release() -> Resource<ReleaseNotes> {
-    use_context::<Resource<ReleaseNotes>>().unwrap_or_else(|| {
-        Resource::new(|| (), |_| async move { fetch_latest_release().await })
-    })
+    use_context::<Resource<ReleaseNotes>>()
+        .unwrap_or_else(|| Resource::new(|| (), |_| async move { fetch_latest_release().await }))
 }
 
 #[derive(Debug, PartialEq, Eq)]
