@@ -4,7 +4,7 @@ use leptos_fluent::{move_tr, I18n};
 use leptos_meta::{Link, Meta, Title};
 
 use crate::app::AboutName;
-use crate::download::{platform, platform_text};
+use crate::download::{DownloadDialog, Installers};
 use crate::features::feature_desc;
 use crate::icons::Icon;
 use crate::releases::{use_latest_release, WhatsNew};
@@ -85,36 +85,23 @@ fn Hero() -> impl IntoView {
     let simple = simple_mode();
     let download_href = internal_href("/download");
     let release = use_latest_release();
-    let release_label = move_tr!("hero-release");
-    let release_tag = move || {
-        let label = release_label.get();
-        let version = release
+    let version = move || {
+        release
             .get()
             .map(|release| release.version().to_string())
-            .unwrap_or_default();
-        if version.is_empty() {
-            label
-        } else {
-            format!("{label} · v{version}")
-        }
+            .filter(|version| !version.is_empty())
+            .map(|version| view! { <span class="tabular">"v"{version}</span> })
     };
 
     view! {
         <section class="sec hero-sec" data-title="Home">
             <div class="wrap">
-                <div class="card hero">
-                    {(!simple).then(|| view! { <div class="hero-wash" aria-hidden="true"></div> })}
+                <div class="hero">
                     <div class="hero-copy">
-                        <p class="hero-release rise rise-1">
-                            {(!simple).then(|| view! { <Icon name="star" size=12 class="hero-star"/> })}
-                            <Transition fallback=|| view! { <span>{move_tr!("hero-release")}</span> }>
-                                {move || view! { <span>{release_tag()}</span> }}
-                            </Transition>
-                        </p>
-                        <h1 class="rise rise-2">
+                        <h1 class="rise rise-1">
                             {move_tr!("hero-title-1")}<br/>{move_tr!("hero-title-2")}
                         </h1>
-                        <p class="lede rise rise-3">{move_tr!("hero-desc")}</p>
+                        <p class="lede rise rise-2">{move_tr!("hero-desc")}</p>
                         {if simple {
                             view! {
                                 <p>
@@ -123,11 +110,12 @@ fn Hero() -> impl IntoView {
                             }.into_any()
                         } else {
                             view! {
-                                <div class="hero-actions rise rise-4">
+                                <div class="hero-actions rise rise-3">
                                     <a
                                         class="btn btn-primary"
                                         href=download_href.clone()
-                                        data-os-cta
+                                        aria-haspopup="dialog"
+                                        data-open-download
                                     >
                                         <Icon name="download" size=15/>
                                         <span class="os-generic">{move_tr!("hero-cta-download")}</span>
@@ -156,15 +144,17 @@ fn Hero() -> impl IntoView {
                                         <Icon name="github" size=16/>
                                     </a>
                                 </div>
+                                <DownloadDialog/>
                             }.into_any()
                         }}
                         <p class="hero-platforms rise rise-4">
+                            <Transition fallback=|| ()>{version}</Transition>
                             <span><Icon name="monitor" size=13/>"Linux · macOS · Windows"</span>
                             <span><Icon name="smartphone" size=13/>"Android 7+"</span>
                         </p>
                     </div>
                     {(!simple).then(|| view! {
-                        <div class="hero-art">
+                        <div class="hero-art rise rise-2">
                             <img
                                 src=asset("/app-home.jpg")
                                 alt=move_tr!("hero-screenshot-alt")
@@ -204,6 +194,11 @@ const SOURCES: &[Source] = &[
         anchor: "src-navidrome",
     },
     Source {
+        icon: "hard-drive",
+        name_key: "source-smb",
+        anchor: "src-smb",
+    },
+    Source {
         icon: "nextcloud",
         name_key: "features-source-nextcloud",
         anchor: "src-nextcloud",
@@ -229,6 +224,11 @@ const SOURCES: &[Source] = &[
         anchor: "src-spotify",
     },
     Source {
+        icon: "cloud",
+        name_key: "source-clippsly",
+        anchor: "src-clippsly",
+    },
+    Source {
         icon: "radio",
         name_key: "source-radio",
         anchor: "features",
@@ -239,6 +239,8 @@ fn source_name(key: &'static str) -> Signal<String> {
     match key {
         "source-local" => move_tr!("source-local"),
         "source-navidrome" => move_tr!("source-navidrome"),
+        "source-smb" => move_tr!("source-smb"),
+        "source-clippsly" => move_tr!("source-clippsly"),
         "source-radio" => move_tr!("source-radio"),
         "features-source-jellyfin" => move_tr!("features-source-jellyfin"),
         "features-source-nextcloud" => move_tr!("features-source-nextcloud"),
@@ -255,7 +257,7 @@ fn Sources() -> impl IntoView {
     let simple = simple_mode();
 
     view! {
-        <section class="sec sources-sec" data-title="Plays from">
+        <section class="sec sources-sec reveal-sec" data-title="Sources">
             <div class="wrap">
                 <h2>{move_tr!("home-sources-title")}</h2>
                 <ul class="sources-inline">
@@ -280,12 +282,13 @@ fn Sources() -> impl IntoView {
 #[component]
 fn Moments() -> impl IntoView {
     view! {
-        <section class="sec moments" data-title="In use">
+        <section class="sec moments">
             <div class="wrap moments-list" data-tilt-group>
                 <Moment
                     image="/fullscreen-lyrics.png"
                     width=1920
                     height=1080
+                    chapter="Lyrics"
                     alt_key="moment-lyrics-alt"
                     title_key="moment-lyrics-title"
                     desc_key="feat-lyrics-desc"
@@ -294,6 +297,7 @@ fn Moments() -> impl IntoView {
                     image="/normal-library.png"
                     width=1920
                     height=1080
+                    chapter="Library"
                     alt_key="moment-library-alt"
                     title_key="moment-library-title"
                     desc_key="feat-local-desc"
@@ -302,6 +306,7 @@ fn Moments() -> impl IntoView {
                     image="/normal-library.png"
                     width=1920
                     height=1080
+                    chapter="Themes"
                     alt_key="moment-themes-alt"
                     title_key="moment-themes-title"
                     desc_key="feat-theming-desc"
@@ -357,6 +362,8 @@ fn Moment(
     image: &'static str,
     width: u32,
     height: u32,
+    /// English name the player bar reads out of `data-title`.
+    chapter: &'static str,
     alt_key: &'static str,
     title_key: &'static str,
     desc_key: &'static str,
@@ -383,7 +390,7 @@ fn Moment(
     }
 
     view! {
-        <article class="moment" class:moment-themes=themes data-tilt>
+        <article class="moment reveal-card" class:moment-themes=themes data-tilt data-title=chapter>
             <div class="moment-copy">
                 <div class="moment-copy-inner">
                     <h2>{moment_text(title_key)}</h2>
@@ -494,30 +501,12 @@ fn ThemeStage(alt_key: &'static str) -> impl IntoView {
 #[component]
 fn GetKopuz() -> impl IntoView {
     let download_href = internal_href("/download");
-    let order = ["linux", "macos", "windows", "android"];
 
     view! {
-        <section class="sec get-sec" data-title="Get Kopuz">
+        <section class="sec get-sec reveal-sec" data-title="Download">
             <div class="wrap">
                 <h2>{move_tr!("home-get-title")}</h2>
-                <ul class="get-list">
-                    {order.into_iter().map(|id| {
-                        let entry = platform(id);
-                        let name = platform_text(entry.name_key);
-                        let formats = entry.formats.join(" · ");
-                        view! {
-                            <li class="get-row">
-                                <Icon name=entry.icon/>
-                                <span class="get-name">{name}</span>
-                                <span class="get-formats">{formats}</span>
-                                <a class="text-link get-dl" href=entry.href target="_blank" rel="noopener noreferrer">
-                                    {move_tr!("home-get-download")}
-                                    <Icon name="arrow-up-right" size=14/>
-                                </a>
-                            </li>
-                        }
-                    }).collect_view()}
-                </ul>
+                <Installers/>
                 <p class="get-also">
                     <a href=download_href>{move_tr!("home-also-on")}</a>
                 </p>
@@ -531,7 +520,7 @@ fn HomeSponsors() -> impl IntoView {
     let sponsors_list = Resource::new(|| (), |_| async move { fetch_sponsors_list().await });
 
     view! {
-        <section class="sec home-sponsors" data-title="Sponsors">
+        <section class="sec home-sponsors reveal-sec" data-title="Sponsors">
             <div class="wrap">
                 <h2>{move_tr!("home-sponsors-title")}</h2>
                 <Suspense fallback=|| ()>

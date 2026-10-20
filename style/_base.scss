@@ -218,6 +218,11 @@ pre code {
   stroke: currentColor;
   fill: none;
 }
+/* Simple Icons glyphs are filled outlines; the stroke above would trace them. */
+.ico-brand {
+  fill: currentColor;
+  stroke: none;
+}
 
 /* ── buttons ── */
 
@@ -353,6 +358,107 @@ pre code {
   .card,
   .frame {
     transition: none;
+  }
+}
+
+/* ── icon swaps ── */
+
+/* Both icons sit in one cell and trade places with a blurred crossfade, so the
+   swap reads as one glyph changing rather than two popping. swap-a shows when
+   the control is on (dark theme, open menu). */
+.theme-toggle,
+.nav-menu-btn {
+  display: inline-grid;
+  place-items: center;
+}
+.theme-toggle .ico,
+.nav-menu-btn .ico {
+  grid-area: 1 / 1;
+  transition:
+    opacity 200ms var(--ease),
+    scale 200ms var(--ease),
+    filter 200ms var(--ease);
+}
+.theme-toggle[aria-pressed="false"] .swap-a,
+.theme-toggle[aria-pressed="true"] .swap-b,
+.nav-menu-btn[aria-expanded="false"] .swap-a,
+.nav-menu-btn[aria-expanded="true"] .swap-b {
+  opacity: 0;
+  scale: 0.6;
+  filter: blur(2px);
+}
+
+/* ── page titles ── */
+
+/* Inner pages open the way the home hero does: the title, then what follows
+   it, rise in. */
+.page main > .sec:first-child h1,
+.page main > .sec:first-child h1 ~ * {
+  animation: rise 500ms var(--ease) both;
+}
+.page main > .sec:first-child h1 ~ * {
+  animation-delay: 70ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page main > .sec:first-child h1,
+  .page main > .sec:first-child h1 ~ * {
+    animation-name: fade;
+  }
+}
+
+/* ── section reveal ── */
+
+/* Gated on the class the head script sets, so nothing hides without JS.
+   site.js adds .in once the section scrolls into view. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal-sec .wrap > * {
+    opacity: 0;
+    translate: 0 12px;
+    transition:
+      opacity 500ms var(--ease),
+      translate 500ms var(--ease);
+  }
+  .js .reveal-sec.in .wrap > * {
+    opacity: 1;
+    translate: none;
+  }
+  .js .reveal-sec.in .wrap > :nth-child(2) {
+    transition-delay: 70ms;
+  }
+  .js .reveal-sec.in .wrap > :nth-child(3) {
+    transition-delay: 140ms;
+  }
+  .js .reveal-sec.in .wrap > :nth-child(n + 4) {
+    transition-delay: 210ms;
+  }
+
+  .js .reveal-self {
+    opacity: 0;
+    translate: 0 12px;
+    transition:
+      opacity 500ms var(--ease),
+      translate 500ms var(--ease);
+  }
+  .js .reveal-self.in {
+    opacity: 1;
+    translate: none;
+  }
+
+  /* A moment card windows the fixed stage, so it may only fade: a transform
+     on it would reparent the stage. Its copy can still rise. */
+  .js .reveal-card {
+    opacity: 0;
+    transition: opacity 600ms var(--ease);
+  }
+  .js .reveal-card .moment-copy-inner {
+    translate: 0 16px;
+    transition: translate 600ms var(--ease) 80ms;
+  }
+  .js .reveal-card.in {
+    opacity: 1;
+  }
+  .js .reveal-card.in .moment-copy-inner {
+    translate: none;
   }
 }
 

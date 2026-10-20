@@ -10,6 +10,14 @@ pub(crate) struct ReleaseNotes {
     pub(crate) name: String,
     pub(crate) published_at: String,
     pub(crate) body: String,
+    #[serde(default)]
+    pub(crate) assets: Vec<ReleaseAsset>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub(crate) struct ReleaseAsset {
+    pub(crate) name: String,
+    pub(crate) url: String,
 }
 
 impl ReleaseNotes {
@@ -19,6 +27,7 @@ impl ReleaseNotes {
             name: "Kopuz release notes".into(),
             published_at: String::new(),
             body: "Could not load release notes.".into(),
+            assets: Vec::new(),
         }
     }
 
@@ -35,6 +44,15 @@ struct GitHubRelease {
     name: Option<String>,
     published_at: Option<String>,
     body: Option<String>,
+    #[serde(default)]
+    assets: Vec<GitHubAsset>,
+}
+
+#[cfg(feature = "ssr")]
+#[derive(Deserialize)]
+struct GitHubAsset {
+    name: String,
+    browser_download_url: String,
 }
 
 #[cfg(feature = "ssr")]
@@ -93,6 +111,15 @@ pub(crate) async fn fetch_latest_release() -> ReleaseNotes {
                             tag_name: release.tag_name,
                             published_at: release.published_at.unwrap_or_default(),
                             body: release.body.unwrap_or_default(),
+                            assets: release
+                                .assets
+                                .into_iter()
+                                .filter(|asset| !asset.name.ends_with(".sha256"))
+                                .map(|asset| ReleaseAsset {
+                                    name: asset.name,
+                                    url: asset.browser_download_url,
+                                })
+                                .collect(),
                         };
                         cache::put(&release);
                         return release;
@@ -310,7 +337,7 @@ pub(crate) fn WhatsNew() -> impl IntoView {
     let latest_release = use_latest_release();
 
     view! {
-        <section class="sec whats-new" id="whats-new" data-title="What's new">
+        <section class="sec whats-new reveal-sec" id="whats-new" data-title="What's new">
             <div class="wrap">
                 <h2>{move_tr!("new-title")}</h2>
                 <Suspense fallback=|| view! { <p class="prose release-loading">"Loading the latest release."</p> }>

@@ -2,62 +2,27 @@
    release notes, the name. */
 
 .hero-sec {
-  padding-block-start: 24px;
+  padding-block-start: clamp(32px, 6vw, 72px);
 }
 
+/* The screenshot runs past the column toward the viewport edge and fades out
+   there, so the hero reads wider than the text measure without a card. */
 .hero {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--r-xl);
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  min-height: 420px;
-}
-
-.hero-wash {
-  position: absolute;
-  inset-block-start: -80px;
-  inset-inline: -40px;
-  height: 640px;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(48px);
-  background:
-    radial-gradient(48% 60% at 78% 24%, rgba(232, 168, 102, 0.26), transparent 62%),
-    radial-gradient(36% 50% at 12% 70%, rgba(137, 17, 17, 0.22), transparent 60%),
-    radial-gradient(40% 40% at 60% 90%, rgba(120, 86, 150, 0.16), transparent 60%);
-}
-.site.light .hero-wash {
-  opacity: 0.4;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 64px);
 }
 
 .hero-copy {
-  position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 14px;
-  padding: clamp(28px, 4vw, 52px);
-}
-
-.hero-release {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--faint);
-  font-variant-numeric: tabular-nums;
-}
-.hero-star {
-  color: var(--copper);
+  gap: 16px;
 }
 
 .hero .lede {
-  font-size: 15.5px;
-  max-width: 44ch;
+  font-size: 17px;
+  max-width: 42ch;
 }
 
 .hero-actions {
@@ -72,7 +37,7 @@
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
-  margin-block-start: 6px;
+  margin-block-start: 4px;
   font-size: 12px;
   color: var(--faint);
 }
@@ -83,39 +48,52 @@
 }
 
 .hero-art {
-  position: relative;
-  min-height: 260px;
+  min-width: 0;
 }
 .hero-art img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: left top;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 28%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 28%);
+  display: block;
+  width: calc(100% + var(--gutter) + max(0px, (100vw - var(--wrap)) / 2));
+  max-width: none;
+  height: auto;
+  border-start-start-radius: var(--r-lg);
+  border-end-start-radius: var(--r-lg);
+  -webkit-mask-image: linear-gradient(90deg, #000 55%, transparent 98%);
+  mask-image: linear-gradient(90deg, #000 55%, transparent 98%);
 }
 [dir="rtl"] .hero-art img {
-  object-position: right top;
-  -webkit-mask-image: linear-gradient(270deg, transparent 0, #000 28%);
-  mask-image: linear-gradient(270deg, transparent 0, #000 28%);
+  margin-inline-start: 0;
+  -webkit-mask-image: linear-gradient(270deg, #000 55%, transparent 98%);
+  mask-image: linear-gradient(270deg, #000 55%, transparent 98%);
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-art {
+      perspective: 1600px;
+    }
+    .hero-art img {
+      transform-origin: 0 50%;
+      animation: hero-settle linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 45vh;
+    }
+  }
+}
+@keyframes hero-settle {
+  from {
+    transform: rotateY(-9deg) scale(0.98);
+  }
+  to {
+    transform: none;
+  }
 }
 
 @media (max-width: 899px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
-    min-height: 0;
   }
-  .hero-art {
-    order: -1;
-    min-height: 220px;
-  }
-  .hero-art img,
-  [dir="rtl"] .hero-art img {
-    object-position: left top;
-    -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent);
-    mask-image: linear-gradient(180deg, #000 40%, transparent);
+  .hero-art img {
+    width: calc(100% + var(--gutter));
   }
 }
 
@@ -142,7 +120,12 @@
   font-family: var(--mono);
   font-size: 14px;
   font-weight: 500;
-  transition: color 120ms var(--ease);
+  transition:
+    color 120ms var(--ease),
+    transform 150ms var(--ease);
+}
+.sources-inline a:active {
+  transform: scale(0.97);
 }
 .sources-inline .ico {
   color: var(--copper);
@@ -173,7 +156,7 @@
    the fixed stage reparents to it and scrolls away with the card. */
 .moments-list {
   --card-pad: clamp(24px, 4vw, 40px);
-  --stage-cols: minmax(0, 4fr) minmax(0, 7fr);
+  --stage-cols: minmax(0, 4fr) minmax(0, 8fr);
   --stage-gap: clamp(32px, 6vw, 72px);
   --moment-h: clamp(440px, 64dvh, 640px);
   /* Shared by every frame that tilts: two different depths read as two
@@ -191,8 +174,11 @@
   gap: 24px;
 }
 .moment-copy h2 {
-  font-size: clamp(24px, 2.4vw, 30px);
-  margin-block-end: 12px;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-block-end: 14px;
 }
 .moment-copy .prose {
   font-size: 15px;
@@ -510,35 +496,6 @@
 
 /* ── get Kopuz ── */
 
-.get-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.get-row {
-  display: grid;
-  grid-template-columns: auto auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-}
-.get-row .ico {
-  color: var(--copper);
-}
-.get-name {
-  font-family: var(--mono);
-  font-size: 14px;
-  font-weight: 500;
-}
-.get-formats {
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
-.get-dl {
-  justify-self: end;
-}
 .get-also {
   margin-block-start: 24px;
   font-family: var(--sans);
@@ -553,18 +510,6 @@
 @media (pointer: coarse) {
   .get-also a {
     padding-block: 11px;
-  }
-}
-
-@media (max-width: 599px) {
-  .get-row {
-    grid-template-columns: auto minmax(0, 1fr);
-    row-gap: 4px;
-  }
-  .get-formats,
-  .get-dl {
-    grid-column: 2;
-    justify-self: start;
   }
 }
 
@@ -688,6 +633,11 @@
 }
 .release-body li + li {
   margin-block-start: 6px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .release-notes[open] .release-body {
+    animation: rise 260ms var(--ease) both;
+  }
 }
 .release-loading {
   padding-block: 12px;

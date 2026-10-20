@@ -13,16 +13,12 @@ nav-gallery = 갤러리
 nav-lang-label = 언어
 
 ## Hero
-hero-title-1 = 로컬 파일.
-hero-title-2 = 연결된 서비스.
-hero-desc = Kopuz는 로컬 폴더, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify의 음악을 재생합니다.
 hero-cta-download = 다운로드
 hero-cta-github = GitHub에서 보기
 hero-screenshot-alt = Kopuz 홈 화면
 
 ## Features
 features-title = 기능
-features-chip = 로컬 재생, 연결된 서비스, 가사, 재생목록 및 테마를 지원합니다.
 features-works-with = 함께 작동
 features-source-local = 로컬 파일
 features-source-jellyfin = Jellyfin
@@ -33,12 +29,8 @@ features-source-ytmusic = YouTube Music
 features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
-feat-local-title = 로컬 + 스트리밍
-feat-local-desc = 로컬 폴더를 추가하거나 Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud 또는 Spotify에 연결하세요. 여러 소스를 자유롭게 조합해 하나로 통합된 라이브러리에서 이용할 수 있습니다.
 feat-theming-title = 테마
-feat-theming-desc = 색상 변수 완전 제어가 가능한 동적 테마. 처음부터 자신만의 테마를 만들거나 프리셋 선택.
 feat-native-title = 네이티브 통합
-feat-native-desc = Linux의 MPRIS, macOS의 Now Playing, Windows의 System Media Transport. 완전 연결.
 feat-android-title = Android
 feat-android-desc = Android 7.0 이상을 위한 휴대전화 화면에 맞춘 ARM64 빌드로, 스와이프 제스처, 미디어 알림의 셔플 및 반복 컨트롤, AMOLED 모드를 제공합니다.
 feat-lyrics-title = 동기화된 가사
@@ -46,7 +38,6 @@ feat-lyrics-desc = 기악 구간 표시, 현재 가사 줄의 가운데 정렬, 
 feat-eq-title = 이퀄라이저
 feat-eq-desc = 내장 프리셋과 사운드 완전 제어가 가능한 5밴드 이퀄라이저.
 feat-fav-title = 즐겨찾기 & 재생목록
-feat-fav-desc = 로컬에서 트랙에 별표를 매기거나 서버와 즐겨찾기 동기화. 재생목록 생성, 앨범 전체를 한 번에 추가.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = 내장 ListenBrainz 스크로블링. Jellyfin 사용자는 listenbrainz 플러그인도 사용 가능.
 feat-radio-title = 인터넷 라디오
@@ -64,15 +55,9 @@ feat-genre-desc = 로컬 파일과 서버 음악을 장르별로 탐색합니다
 feat-logs-title = 청취 로그
 feat-logs-desc = 재생 횟수를 로컬에서 추적. 시간이 지나면서 실제로 가장 많이 듣는 음악 확인.
 feat-i18n-title = i18n
-feat-i18n-desc = 영어, 러시아어, 독일어, 프랑스어, 스페인어, 터키어, 우크라이나어, 폴란드어, 아랍어, 그리스어, 히브리어, 헝가리어, 인도네시아어, 일본어, 한국어, 루마니아어, 포르투갈어, 중국어 등.
-feat-ytdlp-title = yt-dlp 다운로더
-feat-ytdlp-desc = YouTube에서 오디오 직접 다운로드. MP3, FLAC, WAV, MP4 또는 최고 품질로 출력. SponsorBlock, 챕터 분할, 속도 제한 포함.
-feat-crossfade-title = 크로스페이드 & 전환
-feat-crossfade-desc = 트랙 전환을 부드럽게 혼합. 네이티브 데스크탑 빌드에서 크로스페이드 지원.
 feat-channels-title = 채널 모드
 feat-channels-desc = 스테레오, 모노, 왼쪽 전용, 오른쪽 전용 및 L/R 스왑. 세밀한 오디오 채널 제어.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Spotify 스타일의 Discover 페이지, 풍부한 아티스트 프로필, 믹스 라디오를 갖춘 완전한 스트리밍 백엔드. 로그인하여 라이브러리, Liked Music, 재생목록을 이용하거나 익명으로 탐색하세요.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = 카탈로그와 라이브러리 탐색, 즐겨찾기 동기화, 재생목록 트랙 추가 및 제거, 라디오, 트랙 다운로드, 단어별 타이밍 가사를 지원합니다. 데스크톱에서 재생하려면 Widevine이 필요합니다.
 feat-nextcloud-title = Nextcloud
@@ -129,8 +114,6 @@ install-nix-profile = 또는 프로필에 추가:
 install-nix-note = NixOS flake는 Cachix 바이너리 캐시로 지원.
 install-aur-title = AUR (Arch Linux)
 install-aur-desc = 선호하는 헬퍼로 설치:
-install-aur-note-1 = 다음이 필요
-install-aur-note-2 = { " " }dioxus 0.7.x와 일치하는 버전으로 먼저 설치되어 있어야 함.
 install-flatpak-title = Flatpak
 install-flatpak-desc = Flathub에서 Kopuz 설치하기:
 install-flatpak-note = 업데이트는 평소 사용하는 Flatpak 업데이트 절차를 통해 제공됩니다.
@@ -147,8 +130,6 @@ install-macos-desc-2 = { " " }를 다운로드. macOS가 차단하면 격리 플
 
 ## Feature guides
 guides-title = 가이드
-guides-subtitle = 음악 서비스 및 주요 기능 설정 가이드.
-
 ## Privacy and storage
 privacy-title = 개인정보 보호 및 데이터 저장
 privacy-subtitle = Kopuz는 앱 데이터를 컴퓨터에 저장합니다. 연결된 서비스의 기능을 사용하면 해당 서비스로 요청을 보냅니다.
@@ -162,7 +143,6 @@ community-subtitle = 버그를 보고하거나 변경 사항을 제안하고, �
 
 ## Platforms
 platforms-title = Kopuz 다운로드
-platforms-subtitle = Windows, macOS, Linux, Android용으로 현재 제공되는 빌드를 다운로드하세요.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Silicon 전용
@@ -205,10 +185,8 @@ ytmusic-token-desc-1 = 익명 재생에는 콘텐츠 PO token이 필요하며, K
 ytmusic-token-desc-2 = { " " }서브프로세스는 더 이상 사용하지 않습니다. 추가 설치 없이 Flatpak에서도 작동합니다.
 ytmusic-signin-title = 브라우저로 로그인
 ytmusic-signin-desc = Kopuz는 별도의 브라우저 프로필에서 Google 로그인을 열고 세션 쿠키를 가져옵니다. 로그인하면 라이브러리, Liked Music, 재생목록 및 팔로우한 아티스트를 이용할 수 있습니다.
-ytmusic-signin-note = Windows에서는 현재 브라우저 로그인이 비활성화되어 있으며, Windows 사용자는 자동으로 익명 모드를 사용합니다. 로그인은 Linux와 macOS에서 작동합니다.
 ytmusic-anon-title = 익명 모드
 ytmusic-anon-desc = 로그인 없음, 쿠키 없음. 탐색, 검색, 아티스트, 앨범, 재생목록 페이지 열기, 믹스 라디오 시작, 공개 트랙 재생. 좋아요와 라이브러리 뷰는 비활성화됩니다.
-ytmusic-premium-title = 프리미엄 트랙
 ytmusic-premium-desc-1 = Music Premium으로 잠긴 트랙은 기본 경로가 UNPLAYABLE을 반환할 때 로컬
 ytmusic-premium-desc-2 = { " " }해석으로 대체되므로, 설치되어 있으면 도움이 됩니다. 익명 모드에서는 프리미엄 전용 콘텐츠를 전혀 재생할 수 없습니다.
 
@@ -228,7 +206,6 @@ applemusic-android-desc = 로그인에는 앱 내 WebView를 사용하지만 And
 soundcloud-title = SoundCloud 설정
 soundcloud-subtitle = 설정 → 미디어 서버 → 추가 → SoundCloud에서 추가하세요.
 soundcloud-signin-title = 일회성 브라우저 로그인
-soundcloud-signin-desc = URL이나 비밀번호를 입력할 필요가 없습니다. Kopuz는 별도의 브라우저 프로필에서 soundcloud.com/signin을 열고 세션의 oauth_token을 가져옵니다. Chrome, Chromium, Brave, Edge 또는 Vivaldi 중 사용할 브라우저를 선택할 수 있습니다.
 soundcloud-features-title = 제공되는 기능
 soundcloud-features-desc = 검색, 트랙 재생(프로그레시브 MP3 및 Go+ AAC/HLS 스트림), 즐겨찾기로서의 Liked 트랙, 읽기 전용 재생목록, 좋아요/좋아요 취소. 소스를 제거하면 격리된 프로필이 정리됩니다.
 
@@ -284,21 +261,14 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz Music Player
-home-meta-desc = Kopuz는 데스크톱과 Android를 위한 현대적이고 가벼운 음악 플레이어입니다. 로컬 파일을 재생하거나 Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify에 연결할 수 있으며, Apple Music 재생은 현재 데스크톱에서만 지원됩니다.
-home-meta-keywords = Kopuz, 음악 플레이어, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, 오픈 소스, Android, Linux, macOS, Windows, 가사, 이퀄라이저
 og-title = Kopuz Music Player
-og-desc = 데스크톱과 Android에서 로컬 파일과 연결된 소스를 이용할 수 있는 현대적이고 가벼운 음악 플레이어입니다. 동기화 가사, 테마, 이퀄라이저 등 다양한 기능을 제공합니다.
 og-image-alt = Kopuz 음악 플레이어
 twitter-title = Kopuz Music Player
-twitter-desc = 로컬 파일, Jellyfin, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify를 지원하는 현대적이고 가벼운 음악 플레이어입니다.
-
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }
 perf-io-desc = { perf-io-desc-1 } { perf-io-desc-2 }
 perf-http-desc = { perf-http-desc-1 } { perf-http-desc-2 }
 perf-sort-desc = { perf-sort-desc-1 } { perf-sort-desc-2 }
-ytmusic-token-desc = { ytmusic-token-desc-1 } { ytmusic-token-desc-2 }
-ytmusic-premium-desc = { ytmusic-premium-desc-1 } { ytmusic-premium-desc-2 }
 install-quick-title = Quick start (most users)
 install-quick-desc = Download the latest release for your platform and open it.
 install-quick-cta = Open Releases

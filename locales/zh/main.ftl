@@ -13,16 +13,12 @@ nav-gallery = 画廊
 nav-lang-label = 语言
 
 ## Hero
-hero-title-1 = 本地文件。
-hero-title-2 = 已连接的服务。
-hero-desc = Kopuz 可播放本地文件夹、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify 中的音乐。
 hero-cta-download = 下载
 hero-cta-github = 在GitHub上查看
 hero-screenshot-alt = Kopuz 主页
 
 ## Features
 features-title = 功能
-features-chip = 本地播放、已连接的服务、歌词、播放列表和主题。
 features-works-with = 支持
 features-source-local = 本地文件
 features-source-jellyfin = Jellyfin
@@ -33,12 +29,8 @@ features-source-ytmusic = YouTube Music
 features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
-feat-local-title = 本地 + 流媒体
-feat-local-desc = 添加本地文件夹，或连接 Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify。可在统一音乐库中自由组合不同来源。
 feat-theming-title = 主题
-feat-theming-desc = 完全色彩变量控制的动态主题。从零构建自己的主题或选择预设。
 feat-native-title = 原生集成
-feat-native-desc = Linux上的MPRIS、macOS上的Now Playing、Windows上的System Media Transport。完全连接。
 feat-android-title = Android
 feat-android-desc = 面向手机屏幕的 ARM64 版本，支持滑动手势、媒体通知中的随机播放和重复播放控制，以及 AMOLED 模式，适用于 Android 7.0 及更高版本。
 feat-lyrics-title = 同步歌词
@@ -46,7 +38,6 @@ feat-lyrics-desc = 支持同步歌词、逐词定时歌词和纯文本歌词，�
 feat-eq-title = 均衡器
 feat-eq-desc = 5段均衡器,带内置预设,完全控制你的声音。
 feat-fav-title = 收藏和播放列表
-feat-fav-desc = 本地标记曲目或与服务器同步收藏。创建播放列表,一次性添加整个专辑。
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = 内置ListenBrainz scrobbling。Jellyfin用户也可使用listenbrainz插件。
 feat-radio-title = 互联网电台
@@ -64,15 +55,9 @@ feat-genre-desc = 可按流派浏览本地文件和服务器音乐。
 feat-logs-title = 收听日志
 feat-logs-desc = 本地跟踪播放次数。查看你实际上最常听的内容。
 feat-i18n-title = i18n
-feat-i18n-desc = 英语、俄语、德语、法语、西班牙语、土耳其语、乌克兰语、波兰语、阿拉伯语、希腊语、希伯来语、匈牙利语、印尼语、日语、韩语、罗马尼亚语、葡萄牙语、中文等。
-feat-ytdlp-title = yt-dlp下载器
-feat-ytdlp-desc = 直接从YouTube下载音频。输出为MP3、FLAC、WAV、MP4或最佳质量。包含SponsorBlock、章节分割和速率限制。
-feat-crossfade-title = 淡入淡出和过渡
-feat-crossfade-desc = 混合曲目过渡以获得更流畅的播放。原生桌面构建支持淡入淡出。
 feat-channels-title = 声道模式
 feat-channels-desc = 立体声、单声道、仅左、仅右和L/R交换。精细的音频声道控制。
 feat-youtube-title = YouTube Music
-feat-youtube-desc = 提供 Discover 页面、艺术家资料和混合电台。登录后可访问音乐库、Liked Music 和播放列表，也可匿名浏览。
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = 浏览 Apple Music 曲库和你的音乐库、同步收藏、在播放列表中添加或移除曲目、启动电台、下载曲目，并使用逐词定时歌词。桌面端播放需要 Widevine。
 feat-nextcloud-title = Nextcloud
@@ -129,8 +114,6 @@ install-nix-profile = 或添加到你的配置:
 install-nix-note = NixOS flake通过Cachix二进制缓存支持。
 install-aur-title = AUR (Arch Linux)
 install-aur-desc = 使用你偏好的助手安装:
-install-aur-note-1 = 需要先安装
-install-aur-note-2 = { " " },版本需匹配dioxus 0.7.x。
 install-flatpak-title = Flatpak
 install-flatpak-desc = 从 Flathub 安装 Kopuz：
 install-flatpak-note = 你会通过常规 Flatpak 更新流程收到更新。
@@ -147,8 +130,6 @@ install-macos-desc-2 = { " " }。如果macOS阻止,清除隔离标志:
 
 ## Feature guides
 guides-title = 指南
-guides-subtitle = 音乐服务和主要功能的设置指南。
-
 ## Privacy and storage
 privacy-title = 隐私与存储
 privacy-subtitle = Kopuz 将应用数据存储在你的电脑上。使用已连接服务的功能时，它会向相应服务发送请求。
@@ -162,7 +143,6 @@ community-subtitle = 报告错误、建议变更、翻译界面或贡献代码�
 
 ## Platforms
 platforms-title = 下载Kopuz
-platforms-subtitle = 下载目前为 Windows、macOS、Linux 和 Android 提供的版本。
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = 仅Apple Silicon
@@ -205,10 +185,8 @@ ytmusic-token-desc-1 = 匿名播放需要内容PO token,Kopuz现在通过运行Y
 ytmusic-token-desc-2 = { " " }子进程已不再使用。无需额外安装，也可在 Flatpak 中运行。
 ytmusic-signin-title = 通过浏览器登录
 ytmusic-signin-desc = Kopuz 会在单独的浏览器配置文件中打开 Google 登录，并读取会话 Cookie。登录后可使用音乐库、Liked Music、播放列表和已关注的艺术家。
-ytmusic-signin-note = 在Windows上,浏览器登录目前已禁用;Windows用户自动使用匿名模式。登录在Linux和macOS上可用。
 ytmusic-anon-title = 匿名模式
 ytmusic-anon-desc = 无需登录,无需cookie。浏览、搜索、打开艺术家、专辑和播放列表页面、启动混合电台,以及播放公开曲目。收藏和音乐库视图已禁用。
-ytmusic-premium-title = Premium曲目
 ytmusic-premium-desc-1 = 当主路径返回UNPLAYABLE时,Music Premium锁定的曲目会回退到本地
 ytmusic-premium-desc-2 = { " " }解析,因此安装它会有所帮助。匿名模式完全无法播放仅限Premium的内容。
 
@@ -228,7 +206,6 @@ applemusic-android-desc = 可通过应用内 WebView 登录，但 Android 目前
 soundcloud-title = SoundCloud 设置
 soundcloud-subtitle = 从设置 → 媒体服务器 → 添加 → SoundCloud 中添加。
 soundcloud-signin-title = 一次性浏览器登录
-soundcloud-signin-desc = 无需输入 URL 或密码。Kopuz 会在单独的浏览器配置文件中打开 soundcloud.com/signin，并读取会话的 oauth_token。可选择 Chrome、Chromium、Brave、Edge 或 Vivaldi。
 soundcloud-features-title = 你能获得什么
 soundcloud-features-desc = 搜索、曲目播放(渐进式MP3加上Go+ AAC/HLS流)、将你的Liked曲目作为收藏、只读播放列表,以及点赞/取消点赞。移除该来源会清理其隔离的配置。
 
@@ -284,21 +261,14 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz Music Player
-home-meta-desc = Kopuz 是一款适用于桌面端和 Android 的现代轻量级音乐播放器。播放本地文件，或连接 Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify；Apple Music 目前仅支持在桌面端播放。
-home-meta-keywords = Kopuz, 音乐播放器, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, 开源, Android, Linux, macOS, Windows, 歌词, 均衡器
 og-title = Kopuz Music Player
-og-desc = 适用于桌面端和 Android 的现代轻量级音乐播放器，支持本地文件和已连接的音乐源。提供同步歌词、主题、均衡器等功能。
 og-image-alt = Kopuz音乐播放器
 twitter-title = Kopuz Music Player
-twitter-desc = 一款支持本地文件、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud 和 Spotify 的现代轻量级音乐播放器。
-
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }
 perf-io-desc = { perf-io-desc-1 } { perf-io-desc-2 }
 perf-http-desc = { perf-http-desc-1 } { perf-http-desc-2 }
 perf-sort-desc = { perf-sort-desc-1 } { perf-sort-desc-2 }
-ytmusic-token-desc = { ytmusic-token-desc-1 } { ytmusic-token-desc-2 }
-ytmusic-premium-desc = { ytmusic-premium-desc-1 } { ytmusic-premium-desc-2 }
 install-quick-title = Quick start (most users)
 install-quick-desc = Download the latest release for your platform and open it.
 install-quick-cta = Open Releases

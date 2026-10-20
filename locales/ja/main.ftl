@@ -13,16 +13,12 @@ nav-gallery = ギャラリー
 nav-lang-label = 言語
 
 ## Hero
-hero-title-1 = ローカルファイル。
-hero-title-2 = 連携サービス。
-hero-desc = Kopuzは、ローカルフォルダ、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyの音楽を再生します。
 hero-cta-download = ダウンロード
 hero-cta-github = GitHubで見る
 hero-screenshot-alt = Kopuzのホーム画面
 
 ## Features
 features-title = 機能
-features-chip = ローカル再生、連携サービス、歌詞、プレイリスト、テーマに対応。
 features-works-with = 対応サービス
 features-source-local = ローカルファイル
 features-source-jellyfin = Jellyfin
@@ -33,12 +29,8 @@ features-source-ytmusic = YouTube Music
 features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
-feat-local-title = ローカル + ストリーミング
-feat-local-desc = ローカルフォルダを追加したり、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに接続したりできます。複数のソースを自由に組み合わせ、1つのライブラリにまとめて利用できます。
 feat-theming-title = テーマ
-feat-theming-desc = 色変数の完全制御によるダイナミックテーマ。自分のテーマをゼロから作るかプリセットを選べます。
 feat-native-title = ネイティブ統合
-feat-native-desc = LinuxのMPRIS、macOSのNow Playing、WindowsのSystem Media Transport。完全に接続。
 feat-android-title = Android
 feat-android-desc = Android 7.0以降に対応したスマートフォン向けARM64ビルド。スワイプジェスチャー、メディア通知でのシャッフル・リピート操作、AMOLEDモードを備えています。
 feat-lyrics-title = 同期歌詞
@@ -46,7 +38,6 @@ feat-lyrics-desc = 同期歌詞、単語単位のタイムスタンプ付き歌�
 feat-eq-title = イコライザー
 feat-eq-desc = 内蔵プリセットとサウンドの完全制御を備えた5バンドイコライザー。
 feat-fav-title = お気に入りとプレイリスト
-feat-fav-desc = ローカルでトラックにスターを付けるか、お気に入りをサーバーと同期。プレイリストを作成し、アルバム全体を一度に追加。
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = ListenBrainzスクロブリング内蔵。Jellyfinユーザーはlistenbrainzプラグインも使用可能。
 feat-radio-title = インターネットラジオ
@@ -64,15 +55,9 @@ feat-genre-desc = ローカルファイルとサーバー上の音楽をジャ�
 feat-logs-title = 再生履歴
 feat-logs-desc = 再生回数をローカルで追跡。実際に最もよく聴いている曲を時間の経過とともに確認。
 feat-i18n-title = i18n
-feat-i18n-desc = 英語、ロシア語、ドイツ語、フランス語、スペイン語、トルコ語、ウクライナ語、ポーランド語、アラビア語、ギリシャ語、ヘブライ語、ハンガリー語、インドネシア語、日本語、韓国語、ルーマニア語、ポルトガル語、中国語など。
-feat-ytdlp-title = yt-dlpダウンローダー
-feat-ytdlp-desc = YouTubeから音声を直接ダウンロード。MP3、FLAC、WAV、MP4、または最高品質で出力。SponsorBlock、チャプター分割、レート制限を含む。
-feat-crossfade-title = クロスフェードとトランジション
-feat-crossfade-desc = スムーズな再生のためにトラック間のトランジションをブレンド。ネイティブデスクトップビルドでクロスフェードをサポート。
 feat-channels-title = チャンネルモード
 feat-channels-desc = ステレオ、モノ、左のみ、右のみ、L/R入れ替え。きめ細かなオーディオチャンネル制御。
 feat-youtube-title = YouTube Music
-feat-youtube-desc = Spotify風のDiscoverページ、充実したアーティストプロフィール、ミックスラジオを備えた本格的なストリーミングバックエンド。サインインしてライブラリ、高く評価した音楽、プレイリストを利用するか、匿名で閲覧できます。
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = カタログとライブラリの閲覧、お気に入りの同期、プレイリストへのトラックの追加・削除、ラジオの再生、トラックのダウンロード、単語単位で同期する歌詞に対応。デスクトップでの再生にはWidevineが必要です。
 feat-nextcloud-title = Nextcloud
@@ -129,8 +114,6 @@ install-nix-profile = またはプロファイルに追加:
 install-nix-note = NixOS flakeはCachixバイナリキャッシュでサポート。
 install-aur-title = AUR (Arch Linux)
 install-aur-desc = お好みのヘルパーでインストール:
-install-aur-note-1 = 事前に
-install-aur-note-2 = { " " }をdioxus 0.7.xに対応するバージョンでインストールしておく必要があります。
 install-flatpak-title = Flatpak
 install-flatpak-desc = Flathub から Kopuz をインストール：
 install-flatpak-note = アップデートは通常の Flatpak 更新プロセスを通じて配信されます。
@@ -147,8 +130,6 @@ install-macos-desc-2 = { " " }をダウンロード。macOSがブロックした
 
 ## Feature guides
 guides-title = ガイド
-guides-subtitle = 音楽サービスと主な機能のセットアップガイド。
-
 ## Privacy and storage
 privacy-title = プライバシーとストレージ
 privacy-subtitle = Kopuzはアプリデータをコンピューターに保存します。連携サービスの機能を使うと、そのサービスにリクエストを送信します。
@@ -162,7 +143,6 @@ community-subtitle = バグの報告、変更の提案、インターフェー�
 
 ## Platforms
 platforms-title = Kopuzをダウンロード
-platforms-subtitle = Windows、macOS、Linux、Android向けに現在公開されているビルドをダウンロードできます。
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Siliconのみ
@@ -205,10 +185,8 @@ ytmusic-token-desc-1 = 匿名再生にはコンテンツPO tokenが必要で、K
 ytmusic-token-desc-2 = { " " }サブプロセスは廃止されました。追加インストールは不要で、Flatpakでも動作します。
 ytmusic-signin-title = ブラウザでサインイン
 ytmusic-signin-desc = Kopuzは独立したブラウザプロファイルでGoogleのサインイン画面を開き、セッションCookieを取得します。サインインすると、ライブラリ、高く評価した音楽、プレイリスト、フォロー中のアーティストを利用できます。
-ytmusic-signin-note = Windowsでは現在ブラウザサインインは無効で、Windowsユーザーは自動的に匿名モードになります。サインインはLinuxとmacOSで動作します。
 ytmusic-anon-title = 匿名モード
 ytmusic-anon-desc = サインインもCookieもなし。閲覧、検索、アーティスト・アルバム・プレイリストページを開く、ミックスラジオの開始、公開トラックの再生が可能。高評価とライブラリビューは無効です。
-ytmusic-premium-title = Premiumトラック
 ytmusic-premium-desc-1 = Music Premiumでロックされたトラックは、プライマリパスがUNPLAYABLEを返したときにローカルの
 ytmusic-premium-desc-2 = { " " }解決にフォールバックするため、インストールしておくと役立ちます。匿名モードではPremium専用コンテンツは一切再生できません。
 
@@ -228,7 +206,6 @@ applemusic-android-desc = サインインにはアプリ内WebViewを使用し�
 soundcloud-title = SoundCloudのセットアップ
 soundcloud-subtitle = 設定 → メディアサーバー → 追加 → SoundCloud から追加します。
 soundcloud-signin-title = 一度きりのブラウザサインイン
-soundcloud-signin-desc = URLやパスワードの入力は不要です。Kopuzは独立したブラウザプロファイルでsoundcloud.com/signinを開き、セッションのoauth_tokenを取得します。Chrome、Chromium、Brave、Edge、Vivaldiから使用するブラウザを選べます。
 soundcloud-features-title = 利用できる機能
 soundcloud-features-desc = 検索、トラック再生（プログレッシブMP3に加えてGo+ AAC/HLSストリーム）、高く評価したトラックをお気に入りとして、読み取り専用プレイリスト、高評価/解除。ソースを削除するとその独立したプロファイルもクリーンアップされます。
 
@@ -284,21 +261,14 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz Music Player
-home-meta-desc = KopuzはデスクトップとAndroid向けのモダンで軽量な音楽プレイヤーです。ローカルファイルを再生するか、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに接続できます。Apple Musicの再生は現在デスクトップでのみ利用できます。
-home-meta-keywords = Kopuz, 音楽プレイヤー, Jellyfin, Navidrome, Subsonic, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, オープンソース, Android, Linux, macOS, Windows, 歌詞, イコライザー
 og-title = Kopuz Music Player
-og-desc = ローカルファイルと接続した音楽ソースに対応する、デスクトップ・Android向けのモダンで軽量な音楽プレイヤー。同期歌詞、テーマ、イコライザーなどを搭載。
 og-image-alt = Kopuz音楽プレイヤー
 twitter-title = Kopuz Music Player
-twitter-desc = ローカルファイル、Jellyfin、Subsonic、Nextcloud、YouTube Music、Apple Music、SoundCloud、Spotifyに対応した、モダンで軽量な音楽プレイヤー。
-
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }
 perf-io-desc = { perf-io-desc-1 } { perf-io-desc-2 }
 perf-http-desc = { perf-http-desc-1 } { perf-http-desc-2 }
 perf-sort-desc = { perf-sort-desc-1 } { perf-sort-desc-2 }
-ytmusic-token-desc = { ytmusic-token-desc-1 } { ytmusic-token-desc-2 }
-ytmusic-premium-desc = { ytmusic-premium-desc-1 } { ytmusic-premium-desc-2 }
 install-quick-title = Quick start (most users)
 install-quick-desc = Download the latest release for your platform and open it.
 install-quick-cta = Open Releases

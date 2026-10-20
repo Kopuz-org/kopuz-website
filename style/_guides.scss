@@ -1,10 +1,25 @@
 /* Guides index and the per-service guide pages. */
 
 .guide-index {
-  display: grid;
-  gap: 16px;
-  max-width: 62ch;
+  max-width: 760px;
   list-style: none;
+}
+.guide-index li + li {
+  border-block-start: 1px solid var(--line);
+}
+.guide-index a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding-block: 18px;
+  transition: transform 150ms var(--ease);
+}
+.guide-index a:active {
+  transform: scale(0.99);
+}
+.guide-index a > .ico:first-child {
+  color: var(--copper);
 }
 .guide-index-name {
   display: block;
@@ -20,6 +35,13 @@
   font-size: 14px;
   line-height: 1.5;
   color: var(--muted);
+  text-wrap: pretty;
+}
+.guide-index-go {
+  color: var(--faint);
+  transition:
+    color 160ms var(--ease),
+    translate 160ms var(--ease);
 }
 
 .guide-layout {
@@ -114,6 +136,10 @@
   .guide-index a:hover .guide-index-name,
   .guide-side-link:hover {
     color: var(--copper);
+  }
+  .guide-index a:hover .guide-index-go {
+    color: var(--copper);
+    translate: 3px 0;
   }
 }
 

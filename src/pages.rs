@@ -103,7 +103,6 @@ pub fn GuidesPage(i18n: I18n) -> impl IntoView {
                     <div class="wrap">
                         <div class="sec-head">
                             <h1>{move_tr!(i18n, "guides-title")}</h1>
-                            <p class="lede">{move_tr!(i18n, "guides-subtitle")}</p>
                         </div>
                         <GuideIndex/>
                     </div>

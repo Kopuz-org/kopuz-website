@@ -293,7 +293,7 @@ fn NotFoundPage(i18n: I18n) -> impl IntoView {
 #[component]
 pub(crate) fn AboutName() -> impl IntoView {
     view! {
-        <section class="sec about-name" id="about-name" data-title="The name">
+        <section class="sec about-name reveal-sec" id="about-name" data-title="The name">
             <div class="wrap">
                 <h2>{move_tr!("about-title")}</h2>
                 <p class="prose">{move_tr!("about-desc-1")}</p>

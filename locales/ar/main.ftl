@@ -13,16 +13,12 @@ nav-gallery = المعرض
 nav-lang-label = اللغة
 
 ## Hero
-hero-title-1 = ملفات محلية.
-hero-title-2 = خدمات متصلة.
-hero-desc = يشغّل Kopuz الموسيقى من المجلدات المحلية وJellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify.
 hero-cta-download = تنزيل
 hero-cta-github = اعرض على GitHub
 hero-screenshot-alt = شاشة Kopuz الرئيسية
 
 ## Features
 features-title = الميزات
-features-chip = تشغيل محلي، وخدمات متصلة، وكلمات أغانٍ، وقوائم تشغيل، وسمات.
 features-works-with = يعمل مع
 features-source-local = الملفات المحلية
 features-source-jellyfin = Jellyfin
@@ -33,12 +29,8 @@ features-source-ytmusic = YouTube Music
 features-source-applemusic = Apple Music
 features-source-soundcloud = SoundCloud
 
-feat-local-title = محلي + بث
-feat-local-desc = أضف مجلدات محلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify. اجمع بين المصادر كما تشاء في مكتبة موحّدة.
 feat-theming-title = السمات
-feat-theming-desc = سمات ديناميكية مع تحكم كامل بمتغيرات الألوان. ابنِ سمتك من الصفر أو اختر إعدادًا مسبقًا.
 feat-native-title = تكامل أصلي
-feat-native-desc = MPRIS على Linux، Now Playing على macOS، System Media Transport على Windows. متصل بالكامل.
 feat-android-title = Android
 feat-android-desc = إصدار ARM64 ملائم لشاشات الهواتف، مع إيماءات السحب وعناصر تحكم للتشغيل العشوائي والتكرار في إشعار الوسائط ووضع AMOLED لنظام Android 7.0 أو أحدث.
 feat-lyrics-title = كلمات متزامنة
@@ -46,7 +38,6 @@ feat-lyrics-desc = كلمات أغانٍ متزامنة، وموقّتة كلم�
 feat-eq-title = موازِن الصوت
 feat-eq-desc = موازِن صوت بـ 5 نطاقات مع إعدادات مسبقة وتحكم كامل بصوتك.
 feat-fav-title = المفضلة وقوائم التشغيل
-feat-fav-desc = ضع نجمة على الأغاني محليًا أو زامِن المفضلة مع خادمك. أنشئ قوائم تشغيل، أضف ألبومات كاملة دفعة واحدة.
 feat-scrobble-title = Scrobbling
 feat-scrobble-desc = scrobbling ListenBrainz مدمج. يمكن لمستخدمي Jellyfin أيضًا استخدام إضافة listenbrainz.
 feat-radio-title = راديو الإنترنت
@@ -64,15 +55,9 @@ feat-genre-desc = تصفّح الملفات المحلية وموسيقى الخ
 feat-logs-title = سجلات الاستماع
 feat-logs-desc = عدد التشغيلات يُتتبع محليًا. اعرف ما تستمع إليه أكثر بمرور الوقت.
 feat-i18n-title = i18n
-feat-i18n-desc = الإنجليزية والروسية والألمانية والفرنسية والإسبانية والتركية والأوكرانية والبولندية والعربية واليونانية والعبرية والمجرية والإندونيسية واليابانية والكورية والرومانية والبرتغالية والصينية والمزيد.
-feat-ytdlp-title = مُنزِّل yt-dlp
-feat-ytdlp-desc = نزِّل الصوت مباشرة من YouTube. الإخراج بصيغة MP3 أو FLAC أو WAV أو MP4 أو بأفضل جودة. يشمل SponsorBlock وتقسيم الفصول وتحديد السرعة.
-feat-crossfade-title = Crossfade والانتقالات
-feat-crossfade-desc = امزج انتقالات المقاطع لتشغيل أكثر سلاسة. دعم crossfade في بنى سطح المكتب الأصلية.
 feat-channels-title = أوضاع القنوات
 feat-channels-desc = ستيريو، أحادي، يسار فقط، يمين فقط، وتبديل L/R. تحكم دقيق بقنوات الصوت.
 feat-youtube-title = YouTube Music
-feat-youtube-desc = تصفّح YouTube Music، وابحث في الكتالوج، واعرض صفحات الفنانين، وابدأ راديو المزيج. سجّل الدخول للوصول إلى مكتبتك والمقاطع التي أعجبتك وقوائم التشغيل، أو تصفّح من دون تسجيل الدخول.
 feat-applemusic-title = Apple Music
 feat-applemusic-desc = تصفّح الكتالوج ومكتبتك، وزامِن المفضلة، وأضف المقاطع إلى قوائم التشغيل أو أزلها منها، وابدأ الراديو، ونزّل المقاطع، واستخدم كلمات أغانٍ موقّتة كلمة بكلمة. يتطلب التشغيل على سطح المكتب Widevine.
 feat-nextcloud-title = Nextcloud
@@ -129,8 +114,6 @@ install-nix-profile = أو أضف إلى ملفك الشخصي:
 install-nix-note = NixOS flake مدعوم مع ذاكرة Cachix الثنائية.
 install-aur-title = AUR (Arch Linux)
 install-aur-desc = ثبّت باستخدام المساعد المفضل لديك:
-install-aur-note-1 = يتطلب
-install-aur-note-2 = { " " }مثبّتًا أولًا بإصدار يطابق dioxus 0.7.x.
 install-flatpak-title = Flatpak
 install-flatpak-desc = ثبّت Kopuz من Flathub:
 install-flatpak-note = تصل التحديثات عبر آلية تحديث Flatpak المعتادة.
@@ -147,8 +130,6 @@ install-macos-desc-2 = { " " }من GitHub Releases. إن منع macOS، أزل �
 
 ## Feature guides
 guides-title = الأدلة
-guides-subtitle = أدلة إعداد خدمات الموسيقى والميزات الرئيسية.
-
 ## Privacy and storage
 privacy-title = الخصوصية والتخزين
 privacy-subtitle = يخزّن Kopuz بيانات التطبيق على حاسوبك. يرسل طلبات إلى الخدمات المتصلة عند استخدام ميزاتها.
@@ -162,7 +143,6 @@ community-subtitle = أبلغ عن الأخطاء، أو اقترح تغييرا
 
 ## Platforms
 platforms-title = تنزيل Kopuz
-platforms-subtitle = نزّل الإصدارات الحالية لأنظمة Windows وmacOS وLinux وAndroid.
 platforms-windows = Windows
 platforms-macos = macOS
 platforms-macos-note = Apple Silicon فقط
@@ -205,10 +185,8 @@ ytmusic-token-desc-1 = لا يتطلب التشغيل المجهول برنام�
 ytmusic-token-desc-2 = { " " }داخل التطبيق، بما في ذلك Flatpak.
 ytmusic-signin-title = سجّل الدخول عبر متصفح
 ytmusic-signin-desc = يفتح Kopuz تسجيل الدخول إلى Google في ملف تعريف متصفح منفصل ويقرأ ملفات تعريف ارتباط الجلسة الناتجة. يتيح تسجيل الدخول الوصول إلى مكتبتك والمقاطع التي أعجبتك وقوائم التشغيل والفنانين الذين تتابعهم.
-ytmusic-signin-note = اختر متصفحًا مثبتًا من عائلة Chromium، مثل Chrome أو Chromium أو Brave أو Edge أو Vivaldi أو Helium.
 ytmusic-anon-title = الوضع المجهول
 ytmusic-anon-desc = بلا تسجيل دخول، بلا ملفات تعريف. تصفّح، وابحث، وافتح صفحات الفنانين والألبومات وقوائم التشغيل، وابدأ راديو ميكس، وشغّل المقاطع العامة. الإعجاب وعروض المكتبة معطّلة.
-ytmusic-premium-title = مقاطع Premium
 ytmusic-premium-desc-1 = قد تحتاج بعض المقاطع المتاحة لمشتركي Premium فقط إلى الرجوع محليًا إلى yt-dlp.
 ytmusic-premium-desc-2 = لا يمكن للوضع المجهول تشغيل محتوى Premium الحصري.
 
@@ -228,7 +206,6 @@ applemusic-android-desc = يتم تسجيل الدخول عبر WebView داخل
 soundcloud-title = إعداد SoundCloud
 soundcloud-subtitle = أضِفه من الإعدادات ← خوادم الوسائط ← إضافة ← SoundCloud.
 soundcloud-signin-title = تسجيل دخول لمرة واحدة عبر المتصفح
-soundcloud-signin-desc = لا يلزم إدخال عنوان URL أو كلمة مرور أو رمز يدوي. يفتح Kopuz تسجيل الدخول إلى SoundCloud في ملف تعريف معزول باستخدام Chrome أو Chromium أو Brave أو Edge أو Vivaldi أو Helium. تؤدي إزالة المصدر إلى حذف ملف التعريف.
 soundcloud-features-title = ما الذي تحصل عليه
 soundcloud-features-desc = البحث، وتشغيل المقاطع (MP3 التدريجي بالإضافة إلى بثوث Go+ AAC/HLS)، ومقاطعك المفضلة كمفضلات، وقوائم تشغيل للقراءة فقط، والإعجاب وإلغاؤه. تؤدي إزالة المصدر إلى تنظيف ملفه المعزول.
 
@@ -284,21 +261,14 @@ footer-discord = Discord
 
 ## Page meta
 home-title = Kopuz: مشغل موسيقى
-home-meta-desc = Kopuz مشغل موسيقى حديث وخفيف لأجهزة سطح المكتب وAndroid. شغّل الملفات المحلية أو اتصل بـ Jellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify؛ ولا يتوفر تشغيل Apple Music حاليًا إلا على سطح المكتب.
-home-meta-keywords = Kopuz، مشغل موسيقى، Jellyfin، Navidrome، Subsonic، Nextcloud، YouTube Music، Apple Music، SoundCloud، Spotify، مفتوح المصدر، Android، Linux، macOS، Windows، كلمات أغانٍ، موازِن صوت
 og-title = Kopuz: مشغل موسيقى
-og-desc = مشغل موسيقى حديث وخفيف للملفات المحلية والمصادر المتصلة على سطح المكتب وAndroid. كلمات أغانٍ متزامنة وسمات وموازِن صوت والمزيد.
 og-image-alt = مشغل موسيقى Kopuz
 twitter-title = Kopuz: مشغل موسيقى
-twitter-desc = مشغل موسيقى حديث وخفيف للملفات المحلية وJellyfin وSubsonic وNextcloud وYouTube Music وApple Music وSoundCloud وSpotify.
-
 ## User-friendly aliases (synced with EN updates)
 perf-parallel-desc = { perf-parallel-desc-1 } { perf-parallel-desc-2 }
 perf-io-desc = { perf-io-desc-1 } { perf-io-desc-2 }
 perf-http-desc = { perf-http-desc-1 } { perf-http-desc-2 }
 perf-sort-desc = { perf-sort-desc-1 } { perf-sort-desc-2 }
-ytmusic-token-desc = { ytmusic-token-desc-1 } { ytmusic-token-desc-2 }
-ytmusic-premium-desc = { ytmusic-premium-desc-1 } { ytmusic-premium-desc-2 }
 install-quick-title = Quick start (most users)
 install-quick-desc = Download the latest release for your platform and open it.
 install-quick-cta = Open Releases

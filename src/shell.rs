@@ -39,6 +39,7 @@ pub const THEME_BOOT_SCRIPT: &str = r##"
                     : "light";
     }
 
+    root.classList.add("js");
     root.dataset.theme = theme;
     root.style.colorScheme = theme === "dark" ? "dark" : "light";
     root.style.backgroundColor = theme === "dark"
@@ -118,7 +119,7 @@ ul, ol { padding-left: 20px; }
 li { margin-bottom: 4px; }
 a { color: inherit; text-decoration: underline; }
 img, svg, video { display: none; }
-.lede, .hero-release, .hero-platforms, .footer-brand, .legal-meta { color: var(--muted); }
+.lede, .hero-platforms, .footer-brand, .legal-meta { color: var(--muted); }
 .nav { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
 .nav ul { list-style: none; padding: 0; margin: 0 0 8px; }
 .nav li { display: inline; margin-right: 14px; }
@@ -443,15 +444,13 @@ fn ThemeToggle() -> impl IntoView {
                 apply_document_theme(if dark { "dark" } else { "light" });
             }
         >
-            {move || {
-                let name = if theme.moe {
-                    "x"
-                } else if theme.dark.get() {
-                    "sun"
-                } else {
-                    "moon"
-                };
-                view! { <Icon name=name/> }
+            {if theme.moe {
+                view! { <Icon name="x"/> }.into_any()
+            } else {
+                view! {
+                    <Icon name="sun" class="swap-a"/>
+                    <Icon name="moon" class="swap-b"/>
+                }.into_any()
             }}
         </button>
     }
@@ -626,10 +625,8 @@ fn FullNav() -> impl IntoView {
                         }
                         on:click=move |_| open.update(|value| *value = !*value)
                     >
-                        {move || {
-                            let name = if open.get() { "x" } else { "menu" };
-                            view! { <Icon name=name size=18/> }
-                        }}
+                        <Icon name="menu" size=18 class="swap-b"/>
+                        <Icon name="x" size=18 class="swap-a"/>
                     </button>
                 </div>
             </div>
@@ -656,6 +653,14 @@ pub(crate) fn Footer() -> impl IntoView {
                     <a href=GITHUB target="_blank">{move_tr!("footer-github")}</a>
                     <ModeSwitch/>
                 </nav>
+                <p class="footer-credit">
+                    {move_tr!("footer-made-with")}" "
+                    <span class="footer-heart" role="img" aria-label=move_tr!("footer-love")>
+                        <Icon name="heart" size=15/>
+                    </span>
+                    " "{move_tr!("footer-made-by")}" "
+                    <a href="https://formalsnake.dev">"Kyan De Sutter"</a>
+                </p>
             </div>
         </footer>
     }
@@ -722,7 +727,7 @@ pub(crate) fn PlayerBar() -> impl IntoView {
     }
 
     Some(view! {
-        <div class="player">
+        <div class="player" data-player>
             <div class="player-now">
                 <span class="player-thumb">
                     <img src="/logo.svg" alt="" width="26" height="26"/>
@@ -734,31 +739,76 @@ pub(crate) fn PlayerBar() -> impl IntoView {
                 <button type="button" class="player-like" tabindex="-1" aria-hidden="true">
                     <Icon name="heart" size=15/>
                 </button>
-                <button type="button" class="player-play player-play-compact" tabindex="-1" aria-hidden="true">
-                    <Icon name="pause" size=14/>
+                <button
+                    type="button"
+                    class="player-queue-compact"
+                    aria-label=move_tr!("player-queue-label")
+                    aria-expanded="false"
+                    aria-controls="player-queue"
+                    data-player-queue
+                >
+                    <Icon name="list-music" size=17/>
                 </button>
             </div>
             <div class="player-center">
-                <div class="player-transport" aria-hidden="true">
-                    <button type="button" tabindex="-1"><Icon name="shuffle" size=15/></button>
-                    <button type="button" class="player-step" tabindex="-1"><Icon name="skip-back" size=15/></button>
-                    <button type="button" class="player-play" tabindex="-1"><Icon name="pause" size=14/></button>
-                    <button type="button" class="player-step" tabindex="-1"><Icon name="skip-forward" size=15/></button>
-                    <button type="button" tabindex="-1"><Icon name="repeat" size=15/></button>
+                <div class="player-transport">
+                    <button type="button" tabindex="-1" aria-hidden="true"><Icon name="shuffle" size=15/></button>
+                    <button
+                        type="button"
+                        class="player-step"
+                        aria-label=move_tr!("player-prev-label")
+                        data-player-step="-1"
+                    >
+                        <Icon name="skip-back" size=15/>
+                    </button>
+                    <button type="button" class="player-play" tabindex="-1" aria-hidden="true"><Icon name="pause" size=14/></button>
+                    <button
+                        type="button"
+                        class="player-step"
+                        aria-label=move_tr!("player-next-label")
+                        data-player-step="1"
+                    >
+                        <Icon name="skip-forward" size=15/>
+                    </button>
+                    <button type="button" tabindex="-1" aria-hidden="true"><Icon name="repeat" size=15/></button>
                 </div>
                 <div class="player-seek">
                     <span data-player-elapsed>"0:00"</span>
-                    <span class="player-track"><i data-player-fill></i></span>
+                    <span
+                        class="player-track"
+                        role="slider"
+                        tabindex="0"
+                        aria-label=move_tr!("player-seek-label")
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0"
+                        data-player-seek
+                    >
+                        <span class="player-rail"><i data-player-fill></i></span>
+                        <span class="player-hint" data-player-hint aria-hidden="true"></span>
+                    </span>
                     <span data-player-total>"0:00"</span>
                 </div>
             </div>
-            <div class="player-side" aria-hidden="true">
-                <span class="player-volume">
+            <div class="player-side">
+                <span class="player-volume" aria-hidden="true">
                     <Icon name="volume-2" size=15/>
                     <span class="player-vol-track"></span>
                 </span>
-                <button type="button" tabindex="-1"><Icon name="list-music" size=15/></button>
-                <button type="button" tabindex="-1"><Icon name="maximize-2" size=14/></button>
+                <button
+                    type="button"
+                    aria-label=move_tr!("player-queue-label")
+                    aria-expanded="false"
+                    aria-controls="player-queue"
+                    data-player-queue
+                >
+                    <Icon name="list-music" size=15/>
+                </button>
+                <button type="button" tabindex="-1" aria-hidden="true"><Icon name="maximize-2" size=14/></button>
+            </div>
+            <div class="player-queue" id="player-queue" hidden data-player-list>
+                <p class="player-queue-title">{move_tr!("player-queue-title")}</p>
+                <ol data-player-items></ol>
             </div>
         </div>
     })

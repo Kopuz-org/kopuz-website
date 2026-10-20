@@ -501,7 +501,7 @@ pub(crate) fn Sponsors() -> impl IntoView {
     let sponsors_list = Resource::new(|| (), |_| async move { fetch_sponsors_list().await });
 
     view! {
-        <section class="sec sponsors" id="sponsors" data-title="Sponsors">
+        <section class="sec sponsors reveal-sec" id="sponsors" data-title="Sponsors">
             <div class="wrap">
                 <Suspense fallback=|| ()>
                     {move || {
@@ -571,7 +571,7 @@ fn SponsorTier(label: Signal<String>, logins: Vec<String>, size: u32) -> impl In
 #[component]
 pub(crate) fn Community() -> impl IntoView {
     view! {
-        <section class="sec" id="community" data-title="Community">
+        <section class="sec reveal-sec" id="community" data-title="Community">
             <div class="wrap">
                 <div class="sec-head">
                     <h2>{move_tr!("community-title")}</h2>

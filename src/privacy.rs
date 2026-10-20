@@ -24,19 +24,19 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
 
     view! {
         <Provider value=i18n>
-            <Title text="Privacy Policy | Kopuz"/>
+            <Title text="Privacy policy | Kopuz"/>
             <Meta name="description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <RobotsMeta/>
-            <Meta property="og:title" content="Privacy Policy | Kopuz"/>
+            <Meta property="og:title" content="Privacy policy | Kopuz"/>
             <Meta property="og:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <Meta property="og:url" content="https://kopuz.moe/privacy"/>
-            <Meta name="twitter:title" content="Privacy Policy | Kopuz"/>
+            <Meta name="twitter:title" content="Privacy policy | Kopuz"/>
             <Meta name="twitter:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <Link rel="canonical" href="https://kopuz.moe/privacy"/>
             <ThemeColorMeta/>
 
             <div
-                class="site"
+                class="site page"
                 class:simple=simple
                 class:light=move || !theme.dark.get() && !theme.moe
                 class:dark=move || theme.dark.get() && !theme.moe
@@ -46,7 +46,7 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
                 <main>
                 <section class="sec" data-title="Privacy">
                 <div class="wrap legal">
-                    <h1>"Privacy Policy"</h1>
+                    <h1>"Privacy policy"</h1>
                     <p class="legal-meta">"Last updated: " {LAST_UPDATED}</p>
                     <p class="legal-meta">{move_tr!(i18n, "privacy-english-note")}</p>
 

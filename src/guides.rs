@@ -1,6 +1,7 @@
 use leptos::prelude::*;
 use leptos_fluent::move_tr;
 
+use crate::icons::Icon;
 use crate::shell::internal_href;
 
 /// One row of the guides index and one `/guides/:service` page.
@@ -52,42 +53,41 @@ fn guide_href(slug: &str) -> String {
     internal_href(&format!("/guides/{slug}"))
 }
 
+fn guide_summary(slug: &str) -> Signal<String> {
+    match slug {
+        "nextcloud" => move_tr!("guide-nextcloud-summary"),
+        "youtube-music" => move_tr!("guide-ytmusic-summary"),
+        "apple-music" => move_tr!("guide-applemusic-summary"),
+        "soundcloud" => move_tr!("guide-soundcloud-summary"),
+        _ => move_tr!("guide-spotify-summary"),
+    }
+}
+
 /// The guides index. The ids are the anchors the single-page guides used, so
 /// links to `/guides#spotify` still land on the right row.
 #[component]
 pub fn GuideIndex() -> impl IntoView {
     view! {
         <ul class="guide-index">
-            <li id="nextcloud">
-                <a href=guide_href("nextcloud")>
-                    <span class="guide-index-name">"Nextcloud"</span>
-                    <span class="guide-index-desc">{move_tr!("nextcloud-subtitle")}</span>
-                </a>
-            </li>
-            <li id="ytmusic">
-                <a href=guide_href("youtube-music")>
-                    <span class="guide-index-name">"YouTube Music"</span>
-                    <span class="guide-index-desc">{move_tr!("ytmusic-subtitle")}</span>
-                </a>
-            </li>
-            <li id="applemusic">
-                <a href=guide_href("apple-music")>
-                    <span class="guide-index-name">"Apple Music"</span>
-                    <span class="guide-index-desc">{move_tr!("applemusic-subtitle")}</span>
-                </a>
-            </li>
-            <li id="soundcloud">
-                <a href=guide_href("soundcloud")>
-                    <span class="guide-index-name">"SoundCloud"</span>
-                    <span class="guide-index-desc">{move_tr!("soundcloud-subtitle")}</span>
-                </a>
-            </li>
-            <li id="spotify">
-                <a href=guide_href("spotify")>
-                    <span class="guide-index-name">"Spotify"</span>
-                    <span class="guide-index-desc">{move_tr!("spotify-guide-subtitle")}</span>
-                </a>
-            </li>
+            {GUIDES.iter().map(|guide| {
+                let (anchor, icon) = match guide.slug {
+                    "youtube-music" => ("ytmusic", "youtube-music"),
+                    "apple-music" => ("applemusic", "apple-music"),
+                    slug => (slug, slug),
+                };
+                view! {
+                    <li id=anchor>
+                        <a href=guide_href(guide.slug)>
+                            <Icon name=icon size=20/>
+                            <span class="guide-index-copy">
+                                <span class="guide-index-name">{guide.name}</span>
+                                <span class="guide-index-desc">{guide_summary(guide.slug)}</span>
+                            </span>
+                            <Icon name="chevron-right" size=16 class="guide-index-go"/>
+                        </a>
+                    </li>
+                }
+            }).collect_view()}
         </ul>
     }
 }
