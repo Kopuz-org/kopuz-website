@@ -61,7 +61,7 @@ pub fn FeaturesPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "features-page-title")
-                description="Kopuz features for local music, connected services, lyrics, playlists, themes, and playback controls."
+                description="See what Kopuz does: local files, SMB, Jellyfin, Subsonic, and streaming sources, synced lyrics, smart playlists, 24 themes, and a 10-band equalizer."
                 canonical="https://kopuz.moe/features"
             />
             <PageChrome>
@@ -77,7 +77,7 @@ pub fn DownloadPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "download-page-title")
-                description="Current Kopuz downloads for Windows, macOS, Linux, and Android, with installation notes for each package format."
+                description="Download Kopuz for Windows, macOS, Linux, and Android. Get the installer for your device, or install with Flatpak, the AUR, Nix, Cargo, or Google Play."
                 canonical="https://kopuz.moe/download"
             />
             <PageChrome>
@@ -95,11 +95,11 @@ pub fn GuidesPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "guides-page-title")
-                description="Setup instructions for Nextcloud, YouTube Music, Apple Music, SoundCloud, and Spotify in Kopuz."
+                description="Set up Kopuz with Nextcloud, an SMB share on your NAS, YouTube Music, Apple Music, SoundCloud, Spotify, or Clippsly, with the steps for each source."
                 canonical="https://kopuz.moe/guides"
             />
             <PageChrome>
-                <section class="sec" data-title="Guides">
+                <section class="sec" data-title=move_tr!(i18n, "chapter-guides")>
                     <div class="wrap">
                         <div class="sec-head">
                             <h1>{move_tr!(i18n, "guides-title")}</h1>
@@ -138,6 +138,10 @@ pub fn GuidePage(i18n: I18n) -> impl IntoView {
                                 .into_any()
                         }
                         None => {
+                            #[cfg(feature = "ssr")]
+                            if let Some(response) = use_context::<leptos_axum::ResponseOptions>() {
+                                response.set_status(axum::http::StatusCode::NOT_FOUND);
+                            }
                             view! {
                                 <Title text=move_tr!(i18n, "notfound-page-title")/>
                                 <Meta name="robots" content="noindex, follow"/>
@@ -158,7 +162,7 @@ pub fn SupportPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "support-page-title")
-                description="Kopuz donation links, sponsors, community links, and web buttons."
+                description="Kopuz is free and run by volunteers. Sponsor the project on GitHub or donate in crypto, see who supports it, and join the community on Discord."
                 canonical="https://kopuz.moe/support"
             />
             <PageChrome>

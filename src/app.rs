@@ -1,7 +1,7 @@
 use fluent_templates::static_loader;
 use leptos::context::Provider;
 use leptos::prelude::*;
-use leptos_fluent::{leptos_fluent, move_tr, I18n};
+use leptos_fluent::{leptos_fluent, move_tr, tr, I18n};
 use leptos_meta::{
     provide_meta_context, Html, Link, Meta, MetaTags, Script, Style, Stylesheet, Title,
 };
@@ -251,7 +251,7 @@ pub fn NotFoundBody() -> impl IntoView {
     let home_href = internal_href("/");
 
     view! {
-        <section class="sec not-found" data-title="Not found">
+        <section class="sec not-found" data-title=move_tr!("chapter-not-found")>
             <div class="wrap">
                 <h1>{move_tr!("notfound-title")}</h1>
                 <p class="prose">{move_tr!("notfound-desc")}</p>
@@ -268,7 +268,9 @@ fn NotFoundPage(i18n: I18n) -> impl IntoView {
 
     view! {
         <Provider value=i18n>
-            <Title text=move_tr!(i18n, "notfound-page-title")/>
+            // A memo here would belong to the fallback view, which the router
+            // disposes before the head renders, so read I18n on demand.
+            <Title text=move || tr!(i18n, "notfound-page-title")/>
             <Meta name="robots" content="noindex, follow"/>
             <ThemeColorMeta/>
             <div
@@ -293,7 +295,7 @@ fn NotFoundPage(i18n: I18n) -> impl IntoView {
 #[component]
 pub(crate) fn AboutName() -> impl IntoView {
     view! {
-        <section class="sec about-name reveal-sec" id="about-name" data-title="The name">
+        <section class="sec about-name reveal-sec" id="about-name" data-title=move_tr!("chapter-name")>
             <div class="wrap">
                 <h2>{move_tr!("about-title")}</h2>
                 <p class="prose">{move_tr!("about-desc-1")}</p>

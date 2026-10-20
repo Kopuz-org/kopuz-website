@@ -237,14 +237,14 @@ footer-issues = Issues
 footer-discord = Discord
 
 ## Page meta
-home-title = Kopuz music player
+home-title = Kopuz: free open-source music player
 
-home-meta-desc = Kopuz is a free music player for desktop and Android. Play local files, SMB shares, Jellyfin, Subsonic, YouTube Music, SoundCloud, Spotify, and more in one library.
+home-meta-desc = Kopuz is a free music player for desktop and Android. Play local files, SMB shares, Jellyfin, Subsonic, YouTube Music, Spotify, and more in one library.
 home-meta-keywords = Kopuz, music player, Jellyfin, Navidrome, Subsonic, SMB, NAS, Clippsly, Nextcloud, YouTube Music, Apple Music, SoundCloud, Spotify, open source, Android, Linux, macOS, Windows, lyrics, equalizer
-og-title = Kopuz music player
+og-title = Kopuz: free open-source music player
 og-desc = A free music player for local files, servers, and streaming services on desktop and Android, with synced lyrics, themes, and a 10-band equalizer.
 og-image-alt = Kopuz music player
-twitter-title = Kopuz music player
+twitter-title = Kopuz: free open-source music player
 twitter-desc = Play local files, SMB shares, Jellyfin, Subsonic, YouTube Music, SoundCloud, Spotify, and more in one library.
 
 ## Deep link (/j)
@@ -307,12 +307,12 @@ mode-full = Full site
 webbutton-alt = Kopuz 88x31 web button
 
 ## Page titles
-features-page-title = Features | Kopuz
-download-page-title = Download | Kopuz
-guides-page-title = Guides | Kopuz
-support-page-title = Support | Kopuz
+features-page-title = Kopuz features: sources, lyrics, themes, and playback
+download-page-title = Download Kopuz for Windows, macOS, Linux, and Android
+guides-page-title = Kopuz setup guides for servers and streaming services
+support-page-title = Support Kopuz: sponsors, donations, and community
 notfound-page-title = Page not found | Kopuz
-guide-title-suffix = guide | Kopuz
+guide-title-suffix = setup guide | Kopuz
 
 ## Not found
 notfound-title = Page not found.
@@ -393,3 +393,49 @@ guide-ytmusic-summary = Sign in through your browser, or listen without an accou
 guide-applemusic-summary = Sign in, get Widevine working on desktop, and see what works on Android.
 guide-soundcloud-summary = Sign in once in your browser and see what the source supports.
 guide-spotify-summary = Create a developer app, add its Client ID, and pick where to play.
+
+## Player bar section names
+chapter-home = Home
+chapter-sources = Sources
+chapter-lyrics = Lyrics
+chapter-library = Library
+chapter-themes = Themes
+chapter-download = Download
+chapter-sponsors = Sponsors
+chapter-whats-new = What’s new
+chapter-name = The name
+chapter-not-found = Not found
+chapter-privacy = Privacy
+chapter-install = Install
+chapter-requirements = Requirements
+chapter-support = Support
+chapter-community = Community
+chapter-features = Features
+chapter-guides = Guides
+
+## SMB and NAS guide
+guide-smb-summary = Point Kopuz at a share on your NAS and sign in with your NAS account.
+smb-subtitle = Choose SMB / NAS in the source selector. You don’t need to mount the share first.
+smb-share-title = Point it at a share
+smb-share-desc = Enter the URL of a share, or of a folder inside one, for example:
+smb-share-port = If your NAS uses a port other than the default, add it to the URL:
+smb-signin-title = Sign in with your NAS account
+smb-signin-desc = Use your NAS username and password. For a domain account, enter DOMAIN\username. Kopuz needs SMB 2 or 3 and an account: it doesn’t search the network for shares or sign in as a guest.
+smb-library-title = How the library works
+smb-library-desc = Kopuz scans the share and its subfolders for audio files and reads their embedded tags and cover art. It plays straight from the share, with seeking, on Android too. Your favorites are kept in Kopuz.
+smb-limits-title = The share stays read-only
+smb-limits-desc = Kopuz doesn’t change anything on the share, so you can’t edit tags there, keep playlists on it, or download its tracks for offline listening.
+
+## Clippsly guide
+guide-clippsly-summary = Sign in with an app password, stream your locker, and upload music.
+clippsly-subtitle = Add Clippsly from the source settings.
+clippsly-signin-title = Sign in with an app password
+clippsly-signin-desc = Create an app password at clippsly.app. Then sign in to Kopuz with your Clippsly username and that app password.
+clippsly-locker-title = Your locker
+clippsly-locker-desc = Browse and stream the music in your Clippsly locker, and download tracks to play offline.
+clippsly-upload-title = Upload music
+clippsly-upload-desc = Upload audio files from the source’s settings card. Kopuz refreshes your library when the whole batch finishes. The card also shows how much storage you’re using; Clippsly sets your quota.
+clippsly-bonus = Link Kopuz to your Clippsly account and Clippsly adds 3 GB of storage for free.
+clippsly-limits-title = Playlists
+clippsly-limits-desc = Playlists you keep on Clippsly don’t show up in Kopuz yet.
+clippsly-site = Go to clippsly.app

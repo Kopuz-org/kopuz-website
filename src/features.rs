@@ -31,8 +31,6 @@ struct Row {
 
 struct Group {
     id: &'static str,
-    /// English name, also what the player bar reads out of `data-title`.
-    label: &'static str,
     rows: &'static [Row],
 }
 
@@ -59,7 +57,6 @@ const fn anchored(
 const GROUPS: &[Group] = &[
     Group {
         id: "sources",
-        label: "Sources",
         rows: &[
             anchored(
                 &["src-local", "src-jellyfin", "src-navidrome", "src-subsonic"],
@@ -94,7 +91,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "playback",
-        label: "Playback",
         rows: &[
             row("feat-lyrics-title", "feat-lyrics-desc"),
             row("feat-eq-title", "feat-eq-desc"),
@@ -106,7 +102,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "library",
-        label: "Library",
         rows: &[
             row("feat-fav-title", "feat-fav-desc"),
             row("feat-search-title", "feat-search-desc"),
@@ -119,7 +114,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "desktop",
-        label: "Desktop",
         rows: &[
             row("feat-native-title", "feat-native-desc"),
             row("feat-tray-title", "feat-tray-desc"),
@@ -130,12 +124,10 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "android",
-        label: "Android",
         rows: &[row("feat-android-title", "feat-android-desc")],
     },
     Group {
         id: "integrations",
-        label: "Integrations",
         rows: &[
             row("feat-scrobble-title", "feat-scrobble-desc"),
             row("feat-discord-title", "feat-discord-desc"),
@@ -147,7 +139,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "performance",
-        label: "Performance",
         rows: &[
             row("perf-skip-label", "perf-skip-desc"),
             row("perf-parallel-label", "perf-parallel-desc"),
@@ -160,7 +151,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "privacy",
-        label: "Privacy",
         rows: &[
             row("privacy-local-title", "privacy-local-desc"),
             row("privacy-accounts-title", "privacy-accounts-desc"),
@@ -187,7 +177,7 @@ pub(crate) fn Features() -> impl IntoView {
     let privacy_href = internal_href("/privacy");
 
     view! {
-        <section class="sec features-head" id="features" data-title="Features">
+        <section class="sec features-head" id="features" data-title=move_tr!("chapter-features")>
             <div class="wrap">
                 <div class="sec-head">
                     <h1>{move_tr!("features-title")}</h1>
@@ -208,7 +198,7 @@ pub(crate) fn Features() -> impl IntoView {
                     {GROUPS.iter().map(|group| {
                         let privacy_href = privacy_href.clone();
                         view! {
-                            <section class="feat-group reveal-self" id=group.id data-title=group.label>
+                            <section class="feat-group reveal-self" id=group.id data-title=group_label(group)>
                                 <h2>{group_label(group)}</h2>
                                 <dl class="feat-list">
                                     {group.rows.iter().map(|row| view! {

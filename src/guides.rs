@@ -12,36 +12,48 @@ pub struct Guide {
     pub canonical: &'static str,
 }
 
-pub static GUIDES: [Guide; 5] = [
+pub static GUIDES: [Guide; 7] = [
     Guide {
         slug: "nextcloud",
         name: "Nextcloud",
-        description: "Connect a Nextcloud server to Kopuz over WebDAV: app password, library folders, and playback.",
+        description: "Connect Kopuz to your Nextcloud server over WebDAV. Create an app password, pick the folders that hold your music, and stream your library on any device.",
         canonical: "https://kopuz.moe/guides/nextcloud",
+    },
+    Guide {
+        slug: "smb",
+        name: "SMB and NAS",
+        description: "Play music straight from an SMB share on your NAS in Kopuz. Enter the share URL, sign in with your NAS account, and see what works on a read-only share.",
+        canonical: "https://kopuz.moe/guides/smb",
     },
     Guide {
         slug: "youtube-music",
         name: "YouTube Music",
-        description: "Set up YouTube Music in Kopuz: browser sign-in, anonymous mode, and Premium track limits.",
+        description: "Set up YouTube Music in Kopuz. Sign in through your browser or listen without an account, and see which tracks need Premium and how playback works.",
         canonical: "https://kopuz.moe/guides/youtube-music",
     },
     Guide {
         slug: "apple-music",
         name: "Apple Music",
-        description: "Set up Apple Music in Kopuz: sign-in or media-user-token, Widevine on desktop, and Android status.",
+        description: "Set up Apple Music in Kopuz. Sign in or paste a media-user-token, get Widevine playback working on desktop, and see what works on Android today.",
         canonical: "https://kopuz.moe/guides/apple-music",
     },
     Guide {
         slug: "soundcloud",
         name: "SoundCloud",
-        description: "Set up SoundCloud in Kopuz with a one-time browser sign-in, and what the source supports.",
+        description: "Set up SoundCloud in Kopuz with a one-time sign-in through your browser. Then see what the source supports: likes, playlists, search, and streaming.",
         canonical: "https://kopuz.moe/guides/soundcloud",
     },
     Guide {
         slug: "spotify",
         name: "Spotify",
-        description: "Set up Spotify in Kopuz: create a developer app, add the Client ID, and choose a playback device.",
+        description: "Set up Spotify in Kopuz. Create a Spotify developer app, add its Client ID and redirect URL, and choose which Spotify Connect device plays your music.",
         canonical: "https://kopuz.moe/guides/spotify",
+    },
+    Guide {
+        slug: "clippsly",
+        name: "Clippsly",
+        description: "Connect Clippsly to Kopuz with an app password. Stream and download the music in your Clippsly locker, and upload new tracks right from Kopuz.",
+        canonical: "https://kopuz.moe/guides/clippsly",
     },
 ];
 
@@ -59,6 +71,8 @@ fn guide_summary(slug: &str) -> Signal<String> {
         "youtube-music" => move_tr!("guide-ytmusic-summary"),
         "apple-music" => move_tr!("guide-applemusic-summary"),
         "soundcloud" => move_tr!("guide-soundcloud-summary"),
+        "smb" => move_tr!("guide-smb-summary"),
+        "clippsly" => move_tr!("guide-clippsly-summary"),
         _ => move_tr!("guide-spotify-summary"),
     }
 }
@@ -73,6 +87,8 @@ pub fn GuideIndex() -> impl IntoView {
                 let (anchor, icon) = match guide.slug {
                     "youtube-music" => ("ytmusic", "youtube-music"),
                     "apple-music" => ("applemusic", "apple-music"),
+                    "smb" => ("smb", "hard-drive"),
+                    "clippsly" => ("clippsly", "cloud"),
                     slug => (slug, slug),
                 };
                 view! {
@@ -129,6 +145,8 @@ pub fn GuideArticle(guide: &'static Guide) -> impl IntoView {
                         "youtube-music" => view! { <YtMusic/> }.into_any(),
                         "apple-music" => view! { <AppleMusicGuide/> }.into_any(),
                         "soundcloud" => view! { <SoundCloud/> }.into_any(),
+                        "smb" => view! { <SmbGuide/> }.into_any(),
+                        "clippsly" => view! { <ClippslyGuide/> }.into_any(),
                         _ => view! { <SpotifyGuide/> }.into_any(),
                     }}
                 </div>
@@ -231,6 +249,68 @@ fn SoundCloud() -> impl IntoView {
 }
 
 #[component]
+fn SmbGuide() -> impl IntoView {
+    view! {
+        <p class="lede">{move_tr!("smb-subtitle")}</p>
+        <div class="guide-blocks">
+            <div>
+                <h2>{move_tr!("smb-share-title")}</h2>
+                <p class="prose">{move_tr!("smb-share-desc")}</p>
+                <code class="guide-value">"smb://nas/Music"</code>
+                <p class="prose guide-aside">{move_tr!("smb-share-port")}</p>
+                <code class="guide-value">"smb://nas:1445/Music"</code>
+            </div>
+            <div>
+                <h2>{move_tr!("smb-signin-title")}</h2>
+                <p class="prose">{move_tr!("smb-signin-desc")}</p>
+            </div>
+            <div>
+                <h2>{move_tr!("smb-library-title")}</h2>
+                <p class="prose">{move_tr!("smb-library-desc")}</p>
+            </div>
+            <div>
+                <h2>{move_tr!("smb-limits-title")}</h2>
+                <p class="prose">{move_tr!("smb-limits-desc")}</p>
+            </div>
+        </div>
+    }
+}
+
+#[component]
+fn ClippslyGuide() -> impl IntoView {
+    view! {
+        <p class="lede">{move_tr!("clippsly-subtitle")}</p>
+        <div class="guide-blocks">
+            <div>
+                <h2>{move_tr!("clippsly-signin-title")}</h2>
+                <p class="prose">{move_tr!("clippsly-signin-desc")}</p>
+            </div>
+            <div>
+                <h2>{move_tr!("clippsly-locker-title")}</h2>
+                <p class="prose">{move_tr!("clippsly-locker-desc")}</p>
+            </div>
+            <div>
+                <h2>{move_tr!("clippsly-upload-title")}</h2>
+                <p class="prose">{move_tr!("clippsly-upload-desc")}</p>
+                <p class="prose guide-aside">{move_tr!("clippsly-bonus")}</p>
+            </div>
+            <div>
+                <h2>{move_tr!("clippsly-limits-title")}</h2>
+                <p class="prose">{move_tr!("clippsly-limits-desc")}</p>
+            </div>
+        </div>
+        <a
+            class="text-link guide-link"
+            href="https://clippsly.app"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            {move_tr!("clippsly-site")}
+        </a>
+    }
+}
+
+#[component]
 fn SpotifyGuide() -> impl IntoView {
     view! {
         <p class="lede">{move_tr!("spotify-guide-subtitle")}</p>
@@ -258,5 +338,22 @@ fn SpotifyGuide() -> impl IntoView {
         >
             {move_tr!("spotify-full-guide")}
         </a>
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::GUIDES;
+
+    #[test]
+    fn sitemap_lists_every_guide() {
+        let sitemap = include_str!("../public/sitemap.xml");
+        for guide in &GUIDES {
+            assert!(
+                sitemap.contains(&format!("<loc>{}</loc>", guide.canonical)),
+                "{} missing from public/sitemap.xml",
+                guide.slug
+            );
+        }
     }
 }

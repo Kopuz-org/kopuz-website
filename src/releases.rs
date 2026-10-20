@@ -337,7 +337,7 @@ pub(crate) fn WhatsNew() -> impl IntoView {
     let latest_release = use_latest_release();
 
     view! {
-        <section class="sec whats-new reveal-sec" id="whats-new" data-title="What's new">
+        <section class="sec whats-new reveal-sec" id="whats-new" data-title=move_tr!("chapter-whats-new")>
             <div class="wrap">
                 <h2>{move_tr!("new-title")}</h2>
                 <Suspense fallback=|| view! { <p class="prose release-loading">"Loading the latest release."</p> }>

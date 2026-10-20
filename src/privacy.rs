@@ -4,8 +4,7 @@ use leptos_fluent::{move_tr, I18n};
 use leptos_meta::{Link, Meta, Title};
 
 use crate::shell::{
-    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf,
-    ThemeColorMeta,
+    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta,
 };
 
 const LAST_UPDATED: &str = "23 August 2026";
@@ -26,7 +25,7 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <Title text="Privacy policy | Kopuz"/>
             <Meta name="description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
-            <RobotsMeta/>
+            <Meta name="robots" content="noindex, follow"/>
             <Meta property="og:title" content="Privacy policy | Kopuz"/>
             <Meta property="og:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <Meta property="og:url" content="https://kopuz.moe/privacy"/>
@@ -44,7 +43,7 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
             >
                 <Nav/>
                 <main>
-                <section class="sec" data-title="Privacy">
+                <section class="sec" data-title=move_tr!(i18n, "chapter-privacy")>
                 <div class="wrap legal">
                     <h1>"Privacy policy"</h1>
                     <p class="legal-meta">"Last updated: " {LAST_UPDATED}</p>

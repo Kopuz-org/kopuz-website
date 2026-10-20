@@ -4,46 +4,62 @@ import { expect, test } from "@playwright/test";
 const routes = [
   {
     path: "/",
-    title: "Kopuz Music Player",
-    heading: "Local files.",
-    canonical: "https://kopuz.moe",
+    title: "Kopuz: free open-source music player",
+    heading: "One player for",
+    canonical: "https://kopuz.moe/",
     activeNav: "Kopuz",
   },
   {
     path: "/features",
-    title: "Features | Kopuz",
+    title: "Kopuz features: sources, lyrics, themes, and playback",
     heading: "Features",
     canonical: "https://kopuz.moe/features",
     activeNav: "Features",
   },
   {
     path: "/download",
-    title: "Download | Kopuz",
+    title: "Download Kopuz for Windows, macOS, Linux, and Android",
     heading: "Download Kopuz",
     canonical: "https://kopuz.moe/download",
     activeNav: "Download",
   },
   {
     path: "/guides",
-    title: "Guides | Kopuz",
+    title: "Kopuz setup guides for servers and streaming services",
     heading: "Guides",
     canonical: "https://kopuz.moe/guides",
     activeNav: "Guides",
   },
   {
     path: "/support",
-    title: "Support | Kopuz",
+    title: "Support Kopuz: sponsors, donations, and community",
     heading: "Support Kopuz",
     canonical: "https://kopuz.moe/support",
     activeNav: "Support Kopuz",
   },
   {
     path: "/privacy",
-    title: "Privacy Policy | Kopuz",
-    heading: "Privacy Policy",
+    title: "Privacy policy | Kopuz",
+    heading: "Privacy policy",
     canonical: "https://kopuz.moe/privacy",
   },
 ] as const;
+
+test.describe("crawlers", () => {
+  test("an unknown guide answers 404", async ({ request }) => {
+    expect((await request.get("/guides/nope")).status()).toBe(404);
+  });
+
+  test("robots.txt points at a sitemap that lists the guides", async ({
+    request,
+  }) => {
+    const robots = await (await request.get("/robots.txt")).text();
+    expect(robots).toContain("Sitemap: https://kopuz.moe/sitemap.xml");
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    expect(sitemap).toContain("<loc>https://kopuz.moe/guides/smb</loc>");
+    expect(sitemap).not.toContain("/privacy");
+  });
+});
 
 // Under 900px the nav links live in a menu panel behind a toggle, so they are
 // out of the accessibility tree until it is opened.
@@ -92,8 +108,8 @@ test("logo returns to the home page without browser errors", async ({ page }) =>
   await page.locator(".nav-brand").click();
 
   await expect(page).toHaveURL(/\/$/);
-  await expect(page).toHaveTitle("Kopuz Music Player");
-  await expect(page.locator("main h1")).toContainText("Local files.");
+  await expect(page).toHaveTitle("Kopuz: free open-source music player");
+  await expect(page.locator("main h1")).toContainText("One player for");
   expect(browserErrors).toEqual([]);
 });
 
@@ -251,7 +267,7 @@ test.describe("simple mode", () => {
     const response = await page.goto("/?simple");
 
     expect(response?.ok()).toBe(true);
-    await expect(page.locator("main h1")).toContainText("Local files.");
+    await expect(page.locator("main h1")).toContainText("One player for");
     await expect(page.locator("img")).toHaveCount(0);
     await expect(page.locator(".player")).toHaveCount(0);
     await expect(page.locator('script[src*="site.js"]')).toHaveCount(0);

@@ -237,7 +237,7 @@ pub(crate) fn Platforms() -> impl IntoView {
     };
 
     view! {
-        <section class="sec dl-head" id="downloads" data-title="Download">
+        <section class="sec dl-head" id="downloads" data-title=move_tr!("chapter-download")>
             <div class="wrap">
                 <h1>{move_tr!("platforms-title")}</h1>
                 <Transition fallback=|| ()>
@@ -271,7 +271,7 @@ fn Snippet(code: &'static str) -> impl IntoView {
 #[component]
 pub(crate) fn Install() -> impl IntoView {
     view! {
-        <section class="sec install-sec reveal-sec" id="install" data-title="Install">
+        <section class="sec install-sec reveal-sec" id="install" data-title=move_tr!("chapter-install")>
             <div class="wrap">
                 <h2>{move_tr!("install-other-title")}</h2>
                 <div class="install-list">
@@ -345,7 +345,7 @@ pub(crate) fn Install() -> impl IntoView {
 #[component]
 pub(crate) fn Requirements() -> impl IntoView {
     view! {
-        <section class="sec req-sec reveal-sec" id="requirements" data-title="Requirements">
+        <section class="sec req-sec reveal-sec" id="requirements" data-title=move_tr!("chapter-requirements")>
             <div class="wrap">
                 <h2>{move_tr!("requirements-title")}</h2>
                 <ul class="req-list">

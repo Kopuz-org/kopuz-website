@@ -1,0 +1,23 @@
+# Kopuz
+
+> Kopuz is a free, open-source music player for Windows, macOS, Linux, and Android. It puts local files, SMB shares on a NAS, self-hosted servers (Jellyfin, Navidrome and other Subsonic servers, Nextcloud), Clippsly, and streaming services (YouTube Music, Apple Music, SoundCloud, Spotify) in one library. It's licensed under the EUPL 1.2.
+
+## Pages
+
+- [Features](https://kopuz.moe/features): sources, lyrics, playlists, themes, playback, and integrations
+- [Download](https://kopuz.moe/download): installers for every platform, plus Flatpak, AUR, Nix, Cargo, and Google Play
+- [Support](https://kopuz.moe/support): sponsors, donations, and community links
+
+## Guides
+
+- [Nextcloud](https://kopuz.moe/guides/nextcloud): connect over WebDAV with an app password
+- [SMB and NAS](https://kopuz.moe/guides/smb): play from an SMB share without mounting it
+- [YouTube Music](https://kopuz.moe/guides/youtube-music): browser sign-in or anonymous mode
+- [Apple Music](https://kopuz.moe/guides/apple-music): sign-in, Widevine on desktop, Android status
+- [SoundCloud](https://kopuz.moe/guides/soundcloud): one-time browser sign-in
+- [Spotify](https://kopuz.moe/guides/spotify): developer app, Client ID, Spotify Connect
+- [Clippsly](https://kopuz.moe/guides/clippsly): app password, locker streaming, uploads
+
+## Source
+
+- [GitHub](https://github.com/Kopuz-org/kopuz)

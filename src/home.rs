@@ -27,6 +27,10 @@ const THEME_PRELOADS: &[&str] = &[
     "/wallpapers/lake.jpg",
 ];
 
+/// Kept in step with the page: free, no paid tier, the four platforms the
+/// download page ships.
+const STRUCTURED_DATA: &str = r#"{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://kopuz.moe/#website","url":"https://kopuz.moe/","name":"Kopuz","inLanguage":"en"},{"@type":"SoftwareApplication","name":"Kopuz","url":"https://kopuz.moe/","description":"A free, open-source music player for desktop and Android that plays local files, NAS shares, self-hosted servers, and streaming services in one library.","applicationCategory":"MultimediaApplication","operatingSystem":"Windows, macOS, Linux, Android","downloadUrl":"https://kopuz.moe/download","image":"https://kopuz.moe/banner.png","license":"https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"sameAs":["https://github.com/Kopuz-org/kopuz","https://flathub.org/apps/moe.kopuz.kopuz","https://play.google.com/store/apps/details?id=moe.kopuz.kopuz"]}]}"#;
+
 /// Screenshots keep their paths across redesigns, so returning visitors would
 /// otherwise see cached old captures next to new copy.
 fn asset(path: &str) -> String {
@@ -46,15 +50,16 @@ pub fn HomePage(i18n: I18n) -> impl IntoView {
             <RobotsMeta/>
             <Meta property="og:title" content=move_tr!(i18n, "og-title")/>
             <Meta property="og:description" content=move_tr!(i18n, "og-desc")/>
-            <Meta property="og:url" content="https://kopuz.moe"/>
+            <Meta property="og:url" content="https://kopuz.moe/"/>
             <Meta name="twitter:title" content=move_tr!(i18n, "twitter-title")/>
             <Meta name="twitter:description" content=move_tr!(i18n, "twitter-desc")/>
-            <Link rel="canonical" href="https://kopuz.moe"/>
+            <Link rel="canonical" href="https://kopuz.moe/"/>
             {(!simple).then(|| THEME_PRELOADS
                 .iter()
                 .map(|href| view! { <Link rel="preload" as_="image" href=asset(href)/> })
                 .collect_view())}
             <ThemeColorMeta/>
+            <script type="application/ld+json" inner_html=STRUCTURED_DATA></script>
             <div
                 class="site"
                 class:simple=simple
@@ -94,7 +99,7 @@ fn Hero() -> impl IntoView {
     };
 
     view! {
-        <section class="sec hero-sec" data-title="Home">
+        <section class="sec hero-sec" data-title=move_tr!("chapter-home")>
             <div class="wrap">
                 <div class="hero">
                     <div class="hero-copy">
@@ -257,7 +262,7 @@ fn Sources() -> impl IntoView {
     let simple = simple_mode();
 
     view! {
-        <section class="sec sources-sec reveal-sec" data-title="Sources">
+        <section class="sec sources-sec reveal-sec" data-title=move_tr!("chapter-sources")>
             <div class="wrap">
                 <h2>{move_tr!("home-sources-title")}</h2>
                 <ul class="sources-inline">
@@ -288,7 +293,7 @@ fn Moments() -> impl IntoView {
                     image="/fullscreen-lyrics.png"
                     width=1920
                     height=1080
-                    chapter="Lyrics"
+                    chapter="chapter-lyrics"
                     alt_key="moment-lyrics-alt"
                     title_key="moment-lyrics-title"
                     desc_key="feat-lyrics-desc"
@@ -297,7 +302,7 @@ fn Moments() -> impl IntoView {
                     image="/normal-library.png"
                     width=1920
                     height=1080
-                    chapter="Library"
+                    chapter="chapter-library"
                     alt_key="moment-library-alt"
                     title_key="moment-library-title"
                     desc_key="feat-local-desc"
@@ -306,7 +311,7 @@ fn Moments() -> impl IntoView {
                     image="/normal-library.png"
                     width=1920
                     height=1080
-                    chapter="Themes"
+                    chapter="chapter-themes"
                     alt_key="moment-themes-alt"
                     title_key="moment-themes-title"
                     desc_key="feat-theming-desc"
@@ -328,6 +333,9 @@ fn moment_text(key: &'static str) -> Signal<String> {
         "moment-library-title" => move_tr!("moment-library-title"),
         "moment-themes-title" => move_tr!("moment-themes-title"),
         "moment-themes-extra" => move_tr!("moment-themes-extra"),
+        "chapter-lyrics" => move_tr!("chapter-lyrics"),
+        "chapter-library" => move_tr!("chapter-library"),
+        "chapter-themes" => move_tr!("chapter-themes"),
         _ => Signal::derive(String::new),
     }
 }
@@ -362,7 +370,7 @@ fn Moment(
     image: &'static str,
     width: u32,
     height: u32,
-    /// English name the player bar reads out of `data-title`.
+    /// Key of the name the player bar reads out of `data-title`.
     chapter: &'static str,
     alt_key: &'static str,
     title_key: &'static str,
@@ -390,7 +398,7 @@ fn Moment(
     }
 
     view! {
-        <article class="moment reveal-card" class:moment-themes=themes data-tilt data-title=chapter>
+        <article class="moment reveal-card" class:moment-themes=themes data-tilt data-title=moment_text(chapter)>
             <div class="moment-copy">
                 <div class="moment-copy-inner">
                     <h2>{moment_text(title_key)}</h2>
@@ -503,7 +511,7 @@ fn GetKopuz() -> impl IntoView {
     let download_href = internal_href("/download");
 
     view! {
-        <section class="sec get-sec reveal-sec" data-title="Download">
+        <section class="sec get-sec reveal-sec" data-title=move_tr!("chapter-download")>
             <div class="wrap">
                 <h2>{move_tr!("home-get-title")}</h2>
                 <Installers/>
@@ -520,7 +528,7 @@ fn HomeSponsors() -> impl IntoView {
     let sponsors_list = Resource::new(|| (), |_| async move { fetch_sponsors_list().await });
 
     view! {
-        <section class="sec home-sponsors reveal-sec" data-title="Sponsors">
+        <section class="sec home-sponsors reveal-sec" data-title=move_tr!("chapter-sponsors")>
             <div class="wrap">
                 <h2>{move_tr!("home-sponsors-title")}</h2>
                 <Suspense fallback=|| ()>
