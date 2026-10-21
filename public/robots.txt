@@ -1,0 +1,5 @@
+# Kopuz is open source; search engines and AI crawlers are welcome.
+User-agent: *
+Allow: /
+
+Sitemap: https://kopuz.moe/sitemap.xml

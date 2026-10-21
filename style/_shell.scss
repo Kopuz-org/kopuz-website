@@ -130,6 +130,24 @@
   .nav-links.open {
     display: flex;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    .nav-links {
+      opacity: 0;
+      translate: 0 -6px;
+      transition:
+        opacity 180ms var(--ease),
+        translate 180ms var(--ease),
+        display 180ms allow-discrete;
+    }
+    .nav-links.open {
+      opacity: 1;
+      translate: none;
+      @starting-style {
+        opacity: 0;
+        translate: 0 -6px;
+      }
+    }
+  }
   .nav-link {
     padding-block: 12px;
     font-size: 14px;
@@ -177,9 +195,34 @@
   color: var(--muted);
 }
 
+.footer-credit {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 0.3em;
+  padding-block-start: 16px;
+  border-block-start: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--faint);
+}
+.footer-heart {
+  display: inline-flex;
+  color: var(--copper);
+}
+.footer-credit a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .footer-links a:hover {
     color: var(--text);
+  }
+  .footer-credit a:hover {
+    text-decoration-thickness: 2px;
   }
 }
 
@@ -389,9 +432,6 @@
   fill: currentColor;
   stroke: none;
 }
-.player .player-play-compact {
-  display: none;
-}
 
 .player-seek {
   display: grid;
@@ -404,20 +444,175 @@
   color: var(--faint);
   font-variant-numeric: tabular-nums;
 }
+/* The slider's box is the hit area; the 3px rail inside it is what shows. */
 .player-track {
   position: relative;
-  height: 3px;
-  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  height: 18px;
+  cursor: pointer;
+  touch-action: none;
+  border-radius: 4px;
+}
+/* Drawn at the hover height and squashed to 3px, so the hover grows it with a
+   transform instead of a layout change. */
+.player-rail {
+  position: relative;
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
   background: var(--line-strong);
   overflow: hidden;
+  transform: scaleY(0.6);
+  transition: transform 160ms var(--ease);
 }
-.player-track i {
+.player-rail i {
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
   width: var(--p, 0%);
   background: var(--cream);
   border-radius: 2px;
+}
+/* Chapter gaps: a 2px notch of the bar's own background at each section. */
+.player-rail b {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--at);
+  width: 2px;
+  z-index: 1;
+  background: var(--ground);
+}
+.player-hint {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  inset-inline-start: var(--hint-x, 0px);
+  translate: -50% 0;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: var(--cream);
+  color: var(--on-cream);
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.96;
+  transform-origin: 50% 100%;
+  transition:
+    opacity 100ms var(--ease),
+    scale 100ms var(--ease);
+}
+.player-track.is-hinting .player-hint {
+  opacity: 1;
+  scale: 1;
+  transition-duration: 150ms;
+}
+.player-track.is-hinting .player-rail,
+.player-track:focus-visible .player-rail {
+  transform: scaleY(1);
+}
+
+.player button[data-player-step],
+.player button[data-player-queue] {
+  cursor: pointer;
+  transition:
+    color 120ms var(--ease),
+    transform 150ms var(--ease);
+}
+.player button[data-player-step]:active,
+.player button[data-player-queue]:active {
+  transform: scale(0.95);
+}
+.player button[aria-expanded="true"] {
+  color: var(--copper);
+}
+.player .player-queue-compact {
+  display: none;
+}
+
+.player-queue {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  inset-inline-end: clamp(12px, 2vw, 24px);
+  width: min(300px, calc(100vw - 24px));
+  max-height: calc(100dvh - var(--nav-h) - var(--player-h) - 24px);
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: var(--r-lg);
+  background: var(--ground);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  transform-origin: 100% 100%;
+}
+.player-queue[hidden] {
+  display: none;
+}
+/* Grows out of the queue button in the corner. A transition rather than a
+   keyframe, so a quick second click reverses it from where it is. Opening
+   from the keyboard skips it. */
+@media (prefers-reduced-motion: no-preference) {
+  .player-queue:not([data-instant]) {
+    transition:
+      opacity 180ms var(--ease),
+      transform 180ms var(--ease),
+      display 180ms allow-discrete;
+    @starting-style {
+      opacity: 0;
+      transform: translateY(6px) scale(0.97);
+    }
+  }
+}
+.player-queue-title {
+  margin: 0;
+  padding: 6px 10px 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--faint);
+}
+.player-queue ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.player-queue li button {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1.6em minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-sm);
+  text-align: start;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  place-items: initial;
+  transition: background-color 120ms var(--ease);
+}
+.player-queue li button > span:first-child,
+.player-queue li button > span:last-child {
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
+}
+.player-queue li button:active {
+  background: var(--line);
+}
+.player-queue li button[aria-current="true"],
+.player-queue li button[aria-current="true"] > span {
+  color: var(--copper);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .player button[data-player-step]:hover,
+  .player button[data-player-queue]:hover {
+    color: var(--text);
+  }
+  .player-queue li button:hover {
+    background: var(--line);
+  }
 }
 
 .player-side {
@@ -462,9 +657,11 @@
   .player .player-like {
     display: none;
   }
-  .player .player-play-compact {
+  .player .player-queue-compact {
     display: grid;
     margin-inline-start: auto;
+    width: 44px;
+    height: 44px;
   }
   .player-thumb {
     width: 36px;

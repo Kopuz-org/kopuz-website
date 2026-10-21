@@ -1,7 +1,6 @@
 (function () {
   "use strict";
 
-  var RELEASES = "https://github.com/Kopuz-org/kopuz/releases";
   var WORDS_PER_MINUTE = 200;
 
   var sections = [];
@@ -13,19 +12,6 @@
     return document.documentElement.hasAttribute("data-hydrated");
   }
 
-  // Attribute writes are safe before hydration; text writes are not.
-  function applyOs() {
-    if (!document.documentElement.dataset.os) return;
-    var ctas = document.querySelectorAll("[data-os-cta]");
-    for (var i = 0; i < ctas.length; i += 1) {
-      if (ctas[i].getAttribute("href") === RELEASES) continue;
-      ctas[i].setAttribute("href", RELEASES);
-      ctas[i].setAttribute("target", "_blank");
-      ctas[i].setAttribute("rel", "noopener noreferrer");
-    }
-  }
-
-  applyOs();
 
   var TILT_OK =
     window.matchMedia &&
@@ -90,7 +76,7 @@
   }
 
   function revealFrames() {
-    var pending = document.querySelectorAll(".reveal:not(.in)");
+    var pending = document.querySelectorAll(".reveal:not(.in), .reveal-sec:not(.in), .reveal-card:not(.in), .reveal-self:not(.in)");
     if (!pending.length) return;
 
     if (!("IntersectionObserver" in window)) {
@@ -321,19 +307,247 @@
         fill.style.setProperty("--p", percent);
       }
     }
+    var seek = document.querySelector("[data-player-seek]");
+    if (seek) {
+      var now = String(Math.round(fraction * 100));
+      if (seek.getAttribute("aria-valuenow") !== now) seek.setAttribute("aria-valuenow", now);
+    }
     write(elapsed, clock(totalSeconds * fraction));
     write(total, clock(totalSeconds));
 
+    var index = currentChapter();
     if (current) {
-      var title = "";
-      for (var i = 0; i < sections.length; i += 1) {
-        if (sections[i].getBoundingClientRect().top <= 80) {
-          title = sections[i].getAttribute("data-title") || "";
-        }
-      }
-      write(current, title);
+      write(current, index < 0 ? "" : sections[index].getAttribute("data-title") || "");
+    }
+    paintQueue(index);
+  }
+
+  // ── chapters: the player's seek bar, skip buttons and queue jump between the
+  // page's [data-title] sections ──
+
+  var NAV_H = 60;
+  var queueOpen = false;
+  var chapterKey = "";
+  var dragging = false;
+
+  function scrollable() {
+    return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function chapterTop(section) {
+    return Math.max(0, section.getBoundingClientRect().top + window.scrollY - NAV_H);
+  }
+
+  // The last sections are often too short to reach the top, so the end of
+  // the page counts as being in the last one.
+  function currentChapter() {
+    var index = -1;
+    for (var i = 0; i < sections.length; i += 1) {
+      if (sections[i].getBoundingClientRect().top <= NAV_H + 20) index = i;
+    }
+    if (sections.length && window.scrollY >= scrollable() - 2) index = sections.length - 1;
+    return index;
+  }
+
+  function chapterAt(fraction) {
+    var y = fraction * scrollable();
+    var index = 0;
+    for (var i = 0; i < sections.length; i += 1) {
+      if (chapterTop(sections[i]) <= y + 1) index = i;
+    }
+    return index;
+  }
+
+  function smooth() {
+    return !window.matchMedia || !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function goTo(y, instant) {
+    window.scrollTo({ top: y, behavior: instant || !smooth() ? "auto" : "smooth" });
+  }
+
+  function goToChapter(index) {
+    if (index < 0 || index >= sections.length) return;
+    goTo(chapterTop(sections[index]));
+  }
+
+  function step(direction) {
+    var index = currentChapter();
+    if (direction < 0 && index >= 0 && sections[index].getBoundingClientRect().top < NAV_H - 40) {
+      goToChapter(index);
+    } else {
+      goToChapter(Math.max(0, Math.min(sections.length - 1, index + direction)));
     }
   }
+
+  // The body observer rescans on every child-list change, including the ones
+  // made here, so an unchanged layout must not touch the DOM.
+  function buildChapters() {
+    var rail = document.querySelector(".player-rail");
+    var list = document.querySelector("[data-player-items]");
+    var key = String(hydrated()) + scrollable();
+    for (var n = 0; n < sections.length; n += 1) {
+      key += "|" + Math.round(chapterTop(sections[n])) + (sections[n].getAttribute("data-title") || "");
+    }
+    if (key === chapterKey && (!rail || rail.querySelector("b"))) return;
+    chapterKey = key;
+    if (rail) {
+      var old = rail.querySelectorAll("b");
+      for (var i = 0; i < old.length; i += 1) rail.removeChild(old[i]);
+      for (var j = 1; j < sections.length; j += 1) {
+        var tick = document.createElement("b");
+        tick.style.setProperty("--at", ((chapterTop(sections[j]) / scrollable()) * 100).toFixed(2) + "%");
+        rail.appendChild(tick);
+      }
+    }
+    if (list && hydrated()) {
+      list.textContent = "";
+      for (var k = 0; k < sections.length; k += 1) {
+        var item = document.createElement("li");
+        var button = document.createElement("button");
+        button.type = "button";
+        button.setAttribute("data-chapter", String(k));
+        var number = document.createElement("span");
+        number.textContent = String(k + 1);
+        var name = document.createElement("span");
+        name.textContent = sections[k].getAttribute("data-title") || "";
+        var time = document.createElement("span");
+        time.textContent = clock(totalSeconds * (chapterTop(sections[k]) / scrollable()));
+        button.appendChild(number);
+        button.appendChild(name);
+        button.appendChild(time);
+        item.appendChild(button);
+        list.appendChild(item);
+      }
+    }
+  }
+
+  function paintQueue(index) {
+    if (!queueOpen) return;
+    var buttons = document.querySelectorAll("[data-chapter]");
+    for (var i = 0; i < buttons.length; i += 1) {
+      if (i === index) buttons[i].setAttribute("aria-current", "true");
+      else buttons[i].removeAttribute("aria-current");
+    }
+  }
+
+  function setQueue(open, focusFirst) {
+    var panel = document.querySelector("[data-player-list]");
+    if (!panel) return;
+    queueOpen = open;
+    if (open) buildChapters();
+    if (focusFirst) panel.setAttribute("data-instant", "");
+    else panel.removeAttribute("data-instant");
+    panel.hidden = !open;
+    var toggles = document.querySelectorAll("[data-player-queue]");
+    for (var i = 0; i < toggles.length; i += 1) toggles[i].setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) {
+      paintQueue(currentChapter());
+      var target = panel.querySelector("[aria-current]") || panel.querySelector("button");
+      if (focusFirst && target) target.focus();
+    }
+  }
+
+  function seekFraction(event, track) {
+    var box = track.getBoundingClientRect();
+    var x = (event.clientX - box.left) / box.width;
+    if (document.documentElement.dir === "rtl") x = 1 - x;
+    return Math.min(1, Math.max(0, x));
+  }
+
+  function hint(track, event) {
+    var label = track.querySelector("[data-player-hint]");
+    if (!label || !sections.length) return;
+    var fraction = seekFraction(event, track);
+    var box = track.getBoundingClientRect();
+    write(label, sections[chapterAt(fraction)].getAttribute("data-title") || "");
+    label.style.setProperty("--hint-x", (event.clientX - box.left).toFixed(0) + "px");
+    track.classList.add("is-hinting");
+  }
+
+  document.addEventListener("pointerdown", function (event) {
+    var track = event.target.closest ? event.target.closest("[data-player-seek]") : null;
+    if (!track) return;
+    event.preventDefault();
+    dragging = true;
+    track.setPointerCapture(event.pointerId);
+    goTo(seekFraction(event, track) * scrollable(), event.pointerType !== "mouse");
+    hint(track, event);
+  });
+
+  document.addEventListener("pointermove", function (event) {
+    var track = event.target.closest ? event.target.closest("[data-player-seek]") : null;
+    if (!track) return;
+    if (dragging) goTo(seekFraction(event, track) * scrollable(), true);
+    if (event.pointerType === "mouse" || dragging) hint(track, event);
+  });
+
+  function endDrag(event) {
+    var track = event.target.closest ? event.target.closest("[data-player-seek]") : null;
+    dragging = false;
+    if (track && event.pointerType !== "mouse") track.classList.remove("is-hinting");
+  }
+  document.addEventListener("pointerup", endDrag);
+  document.addEventListener("pointercancel", endDrag);
+  document.addEventListener("pointerout", function (event) {
+    var track = event.target.closest ? event.target.closest("[data-player-seek]") : null;
+    if (track && !dragging && !track.contains(event.relatedTarget)) track.classList.remove("is-hinting");
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && queueOpen) {
+      setQueue(false);
+      var toggle = document.querySelector("[data-player-queue]:not([hidden])");
+      if (toggle) toggle.focus();
+      return;
+    }
+    var track = event.target.closest ? event.target.closest("[data-player-seek]") : null;
+    if (!track) return;
+    var keys = { ArrowRight: 1, ArrowUp: 1, PageDown: 1, ArrowLeft: -1, ArrowDown: -1, PageUp: -1 };
+    if (event.key in keys) {
+      event.preventDefault();
+      step(keys[event.key]);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      goTo(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      goTo(scrollable());
+    }
+  });
+
+  document.addEventListener("click", function (event) {
+    if (!event.target.closest) return;
+    var opener = event.target.closest("[data-open-download]");
+    var dialog = document.querySelector("[data-download-dialog]");
+    if (opener && dialog && dialog.showModal) {
+      event.preventDefault();
+      dialog.showModal();
+      dialog.focus();
+      return;
+    }
+    if (dialog && (event.target === dialog || event.target.closest("[data-close-dialog]"))) {
+      dialog.close();
+      return;
+    }
+    var stepper = event.target.closest("[data-player-step]");
+    if (stepper) {
+      step(Number(stepper.getAttribute("data-player-step")));
+      return;
+    }
+    var toggle = event.target.closest("[data-player-queue]");
+    if (toggle) {
+      setQueue(!queueOpen, event.detail === 0);
+      return;
+    }
+    var chapter = event.target.closest("[data-chapter]");
+    if (chapter) {
+      goToChapter(Number(chapter.getAttribute("data-chapter")));
+      setQueue(false);
+      return;
+    }
+    if (queueOpen && !event.target.closest("[data-player-list]")) setQueue(false);
+  });
 
   function paintAll() {
     paintPlayer();
@@ -379,10 +593,10 @@
   function scan() {
     sections = Array.prototype.slice.call(document.querySelectorAll("main [data-title]"));
     totalSeconds = readingSeconds();
-    applyOs();
     revealFrames();
     tiltFrames();
     scanThemes();
+    buildChapters();
     paintPlayer();
     spyJump();
   }
@@ -404,11 +618,15 @@
 
   // Text writes wait on hydration, so anything that arrives without a scroll
   // event (bfcache, a restored offset) needs a repaint of its own.
-  window.addEventListener("load", paintAll);
+  window.addEventListener("load", function () {
+    buildChapters();
+    paintAll();
+  });
   window.addEventListener("pageshow", paintAll);
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", function () {
     measureThemes();
+    buildChapters();
     onScroll();
   }, { passive: true });
   window.addEventListener("popstate", scan);

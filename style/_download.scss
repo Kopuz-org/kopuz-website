@@ -2,10 +2,10 @@
    and the requirements list. */
 
 .dl-head h1 {
-  margin-block-end: 12px;
+  margin-block-end: 10px;
 }
-.dl-head .lede {
-  margin-block-end: 26px;
+.dl-head .dl-version {
+  margin-block-end: 32px;
 }
 
 .dl-action {
@@ -27,7 +27,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 .dl-row {
   display: grid;
@@ -49,30 +49,178 @@
   font-size: 15px;
   font-weight: 500;
 }
-.dl-formats {
-  font-family: var(--sans);
-  font-size: 14px;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
 .dl-note {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--faint);
 }
-.dl-get {
-  justify-self: end;
+.dl-files {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 8px;
+}
+.dl-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding-inline: 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    border-color 120ms var(--ease),
+    color 120ms var(--ease),
+    transform 150ms var(--ease);
+}
+.dl-file .ico {
+  color: var(--copper);
+}
+.dl-file:active {
+  transform: scale(0.97);
+}
+
+/* The boot script stamps html[data-os]: the visitor's platform moves to the
+   top and its first file becomes the primary button. */
+.dl-this {
+  display: none;
+  white-space: nowrap;
+  margin-inline-start: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--copper);
+}
+html[data-os="linux"] .dl-row[data-os="linux"],
+html[data-os="macos"] .dl-row[data-os="macos"],
+html[data-os="windows"] .dl-row[data-os="windows"],
+html[data-os="android"] .dl-row[data-os="android"] {
+  order: -1;
+  & .dl-this {
+    display: inline;
+  }
+  & .dl-file:first-child {
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--on-cream);
+  }
+  & .dl-file:first-child .ico {
+    color: inherit;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .dl-file:hover {
+    border-color: var(--copper);
+  }
 }
 
 @media (max-width: 639px) {
   .dl-row {
     grid-template-columns: auto minmax(0, 1fr);
-    row-gap: 8px;
+    row-gap: 10px;
   }
-  .dl-get {
+  .dl-files {
     grid-column: 2;
-    justify-self: start;
+    justify-content: start;
   }
+}
+
+/* ── download dialog ── */
+
+/* Centred, so it scales from the middle. Closing is quicker than opening. */
+.dl-dialog {
+  margin: auto;
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: clamp(20px, 3vw, 32px);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-xl);
+  background: var(--ground);
+  color: var(--text);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  scale: 0.97;
+  transition:
+    opacity 150ms var(--ease),
+    scale 150ms var(--ease),
+    overlay 150ms allow-discrete,
+    display 150ms allow-discrete;
+}
+.dl-dialog[open] {
+  opacity: 1;
+  scale: 1;
+  transition-duration: 220ms;
+  @starting-style {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+.dl-dialog::backdrop {
+  background: rgba(10, 9, 8, 0.6);
+  opacity: 0;
+  transition:
+    opacity 150ms var(--ease),
+    overlay 150ms allow-discrete,
+    display 150ms allow-discrete;
+}
+.dl-dialog[open]::backdrop {
+  opacity: 1;
+  @starting-style {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dl-dialog,
+  .dl-dialog[open] {
+    scale: 1;
+  }
+}
+.dl-dialog:focus {
+  outline: none;
+}
+.dl-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.dl-dialog-head h2 {
+  font-size: clamp(22px, 2.4vw, 28px);
+}
+.dl-dialog-status {
+  margin-block: 6px 24px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--muted);
+}
+/* The dialog is too narrow for name and files on one line, so the files drop
+   under the name. */
+.dl-dialog .dl-list {
+  gap: 4px;
+}
+.dl-dialog .dl-row {
+  grid-template-columns: auto minmax(0, 1fr);
+  row-gap: 12px;
+  padding-block: 16px;
+  border-block-start: 1px solid var(--line);
+}
+.dl-dialog .dl-row > .ico {
+  align-self: start;
+  margin-block-start: 2px;
+}
+.dl-dialog .dl-files {
+  grid-column: 2;
+  justify-content: start;
+}
+.dl-dialog-release {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 24px;
 }
 
 /* ── install methods ── */
@@ -85,7 +233,27 @@
 .install-list {
   display: flex;
   flex-direction: column;
-  gap: 34px;
+}
+.install-block {
+  padding-block: 26px;
+}
+.install-block + .install-block {
+  border-block-start: 1px solid var(--line);
+}
+/* Name on the left, steps on the right, the same ruled rows as /features. */
+@media (min-width: 900px) {
+  .install-block {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    column-gap: 40px;
+    align-items: start;
+  }
+  .install-block > h3 {
+    grid-row: 1 / span 10;
+  }
+  .install-block > :not(h3) {
+    grid-column: 2;
+  }
 }
 .install-block h3 {
   margin-block-end: 6px;

@@ -2,7 +2,7 @@ use leptos::prelude::*;
 use leptos_fluent::move_tr;
 
 use crate::icons::Icon;
-use crate::releases::use_latest_release;
+use crate::releases::{use_latest_release, ReleaseAsset};
 
 const RELEASES: &str = "https://github.com/Kopuz-org/kopuz/releases";
 
@@ -14,9 +14,12 @@ pub(crate) struct Platform {
     /// Lucide icon name. Desktop targets share the monitor glyph.
     pub(crate) icon: &'static str,
     pub(crate) name_key: &'static str,
-    pub(crate) formats: &'static [&'static str],
+    /// Release asset extensions, in button order. The first one is what the
+    /// hero button downloads, unless the platform has a store.
+    pub(crate) extensions: &'static [&'static str],
     pub(crate) note_key: Option<&'static str>,
-    pub(crate) href: &'static str,
+    /// Store name and listing URL, shown after the files.
+    pub(crate) store: Option<(&'static str, &'static str)>,
 }
 
 pub(crate) const PLATFORMS: &[Platform] = &[
@@ -24,35 +27,179 @@ pub(crate) const PLATFORMS: &[Platform] = &[
         id: "windows",
         icon: "monitor",
         name_key: "platforms-windows",
-        formats: &[".exe"],
+        extensions: &["exe", "msi"],
         note_key: None,
-        href: RELEASES,
+        store: None,
     },
     Platform {
         id: "macos",
         icon: "monitor",
         name_key: "platforms-macos",
-        formats: &[".dmg"],
+        extensions: &["dmg"],
         note_key: Some("platforms-macos-note"),
-        href: RELEASES,
+        store: None,
     },
     Platform {
         id: "linux",
         icon: "monitor",
         name_key: "platforms-linux",
-        formats: &[".AppImage", ".deb", ".rpm", "Flatpak", "Nix"],
+        extensions: &["appimage", "deb", "rpm"],
         note_key: None,
-        href: RELEASES,
+        store: Some(("Flathub", "https://flathub.org/apps/moe.kopuz.kopuz")),
     },
     Platform {
         id: "android",
         icon: "smartphone",
         name_key: "platforms-android",
-        formats: &[".apk"],
+        extensions: &["apk"],
         note_key: Some("platforms-android-note"),
-        href: RELEASES,
+        store: Some((
+            "Google Play",
+            "https://play.google.com/store/apps/details?id=moe.kopuz.kopuz",
+        )),
     },
 ];
+
+fn extension(name: &str) -> String {
+    name.rsplit('.')
+        .next()
+        .unwrap_or_default()
+        .to_ascii_lowercase()
+}
+
+/// The platform's release files, in the order its extensions are listed.
+fn files_for<'a>(entry: &Platform, assets: &'a [ReleaseAsset]) -> Vec<&'a ReleaseAsset> {
+    entry
+        .extensions
+        .iter()
+        .flat_map(|ext| {
+            assets
+                .iter()
+                .filter(move |asset| extension(&asset.name) == *ext)
+        })
+        .collect()
+}
+
+fn file_label(ext: &str) -> Signal<String> {
+    match ext {
+        "exe" => move_tr!("dl-file-exe"),
+        "msi" => move_tr!("dl-file-msi"),
+        "dmg" => move_tr!("dl-file-dmg"),
+        "appimage" => move_tr!("dl-file-appimage"),
+        "deb" => move_tr!("dl-file-deb"),
+        "rpm" => move_tr!("dl-file-rpm"),
+        _ => move_tr!("dl-file-apk"),
+    }
+}
+
+/// The hero's download button opens this instead of leaving the page: every
+/// installer for the latest release, the visitor's platform first.
+#[component]
+pub(crate) fn DownloadDialog() -> impl IntoView {
+    let release = use_latest_release();
+
+    view! {
+        <dialog class="dl-dialog" aria-labelledby="dl-dialog-title" tabindex="-1" data-download-dialog>
+            <div class="dl-dialog-head">
+                <h2 id="dl-dialog-title">{move_tr!("platforms-title")}</h2>
+                <button
+                    type="button"
+                    class="btn btn-ghost btn-icon"
+                    aria-label=move_tr!("dl-dialog-close")
+                    data-close-dialog
+                >
+                    <Icon name="x" size=16/>
+                </button>
+            </div>
+            <Transition fallback=|| ()>
+                {move || {
+                    release
+                        .get()
+                        .map(|release| release.tag_name)
+                        .filter(|version| !version.is_empty())
+                        .map(|version| view! {
+                            <p class="dl-dialog-status">
+                                {move_tr!("dl-dialog-ready", { "version" => version.clone() })}
+                            </p>
+                        })
+                }}
+            </Transition>
+            <Installers/>
+            <a class="text-link dl-dialog-release" href=RELEASES target="_blank" rel="noopener noreferrer">
+                {move_tr!("dl-dialog-release")}
+                <Icon name="arrow-up-right" size=14/>
+            </a>
+        </dialog>
+    }
+}
+
+/// One row per platform with a button per installer file, the visitor's own
+/// platform first. Without the release (GitHub down or rate limited) each row
+/// falls back to the releases page.
+#[component]
+pub(crate) fn Installers() -> impl IntoView {
+    let release = use_latest_release();
+
+    view! {
+        <Transition fallback=|| view! { <InstallerRows assets=Vec::new()/> }>
+            {move || release.get().map(|release| view! { <InstallerRows assets=release.assets/> })}
+        </Transition>
+    }
+}
+
+#[component]
+fn InstallerRows(assets: Vec<ReleaseAsset>) -> impl IntoView {
+    view! {
+        <ul class="dl-list">
+            {ORDER.into_iter().map(|id| {
+                let entry = platform(id);
+                let name = platform_text(entry.name_key);
+                let note = entry.note_key.map(platform_text);
+                let files = files_for(entry, &assets)
+                    .into_iter()
+                    .map(|asset| {
+                        let label = file_label(&extension(&asset.name));
+                        view! {
+                            <a class="dl-file" href=asset.url.clone() title=asset.name.clone()>
+                                <Icon name="download" size=14/>
+                                {label}
+                            </a>
+                        }
+                    })
+                    .collect::<Vec<_>>();
+                let fallback = files.is_empty().then(|| view! {
+                    <a class="dl-file" href=RELEASES target="_blank" rel="noopener noreferrer">
+                        {move_tr!("dl-release-page")}
+                        <Icon name="arrow-up-right" size=14/>
+                    </a>
+                });
+                let store = entry.store.map(|(store, href)| view! {
+                    <a class="dl-file dl-store" href=href target="_blank" rel="noopener noreferrer">
+                        {store}
+                        <Icon name="arrow-up-right" size=14/>
+                    </a>
+                });
+                view! {
+                    <li class="dl-row" data-os=id>
+                        <Icon name=entry.icon/>
+                        <div class="dl-row-copy">
+                            <span class="dl-name">
+                                {name}
+                                <span class="dl-this">{move_tr!("dl-this-device")}</span>
+                            </span>
+                            {note.map(|note| view! { <span class="dl-note">{note}</span> })}
+                        </div>
+                        <div class="dl-files">
+                            {files}
+                            {fallback}
+                            {store}
+                        </div>
+                    </li>
+                }
+            }).collect_view()}
+        </ul>
+    }
+}
 
 pub(crate) fn platform(id: &str) -> &'static Platform {
     PLATFORMS
@@ -73,15 +220,6 @@ pub(crate) fn platform_text(key: &'static str) -> Signal<String> {
     }
 }
 
-fn os_display(id: &str) -> &'static str {
-    match id {
-        "linux" => "Linux",
-        "macos" => "macOS",
-        "windows" => "Windows",
-        _ => "Android",
-    }
-}
-
 #[component]
 pub(crate) fn Platforms() -> impl IntoView {
     let release = use_latest_release();
@@ -99,61 +237,17 @@ pub(crate) fn Platforms() -> impl IntoView {
     };
 
     view! {
-        <section class="sec dl-head" id="downloads" data-title="Download">
+        <section class="sec dl-head" id="downloads" data-title=move_tr!("chapter-download")>
             <div class="wrap">
                 <h1>{move_tr!("platforms-title")}</h1>
-                <p class="lede">{move_tr!("platforms-subtitle")}</p>
-                <div class="dl-action">
-                    <a
-                        class="btn btn-primary"
-                        href=RELEASES
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        data-os-cta
-                    >
-                        <Icon name="download" size=15/>
-                        <span class="os-generic">{move_tr!("download-latest-cta")}</span>
-                        {ORDER.into_iter().map(|id| view! {
-                            <span class="os-label" data-os=id>
-                                {move_tr!("hero-cta-download-for")}" "{os_display(id)}
-                            </span>
-                        }).collect_view()}
-                    </a>
-                    <Transition fallback=|| ()>
-                        {move || {
-                            let line = release_line();
-                            (!line.is_empty())
-                                .then(|| view! { <span class="dl-version tabular">{line}</span> })
-                        }}
-                    </Transition>
-                </div>
-                <ul class="dl-list">
-                    {ORDER.into_iter().map(|id| {
-                        let entry = platform(id);
-                        let name = platform_text(entry.name_key);
-                        let note = entry.note_key.map(platform_text);
-                        let formats = entry.formats.join(" · ");
-                        view! {
-                            <li class="dl-row">
-                                <Icon name=entry.icon/>
-                                <div class="dl-row-copy">
-                                    <span class="dl-name">{name}</span>
-                                    <span class="dl-formats">{formats}</span>
-                                    {note.map(|note| view! { <span class="dl-note">{note}</span> })}
-                                </div>
-                                <a
-                                    class="text-link dl-get"
-                                    href=entry.href
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {move_tr!("home-get-download")}
-                                    <Icon name="arrow-up-right" size=14/>
-                                </a>
-                            </li>
-                        }
-                    }).collect_view()}
-                </ul>
+                <Transition fallback=|| ()>
+                    {move || {
+                        let line = release_line();
+                        (!line.is_empty())
+                            .then(|| view! { <p class="dl-version tabular">{line}</p> })
+                    }}
+                </Transition>
+                <Installers/>
             </div>
         </section>
     }
@@ -177,7 +271,7 @@ fn Snippet(code: &'static str) -> impl IntoView {
 #[component]
 pub(crate) fn Install() -> impl IntoView {
     view! {
-        <section class="sec install-sec" id="install" data-title="Install">
+        <section class="sec install-sec reveal-sec" id="install" data-title=move_tr!("chapter-install")>
             <div class="wrap">
                 <h2>{move_tr!("install-other-title")}</h2>
                 <div class="install-list">
@@ -198,10 +292,6 @@ pub(crate) fn Install() -> impl IntoView {
                         <h3>{move_tr!("install-aur-title")}</h3>
                         <p class="prose">{move_tr!("install-aur-desc")}</p>
                         <Snippet code="yay -S kopuz-bin\n# or\nparu -S kopuz-bin"/>
-                        <p class="install-note">
-                            {move_tr!("install-aur-note-1")}" "<code>"dioxus-cli"</code>
-                            {move_tr!("install-aur-note-2")}
-                        </p>
                     </div>
                     <div class="install-block">
                         <h3>{move_tr!("install-flatpak-title")}</h3>
@@ -224,11 +314,11 @@ pub(crate) fn Install() -> impl IntoView {
                         <p class="prose">{move_tr!("install-android-desc")}</p>
                         <a
                             class="text-link"
-                            href=RELEASES
+                            href="https://play.google.com/store/apps/details?id=moe.kopuz.kopuz"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            {move_tr!("home-get-download")}
+                            {move_tr!("install-android-play")}
                             <Icon name="arrow-up-right" size=14/>
                         </a>
                         <p class="install-note">{move_tr!("install-android-note")}</p>
@@ -255,7 +345,7 @@ pub(crate) fn Install() -> impl IntoView {
 #[component]
 pub(crate) fn Requirements() -> impl IntoView {
     view! {
-        <section class="sec req-sec" id="requirements" data-title="Requirements">
+        <section class="sec req-sec reveal-sec" id="requirements" data-title=move_tr!("chapter-requirements")>
             <div class="wrap">
                 <h2>{move_tr!("requirements-title")}</h2>
                 <ul class="req-list">

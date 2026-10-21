@@ -4,8 +4,7 @@ use leptos_fluent::{move_tr, I18n};
 use leptos_meta::{Link, Meta, Title};
 
 use crate::shell::{
-    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf,
-    ThemeColorMeta,
+    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta,
 };
 
 const LAST_UPDATED: &str = "23 August 2026";
@@ -24,19 +23,19 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
 
     view! {
         <Provider value=i18n>
-            <Title text="Privacy Policy | Kopuz"/>
+            <Title text="Privacy policy | Kopuz"/>
             <Meta name="description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
-            <RobotsMeta/>
-            <Meta property="og:title" content="Privacy Policy | Kopuz"/>
+            <Meta name="robots" content="noindex, follow"/>
+            <Meta property="og:title" content="Privacy policy | Kopuz"/>
             <Meta property="og:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <Meta property="og:url" content="https://kopuz.moe/privacy"/>
-            <Meta name="twitter:title" content="Privacy Policy | Kopuz"/>
+            <Meta name="twitter:title" content="Privacy policy | Kopuz"/>
             <Meta name="twitter:description" content="How Kopuz handles your data: what stays on your device, what leaves it, and what the project receives."/>
             <Link rel="canonical" href="https://kopuz.moe/privacy"/>
             <ThemeColorMeta/>
 
             <div
-                class="site"
+                class="site page"
                 class:simple=simple
                 class:light=move || !theme.dark.get() && !theme.moe
                 class:dark=move || theme.dark.get() && !theme.moe
@@ -44,9 +43,9 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
             >
                 <Nav/>
                 <main>
-                <section class="sec" data-title="Privacy">
+                <section class="sec" data-title=move_tr!(i18n, "chapter-privacy")>
                 <div class="wrap legal">
-                    <h1>"Privacy Policy"</h1>
+                    <h1>"Privacy policy"</h1>
                     <p class="legal-meta">"Last updated: " {LAST_UPDATED}</p>
                     <p class="legal-meta">{move_tr!(i18n, "privacy-english-note")}</p>
 

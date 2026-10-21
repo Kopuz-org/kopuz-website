@@ -3,6 +3,10 @@
 
 $jump-top: calc(var(--nav-h) + 24px);
 
+.features-head {
+  padding-block-end: 12px;
+}
+
 .feat-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

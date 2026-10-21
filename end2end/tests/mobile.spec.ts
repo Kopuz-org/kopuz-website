@@ -86,6 +86,11 @@ test.describe("the player bar covers nothing", () => {
           });
           await settle();
         }
+        // Sections rise 12px into place once they scroll in; measure where
+        // they land, not where the reveal starts them.
+        await Promise.all(
+          document.getAnimations().map((animation) => animation.finished.catch(() => {})),
+        );
 
         const player = document.querySelector(".player");
         const limit = player
@@ -96,6 +101,10 @@ test.describe("the player bar covers nothing", () => {
           .querySelectorAll("main *, footer *, .shelf *")
           .forEach((element) => {
             if (element.children.length || element.closest(".player")) return;
+            // Current Chromium hides a closed <details> body with
+            // content-visibility, so it still reports a layout box.
+            const closed = element.closest("details:not([open])");
+            if (closed && !element.closest("summary")) return;
             const text = (element.textContent ?? "").trim();
             if (!text && element.tagName !== "IMG") return;
             const box = element.getBoundingClientRect();

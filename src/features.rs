@@ -12,6 +12,8 @@ pub(crate) const SOURCE_ANCHORS: &[(&str, &str)] = &[
     ("src-jellyfin", "features-source-jellyfin"),
     ("src-navidrome", "features-source-navidrome"),
     ("src-subsonic", "features-source-subsonic"),
+    ("src-smb", "features-source-smb"),
+    ("src-clippsly", "features-source-clippsly"),
     ("src-nextcloud", "features-source-nextcloud"),
     ("src-ytmusic", "features-source-ytmusic"),
     ("src-applemusic", "features-source-applemusic"),
@@ -29,8 +31,6 @@ struct Row {
 
 struct Group {
     id: &'static str,
-    /// English name, also what the player bar reads out of `data-title`.
-    label: &'static str,
     rows: &'static [Row],
 }
 
@@ -57,13 +57,13 @@ const fn anchored(
 const GROUPS: &[Group] = &[
     Group {
         id: "sources",
-        label: "Sources",
         rows: &[
             anchored(
                 &["src-local", "src-jellyfin", "src-navidrome", "src-subsonic"],
                 "feat-local-title",
                 "feat-local-desc",
             ),
+            anchored(&["src-smb"], "feat-smb-title", "feat-smb-desc"),
             anchored(&["src-ytmusic"], "feat-youtube-title", "feat-youtube-desc"),
             anchored(
                 &["src-applemusic"],
@@ -81,12 +81,16 @@ const GROUPS: &[Group] = &[
                 "feat-soundcloud-desc",
             ),
             anchored(&["src-spotify"], "feat-spotify-title", "feat-spotify-desc"),
+            anchored(
+                &["src-clippsly"],
+                "feat-clippsly-title",
+                "feat-clippsly-desc",
+            ),
             row("feat-radio-title", "feat-radio-desc"),
         ],
     },
     Group {
         id: "playback",
-        label: "Playback",
         rows: &[
             row("feat-lyrics-title", "feat-lyrics-desc"),
             row("feat-eq-title", "feat-eq-desc"),
@@ -98,7 +102,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "library",
-        label: "Library",
         rows: &[
             row("feat-fav-title", "feat-fav-desc"),
             row("feat-search-title", "feat-search-desc"),
@@ -111,33 +114,31 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "desktop",
-        label: "Desktop",
         rows: &[
             row("feat-native-title", "feat-native-desc"),
             row("feat-tray-title", "feat-tray-desc"),
+            row("feat-updates-title", "feat-updates-desc"),
             row("feat-fonts-title", "feat-fonts-desc"),
             row("feat-theming-title", "feat-theming-desc"),
         ],
     },
     Group {
         id: "android",
-        label: "Android",
         rows: &[row("feat-android-title", "feat-android-desc")],
     },
     Group {
         id: "integrations",
-        label: "Integrations",
         rows: &[
             row("feat-scrobble-title", "feat-scrobble-desc"),
             row("feat-discord-title", "feat-discord-desc"),
             row("feat-ytdlp-title", "feat-ytdlp-desc"),
+            row("feat-cli-title", "feat-cli-desc"),
             row("feat-i18n-title", "feat-i18n-desc"),
             row("feat-debug-title", "feat-debug-desc"),
         ],
     },
     Group {
         id: "performance",
-        label: "Performance",
         rows: &[
             row("perf-skip-label", "perf-skip-desc"),
             row("perf-parallel-label", "perf-parallel-desc"),
@@ -150,7 +151,6 @@ const GROUPS: &[Group] = &[
     },
     Group {
         id: "privacy",
-        label: "Privacy",
         rows: &[
             row("privacy-local-title", "privacy-local-desc"),
             row("privacy-accounts-title", "privacy-accounts-desc"),
@@ -177,11 +177,10 @@ pub(crate) fn Features() -> impl IntoView {
     let privacy_href = internal_href("/privacy");
 
     view! {
-        <section class="sec features-head" id="features" data-title="Features">
+        <section class="sec features-head" id="features" data-title=move_tr!("chapter-features")>
             <div class="wrap">
                 <div class="sec-head">
                     <h1>{move_tr!("features-title")}</h1>
-                    <p class="lede">{move_tr!("features-chip")}</p>
                 </div>
             </div>
         </section>
@@ -199,7 +198,7 @@ pub(crate) fn Features() -> impl IntoView {
                     {GROUPS.iter().map(|group| {
                         let privacy_href = privacy_href.clone();
                         view! {
-                            <section class="feat-group" id=group.id data-title=group.label>
+                            <section class="feat-group reveal-self" id=group.id data-title=group_label(group)>
                                 <h2>{group_label(group)}</h2>
                                 <dl class="feat-list">
                                     {group.rows.iter().map(|row| view! {
@@ -263,6 +262,10 @@ pub(crate) fn feature_title(key: &'static str) -> Signal<String> {
         "feat-miniplayer-title" => move_tr!("feat-miniplayer-title"),
         "feat-tray-title" => move_tr!("feat-tray-title"),
         "feat-badges-title" => move_tr!("feat-badges-title"),
+        "feat-smb-title" => move_tr!("feat-smb-title"),
+        "feat-clippsly-title" => move_tr!("feat-clippsly-title"),
+        "feat-updates-title" => move_tr!("feat-updates-title"),
+        "feat-cli-title" => move_tr!("feat-cli-title"),
         "perf-skip-label" => move_tr!("perf-skip-label"),
         "perf-parallel-label" => move_tr!("perf-parallel-label"),
         "perf-art-label" => move_tr!("perf-art-label"),
@@ -309,6 +312,10 @@ pub(crate) fn feature_desc(key: &'static str) -> Signal<String> {
         "feat-miniplayer-desc" => move_tr!("feat-miniplayer-desc"),
         "feat-tray-desc" => move_tr!("feat-tray-desc"),
         "feat-badges-desc" => move_tr!("feat-badges-desc"),
+        "feat-smb-desc" => move_tr!("feat-smb-desc"),
+        "feat-clippsly-desc" => move_tr!("feat-clippsly-desc"),
+        "feat-updates-desc" => move_tr!("feat-updates-desc"),
+        "feat-cli-desc" => move_tr!("feat-cli-desc"),
         "perf-skip-desc" => move_tr!("perf-skip-desc"),
         "perf-parallel-desc" => move_tr!("perf-parallel-desc"),
         "perf-art-desc" => move_tr!("perf-art-desc"),
