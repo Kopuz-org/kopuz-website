@@ -4,7 +4,7 @@ use leptos_fluent::move_tr;
 use crate::icons::Icon;
 use crate::releases::{use_latest_release, ReleaseAsset};
 
-const RELEASES: &str = "https://github.com/Kopuz-org/kopuz/releases";
+const RELEASES: &str = "https://github.com/Kopuz-org/kopuz/releases/latest";
 
 /// Row order on the download page and on the home page shortlist.
 const ORDER: [&str; 4] = ["linux", "macos", "windows", "android"];
