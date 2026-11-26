@@ -417,3 +417,16 @@ home-sources-local = Di komputermu
 home-sources-server = Server pribadimu
 home-sources-streaming = Streaming
 home-sources-plugin-note = Setiap sumber adalah plugin resmi yang disertakan dengan Kopuz.
+
+## Page descriptions
+features-meta-desc = Lihat yang bisa dilakukan Kopuz: berkas lokal, SMB, Jellyfin, Subsonic, dan sumber streaming, lirik tersinkron, daftar putar pintar, 24 tema, dan equalizer 10 band.
+download-meta-desc = Unduh Kopuz untuk Windows, macOS, Linux, dan Android. Ambil penginstal untuk perangkatmu, atau pasang lewat Flatpak, AUR, Nix, Cargo, atau Google Play.
+guides-meta-desc = Siapkan Kopuz dengan Nextcloud, folder SMB di NAS-mu, YouTube Music, Apple Music, SoundCloud, Spotify, atau Clippsly, dengan langkah untuk tiap sumber.
+support-meta-desc = Kopuz gratis dan dijalankan oleh relawan. Jadi sponsor proyek ini di GitHub atau berdonasi dengan kripto, lihat siapa yang mendukungnya, dan gabung komunitas di Discord.
+guide-nextcloud-meta-desc = Hubungkan Kopuz ke server Nextcloud-mu lewat WebDAV. Buat kata sandi aplikasi, pilih folder berisi musikmu, dan dengarkan pustakamu di perangkat apa pun.
+guide-smb-meta-desc = Putar musik di Kopuz langsung dari folder SMB di NAS-mu. Masukkan URL folder bersama, masuk dengan akun NAS, dan lihat apa yang berfungsi di folder hanya-baca.
+guide-ytmusic-meta-desc = Siapkan YouTube Music di Kopuz. Masuk lewat browser atau dengarkan tanpa akun, dan lihat lagu mana yang butuh Premium serta cara kerja pemutarannya.
+guide-applemusic-meta-desc = Siapkan Apple Music di Kopuz. Masuk atau tempel media-user-token, jalankan pemutaran Widevine di desktop, dan lihat apa yang sudah berfungsi di Android saat ini.
+guide-soundcloud-meta-desc = Siapkan SoundCloud di Kopuz dengan sekali masuk lewat browser. Lalu lihat apa yang didukung sumber ini: suka, daftar putar, pencarian, dan streaming.
+guide-spotify-meta-desc = Siapkan Spotify di Kopuz. Buat aplikasi developer Spotify, tambahkan Client ID dan URL pengalihannya, lalu pilih perangkat Spotify Connect yang memutar musikmu.
+guide-clippsly-meta-desc = Hubungkan Clippsly ke Kopuz dengan kata sandi aplikasi. Putar dan unduh musik di loker Clippsly-mu, dan unggah lagu baru langsung dari Kopuz.

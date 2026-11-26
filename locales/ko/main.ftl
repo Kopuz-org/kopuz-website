@@ -416,3 +416,16 @@ home-sources-local = 내 컴퓨터
 home-sources-server = 개인 서버
 home-sources-streaming = 스트리밍
 home-sources-plugin-note = 모든 소스는 Kopuz에 포함된 공식 플러그인입니다.
+
+## Page descriptions
+features-meta-desc = Kopuz의 기능: 로컬 파일, SMB, Jellyfin, Subsonic, 스트리밍 소스, 동기화 가사, 스마트 재생목록, 24가지 테마, 10밴드 이퀄라이저.
+download-meta-desc = Windows, macOS, Linux, Android용 Kopuz를 다운로드하세요. 기기에 맞는 설치 프로그램을 받거나 Flatpak, AUR, Nix, Cargo, Google Play로 설치할 수 있습니다.
+guides-meta-desc = Nextcloud, NAS의 SMB 공유, YouTube Music, Apple Music, SoundCloud, Spotify, Clippsly로 Kopuz를 설정하는 방법을 소스별 단계로 안내합니다.
+support-meta-desc = Kopuz는 무료이며 자원봉사자들이 운영합니다. GitHub에서 후원하거나 암호화폐로 기부하고, 후원자를 확인하고, Discord 커뮤니티에 참여하세요.
+guide-nextcloud-meta-desc = WebDAV로 Kopuz를 Nextcloud 서버에 연결합니다. 앱 비밀번호를 만들고 음악이 있는 폴더를 고른 뒤 어느 기기에서든 라이브러리를 들을 수 있습니다.
+guide-smb-meta-desc = Kopuz에서 NAS의 SMB 공유에 있는 음악을 바로 재생합니다. 공유 URL을 입력하고 NAS 계정으로 로그인한 뒤, 읽기 전용 공유에서 무엇이 되는지 확인하세요.
+guide-ytmusic-meta-desc = Kopuz에서 YouTube Music을 설정합니다. 브라우저로 로그인하거나 계정 없이 듣고, Premium이 필요한 곡과 재생 방식을 확인하세요.
+guide-applemusic-meta-desc = Kopuz에서 Apple Music을 설정합니다. 로그인하거나 media-user-token을 붙여넣고, 데스크톱에서 Widevine 재생을 설정한 뒤 지금 Android에서 되는 기능을 확인하세요.
+guide-soundcloud-meta-desc = 브라우저에서 한 번만 로그인하면 Kopuz에 SoundCloud를 설정할 수 있습니다. 좋아요, 재생목록, 검색, 스트리밍 등 이 소스가 지원하는 기능도 확인하세요.
+guide-spotify-meta-desc = Kopuz에서 Spotify를 설정합니다. Spotify 개발자 앱을 만들고 Client ID와 리디렉션 URL을 추가한 뒤, 음악을 재생할 Spotify Connect 기기를 고르세요.
+guide-clippsly-meta-desc = 앱 비밀번호로 Clippsly를 Kopuz에 연결합니다. Clippsly 보관함의 음악을 스트리밍하거나 다운로드하고, Kopuz에서 바로 새 곡을 업로드하세요.

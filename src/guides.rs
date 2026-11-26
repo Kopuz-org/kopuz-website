@@ -8,7 +8,6 @@ use crate::shell::internal_href;
 pub struct Guide {
     pub slug: &'static str,
     pub name: &'static str,
-    pub description: &'static str,
     pub canonical: &'static str,
 }
 
@@ -16,43 +15,36 @@ pub static GUIDES: [Guide; 7] = [
     Guide {
         slug: "nextcloud",
         name: "Nextcloud",
-        description: "Connect Kopuz to your Nextcloud server over WebDAV. Create an app password, pick the folders that hold your music, and stream your library on any device.",
         canonical: "https://kopuz.moe/guides/nextcloud",
     },
     Guide {
         slug: "smb",
         name: "SMB and NAS",
-        description: "Play music straight from an SMB share on your NAS in Kopuz. Enter the share URL, sign in with your NAS account, and see what works on a read-only share.",
         canonical: "https://kopuz.moe/guides/smb",
     },
     Guide {
         slug: "youtube-music",
         name: "YouTube Music",
-        description: "Set up YouTube Music in Kopuz. Sign in through your browser or listen without an account, and see which tracks need Premium and how playback works.",
         canonical: "https://kopuz.moe/guides/youtube-music",
     },
     Guide {
         slug: "apple-music",
         name: "Apple Music",
-        description: "Set up Apple Music in Kopuz. Sign in or paste a media-user-token, get Widevine playback working on desktop, and see what works on Android today.",
         canonical: "https://kopuz.moe/guides/apple-music",
     },
     Guide {
         slug: "soundcloud",
         name: "SoundCloud",
-        description: "Set up SoundCloud in Kopuz with a one-time sign-in through your browser. Then see what the source supports: likes, playlists, search, and streaming.",
         canonical: "https://kopuz.moe/guides/soundcloud",
     },
     Guide {
         slug: "spotify",
         name: "Spotify",
-        description: "Set up Spotify in Kopuz. Create a Spotify developer app, add its Client ID and redirect URL, and choose which Spotify Connect device plays your music.",
         canonical: "https://kopuz.moe/guides/spotify",
     },
     Guide {
         slug: "clippsly",
         name: "Clippsly",
-        description: "Connect Clippsly to Kopuz with an app password. Stream and download the music in your Clippsly locker, and upload new tracks right from Kopuz.",
         canonical: "https://kopuz.moe/guides/clippsly",
     },
 ];
@@ -63,6 +55,18 @@ pub fn guide_by_slug(slug: &str) -> Option<&'static Guide> {
 
 fn guide_href(slug: &str) -> String {
     internal_href(&format!("/guides/{slug}"))
+}
+
+pub(crate) fn guide_description(slug: &str) -> Signal<String> {
+    match slug {
+        "nextcloud" => move_tr!("guide-nextcloud-meta-desc"),
+        "youtube-music" => move_tr!("guide-ytmusic-meta-desc"),
+        "apple-music" => move_tr!("guide-applemusic-meta-desc"),
+        "soundcloud" => move_tr!("guide-soundcloud-meta-desc"),
+        "smb" => move_tr!("guide-smb-meta-desc"),
+        "clippsly" => move_tr!("guide-clippsly-meta-desc"),
+        _ => move_tr!("guide-spotify-meta-desc"),
+    }
 }
 
 fn guide_summary(slug: &str) -> Signal<String> {

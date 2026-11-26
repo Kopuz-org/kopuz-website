@@ -397,3 +397,16 @@ home-sources-local = Sur ton ordinateur
 home-sources-server = Ton propre serveur
 home-sources-streaming = Streaming
 home-sources-plugin-note = Chaque source est un plugin officiel fourni avec Kopuz.
+
+## Page descriptions
+features-meta-desc = Découvre ce que fait Kopuz : fichiers locaux, SMB, Jellyfin, Subsonic et services de streaming, paroles synchronisées, playlists intelligentes, 24 thèmes et un égaliseur 10 bandes.
+download-meta-desc = Télécharge Kopuz pour Windows, macOS, Linux et Android. Prends l'installateur pour ton appareil, ou installe-le avec Flatpak, l'AUR, Nix, Cargo ou Google Play.
+guides-meta-desc = Configure Kopuz avec Nextcloud, un partage SMB sur ton NAS, YouTube Music, Apple Music, SoundCloud, Spotify ou Clippsly, avec les étapes pour chaque source.
+support-meta-desc = Kopuz est gratuit et porté par des bénévoles. Sponsorise le projet sur GitHub ou fais un don en crypto, vois qui le soutient et rejoins la communauté sur Discord.
+guide-nextcloud-meta-desc = Connecte Kopuz à ton serveur Nextcloud via WebDAV. Crée un mot de passe d'application, choisis les dossiers qui contiennent ta musique et écoute ta bibliothèque sur tous tes appareils.
+guide-smb-meta-desc = Écoute de la musique directement depuis un partage SMB de ton NAS dans Kopuz. Saisis l'URL du partage, connecte-toi avec ton compte NAS et vois ce qui fonctionne sur un partage en lecture seule.
+guide-ytmusic-meta-desc = Configure YouTube Music dans Kopuz. Connecte-toi depuis ton navigateur ou écoute sans compte, et vois quels titres demandent Premium et comment fonctionne la lecture.
+guide-applemusic-meta-desc = Configure Apple Music dans Kopuz. Connecte-toi ou colle un media-user-token, fais fonctionner la lecture Widevine sur ordinateur et vois ce qui marche déjà sur Android.
+guide-soundcloud-meta-desc = Configure SoundCloud dans Kopuz avec une seule connexion depuis ton navigateur. Vois ensuite ce que la source prend en charge : j'aime, playlists, recherche et streaming.
+guide-spotify-meta-desc = Configure Spotify dans Kopuz. Crée une application développeur Spotify, ajoute son Client ID et son URL de redirection, et choisis l'appareil Spotify Connect qui joue ta musique.
+guide-clippsly-meta-desc = Connecte Clippsly à Kopuz avec un mot de passe d'application. Écoute et télécharge la musique de ton casier Clippsly, et mets en ligne de nouveaux titres depuis Kopuz.

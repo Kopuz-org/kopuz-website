@@ -417,3 +417,16 @@ home-sources-local = Op je computer
 home-sources-server = Je eigen server
 home-sources-streaming = Streaming
 home-sources-plugin-note = Elke bron is een officiële plug-in die met Kopuz meekomt.
+
+## Page descriptions
+features-meta-desc = Bekijk wat Kopuz kan: lokale bestanden, SMB, Jellyfin, Subsonic en streamingbronnen, gesynchroniseerde songteksten, slimme afspeellijsten, 24 thema's en een 10-bands equalizer.
+download-meta-desc = Download Kopuz voor Windows, macOS, Linux en Android. Haal het installatieprogramma voor je apparaat, of installeer via Flatpak, de AUR, Nix, Cargo of Google Play.
+guides-meta-desc = Stel Kopuz in met Nextcloud, een SMB-share op je NAS, YouTube Music, Apple Music, SoundCloud, Spotify of Clippsly, met de stappen voor elke bron.
+support-meta-desc = Kopuz is gratis en wordt gemaakt door vrijwilligers. Sponsor het project op GitHub of doneer in crypto, zie wie het steunt en word lid van de community op Discord.
+guide-nextcloud-meta-desc = Verbind Kopuz via WebDAV met je Nextcloud-server. Maak een app-wachtwoord, kies de mappen met je muziek en stream je bibliotheek op elk apparaat.
+guide-smb-meta-desc = Speel in Kopuz muziek rechtstreeks af vanaf een SMB-share op je NAS. Vul de share-URL in, meld je aan met je NAS-account en zie wat werkt op een alleen-lezen share.
+guide-ytmusic-meta-desc = Stel YouTube Music in Kopuz in. Meld je aan via je browser of luister zonder account, en zie welke nummers Premium nodig hebben en hoe het afspelen werkt.
+guide-applemusic-meta-desc = Stel Apple Music in Kopuz in. Meld je aan of plak een media-user-token, laat Widevine-weergave werken op desktop en zie wat er nu al werkt op Android.
+guide-soundcloud-meta-desc = Stel SoundCloud in Kopuz in met een eenmalige aanmelding via je browser. Zie daarna wat de bron ondersteunt: likes, afspeellijsten, zoeken en streamen.
+guide-spotify-meta-desc = Stel Spotify in Kopuz in. Maak een Spotify-ontwikkelaarsapp, voeg de Client ID en redirect-URL toe en kies op welk Spotify Connect-apparaat je muziek speelt.
+guide-clippsly-meta-desc = Verbind Clippsly met Kopuz via een app-wachtwoord. Stream en download de muziek in je Clippsly-locker en upload nieuwe nummers rechtstreeks vanuit Kopuz.

@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
-use leptos_meta::Meta;
+use leptos_meta::{Link, Meta};
 use leptos_router::hooks::{use_location, use_query_map};
 
 use crate::icons::Icon;
@@ -370,6 +370,43 @@ pub(crate) fn RobotsMeta() -> impl IntoView {
     };
 
     view! { <Meta name="robots" content=content/> }
+}
+
+fn localized_url(base: &str, lang: &str) -> String {
+    if lang == "en" {
+        base.to_owned()
+    } else {
+        format!("{base}?lang={lang}")
+    }
+}
+
+/// Canonical, `og:url` and one hreflang alternate per locale for `base`.
+///
+/// Only an explicit `?lang=` makes a page canonical to its own language: the
+/// bare address picks a language from the cookie and Accept-Language, which
+/// crawlers do not send, so it stays the English page and the x-default.
+#[component]
+pub(crate) fn LocaleLinks(base: &'static str) -> impl IntoView {
+    let i18n = expect_context::<I18n>();
+    let languages = i18n
+        .languages
+        .iter()
+        .map(|language| language.id.to_string())
+        .collect::<Vec<_>>();
+    let canonical = use_query_map()
+        .with_untracked(|query| query.get("lang"))
+        .filter(|lang| languages.contains(lang))
+        .map_or_else(|| base.to_owned(), |lang| localized_url(base, &lang));
+
+    view! {
+        <Link rel="canonical" href=canonical.clone()/>
+        <Meta property="og:url" content=canonical/>
+        {languages.into_iter().map(|lang| {
+            let href = localized_url(base, &lang);
+            view! { <Link rel="alternate" hreflang=lang href=href/> }
+        }).collect_view()}
+        <Link rel="alternate" hreflang="x-default" href=base/>
+    }
 }
 
 /// The link between the full site and the text-only one. Every other query

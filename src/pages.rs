@@ -1,20 +1,22 @@
 use leptos::context::Provider;
 use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
-use leptos_meta::{Link, Meta, Title};
+use leptos_meta::{Meta, Title};
 use leptos_router::hooks::use_params_map;
 
 use crate::app::NotFoundBody;
 use crate::download::{Install, Platforms, Requirements};
 use crate::features::Features;
-use crate::guides::{guide_by_slug, GuideArticle, GuideIndex};
-use crate::shell::{provide_site_theme, simple_mode, Footer, Nav, RobotsMeta, ThemeColorMeta};
+use crate::guides::{guide_by_slug, guide_description, GuideArticle, GuideIndex};
+use crate::shell::{
+    provide_site_theme, simple_mode, Footer, LocaleLinks, Nav, RobotsMeta, ThemeColorMeta,
+};
 use crate::support::{Community, Sponsors, Support};
 
 #[component]
 fn PageMeta(
     title: Signal<String>,
-    description: &'static str,
+    description: Signal<String>,
     canonical: &'static str,
 ) -> impl IntoView {
     view! {
@@ -23,10 +25,9 @@ fn PageMeta(
         <RobotsMeta/>
         <Meta property="og:title" content=title/>
         <Meta property="og:description" content=description/>
-        <Meta property="og:url" content=canonical/>
         <Meta name="twitter:title" content=title/>
         <Meta name="twitter:description" content=description/>
-        <Link rel="canonical" href=canonical/>
+        <LocaleLinks base=canonical/>
     }
 }
 
@@ -57,7 +58,7 @@ pub fn FeaturesPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "features-page-title")
-                description="See what Kopuz does: local files, SMB, Jellyfin, Subsonic, and streaming sources, synced lyrics, smart playlists, 24 themes, and a 10-band equalizer."
+                description=move_tr!(i18n, "features-meta-desc")
                 canonical="https://kopuz.moe/features"
             />
             <PageChrome>
@@ -73,7 +74,7 @@ pub fn DownloadPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "download-page-title")
-                description="Download Kopuz for Windows, macOS, Linux, and Android. Get the installer for your device, or install with Flatpak, the AUR, Nix, Cargo, or Google Play."
+                description=move_tr!(i18n, "download-meta-desc")
                 canonical="https://kopuz.moe/download"
             />
             <PageChrome>
@@ -92,7 +93,7 @@ pub fn GuidesPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "guides-page-title")
-                description="Set up Kopuz with Nextcloud, an SMB share on your NAS, YouTube Music, Apple Music, SoundCloud, Spotify, or Clippsly, with the steps for each source."
+                description=move_tr!(i18n, "guides-meta-desc")
                 canonical="https://kopuz.moe/guides"
             />
             <PageChrome>
@@ -127,7 +128,7 @@ pub fn GuidePage(i18n: I18n) -> impl IntoView {
                             view! {
                                 <PageMeta
                                     title=title
-                                    description=guide.description
+                                    description=guide_description(guide.slug)
                                     canonical=guide.canonical
                                 />
                                 <GuideArticle guide/>
@@ -159,7 +160,7 @@ pub fn SupportPage(i18n: I18n) -> impl IntoView {
         <Provider value=i18n>
             <PageMeta
                 title=move_tr!(i18n, "support-page-title")
-                description="Kopuz is free and run by volunteers. Sponsor the project on GitHub or donate in crypto, see who supports it, and join the community on Discord."
+                description=move_tr!(i18n, "support-meta-desc")
                 canonical="https://kopuz.moe/support"
             />
             <PageChrome>

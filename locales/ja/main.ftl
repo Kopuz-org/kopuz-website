@@ -416,3 +416,16 @@ home-sources-local = このコンピューター
 home-sources-server = 自分のサーバー
 home-sources-streaming = ストリーミング
 home-sources-plugin-note = すべてのソースはKopuzに同梱の公式プラグインです。
+
+## Page descriptions
+features-meta-desc = Kopuzでできること: ローカルファイル、SMB、Jellyfin、Subsonic、ストリーミングサービスの再生、同期歌詞、スマートプレイリスト、24のテーマ、10バンドイコライザー。
+download-meta-desc = Windows、macOS、Linux、Android向けのKopuzをダウンロード。お使いのデバイス用のインストーラーを入手するか、Flatpak、AUR、Nix、Cargo、Google Playからインストールできます。
+guides-meta-desc = Nextcloud、NASのSMB共有、YouTube Music、Apple Music、SoundCloud、Spotify、ClippslyでKopuzを使うための設定手順を、ソースごとに説明します。
+support-meta-desc = Kopuzは無料で、ボランティアが運営しています。GitHubでスポンサーになるか暗号資産で寄付し、支援者を確認して、Discordのコミュニティに参加しましょう。
+guide-nextcloud-meta-desc = WebDAVでKopuzをNextcloudサーバーに接続します。アプリパスワードを作成し、音楽のあるフォルダーを選んで、どのデバイスでもライブラリを再生できます。
+guide-smb-meta-desc = NAS上のSMB共有からKopuzで直接音楽を再生します。共有のURLを入力し、NASのアカウントでサインインして、読み取り専用の共有で使える機能を確認します。
+guide-ytmusic-meta-desc = KopuzでYouTube Musicを設定します。ブラウザーでサインインするかアカウントなしで聴き、Premiumが必要な曲と再生の仕組みを確認します。
+guide-applemusic-meta-desc = KopuzでApple Musicを設定します。サインインするかmedia-user-tokenを貼り付け、デスクトップでWidevine再生を動かし、現在Androidで使える機能を確認します。
+guide-soundcloud-meta-desc = ブラウザーで一度サインインするだけでKopuzにSoundCloudを設定できます。いいね、プレイリスト、検索、ストリーミングなど、このソースの対応機能も確認できます。
+guide-spotify-meta-desc = KopuzでSpotifyを設定します。Spotifyのデベロッパーアプリを作成し、Client IDとリダイレクトURLを追加して、音楽を再生するSpotify Connectデバイスを選びます。
+guide-clippsly-meta-desc = アプリパスワードでClippslyをKopuzに接続します。Clippslyのロッカーにある音楽をストリーミング再生やダウンロードし、Kopuzから新しい曲をアップロードできます。

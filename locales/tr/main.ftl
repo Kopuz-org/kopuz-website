@@ -384,3 +384,16 @@ home-sources-local = Bilgisayarında
 home-sources-server = Kendi sunucun
 home-sources-streaming = Akış servisleri
 home-sources-plugin-note = Her kaynak, Kopuz ile gelen resmi bir eklentidir.
+
+## Page descriptions
+features-meta-desc = Kopuz'un neler yaptığını gör: yerel dosyalar, SMB, Jellyfin, Subsonic ve akış kaynakları, senkronize şarkı sözleri, akıllı çalma listeleri, 24 tema ve 10 bantlı equalizer.
+download-meta-desc = Kopuz'u Windows, macOS, Linux ve Android için indir. Cihazına uygun yükleyiciyi al ya da Flatpak, AUR, Nix, Cargo veya Google Play ile kur.
+guides-meta-desc = Kopuz'u Nextcloud, NAS'ındaki bir SMB paylaşımı, YouTube Music, Apple Music, SoundCloud, Spotify veya Clippsly ile kur. Her kaynak için adımlar burada.
+support-meta-desc = Kopuz ücretsizdir ve gönüllüler tarafından yürütülür. Projeye GitHub'da sponsor ol ya da kriptoyla bağış yap, kimlerin desteklediğini gör ve Discord'daki topluluğa katıl.
+guide-nextcloud-meta-desc = Kopuz'u WebDAV üzerinden Nextcloud sunucuna bağla. Bir uygulama parolası oluştur, müziğinin bulunduğu klasörleri seç ve kütüphaneni her cihazda dinle.
+guide-smb-meta-desc = Kopuz'da müziği doğrudan NAS'ındaki bir SMB paylaşımından çal. Paylaşım adresini gir, NAS hesabınla giriş yap ve salt okunur bir paylaşımda nelerin çalıştığını gör.
+guide-ytmusic-meta-desc = Kopuz'da YouTube Music'i kur. Tarayıcın üzerinden giriş yap ya da hesapsız dinle, hangi parçaların Premium gerektirdiğini ve oynatmanın nasıl çalıştığını gör.
+guide-applemusic-meta-desc = Kopuz'da Apple Music'i kur. Giriş yap ya da bir media-user-token yapıştır, masaüstünde Widevine oynatmayı çalıştır ve Android'de bugün nelerin çalıştığını gör.
+guide-soundcloud-meta-desc = Kopuz'da SoundCloud'u tarayıcın üzerinden tek seferlik bir girişle kur. Ardından kaynağın neleri desteklediğini gör: beğeniler, çalma listeleri, arama ve akış.
+guide-spotify-meta-desc = Kopuz'da Spotify'ı kur. Bir Spotify geliştirici uygulaması oluştur, Client ID'sini ve yönlendirme adresini ekle, müziğini hangi Spotify Connect cihazının çalacağını seç.
+guide-clippsly-meta-desc = Clippsly'yi bir uygulama parolasıyla Kopuz'a bağla. Clippsly dolabındaki müziği dinle ve indir, yeni parçaları doğrudan Kopuz'dan yükle.

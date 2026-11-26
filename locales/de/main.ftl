@@ -444,3 +444,16 @@ home-sources-local = Auf deinem Computer
 home-sources-server = Dein eigener Server
 home-sources-streaming = Streaming
 home-sources-plugin-note = Jede Quelle ist ein offizielles Plugin, das mit Kopuz kommt.
+
+## Page descriptions
+features-meta-desc = Was Kopuz kann: lokale Dateien, SMB, Jellyfin, Subsonic und Streamingquellen, synchronisierte Songtexte, intelligente Playlists, 24 Designs und ein 10-Band-Equalizer.
+download-meta-desc = Lade Kopuz für Windows, macOS, Linux und Android herunter. Hol dir den Installer für dein Gerät oder installiere es über Flatpak, das AUR, Nix, Cargo oder Google Play.
+guides-meta-desc = Richte Kopuz mit Nextcloud, einer SMB-Freigabe auf deinem NAS, YouTube Music, Apple Music, SoundCloud, Spotify oder Clippsly ein, mit den Schritten für jede Quelle.
+support-meta-desc = Kopuz ist kostenlos und wird von Freiwilligen betrieben. Unterstütze das Projekt auf GitHub oder spende Krypto, sieh, wer es unterstützt, und komm in die Community auf Discord.
+guide-nextcloud-meta-desc = Verbinde Kopuz über WebDAV mit deinem Nextcloud-Server. Erstelle ein App-Passwort, wähle die Ordner mit deiner Musik und streame deine Mediathek auf jedem Gerät.
+guide-smb-meta-desc = Spiele Musik in Kopuz direkt von einer SMB-Freigabe auf deinem NAS ab. Gib die Freigabe-URL ein, melde dich mit deinem NAS-Konto an und sieh, was auf einer schreibgeschützten Freigabe funktioniert.
+guide-ytmusic-meta-desc = Richte YouTube Music in Kopuz ein. Melde dich über deinen Browser an oder hör ohne Konto, und sieh, welche Titel Premium brauchen und wie die Wiedergabe funktioniert.
+guide-applemusic-meta-desc = Richte Apple Music in Kopuz ein. Melde dich an oder füge ein media-user-token ein, bring die Widevine-Wiedergabe auf dem Desktop zum Laufen und sieh, was unter Android schon funktioniert.
+guide-soundcloud-meta-desc = Richte SoundCloud in Kopuz mit einer einmaligen Anmeldung über deinen Browser ein. Dann sieh, was die Quelle unterstützt: Likes, Playlists, Suche und Streaming.
+guide-spotify-meta-desc = Richte Spotify in Kopuz ein. Erstelle eine Spotify-Entwickler-App, trage ihre Client ID und Weiterleitungs-URL ein und wähle, welches Spotify-Connect-Gerät deine Musik abspielt.
+guide-clippsly-meta-desc = Verbinde Clippsly mit einem App-Passwort mit Kopuz. Streame und lade die Musik in deinem Clippsly-Locker herunter und lade neue Titel direkt aus Kopuz hoch.

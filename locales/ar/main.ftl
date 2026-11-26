@@ -384,3 +384,16 @@ home-sources-local = على جهازك
 home-sources-server = خادمك الخاص
 home-sources-streaming = البث
 home-sources-plugin-note = كل مصدر إضافة رسمية تأتي مع Kopuz.
+
+## Page descriptions
+features-meta-desc = تعرّف على ما يقدمه Kopuz: الملفات المحلية وSMB وJellyfin وSubsonic ومصادر البث، وكلمات متزامنة، وقوائم تشغيل ذكية، و24 سمة، ومعادل صوت من 10 نطاقات.
+download-meta-desc = نزّل Kopuz لأجهزة Windows وmacOS وLinux وAndroid. احصل على المثبّت المناسب لجهازك، أو ثبّته عبر Flatpak أو AUR أو Nix أو Cargo أو Google Play.
+guides-meta-desc = اضبط Kopuz مع Nextcloud أو مشاركة SMB على جهاز NAS أو YouTube Music أو Apple Music أو SoundCloud أو Spotify أو Clippsly، مع خطوات كل مصدر.
+support-meta-desc = Kopuz مجاني ويديره متطوعون. ادعم المشروع على GitHub أو تبرّع بالعملات الرقمية، وتعرّف على داعميه، وانضم إلى المجتمع على Discord.
+guide-nextcloud-meta-desc = اربط Kopuz بخادم Nextcloud عبر WebDAV. أنشئ كلمة مرور للتطبيق، واختر المجلدات التي تحوي موسيقاك، واستمع إلى مكتبتك على أي جهاز.
+guide-smb-meta-desc = شغّل الموسيقى في Kopuz مباشرة من مشاركة SMB على جهاز NAS. أدخل رابط المشاركة، وسجّل الدخول بحساب NAS، وتعرّف على ما يعمل في مشاركة للقراءة فقط.
+guide-ytmusic-meta-desc = اضبط YouTube Music في Kopuz. سجّل الدخول عبر متصفحك أو استمع دون حساب، وتعرّف على المقاطع التي تتطلب Premium وكيف يعمل التشغيل.
+guide-applemusic-meta-desc = اضبط Apple Music في Kopuz. سجّل الدخول أو الصق media-user-token، وشغّل Widevine على سطح المكتب، وتعرّف على ما يعمل على Android حاليًا.
+guide-soundcloud-meta-desc = اضبط SoundCloud في Kopuz بتسجيل دخول واحد عبر متصفحك. ثم تعرّف على ما يدعمه المصدر: الإعجابات وقوائم التشغيل والبحث والبث.
+guide-spotify-meta-desc = اضبط Spotify في Kopuz. أنشئ تطبيق مطوّر في Spotify، وأضف Client ID ورابط إعادة التوجيه، واختر جهاز Spotify Connect الذي يشغّل موسيقاك.
+guide-clippsly-meta-desc = اربط Clippsly بـ Kopuz بكلمة مرور للتطبيق. استمع إلى الموسيقى في خزانة Clippsly ونزّلها، وارفع مقاطع جديدة من Kopuz مباشرة.

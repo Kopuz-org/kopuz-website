@@ -384,3 +384,16 @@ home-sources-local = במחשב שלך
 home-sources-server = השרת שלך
 home-sources-streaming = סטרימינג
 home-sources-plugin-note = כל מקור הוא תוסף רשמי שמגיע עם Kopuz.
+
+## Page descriptions
+features-meta-desc = גלה מה Kopuz עושה: קבצים מקומיים, SMB, Jellyfin, Subsonic ומקורות סטרימינג, מילים מסונכרנות, רשימות השמעה חכמות, 24 ערכות נושא ואקולייזר של 10 ערוצים.
+download-meta-desc = הורד את Kopuz ל-Windows, macOS, Linux ו-Android. קבל את המתקין למכשיר שלך, או התקן דרך Flatpak, AUR, Nix, Cargo או Google Play.
+guides-meta-desc = הגדר את Kopuz עם Nextcloud, שיתוף SMB ב-NAS שלך, YouTube Music, Apple Music, SoundCloud, Spotify או Clippsly, עם השלבים לכל מקור.
+support-meta-desc = Kopuz חינמי ומתנדבים מפעילים אותו. תן חסות לפרויקט ב-GitHub או תרום בקריפטו, ראה מי תומך בו והצטרף לקהילה ב-Discord.
+guide-nextcloud-meta-desc = חבר את Kopuz לשרת Nextcloud שלך דרך WebDAV. צור סיסמת אפליקציה, בחר את התיקיות עם המוזיקה שלך והאזן לספרייה שלך בכל מכשיר.
+guide-smb-meta-desc = השמע מוזיקה ב-Kopuz ישירות משיתוף SMB ב-NAS שלך. הזן את כתובת השיתוף, התחבר עם חשבון ה-NAS וראה מה עובד בשיתוף לקריאה בלבד.
+guide-ytmusic-meta-desc = הגדר את YouTube Music ב-Kopuz. התחבר דרך הדפדפן או האזן בלי חשבון, וראה אילו שירים דורשים Premium ואיך ההשמעה עובדת.
+guide-applemusic-meta-desc = הגדר את Apple Music ב-Kopuz. התחבר או הדבק media-user-token, הפעל השמעה עם Widevine במחשב וראה מה עובד היום ב-Android.
+guide-soundcloud-meta-desc = הגדר את SoundCloud ב-Kopuz עם התחברות חד-פעמית דרך הדפדפן. אחר כך ראה מה המקור תומך בו: לייקים, רשימות השמעה, חיפוש וסטרימינג.
+guide-spotify-meta-desc = הגדר את Spotify ב-Kopuz. צור אפליקציית מפתחים ב-Spotify, הוסף את ה-Client ID ואת כתובת ההפניה, ובחר באיזה מכשיר Spotify Connect המוזיקה שלך תתנגן.
+guide-clippsly-meta-desc = חבר את Clippsly ל-Kopuz עם סיסמת אפליקציה. האזן והורד את המוזיקה בלוקר שלך ב-Clippsly, והעלה שירים חדשים ישירות מ-Kopuz.

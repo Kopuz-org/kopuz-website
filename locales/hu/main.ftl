@@ -395,3 +395,16 @@ home-sources-local = A számítógépeden
 home-sources-server = Saját szerver
 home-sources-streaming = Streaming
 home-sources-plugin-note = Minden forrás a Kopuzzal érkező hivatalos bővítmény.
+
+## Page descriptions
+features-meta-desc = Nézd meg, mit tud a Kopuz: helyi fájlok, SMB, Jellyfin, Subsonic és streamingforrások, szinkronizált dalszövegek, okos lejátszási listák, 24 téma és 10 sávos hangszínszabályzó.
+download-meta-desc = Töltsd le a Kopuzt Windowsra, macOS-re, Linuxra és Androidra. Szerezd be az eszközödhöz illő telepítőt, vagy telepítsd Flatpakkal, az AUR-ból, Nixszel, Cargóval vagy a Google Playről.
+guides-meta-desc = Állítsd be a Kopuzt Nextclouddal, a NAS-od SMB-megosztásával, YouTube Musickal, Apple Musickal, SoundClouddal, Spotify-jal vagy Clippslyvel, minden forrás lépéseivel.
+support-meta-desc = A Kopuz ingyenes, és önkéntesek viszik. Támogasd a projektet a GitHubon vagy kriptóval, nézd meg, kik támogatják, és csatlakozz a közösséghez a Discordon.
+guide-nextcloud-meta-desc = Csatlakoztasd a Kopuzt WebDAV-on a Nextcloud-szerveredhez. Hozz létre alkalmazásjelszót, válaszd ki a zenét tartalmazó mappákat, és hallgasd a könyvtáradat bármelyik eszközön.
+guide-smb-meta-desc = Játssz le zenét a Kopuzban közvetlenül a NAS-od SMB-megosztásáról. Add meg a megosztás címét, jelentkezz be a NAS-fiókoddal, és nézd meg, mi működik egy csak olvasható megosztáson.
+guide-ytmusic-meta-desc = Állítsd be a YouTube Musicot a Kopuzban. Jelentkezz be a böngésződdel, vagy hallgass fiók nélkül, és nézd meg, mely számokhoz kell Premium, és hogyan működik a lejátszás.
+guide-applemusic-meta-desc = Állítsd be az Apple Musicot a Kopuzban. Jelentkezz be, vagy illessz be egy media-user-tokent, indítsd el a Widevine-lejátszást asztali gépen, és nézd meg, mi működik ma Androidon.
+guide-soundcloud-meta-desc = Állítsd be a SoundCloudot a Kopuzban egyetlen böngészős bejelentkezéssel. Utána nézd meg, mit támogat a forrás: kedveléseket, lejátszási listákat, keresést és streamelést.
+guide-spotify-meta-desc = Állítsd be a Spotify-t a Kopuzban. Hozz létre egy Spotify fejlesztői alkalmazást, add meg a Client ID-t és az átirányítási címet, és válaszd ki, melyik Spotify Connect eszköz játssza a zenédet.
+guide-clippsly-meta-desc = Csatlakoztasd a Clippslyt a Kopuzhoz alkalmazásjelszóval. Hallgasd és töltsd le a Clippsly-tárolódban lévő zenét, és tölts fel új számokat közvetlenül a Kopuzból.

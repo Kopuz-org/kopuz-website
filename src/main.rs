@@ -4,8 +4,9 @@
 #[tokio::main]
 async fn main() {
     use axum::{
+        body::Body,
         extract::{FromRef, Request},
-        http::{header, HeaderValue},
+        http::{header, HeaderValue, StatusCode},
         middleware::{self, Next},
         response::Response,
         routing::post,
@@ -57,6 +58,28 @@ async fn main() {
         res
     }
 
+    // Routes are declared without a trailing slash and would 404 with one, so
+    // send `/features/` to `/features` instead of leaving a dead duplicate.
+    async fn strip_trailing_slash(req: Request, next: Next) -> Response {
+        let path = req.uri().path();
+        // `//host/` would trim to a protocol-relative redirect off the site.
+        if path.len() > 1 && path.ends_with('/') && !path.starts_with("//") {
+            let mut location = path.trim_end_matches('/').to_owned();
+            if let Some(query) = req.uri().query() {
+                location.push('?');
+                location.push_str(query);
+            }
+            if let Ok(location) = HeaderValue::from_str(&location) {
+                return Response::builder()
+                    .status(StatusCode::MOVED_PERMANENTLY)
+                    .header(header::LOCATION, location)
+                    .body(Body::empty())
+                    .unwrap_or_default();
+            }
+        }
+        next.run(req).await
+    }
+
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
     let leptos_options = conf.leptos_options;
@@ -98,6 +121,7 @@ async fn main() {
         .route("/webhooks/github-sponsors", post(sponsors::webhook_handler))
         .fallback(leptos_axum::file_and_error_handler::<AppState, _>(shell))
         .layer(middleware::from_fn(pkg_no_cache))
+        .layer(middleware::from_fn(strip_trailing_slash))
         .with_state(app_state);
 
     // run our app with hyper

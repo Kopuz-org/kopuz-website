@@ -395,3 +395,16 @@ home-sources-local = На твоєму комп’ютері
 home-sources-server = Твій сервер
 home-sources-streaming = Стримінг
 home-sources-plugin-note = Кожне джерело є офіційним плагіном, що постачається з Kopuz.
+
+## Page descriptions
+features-meta-desc = Що вміє Kopuz: локальні файли, SMB, Jellyfin, Subsonic і стримінгові джерела, синхронізовані тексти, розумні плейлисти, 24 теми та 10-смуговий еквалайзер.
+download-meta-desc = Завантаж Kopuz для Windows, macOS, Linux і Android. Візьми інсталятор для свого пристрою або встанови через Flatpak, AUR, Nix, Cargo чи Google Play.
+guides-meta-desc = Налаштуй Kopuz з Nextcloud, ресурсом SMB на NAS, YouTube Music, Apple Music, SoundCloud, Spotify або Clippsly: покрокова інструкція для кожного джерела.
+support-meta-desc = Kopuz безкоштовний, його розвивають волонтери. Стань спонсором на GitHub або задонать криптовалютою, подивись, хто підтримує проєкт, і долучайся до спільноти в Discord.
+guide-nextcloud-meta-desc = Підключи Kopuz до свого сервера Nextcloud через WebDAV. Створи пароль застосунку, обери теки з музикою та слухай свою медіатеку на будь-якому пристрої.
+guide-smb-meta-desc = Слухай музику просто з ресурсу SMB на своєму NAS у Kopuz. Введи адресу ресурсу, увійди з акаунтом NAS і дізнайся, що працює на ресурсі лише для читання.
+guide-ytmusic-meta-desc = Налаштуй YouTube Music у Kopuz. Увійди через браузер або слухай без акаунта, дізнайся, яким трекам потрібен Premium і як працює відтворення.
+guide-applemusic-meta-desc = Налаштуй Apple Music у Kopuz. Увійди або встав media-user-token, запусти відтворення Widevine на комп’ютері й дізнайся, що вже працює на Android.
+guide-soundcloud-meta-desc = Налаштуй SoundCloud у Kopuz, один раз увійшовши через браузер. Потім дізнайся, що підтримує джерело: вподобання, плейлисти, пошук і стримінг.
+guide-spotify-meta-desc = Налаштуй Spotify у Kopuz. Створи застосунок розробника Spotify, додай його Client ID та адресу перенаправлення й обери, на якому пристрої Spotify Connect грає музика.
+guide-clippsly-meta-desc = Підключи Clippsly до Kopuz з паролем застосунку. Слухай і завантажуй музику зі свого сховища Clippsly та вивантажуй нові треки просто з Kopuz.

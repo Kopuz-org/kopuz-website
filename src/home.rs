@@ -1,7 +1,7 @@
 use leptos::context::Provider;
 use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
-use leptos_meta::{Link, Meta, Title};
+use leptos_meta::{Meta, Title};
 
 use crate::app::AboutName;
 use crate::download::{DownloadDialog, Installers};
@@ -9,15 +9,30 @@ use crate::features::{feature_desc, feature_title};
 use crate::icons::Icon;
 use crate::releases::use_latest_release;
 use crate::shell::{
-    internal_href, provide_site_theme, simple_mode, Footer, Nav, RobotsMeta, ThemeColorMeta,
+    internal_href, provide_site_theme, simple_mode, Footer, LocaleLinks, Nav, RobotsMeta,
+    ThemeColorMeta,
 };
 use crate::support::{fetch_sponsors_list, sponsor_avatar};
 
 const GITHUB: &str = "https://github.com/Kopuz-org/kopuz";
 
 /// Kept in step with the page: free, no paid tier, the four platforms the
-/// download page ships.
-const STRUCTURED_DATA: &str = r#"{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://kopuz.moe/#website","url":"https://kopuz.moe/","name":"Kopuz","inLanguage":"en"},{"@type":"SoftwareApplication","name":"Kopuz","url":"https://kopuz.moe/","description":"A free, open-source music player for desktop and Android that plays local files, NAS shares, self-hosted servers, and streaming services in one library.","applicationCategory":"MultimediaApplication","operatingSystem":"Windows, macOS, Linux, Android","downloadUrl":"https://kopuz.moe/download","image":"https://kopuz.moe/banner.png","license":"https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"sameAs":["https://github.com/Kopuz-org/kopuz","https://flathub.org/apps/moe.kopuz.kopuz","https://play.google.com/store/apps/details?id=moe.kopuz.kopuz"]}]}"#;
+/// download page ships. Every `sameAs` is an official listing whose own
+/// website field points back here, which is what ties them to one entity.
+fn structured_data(version: &str) -> String {
+    let version = version
+        .chars()
+        .filter(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '+'))
+        .collect::<String>();
+    let version = if version.is_empty() {
+        String::new()
+    } else {
+        format!(r#""softwareVersion":"{version}","#)
+    };
+    format!(
+        r#"{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://kopuz.moe/#organization","name":"Kopuz","url":"https://kopuz.moe/","logo":"https://kopuz.moe/logo.svg","sameAs":["https://github.com/Kopuz-org"]}},{{"@type":"WebSite","@id":"https://kopuz.moe/#website","url":"https://kopuz.moe/","name":"Kopuz","publisher":{{"@id":"https://kopuz.moe/#organization"}},"inLanguage":["en","ru","de","nl","fr","es","tr","uk","pl","ar","el","he","hu","id","ja","ko","ro","pt","zh"]}},{{"@type":"SoftwareApplication","@id":"https://kopuz.moe/#software","name":"Kopuz","url":"https://kopuz.moe/","description":"A free, open-source music player for desktop and Android that plays local files, NAS shares, self-hosted servers, and streaming services in one library.","applicationCategory":"MultimediaApplication","applicationSubCategory":"Music player","operatingSystem":"Windows, macOS, Linux, Android",{version}"downloadUrl":"https://kopuz.moe/download","installUrl":"https://kopuz.moe/download","image":"https://kopuz.moe/banner.png","screenshot":"https://kopuz.moe/kopuz-home.png","license":"https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12","isAccessibleForFree":true,"offers":{{"@type":"Offer","price":"0","priceCurrency":"USD"}},"author":{{"@type":"Person","name":"temidaradev","url":"https://github.com/temidaradev"}},"publisher":{{"@id":"https://kopuz.moe/#organization"}},"sameAs":["https://github.com/Kopuz-org/kopuz","https://play.google.com/store/apps/details?id=moe.kopuz.kopuz","https://flathub.org/apps/moe.kopuz.kopuz","https://store.steampowered.com/app/4733880/Kopuz/"]}}]}}"#
+    )
+}
 
 /// Screenshots keep their paths across redesigns, so returning visitors would
 /// otherwise see cached old captures next to new copy.
@@ -38,12 +53,11 @@ pub fn HomePage(i18n: I18n) -> impl IntoView {
             <RobotsMeta/>
             <Meta property="og:title" content=move_tr!(i18n, "og-title")/>
             <Meta property="og:description" content=move_tr!(i18n, "og-desc")/>
-            <Meta property="og:url" content="https://kopuz.moe/"/>
             <Meta name="twitter:title" content=move_tr!(i18n, "twitter-title")/>
             <Meta name="twitter:description" content=move_tr!(i18n, "twitter-desc")/>
-            <Link rel="canonical" href="https://kopuz.moe/"/>
+            <LocaleLinks base="https://kopuz.moe/"/>
             <ThemeColorMeta/>
-            <script type="application/ld+json" inner_html=STRUCTURED_DATA></script>
+            <StructuredData/>
             <div
                 class="site"
                 class:simple=simple
@@ -63,6 +77,20 @@ pub fn HomePage(i18n: I18n) -> impl IntoView {
                 <Footer/>
             </div>
         </Provider>
+    }
+}
+
+/// Rendered with the release so `softwareVersion` follows the latest tag.
+#[component]
+fn StructuredData() -> impl IntoView {
+    let release = use_latest_release();
+
+    view! {
+        <Transition fallback=|| ()>
+            {move || release.get().map(|release| view! {
+                <script type="application/ld+json" inner_html=structured_data(release.version())></script>
+            })}
+        </Transition>
     }
 }
 
@@ -489,6 +517,33 @@ mod home_tests {
                 source.anchor
             );
         }
+    }
+
+    #[test]
+    fn structured_data_is_valid_json_for_every_locale() {
+        let languages: Vec<Vec<String>> =
+            serde_json::from_str(include_str!("../locales/languages.json")).unwrap();
+        let ids: Vec<&str> = languages.iter().map(|row| row[0].as_str()).collect();
+
+        for version in ["1.0.1", ""] {
+            let data: serde_json::Value = serde_json::from_str(&structured_data(version)).unwrap();
+            let graph = data["@graph"].as_array().unwrap();
+            let website = graph
+                .iter()
+                .find(|node| node["@type"] == "WebSite")
+                .unwrap();
+            assert_eq!(website["inLanguage"], serde_json::json!(ids));
+            let app = graph
+                .iter()
+                .find(|node| node["@type"] == "SoftwareApplication")
+                .unwrap();
+            assert_eq!(app["softwareVersion"].as_str().unwrap_or(""), version);
+        }
+    }
+
+    #[test]
+    fn structured_data_drops_unsafe_version_characters() {
+        assert!(!structured_data("1.0\"</script>").contains("</script>"));
     }
 
     #[test]

@@ -59,6 +59,37 @@ test.describe("crawlers", () => {
     expect(sitemap).toContain("<loc>https://kopuz.moe/guides/smb</loc>");
     expect(sitemap).not.toContain("/privacy");
   });
+
+  test("a trailing slash redirects to the route", async ({ request }) => {
+    const response = await request.get("/features/?lang=de", {
+      maxRedirects: 0,
+    });
+    expect(response.status()).toBe(301);
+    expect(response.headers().location).toBe("/features?lang=de");
+  });
+
+  test("a ?lang= address is canonical to itself and lists every locale", async ({
+    page,
+  }) => {
+    await page.goto("/features?lang=de");
+
+    await expect(page.locator("html")).toHaveAttribute("lang", "de");
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+      "href",
+      "https://kopuz.moe/features?lang=de",
+    );
+    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+      "content",
+      "https://kopuz.moe/features?lang=de",
+    );
+    await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(20);
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="x-default"]'),
+    ).toHaveAttribute("href", "https://kopuz.moe/features");
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="en"]'),
+    ).toHaveAttribute("href", "https://kopuz.moe/features");
+  });
 });
 
 // Under 900px the nav links live in a menu panel behind a toggle, so they are

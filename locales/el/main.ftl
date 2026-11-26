@@ -396,3 +396,16 @@ home-sources-local = Στον υπολογιστή σου
 home-sources-server = Ο δικός σου διακομιστής
 home-sources-streaming = Streaming
 home-sources-plugin-note = Κάθε πηγή είναι ένα επίσημο πρόσθετο που έρχεται με το Kopuz.
+
+## Page descriptions
+features-meta-desc = Δες τι κάνει το Kopuz: τοπικά αρχεία, SMB, Jellyfin, Subsonic και πηγές ροής, συγχρονισμένοι στίχοι, έξυπνες λίστες, 24 θέματα και ισοσταθμιστής 10 ζωνών.
+download-meta-desc = Κατέβασε το Kopuz για Windows, macOS, Linux και Android. Πάρε το πρόγραμμα εγκατάστασης για τη συσκευή σου ή εγκατάστησέ το με Flatpak, AUR, Nix, Cargo ή Google Play.
+guides-meta-desc = Ρύθμισε το Kopuz με Nextcloud, ένα SMB share στο NAS σου, YouTube Music, Apple Music, SoundCloud, Spotify ή Clippsly, με τα βήματα για κάθε πηγή.
+support-meta-desc = Το Kopuz είναι δωρεάν και το φτιάχνουν εθελοντές. Γίνε χορηγός στο GitHub ή κάνε δωρεά σε κρυπτονομίσματα, δες ποιοι το στηρίζουν και μπες στην κοινότητα στο Discord.
+guide-nextcloud-meta-desc = Σύνδεσε το Kopuz στον διακομιστή Nextcloud σου μέσω WebDAV. Φτιάξε κωδικό εφαρμογής, διάλεξε τους φακέλους με τη μουσική σου και άκου τη βιβλιοθήκη σου σε κάθε συσκευή.
+guide-smb-meta-desc = Παίξε μουσική στο Kopuz απευθείας από ένα SMB share στο NAS σου. Γράψε τη διεύθυνση του share, συνδέσου με τον λογαριασμό του NAS και δες τι λειτουργεί σε share μόνο για ανάγνωση.
+guide-ytmusic-meta-desc = Ρύθμισε το YouTube Music στο Kopuz. Συνδέσου από τον περιηγητή σου ή άκου χωρίς λογαριασμό, και δες ποια κομμάτια θέλουν Premium και πώς λειτουργεί η αναπαραγωγή.
+guide-applemusic-meta-desc = Ρύθμισε το Apple Music στο Kopuz. Συνδέσου ή επικόλλησε ένα media-user-token, κάνε την αναπαραγωγή Widevine να δουλεύει στον υπολογιστή και δες τι λειτουργεί σήμερα στο Android.
+guide-soundcloud-meta-desc = Ρύθμισε το SoundCloud στο Kopuz με μία μόνο σύνδεση από τον περιηγητή σου. Μετά δες τι υποστηρίζει η πηγή: likes, λίστες, αναζήτηση και ροή.
+guide-spotify-meta-desc = Ρύθμισε το Spotify στο Kopuz. Φτιάξε μια εφαρμογή προγραμματιστή Spotify, πρόσθεσε το Client ID και τη διεύθυνση ανακατεύθυνσης και διάλεξε ποια συσκευή Spotify Connect παίζει τη μουσική σου.
+guide-clippsly-meta-desc = Σύνδεσε το Clippsly στο Kopuz με κωδικό εφαρμογής. Άκου και κατέβασε τη μουσική από το ντουλάπι σου στο Clippsly και ανέβασε νέα κομμάτια απευθείας από το Kopuz.

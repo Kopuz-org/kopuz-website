@@ -417,3 +417,16 @@ home-sources-local = On your computer
 home-sources-server = Your own server
 home-sources-streaming = Streaming
 home-sources-plugin-note = Every source is an official plugin that ships with Kopuz.
+
+## Page descriptions
+features-meta-desc = See what Kopuz does: local files, SMB, Jellyfin, Subsonic, and streaming sources, synced lyrics, smart playlists, 24 themes, and a 10-band equalizer.
+download-meta-desc = Download Kopuz for Windows, macOS, Linux, and Android. Get the installer for your device, or install with Flatpak, the AUR, Nix, Cargo, or Google Play.
+guides-meta-desc = Set up Kopuz with Nextcloud, an SMB share on your NAS, YouTube Music, Apple Music, SoundCloud, Spotify, or Clippsly, with the steps for each source.
+support-meta-desc = Kopuz is free and run by volunteers. Sponsor the project on GitHub or donate in crypto, see who supports it, and join the community on Discord.
+guide-nextcloud-meta-desc = Connect Kopuz to your Nextcloud server over WebDAV. Create an app password, pick the folders that hold your music, and stream your library on any device.
+guide-smb-meta-desc = Play music straight from an SMB share on your NAS in Kopuz. Enter the share URL, sign in with your NAS account, and see what works on a read-only share.
+guide-ytmusic-meta-desc = Set up YouTube Music in Kopuz. Sign in through your browser or listen without an account, and see which tracks need Premium and how playback works.
+guide-applemusic-meta-desc = Set up Apple Music in Kopuz. Sign in or paste a media-user-token, get Widevine playback working on desktop, and see what works on Android today.
+guide-soundcloud-meta-desc = Set up SoundCloud in Kopuz with a one-time sign-in through your browser. Then see what the source supports: likes, playlists, search, and streaming.
+guide-spotify-meta-desc = Set up Spotify in Kopuz. Create a Spotify developer app, add its Client ID and redirect URL, and choose which Spotify Connect device plays your music.
+guide-clippsly-meta-desc = Connect Clippsly to Kopuz with an app password. Stream and download the music in your Clippsly locker, and upload new tracks right from Kopuz.

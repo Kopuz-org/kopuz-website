@@ -416,3 +416,16 @@ home-sources-local = 你的电脑
 home-sources-server = 自己的服务器
 home-sources-streaming = 流媒体
 home-sources-plugin-note = 每个来源都是随 Kopuz 提供的官方插件。
+
+## Page descriptions
+features-meta-desc = 了解 Kopuz 的功能：本地文件、SMB、Jellyfin、Subsonic 和流媒体音乐源，同步歌词，智能播放列表，24 款主题，以及 10 段均衡器。
+download-meta-desc = 下载适用于 Windows、macOS、Linux 和 Android 的 Kopuz。获取适合你设备的安装程序，或通过 Flatpak、AUR、Nix、Cargo 或 Google Play 安装。
+guides-meta-desc = 为 Kopuz 设置 Nextcloud、NAS 上的 SMB 共享、YouTube Music、Apple Music、SoundCloud、Spotify 或 Clippsly，每个音乐源都有详细步骤。
+support-meta-desc = Kopuz 免费，由志愿者维护。在 GitHub 上赞助项目或用加密货币捐赠，看看谁在支持它，并加入 Discord 社区。
+guide-nextcloud-meta-desc = 通过 WebDAV 将 Kopuz 连接到你的 Nextcloud 服务器。创建应用密码，选择存放音乐的文件夹，在任何设备上收听你的音乐库。
+guide-smb-meta-desc = 在 Kopuz 中直接播放 NAS 上 SMB 共享里的音乐。输入共享地址，用 NAS 账号登录，并了解只读共享上可以使用哪些功能。
+guide-ytmusic-meta-desc = 在 Kopuz 中设置 YouTube Music。通过浏览器登录或无需账号直接收听，并了解哪些曲目需要 Premium 以及播放的工作方式。
+guide-applemusic-meta-desc = 在 Kopuz 中设置 Apple Music。登录或粘贴 media-user-token，在桌面端启用 Widevine 播放，并了解目前 Android 上可用的功能。
+guide-soundcloud-meta-desc = 只需在浏览器中登录一次，即可在 Kopuz 中设置 SoundCloud。然后了解该音乐源支持的功能：喜欢、播放列表、搜索和流媒体播放。
+guide-spotify-meta-desc = 在 Kopuz 中设置 Spotify。创建 Spotify 开发者应用，添加其 Client ID 和重定向地址，并选择由哪台 Spotify Connect 设备播放你的音乐。
+guide-clippsly-meta-desc = 使用应用密码将 Clippsly 连接到 Kopuz。在线播放并下载 Clippsly 储物柜中的音乐，还能直接从 Kopuz 上传新曲目。
