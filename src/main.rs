@@ -6,7 +6,7 @@ async fn main() {
     use axum::{
         body::Body,
         extract::{FromRef, Request},
-        http::{header, HeaderValue, StatusCode},
+        http::{header, HeaderValue, Method, StatusCode},
         middleware::{self, Next},
         response::Response,
         routing::post,
@@ -80,6 +80,32 @@ async fn main() {
         next.run(req).await
     }
 
+    // Cloudflare terminates TLS and reports the visitor's scheme in CF-Visitor.
+    // Plain http still reached the app and served a duplicate of every page.
+    async fn redirect_http(req: Request, next: Next) -> Response {
+        let plain = req
+            .headers()
+            .get("cf-visitor")
+            .and_then(|value| value.to_str().ok())
+            .is_some_and(|visitor| visitor.contains(r#""scheme":"http""#));
+        let safe = matches!(*req.method(), Method::GET | Method::HEAD);
+        let host = req
+            .headers()
+            .get(header::HOST)
+            .and_then(|h| h.to_str().ok());
+        if let (true, true, Some(host)) = (plain, safe, host) {
+            let target = req.uri().path_and_query().map_or("/", |pq| pq.as_str());
+            if let Ok(location) = HeaderValue::from_str(&format!("https://{host}{target}")) {
+                return Response::builder()
+                    .status(StatusCode::MOVED_PERMANENTLY)
+                    .header(header::LOCATION, location)
+                    .body(Body::empty())
+                    .unwrap_or_default();
+            }
+        }
+        next.run(req).await
+    }
+
     let conf = get_configuration(None).unwrap();
     let addr = conf.leptos_options.site_addr;
     let leptos_options = conf.leptos_options;
@@ -122,6 +148,7 @@ async fn main() {
         .fallback(leptos_axum::file_and_error_handler::<AppState, _>(shell))
         .layer(middleware::from_fn(pkg_no_cache))
         .layer(middleware::from_fn(strip_trailing_slash))
+        .layer(middleware::from_fn(redirect_http))
         .with_state(app_state);
 
     // run our app with hyper
