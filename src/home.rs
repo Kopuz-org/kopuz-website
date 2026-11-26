@@ -1,35 +1,38 @@
 use leptos::context::Provider;
 use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
-use leptos_meta::{Link, Meta, Title};
+use leptos_meta::{Meta, Title};
 
 use crate::app::AboutName;
 use crate::download::{DownloadDialog, Installers};
-use crate::features::feature_desc;
+use crate::features::{feature_desc, feature_title};
 use crate::icons::Icon;
-use crate::releases::{use_latest_release, WhatsNew};
+use crate::releases::use_latest_release;
 use crate::shell::{
-    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf,
+    internal_href, provide_site_theme, simple_mode, Footer, LocaleLinks, Nav, RobotsMeta,
     ThemeColorMeta,
 };
 use crate::support::{fetch_sponsors_list, sponsor_avatar};
 
 const GITHUB: &str = "https://github.com/Kopuz-org/kopuz";
 
-/* The theme wipe reveals a screenshot and its desk in the same frame, so every
-one of them has to be decoded before the card reaches the viewport. */
-const THEME_PRELOADS: &[&str] = &[
-    "/themes/default.png",
-    "/themes/amoled.png",
-    "/themes/sunset.png",
-    "/themes/lake.png",
-    "/wallpapers/sunset.jpg",
-    "/wallpapers/lake.jpg",
-];
-
 /// Kept in step with the page: free, no paid tier, the four platforms the
-/// download page ships.
-const STRUCTURED_DATA: &str = r#"{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://kopuz.moe/#website","url":"https://kopuz.moe/","name":"Kopuz","inLanguage":"en"},{"@type":"SoftwareApplication","name":"Kopuz","url":"https://kopuz.moe/","description":"A free, open-source music player for desktop and Android that plays local files, NAS shares, self-hosted servers, and streaming services in one library.","applicationCategory":"MultimediaApplication","operatingSystem":"Windows, macOS, Linux, Android","downloadUrl":"https://kopuz.moe/download","image":"https://kopuz.moe/banner.png","license":"https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"sameAs":["https://github.com/Kopuz-org/kopuz","https://flathub.org/apps/moe.kopuz.kopuz","https://play.google.com/store/apps/details?id=moe.kopuz.kopuz"]}]}"#;
+/// download page ships. Every `sameAs` is an official listing whose own
+/// website field points back here, which is what ties them to one entity.
+fn structured_data(version: &str) -> String {
+    let version = version
+        .chars()
+        .filter(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '-' | '+'))
+        .collect::<String>();
+    let version = if version.is_empty() {
+        String::new()
+    } else {
+        format!(r#""softwareVersion":"{version}","#)
+    };
+    format!(
+        r#"{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://kopuz.moe/#organization","name":"Kopuz","url":"https://kopuz.moe/","logo":"https://kopuz.moe/logo.svg","sameAs":["https://github.com/Kopuz-org"]}},{{"@type":"WebSite","@id":"https://kopuz.moe/#website","url":"https://kopuz.moe/","name":"Kopuz","publisher":{{"@id":"https://kopuz.moe/#organization"}},"inLanguage":["en","ru","de","nl","fr","es","tr","uk","pl","ar","el","he","hu","id","ja","ko","ro","pt","zh"]}},{{"@type":"SoftwareApplication","@id":"https://kopuz.moe/#software","name":"Kopuz","url":"https://kopuz.moe/","description":"A free, open-source music player for desktop and Android that plays local files, NAS shares, self-hosted servers, and streaming services in one library.","applicationCategory":"MultimediaApplication","applicationSubCategory":"Music player","operatingSystem":"Windows, macOS, Linux, Android",{version}"downloadUrl":"https://kopuz.moe/download","installUrl":"https://kopuz.moe/download","image":"https://kopuz.moe/banner.png","screenshot":"https://kopuz.moe/kopuz-home.png","license":"https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12","isAccessibleForFree":true,"offers":{{"@type":"Offer","price":"0","priceCurrency":"USD"}},"author":{{"@type":"Person","name":"temidaradev","url":"https://github.com/temidaradev"}},"publisher":{{"@id":"https://kopuz.moe/#organization"}},"sameAs":["https://github.com/Kopuz-org/kopuz","https://play.google.com/store/apps/details?id=moe.kopuz.kopuz","https://flathub.org/apps/moe.kopuz.kopuz","https://store.steampowered.com/app/4733880/Kopuz/"]}}]}}"#
+    )
+}
 
 /// Screenshots keep their paths across redesigns, so returning visitors would
 /// otherwise see cached old captures next to new copy.
@@ -50,16 +53,11 @@ pub fn HomePage(i18n: I18n) -> impl IntoView {
             <RobotsMeta/>
             <Meta property="og:title" content=move_tr!(i18n, "og-title")/>
             <Meta property="og:description" content=move_tr!(i18n, "og-desc")/>
-            <Meta property="og:url" content="https://kopuz.moe/"/>
             <Meta name="twitter:title" content=move_tr!(i18n, "twitter-title")/>
             <Meta name="twitter:description" content=move_tr!(i18n, "twitter-desc")/>
-            <Link rel="canonical" href="https://kopuz.moe/"/>
-            {(!simple).then(|| THEME_PRELOADS
-                .iter()
-                .map(|href| view! { <Link rel="preload" as_="image" href=asset(href)/> })
-                .collect_view())}
+            <LocaleLinks base="https://kopuz.moe/"/>
             <ThemeColorMeta/>
-            <script type="application/ld+json" inner_html=STRUCTURED_DATA></script>
+            <StructuredData/>
             <div
                 class="site"
                 class:simple=simple
@@ -71,17 +69,28 @@ pub fn HomePage(i18n: I18n) -> impl IntoView {
                 <main>
                     <Hero/>
                     <Sources/>
-                    <Moments/>
+                    <Gallery/>
                     <GetKopuz/>
                     <HomeSponsors/>
-                    <WhatsNew/>
                     <AboutName/>
                 </main>
                 <Footer/>
-                <Shelf/>
             </div>
-            <PlayerBar/>
         </Provider>
+    }
+}
+
+/// Rendered with the release so `softwareVersion` follows the latest tag.
+#[component]
+fn StructuredData() -> impl IntoView {
+    let release = use_latest_release();
+
+    view! {
+        <Transition fallback=|| ()>
+            {move || release.get().map(|release| view! {
+                <script type="application/ld+json" inner_html=structured_data(release.version())></script>
+            })}
+        </Transition>
     }
 }
 
@@ -104,7 +113,7 @@ fn Hero() -> impl IntoView {
                 <div class="hero">
                     <div class="hero-copy">
                         <h1 class="rise rise-1">
-                            {move_tr!("hero-title-1")}<br/>{move_tr!("hero-title-2")}
+                            {move_tr!("hero-title-1")}" "<em>{move_tr!("hero-title-2")}</em>
                         </h1>
                         <p class="lede rise rise-2">{move_tr!("hero-desc")}</p>
                         {if simple {
@@ -138,15 +147,14 @@ fn Hero() -> impl IntoView {
                                             }
                                         }).collect_view()}
                                     </a>
-                                    <a class="btn btn-ghost" href=download_href>{move_tr!("hero-cta-all")}</a>
                                     <a
-                                        class="btn btn-ghost btn-icon"
+                                        class="btn btn-ghost"
                                         href=GITHUB
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        aria-label=move_tr!("hero-cta-github")
                                     >
-                                        <Icon name="github" size=16/>
+                                        <Icon name="github" size=15/>
+                                        "GitHub"
                                     </a>
                                 </div>
                                 <DownloadDialog/>
@@ -154,20 +162,14 @@ fn Hero() -> impl IntoView {
                         }}
                         <p class="hero-platforms rise rise-4">
                             <Transition fallback=|| ()>{version}</Transition>
-                            <span><Icon name="monitor" size=13/>"Linux · macOS · Windows"</span>
-                            <span><Icon name="smartphone" size=13/>"Android 7+"</span>
+                            <span>"Linux · macOS · Windows · Android"</span>
+                            <span>"EUPL 1.2"</span>
                         </p>
                     </div>
                     {(!simple).then(|| view! {
                         <div class="hero-art rise rise-2">
-                            <img
-                                src=asset("/app-home.jpg")
-                                alt=move_tr!("hero-screenshot-alt")
-                                width="1800"
-                                height="987"
-                                loading="eager"
-                                fetchpriority="high"
-                            />
+                            <canvas class="hero-spectrum" data-spectrum aria-hidden="true"></canvas>
+                            <HeroShot/>
                         </div>
                     })}
                 </div>
@@ -177,66 +179,79 @@ fn Hero() -> impl IntoView {
 }
 
 struct Source {
-    icon: &'static str,
     name_key: &'static str,
     anchor: &'static str,
 }
 
-const SOURCES: &[Source] = &[
-    Source {
-        icon: "folder",
-        name_key: "source-local",
-        anchor: "src-local",
-    },
-    Source {
-        icon: "jellyfin",
-        name_key: "features-source-jellyfin",
-        anchor: "src-jellyfin",
-    },
-    Source {
-        icon: "server",
-        name_key: "source-navidrome",
-        anchor: "src-navidrome",
-    },
-    Source {
+struct SourceGroup {
+    icon: &'static str,
+    title_key: &'static str,
+    sources: &'static [Source],
+}
+
+/// Grouped the way the app's source picker groups them.
+const SOURCE_GROUPS: &[SourceGroup] = &[
+    SourceGroup {
         icon: "hard-drive",
-        name_key: "source-smb",
-        anchor: "src-smb",
+        title_key: "home-sources-local",
+        sources: &[
+            Source {
+                name_key: "source-local",
+                anchor: "src-local",
+            },
+            Source {
+                name_key: "source-smb",
+                anchor: "src-smb",
+            },
+            Source {
+                name_key: "source-radio",
+                anchor: "features",
+            },
+        ],
     },
-    Source {
-        icon: "nextcloud",
-        name_key: "features-source-nextcloud",
-        anchor: "src-nextcloud",
+    SourceGroup {
+        icon: "server",
+        title_key: "home-sources-server",
+        sources: &[
+            Source {
+                name_key: "features-source-jellyfin",
+                anchor: "src-jellyfin",
+            },
+            Source {
+                name_key: "source-navidrome",
+                anchor: "src-navidrome",
+            },
+            Source {
+                name_key: "features-source-nextcloud",
+                anchor: "src-nextcloud",
+            },
+        ],
     },
-    Source {
-        icon: "youtube-music",
-        name_key: "features-source-ytmusic",
-        anchor: "src-ytmusic",
-    },
-    Source {
-        icon: "apple-music",
-        name_key: "features-source-applemusic",
-        anchor: "src-applemusic",
-    },
-    Source {
-        icon: "soundcloud",
-        name_key: "features-source-soundcloud",
-        anchor: "src-soundcloud",
-    },
-    Source {
-        icon: "spotify",
-        name_key: "features-source-spotify",
-        anchor: "src-spotify",
-    },
-    Source {
+    SourceGroup {
         icon: "cloud",
-        name_key: "source-clippsly",
-        anchor: "src-clippsly",
-    },
-    Source {
-        icon: "radio",
-        name_key: "source-radio",
-        anchor: "features",
+        title_key: "home-sources-streaming",
+        sources: &[
+            Source {
+                name_key: "features-source-ytmusic",
+                anchor: "src-ytmusic",
+            },
+            Source {
+                name_key: "features-source-spotify",
+                anchor: "src-spotify",
+            },
+            Source {
+                name_key: "features-source-applemusic",
+                anchor: "src-applemusic",
+            },
+            Source {
+                name_key: "features-source-soundcloud",
+                anchor: "src-soundcloud",
+            },
+            Source {
+                name_key: "source-clippsly",
+                anchor: "src-clippsly",
+            },
+        ],
     },
 ];
 
@@ -253,6 +268,9 @@ fn source_name(key: &'static str) -> Signal<String> {
         "features-source-applemusic" => move_tr!("features-source-applemusic"),
         "features-source-soundcloud" => move_tr!("features-source-soundcloud"),
         "features-source-spotify" => move_tr!("features-source-spotify"),
+        "home-sources-local" => move_tr!("home-sources-local"),
+        "home-sources-server" => move_tr!("home-sources-server"),
+        "home-sources-streaming" => move_tr!("home-sources-streaming"),
         _ => Signal::derive(String::new),
     }
 }
@@ -265,244 +283,131 @@ fn Sources() -> impl IntoView {
         <section class="sec sources-sec reveal-sec" data-title=move_tr!("chapter-sources")>
             <div class="wrap">
                 <h2>{move_tr!("home-sources-title")}</h2>
-                <ul class="sources-inline">
-                    {SOURCES.iter().map(|source| {
-                        let href = internal_href(&format!("/features#{}", source.anchor));
-                        let name = source_name(source.name_key);
+                <p class="prose sources-note">{move_tr!("home-sources-plugin-note")}</p>
+                <div class="source-groups">
+                    {SOURCE_GROUPS.iter().map(|group| view! {
+                        <div class="source-group">
+                            <h3>
+                                {(!simple).then(|| view! { <Icon name=group.icon size=18/> })}
+                                {source_name(group.title_key)}
+                            </h3>
+                            <ul>
+                                {group.sources.iter().map(|source| {
+                                    let href = internal_href(&format!("/features#{}", source.anchor));
+                                    view! {
+                                        <li>
+                                            <a href=href>
+                                                <span>{source_name(source.name_key)}</span>
+                                            </a>
+                                        </li>
+                                    }
+                                }).collect_view()}
+                            </ul>
+                        </div>
+                    }).collect_view()}
+                </div>
+            </div>
+        </section>
+    }
+}
+
+#[component]
+fn HeroShot() -> impl IntoView {
+    view! {
+        <img
+            class="hero-shot"
+            src=asset("/kopuz-home.png")
+            alt=move_tr!("hero-screenshot-alt")
+            width="2000"
+            height="1091"
+            fetchpriority="high"
+            decoding="async"
+        />
+    }
+}
+
+struct Shot {
+    image: &'static str,
+    title_key: &'static str,
+    desc_key: &'static str,
+}
+
+/// Captures of the 1.0 app, all 2000x1091.
+const SHOTS: &[Shot] = &[
+    Shot {
+        image: "/kopuz-lyrics.png",
+        title_key: "feat-lyrics-title",
+        desc_key: "feat-lyrics-desc",
+    },
+    Shot {
+        image: "/kopuz-library.png",
+        title_key: "feat-local-title",
+        desc_key: "feat-local-desc",
+    },
+    Shot {
+        image: "/kopuz-playlist.png",
+        title_key: "feat-fav-title",
+        desc_key: "feat-fav-desc",
+    },
+    Shot {
+        image: "/kopuz-search.png",
+        title_key: "feat-search-title",
+        desc_key: "feat-search-desc",
+    },
+];
+
+#[component]
+fn Gallery() -> impl IntoView {
+    let simple = simple_mode();
+    let features_href = internal_href("/features");
+
+    view! {
+        <section class="sec gallery-sec reveal-sec">
+            <div class="wrap">
+                <h2>{move_tr!("features-title")}</h2>
+                <ul class="gallery">
+                    {SHOTS.iter().map(|shot| {
+                        let title = feature_title(shot.title_key);
                         view! {
-                            <li>
-                                <a href=href>
-                                    {(!simple).then(|| view! { <Icon name=source.icon/> })}
-                                    <span>{name}</span>
-                                </a>
+                            <li class="gallery-item">
+                                {(!simple).then(|| view! {
+                                    <a class="shot-link" href=asset(shot.image) data-zoom>
+                                        <img
+                                            class="shot"
+                                            src=asset(shot.image)
+                                            alt=title
+                                            width="2000"
+                                            height="1091"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    </a>
+                                })}
+                                <h3>{title}</h3>
+                                <p>{feature_desc(shot.desc_key)}</p>
                             </li>
                         }
                     }).collect_view()}
                 </ul>
-            </div>
-        </section>
-    }
-}
-
-#[component]
-fn Moments() -> impl IntoView {
-    view! {
-        <section class="sec moments">
-            <div class="wrap moments-list" data-tilt-group>
-                <Moment
-                    image="/fullscreen-lyrics.png"
-                    width=1920
-                    height=1080
-                    chapter="chapter-lyrics"
-                    alt_key="moment-lyrics-alt"
-                    title_key="moment-lyrics-title"
-                    desc_key="feat-lyrics-desc"
-                />
-                <Moment
-                    image="/normal-library.png"
-                    width=1920
-                    height=1080
-                    chapter="chapter-library"
-                    alt_key="moment-library-alt"
-                    title_key="moment-library-title"
-                    desc_key="feat-local-desc"
-                />
-                <Moment
-                    image="/normal-library.png"
-                    width=1920
-                    height=1080
-                    chapter="chapter-themes"
-                    alt_key="moment-themes-alt"
-                    title_key="moment-themes-title"
-                    desc_key="feat-theming-desc"
-                    extra_key="moment-themes-extra"
-                    see_all=true
-                    themes=true
-                />
-            </div>
-        </section>
-    }
-}
-
-fn moment_text(key: &'static str) -> Signal<String> {
-    match key {
-        "moment-lyrics-alt" => move_tr!("moment-lyrics-alt"),
-        "moment-library-alt" => move_tr!("moment-library-alt"),
-        "moment-themes-alt" => move_tr!("moment-themes-alt"),
-        "moment-lyrics-title" => move_tr!("moment-lyrics-title"),
-        "moment-library-title" => move_tr!("moment-library-title"),
-        "moment-themes-title" => move_tr!("moment-themes-title"),
-        "moment-themes-extra" => move_tr!("moment-themes-extra"),
-        "chapter-lyrics" => move_tr!("chapter-lyrics"),
-        "chapter-library" => move_tr!("chapter-library"),
-        "chapter-themes" => move_tr!("chapter-themes"),
-        _ => Signal::derive(String::new),
-    }
-}
-
-/* Example wallpapers for the live theme. CC0 / public domain, sources listed
-in public/wallpapers/SOURCES.txt. */
-struct Wallpaper {
-    slug: &'static str,
-    name_key: &'static str,
-}
-
-const WALLPAPERS: &[Wallpaper] = &[
-    Wallpaper {
-        slug: "sunset",
-        name_key: "wallpaper-sunset",
-    },
-    Wallpaper {
-        slug: "lake",
-        name_key: "wallpaper-lake",
-    },
-];
-
-fn wallpaper_name(key: &'static str) -> Signal<String> {
-    match key {
-        "wallpaper-sunset" => move_tr!("wallpaper-sunset"),
-        _ => move_tr!("wallpaper-lake"),
-    }
-}
-
-#[component]
-fn Moment(
-    image: &'static str,
-    width: u32,
-    height: u32,
-    /// Key of the name the player bar reads out of `data-title`.
-    chapter: &'static str,
-    alt_key: &'static str,
-    title_key: &'static str,
-    desc_key: &'static str,
-    #[prop(optional)] extra_key: Option<&'static str>,
-    #[prop(optional)] see_all: bool,
-    #[prop(optional)] themes: bool,
-) -> impl IntoView {
-    let simple = simple_mode();
-    let features_href = internal_href("/features");
-
-    if simple {
-        let see_all_href = features_href.clone();
-        return view! {
-            <section>
-                <h2>{moment_text(title_key)}</h2>
-                <p>{feature_desc(desc_key)}</p>
-                {extra_key.map(|key| view! { <p>{moment_text(key)}</p> })}
-                {see_all.then(|| view! {
-                    <p><a href=see_all_href>{move_tr!("home-see-all-features")}</a></p>
-                })}
-            </section>
-        }
-        .into_any();
-    }
-
-    view! {
-        <article class="moment reveal-card" class:moment-themes=themes data-tilt data-title=moment_text(chapter)>
-            <div class="moment-copy">
-                <div class="moment-copy-inner">
-                    <h2>{moment_text(title_key)}</h2>
-                    <p class="prose">{feature_desc(desc_key)}</p>
-                    {extra_key.map(|key| view! { <p class="prose">{moment_text(key)}</p> })}
-                    {see_all.then(|| view! {
-                        <a class="text-link" href=features_href>
-                            {move_tr!("home-see-all-features")}
-                            <Icon name="arrow-up-right" size=14/>
-                        </a>
-                    })}
-                </div>
-            </div>
-            <div class="moment-stage">
-                <div class="moment-stage-inner">
-                    <div class="moment-art">
-                        {if themes {
-                            view! { <ThemeStage alt_key=alt_key/> }.into_any()
-                        } else {
-                            view! {
-                                <figure class="frame reveal">
-                                    <img
-                                        src=asset(image)
-                                        alt=moment_text(alt_key)
-                                        width=width
-                                        height=height
-                                        loading="lazy"
-                                    />
-                                </figure>
-                            }.into_any()
-                        }}
-                    </div>
-                </div>
-            </div>
-        </article>
-    }
-    .into_any()
-}
-
-/// One plain screenshot per theme, stacked, each with the desk it sits on. The
-/// scroll wipes them in from the start edge, so every element it drives carries
-/// the index of the theme it belongs to.
-#[component]
-fn ThemeStage(alt_key: &'static str) -> impl IntoView {
-    let wallpaper_label = move_tr!("theme-wallpaper");
-
-    view! {
-        <div class="theme-scene" data-theme-stage>
-            <div class="theme-desk" data-theme-index="0"></div>
-            <div class="theme-desk" data-theme-index="1"></div>
-            {WALLPAPERS.iter().enumerate().map(|(index, wall)| {
-                let desk = format!("background-image: url({})", asset(&format!("/wallpapers/{}.jpg", wall.slug)));
-                view! {
-                    <div class="theme-desk" data-theme-index=(index + 2).to_string() style=desk></div>
-                }
-            }).collect_view()}
-            <figure class="frame reveal theme-frame">
-                <div class="theme-layer" data-theme-index="0" data-theme-label=move_tr!("theme-default")>
-                    <img
-                        src=asset("/themes/default.png")
-                        alt=moment_text(alt_key)
-                        width="1920"
-                        height="1080"
-                        loading="eager"
-                        decoding="async"
-                    />
-                </div>
-                <div class="theme-layer" data-theme-index="1" data-theme-label=move_tr!("theme-amoled")>
-                    <img
-                        src=asset("/themes/amoled.png")
-                        alt=""
-                        width="1920"
-                        height="1080"
-                        loading="eager"
-                        decoding="async"
-                    />
-                </div>
-                {WALLPAPERS.iter().enumerate().map(|(index, wall)| {
-                    let name = wallpaper_name(wall.name_key);
-                    let label = Signal::derive(move || format!("{} \u{b7} {}", wallpaper_label.get(), name.get()));
-                    let src = asset(&format!("/themes/{}.png", wall.slug));
-                    view! {
-                        <div
-                            class="theme-layer"
-                            data-theme-index=(index + 2).to_string()
-                            data-theme-label=label
+                {(!simple).then(|| view! {
+                    <dialog class="zoom" tabindex="-1" data-zoom-dialog>
+                        <img alt="" width="2000" height="1091"/>
+                        <button
+                            type="button"
+                            class="btn btn-ghost btn-icon zoom-close"
+                            aria-label=move_tr!("dl-dialog-close")
+                            data-close-dialog
                         >
-                            <img
-                                src=src
-                                alt=""
-                                width="1920"
-                                height="1080"
-                                loading="eager"
-                                decoding="async"
-                            />
-                        </div>
-                    }
-                }).collect_view()}
-            </figure>
-            <div class="theme-line-mask" aria-hidden="true">
-                <i class="theme-line"></i>
+                            <Icon name="x" size=16/>
+                        </button>
+                    </dialog>
+                })}
+                <a class="text-link" href=features_href>
+                    {move_tr!("home-see-all-features")}
+                    <Icon name="arrow-up-right" size=14/>
+                </a>
             </div>
-            <p class="theme-caption"><span data-theme-caption>{move_tr!("theme-default")}</span></p>
-        </div>
+        </section>
     }
 }
 
@@ -514,7 +419,7 @@ fn GetKopuz() -> impl IntoView {
         <section class="sec get-sec reveal-sec" data-title=move_tr!("chapter-download")>
             <div class="wrap">
                 <h2>{move_tr!("home-get-title")}</h2>
-                <Installers/>
+                <Installers group="dl-os"/>
                 <p class="get-also">
                     <a href=download_href>{move_tr!("home-also-on")}</a>
                 </p>
@@ -602,7 +507,7 @@ mod home_tests {
 
     #[test]
     fn every_source_anchor_exists_on_the_features_page() {
-        for source in SOURCES {
+        for source in SOURCE_GROUPS.iter().flat_map(|group| group.sources) {
             assert!(
                 source.anchor == "features"
                     || SOURCE_ANCHORS
@@ -612,6 +517,33 @@ mod home_tests {
                 source.anchor
             );
         }
+    }
+
+    #[test]
+    fn structured_data_is_valid_json_for_every_locale() {
+        let languages: Vec<Vec<String>> =
+            serde_json::from_str(include_str!("../locales/languages.json")).unwrap();
+        let ids: Vec<&str> = languages.iter().map(|row| row[0].as_str()).collect();
+
+        for version in ["1.0.1", ""] {
+            let data: serde_json::Value = serde_json::from_str(&structured_data(version)).unwrap();
+            let graph = data["@graph"].as_array().unwrap();
+            let website = graph
+                .iter()
+                .find(|node| node["@type"] == "WebSite")
+                .unwrap();
+            assert_eq!(website["inLanguage"], serde_json::json!(ids));
+            let app = graph
+                .iter()
+                .find(|node| node["@type"] == "SoftwareApplication")
+                .unwrap();
+            assert_eq!(app["softwareVersion"].as_str().unwrap_or(""), version);
+        }
+    }
+
+    #[test]
+    fn structured_data_drops_unsafe_version_characters() {
+        assert!(!structured_data("1.0\"</script>").contains("</script>"));
     }
 
     #[test]

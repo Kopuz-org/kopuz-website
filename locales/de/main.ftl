@@ -7,7 +7,6 @@ nav-lang-label = Sprache
 
 ## Hero
 hero-cta-download = Download
-hero-cta-github = Auf GitHub ansehen
 hero-screenshot-alt = Startansicht von Kopuz
 
 ## Features
@@ -290,29 +289,14 @@ twitter-desc = Spiele lokale Dateien, SMB-Freigaben, Jellyfin, Subsonic, YouTube
 ## Home page (2026 redesign)
 nav-home = Startseite
 footer-license-line = EUPL 1.2, frei und Open Source
-shelf-link-to-us = Verlinke uns mit einem 88×31-Button
 hero-release = Neueste Version
 hero-cta-download-for = Herunterladen für
-hero-cta-all = Alle Plattformen
 home-sources-title = Musik abspielen von
 source-local = Lokale Ordner
 source-navidrome = Navidrome und Subsonic
 source-radio = Internetradio
-moment-lyrics-title = Liedtexte im Takt
-moment-lyrics-alt = Kopuz spielt einen Titel mit synchronisierten Liedtexten im Vollbild ab
-moment-library-title = Eine Mediathek für jede Quelle
-moment-library-alt = Die Kopuz-Mediathek mit Alben aus mehreren Quellen
-moment-themes-title = Deine Farben oder die deines Hintergrundbilds
-moment-themes-alt = Der Theme-Editor von Kopuz
-moment-themes-extra = Oder lass Kopuz ein Theme aus deinem Desktop-Hintergrundbild erstellen.
-theme-default = Gruvbox dark soft
-theme-amoled = AMOLED
-theme-wallpaper = Hintergrundbild
-wallpaper-sunset = Sonnenuntergang
-wallpaper-lake = See
 home-see-all-features = Alle Funktionen ansehen
 home-get-title = Kopuz holen
-home-get-download = Herunterladen
 home-also-on = Du kannst Kopuz auch mit Cargo, Nix, dem AUR, Flatpak oder Homebrew installieren.
 home-sponsors-title = Sponsoren
 home-sponsor-cta = Auf GitHub sponsern
@@ -332,7 +316,6 @@ theme-use-dark = Dunkles Theme verwenden
 theme-leave-moe = Moe-Modus verlassen
 mode-simple = Einfache Seite
 mode-full = Vollständige Seite
-webbutton-alt = Kopuz-Web-Button in 88x31
 
 ## Page titles
 features-page-title = Kopuz-Funktionen: Quellen, Songtexte, Designs, Wiedergabe
@@ -398,11 +381,6 @@ footer-love = Liebe
 footer-made-by = von
 source-smb = SMB und NAS
 source-clippsly = Clippsly
-player-prev-label = Vorheriger Abschnitt
-player-next-label = Nächster Abschnitt
-player-seek-label = Position auf der Seite
-player-queue-label = Abschnitte auf dieser Seite
-player-queue-title = Auf dieser Seite
 dl-file-exe = Setup (.exe)
 dl-file-msi = Installer (.msi)
 dl-file-dmg = Disk-Image (.dmg)
@@ -411,7 +389,6 @@ dl-file-deb = Debian und Ubuntu (.deb)
 dl-file-rpm = Fedora und RHEL (.rpm)
 dl-file-apk = APK
 dl-release-page = Release-Seite
-dl-this-device = Dieses Gerät
 dl-dialog-ready = Neueste Version: { $version }. Wähle den Installer für dein Gerät.
 dl-dialog-close = Schließen
 dl-dialog-release = Release auf GitHub ansehen
@@ -424,9 +401,6 @@ guide-spotify-summary = Erstelle eine Entwickler-App, füge ihre Client ID hinzu
 ## Player bar section names
 chapter-home = Startseite
 chapter-sources = Quellen
-chapter-lyrics = Liedtexte
-chapter-library = Mediathek
-chapter-themes = Themes
 chapter-download = Download
 chapter-sponsors = Sponsoren
 chapter-whats-new = Neuigkeiten
@@ -466,3 +440,20 @@ clippsly-bonus = Verknüpfe Kopuz mit deinem Clippsly-Konto, und Clippsly schenk
 clippsly-limits-title = Playlists
 clippsly-limits-desc = Playlists, die du bei Clippsly speicherst, erscheinen in Kopuz noch nicht.
 clippsly-site = Zu clippsly.app
+home-sources-local = Auf deinem Computer
+home-sources-server = Dein eigener Server
+home-sources-streaming = Streaming
+home-sources-plugin-note = Jede Quelle ist ein offizielles Plugin, das mit Kopuz kommt.
+
+## Page descriptions
+features-meta-desc = Was Kopuz kann: lokale Dateien, SMB, Jellyfin, Subsonic und Streamingquellen, synchronisierte Songtexte, intelligente Playlists, 24 Designs und ein 10-Band-Equalizer.
+download-meta-desc = Lade Kopuz für Windows, macOS, Linux und Android herunter. Hol dir den Installer für dein Gerät oder installiere es über Flatpak, das AUR, Nix, Cargo oder Google Play.
+guides-meta-desc = Richte Kopuz mit Nextcloud, einer SMB-Freigabe auf deinem NAS, YouTube Music, Apple Music, SoundCloud, Spotify oder Clippsly ein, mit den Schritten für jede Quelle.
+support-meta-desc = Kopuz ist kostenlos und wird von Freiwilligen betrieben. Unterstütze das Projekt auf GitHub oder spende Krypto, sieh, wer es unterstützt, und komm in die Community auf Discord.
+guide-nextcloud-meta-desc = Verbinde Kopuz über WebDAV mit deinem Nextcloud-Server. Erstelle ein App-Passwort, wähle die Ordner mit deiner Musik und streame deine Mediathek auf jedem Gerät.
+guide-smb-meta-desc = Spiele Musik in Kopuz direkt von einer SMB-Freigabe auf deinem NAS ab. Gib die Freigabe-URL ein, melde dich mit deinem NAS-Konto an und sieh, was auf einer schreibgeschützten Freigabe funktioniert.
+guide-ytmusic-meta-desc = Richte YouTube Music in Kopuz ein. Melde dich über deinen Browser an oder hör ohne Konto, und sieh, welche Titel Premium brauchen und wie die Wiedergabe funktioniert.
+guide-applemusic-meta-desc = Richte Apple Music in Kopuz ein. Melde dich an oder füge ein media-user-token ein, bring die Widevine-Wiedergabe auf dem Desktop zum Laufen und sieh, was unter Android schon funktioniert.
+guide-soundcloud-meta-desc = Richte SoundCloud in Kopuz mit einer einmaligen Anmeldung über deinen Browser ein. Dann sieh, was die Quelle unterstützt: Likes, Playlists, Suche und Streaming.
+guide-spotify-meta-desc = Richte Spotify in Kopuz ein. Erstelle eine Spotify-Entwickler-App, trage ihre Client ID und Weiterleitungs-URL ein und wähle, welches Spotify-Connect-Gerät deine Musik abspielt.
+guide-clippsly-meta-desc = Verbinde Clippsly mit einem App-Passwort mit Kopuz. Streame und lade die Musik in deinem Clippsly-Locker herunter und lade neue Titel direkt aus Kopuz hoch.

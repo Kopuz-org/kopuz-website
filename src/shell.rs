@@ -1,14 +1,11 @@
 use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
-use leptos_meta::Meta;
+use leptos_meta::{Link, Meta};
 use leptos_router::hooks::{use_location, use_query_map};
 
 use crate::icons::Icon;
-use crate::releases::{provide_latest_release, use_latest_release};
 
 const GITHUB: &str = "https://github.com/Kopuz-org/kopuz";
-const BUTTON_SNIPPET: &str =
-    "<a href=\"https://kopuz.moe\"><img src=\"https://kopuz.moe/88x31.svg\" alt=\"Kopuz\"></a>";
 
 /// Runs before first paint so a saved theme never flashes the other palette.
 /// The colors here must match `--ground` in style/_tokens.scss.
@@ -43,10 +40,10 @@ pub const THEME_BOOT_SCRIPT: &str = r##"
     root.dataset.theme = theme;
     root.style.colorScheme = theme === "dark" ? "dark" : "light";
     root.style.backgroundColor = theme === "dark"
-        ? "#121110"
+        ? "#170e0e"
         : theme === "moe"
             ? "#ffbfe6"
-            : "#e7e2d6";
+            : "#f4f0e8";
 
     const ua = `${navigator.userAgent} ${navigator.platform || ""}`.toLowerCase();
     const os = ua.includes("android") ? "android"
@@ -66,29 +63,29 @@ pub const THEME_BOOT_SCRIPT: &str = r##"
 pub const SIMPLE_CSS: &str = r##"
 :root {
   color-scheme: light;
-  --ground: #e7e2d6;
-  --text: #1a1712;
-  --muted: #5d574c;
+  --ground: #f4f0e8;
+  --text: #1b1513;
+  --muted: #5e554e;
   --line: rgba(26, 23, 18, 0.18);
-  --code: #f3efe6;
+  --code: #faf8f8;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --ground: #121110;
-    --text: #f1e9d2;
-    --muted: #a79e89;
+    --ground: #170e0e;
+    --text: #f4efe9;
+    --muted: #a8a09a;
     --line: rgba(241, 233, 210, 0.18);
-    --code: #1b1916;
+    --code: #201515;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --ground: #121110;
-  --text: #f1e9d2;
-  --muted: #a79e89;
+  --ground: #170e0e;
+  --text: #f4efe9;
+  --muted: #a8a09a;
   --line: rgba(241, 233, 210, 0.18);
-  --code: #1b1916;
+  --code: #201515;
 }
 * {
   position: static;
@@ -156,9 +153,9 @@ fn browser_document() -> Option<web_sys::HtmlDocument> {
 
 fn apply_document_theme(theme: &str) {
     let (color_scheme, background) = match theme {
-        "dark" => ("dark", "#121110"),
+        "dark" => ("dark", "#170e0e"),
         "moe" => ("light", "#ffbfe6"),
-        _ => ("light", "#e7e2d6"),
+        _ => ("light", "#f4f0e8"),
     };
 
     if let Some(root) = browser_document().and_then(|document| document.document_element()) {
@@ -167,8 +164,7 @@ fn apply_document_theme(theme: &str) {
             "style",
             &format!("color-scheme: {color_scheme}; background-color: {background};"),
         );
-        // public/site.js waits on this before it writes into any text node the
-        // framework owns; doing it earlier corrupts the hydration walk.
+        // end2end waits on this before it drives anything interactive.
         let _ = root.set_attribute("data-hydrated", "1");
     }
 }
@@ -302,10 +298,6 @@ pub(crate) fn internal_href(path: &str) -> String {
 ///
 /// The regular theme follows a saved choice, then the operating-system color
 /// scheme. `?moe` overrides both without changing the saved light/dark choice.
-///
-/// Every page component calls this first, so it is also where the shared
-/// release resource is seeded: the shelf and the hero both read it, and they
-/// are siblings with no common ancestor of their own.
 pub(crate) fn provide_site_theme() -> SiteTheme {
     let query = use_query_map();
     let moe = query.with_untracked(|q| q.get("moe").is_some());
@@ -315,7 +307,6 @@ pub(crate) fn provide_site_theme() -> SiteTheme {
     provide_context(theme);
     provide_context(MoeQuery(moe));
     provide_context(SimpleQuery(simple));
-    provide_latest_release();
 
     Effect::new(move |_| {
         if moe {
@@ -360,9 +351,9 @@ pub(crate) fn ThemeColorMeta() -> impl IntoView {
             content=move || if theme.moe {
                 "#ffbfe6"
             } else if theme.dark.get() {
-                "#121110"
+                "#170e0e"
             } else {
-                "#e7e2d6"
+                "#f4f0e8"
             }
         />
     }
@@ -379,6 +370,43 @@ pub(crate) fn RobotsMeta() -> impl IntoView {
     };
 
     view! { <Meta name="robots" content=content/> }
+}
+
+fn localized_url(base: &str, lang: &str) -> String {
+    if lang == "en" {
+        base.to_owned()
+    } else {
+        format!("{base}?lang={lang}")
+    }
+}
+
+/// Canonical, `og:url` and one hreflang alternate per locale for `base`.
+///
+/// Only an explicit `?lang=` makes a page canonical to its own language: the
+/// bare address picks a language from the cookie and Accept-Language, which
+/// crawlers do not send, so it stays the English page and the x-default.
+#[component]
+pub(crate) fn LocaleLinks(base: &'static str) -> impl IntoView {
+    let i18n = expect_context::<I18n>();
+    let languages = i18n
+        .languages
+        .iter()
+        .map(|language| language.id.to_string())
+        .collect::<Vec<_>>();
+    let canonical = use_query_map()
+        .with_untracked(|query| query.get("lang"))
+        .filter(|lang| languages.contains(lang))
+        .map_or_else(|| base.to_owned(), |lang| localized_url(base, &lang));
+
+    view! {
+        <Link rel="canonical" href=canonical.clone()/>
+        <Meta property="og:url" content=canonical/>
+        {languages.into_iter().map(|lang| {
+            let href = localized_url(base, &lang);
+            view! { <Link rel="alternate" hreflang=lang href=href/> }
+        }).collect_view()}
+        <Link rel="alternate" hreflang="x-default" href=base/>
+    }
 }
 
 /// The link between the full site and the text-only one. Every other query
@@ -637,13 +665,19 @@ fn FullNav() -> impl IntoView {
 #[component]
 pub(crate) fn Footer() -> impl IntoView {
     let privacy_href = internal_href("/privacy");
+    let simple = simple_mode();
 
     view! {
         <footer class="footer">
             <div class="wrap footer-inner">
                 <div class="footer-brand">
-                    <span class="footer-logo">"Kopuz"</span>
-                    <span class="footer-license">{move_tr!("footer-license-line")}</span>
+                    {(!simple).then(|| view! {
+                        <img class="footer-mark" src="/logo.svg" alt="" width="36" height="36"/>
+                    })}
+                    <span>
+                        <span class="footer-logo">"Kopuz"</span>
+                        <span class="footer-license">{move_tr!("footer-license-line")}</span>
+                    </span>
                 </div>
                 <nav class="footer-links" aria-label=move_tr!("footer-nav-aria")>
                     <a href="https://github.com/Kopuz-org/kopuz/releases" target="_blank">{move_tr!("footer-releases")}</a>
@@ -664,152 +698,4 @@ pub(crate) fn Footer() -> impl IntoView {
             </div>
         </footer>
     }
-}
-
-#[component]
-pub(crate) fn Shelf() -> impl IntoView {
-    if simple_mode() {
-        return None;
-    }
-
-    let button_href = "/88x31.png".to_string();
-    let release = use_latest_release();
-    let stamp = move || {
-        let version = release
-            .get()
-            .map(|release| release.version().to_string())
-            .unwrap_or_default();
-        if version.is_empty() {
-            "EUPL 1.2 · Rust".to_string()
-        } else {
-            format!("v{version} · EUPL 1.2 · Rust")
-        }
-    };
-
-    Some(view! {
-        <div class="shelf">
-            <div class="wrap shelf-inner">
-                <a class="shelf-button" href=button_href>
-                    <img
-                        src="/88x31.png"
-                        alt=move_tr!("webbutton-alt")
-                        width="176"
-                        height="62"
-                        loading="lazy"
-                    />
-                </a>
-                <p class="shelf-caption">
-                    <span>{move_tr!("shelf-link-to-us")}</span>
-                    <span class="shelf-stamp">
-                        <Transition fallback=|| view! { <span>"EUPL 1.2 · Rust"</span> }>
-                            {move || view! { <span>{stamp()}</span> }}
-                        </Transition>
-                    </span>
-                </p>
-                <div class="shelf-snip">
-                    <pre>{BUTTON_SNIPPET}</pre>
-                    <button
-                        type="button"
-                        class="shelf-copy"
-                        data-copy=BUTTON_SNIPPET
-                        data-copied-label=move_tr!("copied")
-                    >{move_tr!("copy")}</button>
-                </div>
-            </div>
-        </div>
-    })
-}
-
-#[component]
-pub(crate) fn PlayerBar() -> impl IntoView {
-    if simple_mode() {
-        return None;
-    }
-
-    Some(view! {
-        <div class="player" data-player>
-            <div class="player-now">
-                <span class="player-thumb">
-                    <img src="/logo.svg" alt="" width="26" height="26"/>
-                </span>
-                <p class="player-title">
-                    <strong>"Kopuz"</strong>
-                    <span class="player-section" data-player-section></span>
-                </p>
-                <button type="button" class="player-like" tabindex="-1" aria-hidden="true">
-                    <Icon name="heart" size=15/>
-                </button>
-                <button
-                    type="button"
-                    class="player-queue-compact"
-                    aria-label=move_tr!("player-queue-label")
-                    aria-expanded="false"
-                    aria-controls="player-queue"
-                    data-player-queue
-                >
-                    <Icon name="list-music" size=17/>
-                </button>
-            </div>
-            <div class="player-center">
-                <div class="player-transport">
-                    <button type="button" tabindex="-1" aria-hidden="true"><Icon name="shuffle" size=15/></button>
-                    <button
-                        type="button"
-                        class="player-step"
-                        aria-label=move_tr!("player-prev-label")
-                        data-player-step="-1"
-                    >
-                        <Icon name="skip-back" size=15/>
-                    </button>
-                    <button type="button" class="player-play" tabindex="-1" aria-hidden="true"><Icon name="pause" size=14/></button>
-                    <button
-                        type="button"
-                        class="player-step"
-                        aria-label=move_tr!("player-next-label")
-                        data-player-step="1"
-                    >
-                        <Icon name="skip-forward" size=15/>
-                    </button>
-                    <button type="button" tabindex="-1" aria-hidden="true"><Icon name="repeat" size=15/></button>
-                </div>
-                <div class="player-seek">
-                    <span data-player-elapsed>"0:00"</span>
-                    <span
-                        class="player-track"
-                        role="slider"
-                        tabindex="0"
-                        aria-label=move_tr!("player-seek-label")
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        aria-valuenow="0"
-                        data-player-seek
-                    >
-                        <span class="player-rail"><i data-player-fill></i></span>
-                        <span class="player-hint" data-player-hint aria-hidden="true"></span>
-                    </span>
-                    <span data-player-total>"0:00"</span>
-                </div>
-            </div>
-            <div class="player-side">
-                <span class="player-volume" aria-hidden="true">
-                    <Icon name="volume-2" size=15/>
-                    <span class="player-vol-track"></span>
-                </span>
-                <button
-                    type="button"
-                    aria-label=move_tr!("player-queue-label")
-                    aria-expanded="false"
-                    aria-controls="player-queue"
-                    data-player-queue
-                >
-                    <Icon name="list-music" size=15/>
-                </button>
-                <button type="button" tabindex="-1" aria-hidden="true"><Icon name="maximize-2" size=14/></button>
-            </div>
-            <div class="player-queue" id="player-queue" hidden data-player-list>
-                <p class="player-queue-title">{move_tr!("player-queue-title")}</p>
-                <ol data-player-items></ol>
-            </div>
-        </div>
-    })
 }

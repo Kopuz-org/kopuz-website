@@ -12,8 +12,8 @@ use leptos_router::{
 
 use crate::home::HomePage;
 use crate::shell::{
-    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta,
-    SIMPLE_CSS, THEME_BOOT_SCRIPT,
+    internal_href, provide_site_theme, simple_mode, Footer, Nav, ThemeColorMeta, SIMPLE_CSS,
+    THEME_BOOT_SCRIPT,
 };
 
 static_loader! {
@@ -37,10 +37,12 @@ const STYLE_SOURCES: &[&str] = &[
     include_str!("../style/_support.scss"),
     include_str!("../style/_privacy.scss"),
     include_str!("../style/_moe.scss"),
+    include_str!("../public/site.js"),
 ];
 
 pub(crate) fn css_cache_bust() -> u64 {
-    // FNV-1a hash of the SCSS source so cache key changes whenever styles change.
+    // FNV-1a hash of the SCSS and page script, so the cache key changes
+    // whenever either does.
     STYLE_SOURCES
         .iter()
         .flat_map(|source| source.bytes())
@@ -57,20 +59,6 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <meta charset="utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <script id="theme-init" inner_html=THEME_BOOT_SCRIPT></script>
-                <link
-                    rel="preload"
-                    r#as="font"
-                    type="font/woff2"
-                    href="/fonts/jetbrains-mono-latin-400-normal.woff2"
-                    crossorigin=""
-                />
-                <link
-                    rel="preload"
-                    r#as="font"
-                    type="font/woff2"
-                    href="/fonts/jetbrains-mono-latin-700-normal.woff2"
-                    crossorigin=""
-                />
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
@@ -85,6 +73,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
+    crate::releases::provide_latest_release();
 
     leptos_fluent! {
         translations: [TRANSLATIONS],
@@ -174,7 +163,7 @@ fn RootDocument(i18n: I18n) -> impl IntoView {
         } else {
             view! {
                 <Stylesheet id="leptos" href=format!("/pkg/kopuz-website.css?v={css_version}")/>
-                <Script src="/site.js" defer=""/>
+                <Script src=format!("/site.js?v={css_version}") defer=""/>
             }.into_any()
         }}
     }
@@ -285,9 +274,7 @@ fn NotFoundPage(i18n: I18n) -> impl IntoView {
                     <NotFoundBody/>
                 </main>
                 <Footer/>
-                <Shelf/>
             </div>
-            <PlayerBar/>
         </Provider>
     }
 }

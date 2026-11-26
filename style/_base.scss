@@ -22,24 +22,23 @@ html {
 body {
   background: var(--ground);
   color: var(--text);
-  font-family: var(--mono);
-  font-size: 15px;
-  line-height: 1.5;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
   overflow-x: clip;
-  padding-bottom: var(--player-h);
 }
 
 :root[data-theme="dark"] body {
-  background-color: #121110;
+  background-color: #170e0e;
 }
 :root[data-theme="light"] body {
-  background-color: #e7e2d6;
+  background-color: #f4f0e8;
 }
 
 .site {
   background: var(--ground);
   color: var(--text);
-  min-height: calc(100dvh - var(--player-h));
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -70,12 +69,12 @@ button {
 }
 
 ::selection {
-  background: var(--copper);
+  background: var(--accent);
   color: var(--ground);
 }
 
 :focus-visible {
-  outline: 2px solid var(--copper);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -86,26 +85,28 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--mono);
-  font-weight: 700;
+  font-family: var(--sans);
+  font-weight: 650;
   text-wrap: balance;
   overflow-wrap: anywhere;
 }
 
 h1 {
-  font-size: clamp(34px, 4.6vw, 54px);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(40px, 5.6vw, 76px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
 
 h2 {
-  font-size: clamp(24px, 3vw, 30px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
 }
 
 h3 {
-  font-size: 16px;
+  font-size: 17px;
   letter-spacing: -0.01em;
 }
 
@@ -140,8 +141,8 @@ h4 {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--copper);
-  font-family: var(--mono);
+  color: var(--accent);
+  font-family: var(--sans);
   font-size: 13px;
   font-weight: 500;
 }
@@ -155,7 +156,8 @@ h4 {
   }
 }
 
-code {
+code,
+kbd {
   font-family: var(--mono);
   font-size: 0.92em;
   background: var(--raised);
@@ -166,6 +168,7 @@ code {
 }
 
 pre {
+  font-family: var(--mono);
   background: var(--raised);
   border: 1px solid var(--line);
   border-radius: var(--r-sm);
@@ -231,44 +234,44 @@ pre code {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 42px;
+  height: 44px;
   padding-inline: 20px;
   border: 1px solid transparent;
   border-radius: var(--pill);
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1;
   white-space: nowrap;
   transition:
     transform 160ms var(--ease),
     background-color 160ms var(--ease),
-    border-color 160ms var(--ease);
+    border-color 160ms var(--ease),
+    color 160ms var(--ease);
 }
 .btn:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 .btn-primary {
-  background: var(--cream);
-  color: var(--on-cream);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 .btn-ghost {
   color: var(--text);
   border-color: var(--line-strong);
 }
 .btn-icon {
-  width: 42px;
+  width: 44px;
   padding-inline: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover {
-    background: var(--copper);
-    color: var(--on-cream);
+    background: var(--primary-hover);
   }
   .btn-ghost:hover {
-    border-color: var(--copper);
-    color: var(--copper);
+    background: color-mix(in srgb, var(--ground) 80%, transparent);
+    border-color: var(--text);
   }
 }
 
@@ -277,7 +280,7 @@ pre code {
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
   transition: border-color 160ms var(--ease);
 }
 
@@ -441,23 +444,6 @@ pre code {
   }
   .js .reveal-self.in {
     opacity: 1;
-    translate: none;
-  }
-
-  /* A moment card windows the fixed stage, so it may only fade: a transform
-     on it would reparent the stage. Its copy can still rise. */
-  .js .reveal-card {
-    opacity: 0;
-    transition: opacity 600ms var(--ease);
-  }
-  .js .reveal-card .moment-copy-inner {
-    translate: 0 16px;
-    transition: translate 600ms var(--ease) 80ms;
-  }
-  .js .reveal-card.in {
-    opacity: 1;
-  }
-  .js .reveal-card.in .moment-copy-inner {
     translate: none;
   }
 }

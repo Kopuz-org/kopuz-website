@@ -19,11 +19,11 @@
   transform: scale(0.99);
 }
 .guide-index a > .ico:first-child {
-  color: var(--copper);
+  color: var(--accent);
 }
 .guide-index-name {
   display: block;
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 15px;
   font-weight: 500;
   transition: color 160ms var(--ease);
@@ -54,7 +54,7 @@
   gap: 18px;
   overflow-x: auto;
   white-space: nowrap;
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 13px;
   scrollbar-width: none;
 }
@@ -68,7 +68,7 @@
   transition: color 160ms var(--ease);
 }
 .guide-side-link.is-current {
-  color: var(--copper);
+  color: var(--accent);
 }
 
 .guide-main h1 {
@@ -110,8 +110,8 @@
   text-wrap: pretty;
 }
 .guide-steps > li::marker {
-  color: var(--copper);
-  font-family: var(--mono);
+  color: var(--accent);
+  font-family: var(--sans);
   font-size: 13px;
   font-variant-numeric: tabular-nums;
 }
@@ -135,10 +135,10 @@
 @media (hover: hover) and (pointer: fine) {
   .guide-index a:hover .guide-index-name,
   .guide-side-link:hover {
-    color: var(--copper);
+    color: var(--accent);
   }
   .guide-index a:hover .guide-index-go {
-    color: var(--copper);
+    color: var(--accent);
     translate: 3px 0;
   }
 }

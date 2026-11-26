@@ -6,16 +6,14 @@ use crate::releases::{use_latest_release, ReleaseAsset};
 
 const RELEASES: &str = "https://github.com/Kopuz-org/kopuz/releases/latest";
 
-/// Row order on the download page and on the home page shortlist.
+/// Tab order. The first is selected until the page script picks the visitor's.
 const ORDER: [&str; 4] = ["linux", "macos", "windows", "android"];
 
 pub(crate) struct Platform {
     pub(crate) id: &'static str,
-    /// Lucide icon name. Desktop targets share the monitor glyph.
-    pub(crate) icon: &'static str,
     pub(crate) name_key: &'static str,
     /// Release asset extensions, in button order. The first one is what the
-    /// hero button downloads, unless the platform has a store.
+    /// big button downloads.
     pub(crate) extensions: &'static [&'static str],
     pub(crate) note_key: Option<&'static str>,
     /// Store name and listing URL, shown after the files.
@@ -25,7 +23,6 @@ pub(crate) struct Platform {
 pub(crate) const PLATFORMS: &[Platform] = &[
     Platform {
         id: "windows",
-        icon: "monitor",
         name_key: "platforms-windows",
         extensions: &["exe", "msi"],
         note_key: None,
@@ -33,7 +30,6 @@ pub(crate) const PLATFORMS: &[Platform] = &[
     },
     Platform {
         id: "macos",
-        icon: "monitor",
         name_key: "platforms-macos",
         extensions: &["dmg"],
         note_key: Some("platforms-macos-note"),
@@ -41,7 +37,6 @@ pub(crate) const PLATFORMS: &[Platform] = &[
     },
     Platform {
         id: "linux",
-        icon: "monitor",
         name_key: "platforms-linux",
         extensions: &["appimage", "deb", "rpm"],
         note_key: None,
@@ -49,7 +44,6 @@ pub(crate) const PLATFORMS: &[Platform] = &[
     },
     Platform {
         id: "android",
-        icon: "smartphone",
         name_key: "platforms-android",
         extensions: &["apk"],
         note_key: Some("platforms-android-note"),
@@ -67,9 +61,16 @@ fn extension(name: &str) -> String {
         .to_ascii_lowercase()
 }
 
-/// The platform's release files, in the order its extensions are listed.
+/// Releases since 1.0 ship the Legacy (Dioxus) app beside the native one,
+/// under the same extensions, so the file name is the only tell.
+fn is_legacy(asset: &ReleaseAsset) -> bool {
+    asset.name.to_ascii_lowercase().contains("legacy")
+}
+
+/// The platform's release files, in the order its extensions are listed, the
+/// native app before Legacy.
 fn files_for<'a>(entry: &Platform, assets: &'a [ReleaseAsset]) -> Vec<&'a ReleaseAsset> {
-    entry
+    let mut files: Vec<_> = entry
         .extensions
         .iter()
         .flat_map(|ext| {
@@ -77,7 +78,9 @@ fn files_for<'a>(entry: &Platform, assets: &'a [ReleaseAsset]) -> Vec<&'a Releas
                 .iter()
                 .filter(move |asset| extension(&asset.name) == *ext)
         })
-        .collect()
+        .collect();
+    files.sort_by_key(|asset| is_legacy(asset));
+    files
 }
 
 fn file_label(ext: &str) -> Signal<String> {
@@ -92,8 +95,7 @@ fn file_label(ext: &str) -> Signal<String> {
     }
 }
 
-/// The hero's download button opens this instead of leaving the page: every
-/// installer for the latest release, the visitor's platform first.
+/// The hero's download button opens this instead of leaving the page.
 #[component]
 pub(crate) fn DownloadDialog() -> impl IntoView {
     let release = use_latest_release();
@@ -124,7 +126,7 @@ pub(crate) fn DownloadDialog() -> impl IntoView {
                         })
                 }}
             </Transition>
-            <Installers/>
+            <Installers group="dl-os-dialog"/>
             <a class="text-link dl-dialog-release" href=RELEASES target="_blank" rel="noopener noreferrer">
                 {move_tr!("dl-dialog-release")}
                 <Icon name="arrow-up-right" size=14/>
@@ -133,71 +135,96 @@ pub(crate) fn DownloadDialog() -> impl IntoView {
     }
 }
 
-/// One row per platform with a button per installer file, the visitor's own
-/// platform first. Without the release (GitHub down or rate limited) each row
-/// falls back to the releases page.
+/// One tab per platform, the visitor's own selected, each with a single
+/// download button and the remaining formats as links under it. Without the
+/// release (GitHub down or rate limited) the button goes to the releases page.
+/// `group` names the radio set, so two pickers on one page stay independent.
 #[component]
-pub(crate) fn Installers() -> impl IntoView {
+pub(crate) fn Installers(group: &'static str) -> impl IntoView {
     let release = use_latest_release();
 
     view! {
-        <Transition fallback=|| view! { <InstallerRows assets=Vec::new()/> }>
-            {move || release.get().map(|release| view! { <InstallerRows assets=release.assets/> })}
+        <Transition fallback=move || view! { <InstallerTabs group assets=Vec::new()/> }>
+            {move || release.get().map(|release| view! { <InstallerTabs group assets=release.assets/> })}
         </Transition>
     }
 }
 
-#[component]
-fn InstallerRows(assets: Vec<ReleaseAsset>) -> impl IntoView {
+fn file_link(asset: &ReleaseAsset) -> impl IntoView {
     view! {
-        <ul class="dl-list">
+        <li>
+            <a class="dl-alt" href=asset.url.clone() title=asset.name.clone()>
+                {file_label(&extension(&asset.name))}
+            </a>
+        </li>
+    }
+}
+
+#[component]
+fn InstallerTabs(group: &'static str, assets: Vec<ReleaseAsset>) -> impl IntoView {
+    view! {
+        <div class="dl-picker" data-os-picker>
+            <div class="dl-tabs" role="radiogroup" aria-label=move_tr!("platforms-title")>
+                {ORDER.into_iter().map(|id| view! {
+                    <label class="dl-tab">
+                        <input type="radio" name=group value=id checked=id == ORDER[0]/>
+                        {platform_text(platform(id).name_key)}
+                    </label>
+                }).collect_view()}
+            </div>
             {ORDER.into_iter().map(|id| {
                 let entry = platform(id);
-                let name = platform_text(entry.name_key);
+                let (legacy, native): (Vec<_>, Vec<_>) =
+                    files_for(entry, &assets).into_iter().partition(|asset| is_legacy(asset));
+                let main = match native.first() {
+                    Some(asset) => view! {
+                        <a class="btn btn-primary dl-main" href=asset.url.clone() title=asset.name.clone()>
+                            <Icon name="download" size=16/>
+                            <span>
+                                {move_tr!("hero-cta-download-for")}" "{platform_text(entry.name_key)}
+                            </span>
+                        </a>
+                    }.into_any(),
+                    None => view! {
+                        <a class="btn btn-primary dl-main" href=RELEASES target="_blank" rel="noopener noreferrer">
+                            {move_tr!("dl-release-page")}
+                            <Icon name="arrow-up-right" size=16/>
+                        </a>
+                    }.into_any(),
+                };
+                let format = native.first().map(|asset| file_label(&extension(&asset.name)));
                 let note = entry.note_key.map(platform_text);
-                let files = files_for(entry, &assets)
-                    .into_iter()
-                    .map(|asset| {
-                        let label = file_label(&extension(&asset.name));
-                        view! {
-                            <a class="dl-file" href=asset.url.clone() title=asset.name.clone()>
-                                <Icon name="download" size=14/>
-                                {label}
-                            </a>
-                        }
-                    })
-                    .collect::<Vec<_>>();
-                let fallback = files.is_empty().then(|| view! {
-                    <a class="dl-file" href=RELEASES target="_blank" rel="noopener noreferrer">
-                        {move_tr!("dl-release-page")}
-                        <Icon name="arrow-up-right" size=14/>
-                    </a>
-                });
+                let others = native.iter().skip(1).map(|asset| file_link(asset)).collect::<Vec<_>>();
                 let store = entry.store.map(|(store, href)| view! {
-                    <a class="dl-file dl-store" href=href target="_blank" rel="noopener noreferrer">
-                        {store}
-                        <Icon name="arrow-up-right" size=14/>
-                    </a>
+                    <li>
+                        <a class="dl-alt" href=href target="_blank" rel="noopener noreferrer">
+                            {store}
+                            <Icon name="arrow-up-right" size=13/>
+                        </a>
+                    </li>
+                });
+                let has_more = !others.is_empty() || store.is_some();
+                let legacy = (!legacy.is_empty()).then(|| view! {
+                    <details class="dl-legacy">
+                        <summary>"Legacy"</summary>
+                        <ul class="dl-more">
+                            {legacy.iter().map(|asset| file_link(asset)).collect::<Vec<_>>()}
+                        </ul>
+                    </details>
                 });
                 view! {
-                    <li class="dl-row" data-os=id>
-                        <Icon name=entry.icon/>
-                        <div class="dl-row-copy">
-                            <span class="dl-name">
-                                {name}
-                                <span class="dl-this">{move_tr!("dl-this-device")}</span>
-                            </span>
-                            {note.map(|note| view! { <span class="dl-note">{note}</span> })}
-                        </div>
-                        <div class="dl-files">
-                            {files}
-                            {fallback}
-                            {store}
-                        </div>
-                    </li>
+                    <div class="dl-panel" data-os=id>
+                        {main}
+                        <p class="dl-note">
+                            {format.map(|format| view! { <span>{format}</span> })}
+                            {note.map(|note| view! { <span>{note}</span> })}
+                        </p>
+                        {has_more.then(|| view! { <ul class="dl-more">{others}{store}</ul> })}
+                        {legacy}
+                    </div>
                 }
             }).collect_view()}
-        </ul>
+        </div>
     }
 }
 
@@ -247,7 +274,7 @@ pub(crate) fn Platforms() -> impl IntoView {
                             .then(|| view! { <p class="dl-version tabular">{line}</p> })
                     }}
                 </Transition>
-                <Installers/>
+                <Installers group="dl-os"/>
             </div>
         </section>
     }

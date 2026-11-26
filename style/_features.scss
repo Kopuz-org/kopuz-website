@@ -46,20 +46,20 @@ $jump-top: calc(var(--nav-h) + 24px);
 .feat-jump a {
   display: inline-block;
   padding-block: 11px;
-  font-family: var(--mono);
-  font-size: 13px;
+  font-family: var(--sans);
+  font-size: 15px;
   color: var(--muted);
   transition: color 120ms var(--ease);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .feat-jump a:hover {
-    color: var(--copper);
+    color: var(--accent);
   }
 }
 
 .feat-jump a.is-current {
-  color: var(--copper);
+  color: var(--accent);
 }
 
 @media (min-width: 1024px) {
@@ -97,8 +97,9 @@ $jump-top: calc(var(--nav-h) + 24px);
   margin-block-start: clamp(40px, 5vw, 56px);
 }
 .feat-group h2 {
-  font-size: 22px;
-  margin-block-end: 10px;
+  font-size: 30px;
+  letter-spacing: -0.035em;
+  margin-block-end: 14px;
 }
 
 .feat-row {
@@ -115,9 +116,9 @@ $jump-top: calc(var(--nav-h) + 24px);
 }
 .feat-name {
   min-width: 0;
-  font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text);
   overflow-wrap: anywhere;
 }

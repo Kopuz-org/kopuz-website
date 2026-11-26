@@ -56,6 +56,7 @@ $latin-ext: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
   unicode-range: $latin-ext;
 }
 
+
 @font-face {
   font-family: "Geist";
   font-style: normal;
@@ -92,29 +93,32 @@ $latin-ext: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
 
 /* Light is the base palette: the pre-hydration paint sets data-theme on the
    root, and the server renders `.site light` before the theme signal resolves,
-   so dark has to win from the root attribute rather than from the class. */
+   so dark has to win from the root attribute rather than from the class.
+   The red and the bone come from the logo (public/logo.svg); dark follows the
+   1.0 app's near-black, warmed toward the logo red. */
 :root {
-  --ground: #e7e2d6;
-  --surface: #f3efe6;
-  --raised: #ebe6da;
-  --line: rgba(26, 23, 18, 0.12);
-  --line-strong: rgba(26, 23, 18, 0.22);
+  --ground: #f4f0e8;
+  --surface: #faf8f8;
+  --raised: #ebe5d8;
+  --line: rgba(27, 21, 19, 0.12);
+  --line-strong: rgba(27, 21, 19, 0.2);
 
-  --text: #1a1712;
-  --muted: #5d574c;
-  --faint: #6a6358;
+  --text: #1b1513;
+  --muted: #5e554e;
+  --faint: #6b625a;
 
-  --copper: #8f4f1f;
-  --copper-deep: #7a4219;
-  --cream: #1a1712;
-  --on-cream: #f3e9c9;
+  --accent: #891111;
+  --accent-deep: #6e0c0c;
+  --primary: #891111;
+  --primary-hover: #a31a1a;
+  --on-primary: #faf8f8;
   --brand: #891111;
-
-  --shelf: #ddd7c9;
-  --player-bg: rgba(231, 226, 214, 0.72);
+  --nav-bg: rgba(244, 240, 232, 0.72);
+  --hero-glow: 10%;
+  --hero-spectrum: 0.3;
 
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sans: "Geist", -apple-system, "Segoe UI", sans-serif;
   --pixel: "Silkscreen", monospace;
   --vga: "Web437 IBM VGA", "Courier New", monospace;
 
@@ -127,57 +131,56 @@ $latin-ext: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
   --ease: cubic-bezier(0.2, 0, 0, 1);
   --wrap: 1160px;
   --gutter: clamp(20px, 4vw, 40px);
-  --nav-h: 60px;
-  --player-h: 68px;
+  --nav-h: 68px;
 }
 
 :root[data-theme="dark"],
 .site.dark {
-  --ground: #121110;
-  --surface: #1b1916;
-  --raised: #25221d;
-  --line: rgba(241, 233, 210, 0.09);
-  --line-strong: rgba(241, 233, 210, 0.18);
+  --ground: #170e0e;
+  --surface: #201515;
+  --raised: #2b1c1b;
+  --line: rgba(255, 226, 220, 0.09);
+  --line-strong: rgba(255, 226, 220, 0.17);
 
-  --text: #f1e9d2;
-  --muted: #a79e89;
-  --faint: #6e6758;
+  --text: #f4efe9;
+  --muted: #a8a09a;
+  --faint: #857d77;
 
-  --copper: #e8a866;
-  --copper-deep: #d9842f;
-  --cream: #f3e9c9;
-  --on-cream: #171310;
-  --brand: #891111;
-
-  --shelf: #0c0b0a;
-  --player-bg: rgba(18, 17, 16, 0.7);
+  --accent: #e0675c;
+  --accent-deep: #c94f44;
+  --primary: #a31a1a;
+  --primary-hover: #b82424;
+  --on-primary: #faf8f8;
+  --nav-bg: rgba(23, 14, 14, 0.72);
+  --hero-glow: 30%;
+  --hero-spectrum: 0.5;
 }
 
 /* No script, no saved choice: follow the operating system. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ground: #121110;
-    --surface: #1b1916;
-    --raised: #25221d;
-    --line: rgba(241, 233, 210, 0.09);
-    --line-strong: rgba(241, 233, 210, 0.18);
+    --ground: #170e0e;
+    --surface: #201515;
+    --raised: #2b1c1b;
+    --line: rgba(255, 226, 220, 0.09);
+    --line-strong: rgba(255, 226, 220, 0.17);
 
-    --text: #f1e9d2;
-    --muted: #a79e89;
-    --faint: #6e6758;
+    --text: #f4efe9;
+    --muted: #a8a09a;
+    --faint: #857d77;
 
-    --copper: #e8a866;
-    --copper-deep: #d9842f;
-    --cream: #f3e9c9;
-    --on-cream: #171310;
-
-    --shelf: #0c0b0a;
-    --player-bg: rgba(18, 17, 16, 0.7);
+    --accent: #e0675c;
+    --accent-deep: #c94f44;
+    --primary: #a31a1a;
+    --primary-hover: #b82424;
+    --on-primary: #faf8f8;
+    --nav-bg: rgba(23, 14, 14, 0.72);
+    --hero-glow: 30%;
+    --hero-spectrum: 0.5;
   }
 }
 
 @media (max-width: 899px) {
   :root {
-    --player-h: 56px;
   }
 }

@@ -68,66 +68,11 @@ test.describe("nav menu", () => {
   });
 });
 
-test.describe("the player bar covers nothing", () => {
-  for (const route of routes) {
-    test(`${route} ends above the player bar`, async ({ page }) => {
-      await ready(page, route);
-
-      const covered = await page.evaluate(async () => {
-        const settle = () =>
-          new Promise((resolve) =>
-            requestAnimationFrame(() => requestAnimationFrame(resolve)),
-          );
-        // Twice: the first scroll can reveal lazy images that grow the page.
-        for (let pass = 0; pass < 2; pass += 1) {
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "instant",
-          });
-          await settle();
-        }
-        // Sections rise 12px into place once they scroll in; measure where
-        // they land, not where the reveal starts them.
-        await Promise.all(
-          document.getAnimations().map((animation) => animation.finished.catch(() => {})),
-        );
-
-        const player = document.querySelector(".player");
-        const limit = player
-          ? player.getBoundingClientRect().top
-          : window.innerHeight;
-        const hidden: string[] = [];
-        document
-          .querySelectorAll("main *, footer *, .shelf *")
-          .forEach((element) => {
-            if (element.children.length || element.closest(".player")) return;
-            // Current Chromium hides a closed <details> body with
-            // content-visibility, so it still reports a layout box.
-            const closed = element.closest("details:not([open])");
-            if (closed && !element.closest("summary")) return;
-            const text = (element.textContent ?? "").trim();
-            if (!text && element.tagName !== "IMG") return;
-            const box = element.getBoundingClientRect();
-            if (!box.width || !box.height) return;
-            const style = getComputedStyle(element);
-            if (style.visibility === "hidden" || style.opacity === "0") return;
-            if (box.bottom > limit + 0.5 && box.top < window.innerHeight) {
-              hidden.push(`${element.tagName.toLowerCase()} "${text.slice(0, 24)}"`);
-            }
-          });
-        return hidden;
-      });
-
-      expect(covered, `${route} keeps content under the player bar`).toEqual([]);
-    });
-  }
-});
-
 test.describe("tap targets", () => {
   // 40x40, or 24px with 8px of clearance from the next target.
   const measure = () => {
     const selector =
-      '#nav-menu a, button, [role="button"], select, summary, .shelf-copy, .copy-btn, .snip-copy';
+      '#nav-menu a, button, [role="button"], select, summary, .copy-btn, .snip-copy';
     const nodes = Array.from(
       document.querySelectorAll<HTMLElement>(selector),
     ).filter((element) => {
@@ -223,39 +168,5 @@ test.describe("page behaviour", () => {
     const rail = await page.locator(".feat-jump").boundingBox();
     expect(rail?.y).toBeLessThan(120);
     await expect(page.locator(".feat-jump a.is-current")).toHaveCount(1);
-  });
-
-  test("the theming card steps through every theme", async ({ page }) => {
-    await ready(page, "/");
-
-    const labels = await page.evaluate(() =>
-      Array.from(
-        document.querySelectorAll("[data-theme-stage] .theme-layer"),
-      ).map((layer) => layer.getAttribute("data-theme-label") ?? ""),
-    );
-    expect(labels.length).toBe(4);
-
-    const shown = await page.evaluate(async () => {
-      const card = document.querySelector<HTMLElement>(".moment-themes");
-      if (!card) return [];
-      const caption = document.querySelector("[data-theme-caption]");
-      const settle = () =>
-        new Promise((resolve) =>
-          requestAnimationFrame(() => requestAnimationFrame(resolve)),
-        );
-
-      const seen: string[] = [];
-      const end = card.offsetTop + card.offsetHeight;
-      for (let y = card.offsetTop - 400; y < end; y += 60) {
-        window.scrollTo({ top: y, behavior: "instant" });
-        await settle();
-        await settle();
-        const text = (caption?.textContent ?? "").trim();
-        if (text && seen[seen.length - 1] !== text) seen.push(text);
-      }
-      return seen;
-    });
-
-    expect(shown).toEqual(labels);
   });
 });
