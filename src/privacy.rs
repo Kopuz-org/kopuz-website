@@ -3,9 +3,7 @@ use leptos::prelude::*;
 use leptos_fluent::{move_tr, I18n};
 use leptos_meta::{Link, Meta, Title};
 
-use crate::shell::{
-    internal_href, provide_site_theme, simple_mode, Footer, Nav, PlayerBar, Shelf, ThemeColorMeta,
-};
+use crate::shell::{internal_href, provide_site_theme, simple_mode, Footer, Nav, ThemeColorMeta};
 
 const LAST_UPDATED: &str = "23 August 2026";
 
@@ -229,9 +227,7 @@ pub fn PrivacyPage(i18n: I18n) -> impl IntoView {
                 </section>
                 </main>
                 <Footer/>
-                <Shelf/>
             </div>
-            <PlayerBar/>
         </Provider>
     }
 }

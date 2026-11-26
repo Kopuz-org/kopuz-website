@@ -1,15 +1,8 @@
 /* MOE MODE  (´｡• ᵕ •｡`) ♡
    Explicit retro-kawaii easter egg: visit any page with ?moe.
 
-   The palette lands on the root as well as on .site, because the player bar
-   renders as a sibling of .site and would otherwise keep the regular tokens.
    The boot script stamps data-theme before first paint; .site.moe carries the
-   same values for a scriptless render.
-
-   Nothing here may put transform, filter or backdrop-filter on .site, .moment
-   or .moment-art, and nothing may change --wrap, --gutter or --card-pad: the
-   home page windows a viewport-fixed stage through the cards and the stage
-   grid is built from those three values. */
+   same values for a scriptless render. */
 
 /* Shows past the site's own edges: overscroll, and the strip under the fold
    on a page shorter than the viewport. */
@@ -31,14 +24,13 @@ body:has(.site.moe) {
   --muted: #6f4487;
   --faint: #855798;
 
-  --copper: #b8156d;
-  --copper-deep: #8f0f54;
-  --cream: #d6187f;
-  --on-cream: #ffffff;
+  --accent: #b8156d;
+  --accent-deep: #8f0f54;
+  --primary: #d6187f;
+  --primary-hover: #b8156d;
+  --on-primary: #ffffff;
   --brand: #6d1052;
-
-  --shelf: #ffdcef;
-  --player-bg: rgba(255, 240, 250, 0.86);
+  --nav-bg: rgba(255, 240, 250, 0.86);
 
   /* Square everything the tokens reach: buttons, cards, frames, snippets. */
   --r-sm: 0;
@@ -83,24 +75,24 @@ body:has(.site.moe) {
 .site.moe h1 {
   font-size: clamp(32px, 4vw, 48px);
   line-height: 1.25;
-  color: var(--copper);
+  color: var(--accent);
   text-shadow: 2px 2px 0 #fff, 4px 4px 0 var(--moe-lilac);
 }
 .site.moe h2 {
   font-size: clamp(24px, 2.6vw, 32px);
   line-height: 1.3;
-  color: var(--copper);
+  color: var(--accent);
   text-shadow: 2px 2px 0 #fff;
 }
 .site.moe .nav-brand {
   /* 16px is the face's own raster height, so it stays pixel-exact. */
   font-size: 16px;
-  color: var(--copper);
+  color: var(--accent);
   text-shadow: 2px 2px 0 #ffdf6a;
 }
 .site.moe .footer-logo {
   font-size: 16px;
-  color: var(--copper);
+  color: var(--accent);
 }
 
 /* The kaomoji flourish. Halfwidth katakana has no glyph in most of the fallback
@@ -135,9 +127,9 @@ body:has(.site.moe) {
   color: var(--text);
 }
 .site.moe .nav-link-active {
-  background: var(--cream);
+  background: var(--primary);
   border-style: inset;
-  color: var(--on-cream);
+  color: var(--on-primary);
 }
 .site.moe .nav-link:active {
   border-style: inset;
@@ -150,7 +142,7 @@ body:has(.site.moe) {
   border-style: outset;
 }
 .site.moe .btn-primary {
-  border-color: var(--cream);
+  border-color: var(--primary);
   text-shadow: 1px 1px 0 #7a0b48;
 }
 .site.moe .btn-ghost {
@@ -165,11 +157,10 @@ body:has(.site.moe) {
 /* The moe toggle and the menu button both carry an x; filling the toggle keeps
    them apart. */
 .site.moe .theme-toggle {
-  background: var(--cream);
-  border-color: var(--copper-deep);
-  color: var(--on-cream);
+  background: var(--primary);
+  border-color: var(--accent-deep);
+  color: var(--on-primary);
 }
-.site.moe .shelf-copy,
 .site.moe .copy-btn,
 .site.moe .snip-copy {
   border-width: 2px;
@@ -178,7 +169,6 @@ body:has(.site.moe) {
   background: var(--raised);
   color: var(--text);
 }
-.site.moe .shelf-copy:active,
 .site.moe .copy-btn:active,
 .site.moe .snip-copy:active {
   border-style: inset;
@@ -193,45 +183,10 @@ body:has(.site.moe) {
 .site.moe .frame {
   outline: 0;
 }
-.site.moe .hero-wash {
-  display: none;
-}
+/* ── footer ── */
 
-/* The fixed stage is placed from the card's padding box, so the card gets an
-   inset ring rather than a border: a border would move that box and cut the
-   frame at the card's end edge. */
-.site.moe .moment {
-  border-radius: 0;
-  background: var(--surface);
-  box-shadow: inset 0 0 0 3px var(--moe-lilac);
-}
-
-/* ── theme stage ── */
-
-.site.moe .theme-desk,
-.site.moe .theme-line-mask {
-  border-radius: 0;
-}
-.site.moe .theme-line-mask {
-  clip-path: inset(0);
-}
-/* The first desk is the site's own furniture rather than one of the app
-   themes, so it wears moe's colours. */
-.site.moe .theme-desk[data-theme-index="0"] {
-  background: linear-gradient(135deg, #3d1140, #7a2a7e 55%, #2a0d33);
-}
-.site.moe .theme-line {
-  background: #fff;
-}
-
-/* ── shelf and footer ── */
-
-.site.moe .shelf,
 .site.moe .footer {
   border-block-start: 3px dotted var(--line-strong);
-}
-.site.moe .shelf-button img {
-  border: 3px solid var(--copper);
 }
 .site.moe .footer-links a {
   color: var(--moe-blue);
@@ -266,41 +221,13 @@ body:has(.site.moe) {
   border: 2px inset var(--moe-lilac);
 }
 .site.moe .donation-progress-fill {
-  background: repeating-linear-gradient(45deg, var(--cream) 0 10px, #ff8ec7 10px 20px);
+  background: repeating-linear-gradient(45deg, var(--primary) 0 10px, #ff8ec7 10px 20px);
 }
 
 .site.moe .sponsor-avatars img {
-  border: 3px solid var(--copper);
+  border: 3px solid var(--accent);
   border-radius: 50%;
   outline: 0;
-}
-
-/* ── player bar ── */
-
-/* Outside .site, so it takes the root palette and needs only the retro edges. */
-:root[data-theme="moe"] .player,
-body:has(.site.moe) .player {
-  border-block-start: 3px dotted var(--line-strong);
-  backdrop-filter: blur(10px) saturate(115%);
-}
-:root[data-theme="moe"] .player-thumb,
-body:has(.site.moe) .player-thumb {
-  border-radius: 0;
-  outline: 2px solid var(--line-strong);
-  outline-offset: -2px;
-}
-:root[data-theme="moe"] .player-track,
-:root[data-theme="moe"] .player-vol-track,
-body:has(.site.moe) .player-track,
-body:has(.site.moe) .player-vol-track {
-  border-radius: 0;
-  background: var(--line);
-}
-:root[data-theme="moe"] .player-track i,
-:root[data-theme="moe"] .player-vol-track::after,
-body:has(.site.moe) .player-track i,
-body:has(.site.moe) .player-vol-track::after {
-  border-radius: 0;
 }
 
 /* ── narrow ── */
@@ -313,14 +240,5 @@ body:has(.site.moe) .player-vol-track::after {
   }
   .site.moe .nav-link {
     padding-block: 12px;
-  }
-}
-
-@media (min-width: 900px) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* The card is square here, so the window it cuts is square too. */
-    .site.moe .moment {
-      clip-path: inset(0);
-    }
   }
 }

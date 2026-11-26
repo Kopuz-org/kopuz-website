@@ -192,12 +192,12 @@ test.describe("site themes", () => {
       await page.locator("body").evaluate((element) => {
         return getComputedStyle(element).backgroundColor;
       }),
-    ).toBe("rgb(18, 17, 16)");
+    ).toBe("rgb(23, 14, 14)");
     expect(
       await page.locator(".site").evaluate((element) => {
         return getComputedStyle(element).color;
       }),
-    ).toBe("rgb(241, 233, 210)");
+    ).toBe("rgb(244, 239, 233)");
   });
 
   test("migrates the previous theme cookie", async ({ context, page }) => {
@@ -269,7 +269,6 @@ test.describe("simple mode", () => {
     expect(response?.ok()).toBe(true);
     await expect(page.locator("main h1")).toContainText("One player for");
     await expect(page.locator("img")).toHaveCount(0);
-    await expect(page.locator(".player")).toHaveCount(0);
     await expect(page.locator('script[src*="site.js"]')).toHaveCount(0);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",

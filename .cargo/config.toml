@@ -1,0 +1,5 @@
+# The server binary names the whole route table in one symbol. Legacy mangling
+# spells it out past what Apple's ld accepts (it asserts on the name length);
+# v0 mangling back-references repeated types and stays under it.
+[target.aarch64-apple-darwin]
+rustflags = ["-Csymbol-mangling-version=v0"]

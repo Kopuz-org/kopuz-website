@@ -8,9 +8,7 @@ use crate::app::NotFoundBody;
 use crate::download::{Install, Platforms, Requirements};
 use crate::features::Features;
 use crate::guides::{guide_by_slug, GuideArticle, GuideIndex};
-use crate::shell::{
-    provide_site_theme, simple_mode, Footer, Nav, PlayerBar, RobotsMeta, Shelf, ThemeColorMeta,
-};
+use crate::shell::{provide_site_theme, simple_mode, Footer, Nav, RobotsMeta, ThemeColorMeta};
 use crate::support::{Community, Sponsors, Support};
 
 #[component]
@@ -49,9 +47,7 @@ fn PageChrome(children: Children) -> impl IntoView {
             <Nav/>
             <main>{children()}</main>
             <Footer/>
-            <Shelf/>
         </div>
-        <PlayerBar/>
     }
 }
 
@@ -84,6 +80,7 @@ pub fn DownloadPage(i18n: I18n) -> impl IntoView {
                 <Platforms/>
                 <Install/>
                 <Requirements/>
+                <crate::releases::WhatsNew/>
             </PageChrome>
         </Provider>
     }

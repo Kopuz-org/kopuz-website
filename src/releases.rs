@@ -132,8 +132,10 @@ pub(crate) async fn fetch_latest_release() -> ReleaseNotes {
     ReleaseNotes::fallback()
 }
 
-/// Seeded once per page from `provide_site_theme` so the hero, the shelf and
-/// the release notes share a single fetch.
+/// Seeded once in `App`, not per page. GitHub is only reachable from the
+/// server, so the release arrives in the first document; a resource made
+/// during a client-side navigation would refetch in the browser and get the
+/// fallback.
 pub(crate) fn provide_latest_release() {
     let release = Resource::new(|| (), |_| async move { fetch_latest_release().await });
     provide_context(release);
